@@ -25,6 +25,8 @@ C++ building tools are a must.
 
 Due to an issue in the app, which I never got around to fix, it can only be ran in Release configuration, or ReleaseStore configuration. if someone figures out the problem, you are my guest!
 
+You may have to expand InteropTools/UI/Microsoft.UI.Xaml-1.17081.170906002-nuget170811709061708.zip in order to get this to build, as the build process needs these files both in the root UI folder, and in UI/Libs.
+
 ### InteropToolsv2 branch
 
 ![App](Assets/v2.png)
