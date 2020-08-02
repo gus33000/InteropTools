@@ -1577,6 +1577,9 @@ namespace InteropTools.CorePages
         {
             try
             {
+                if (ViewModel == null)
+                    return;
+
                 if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
                 {
                     sampleTreeView.SelectedItem = null;
