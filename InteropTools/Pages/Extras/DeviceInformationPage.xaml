@@ -1,0 +1,583 @@
+﻿<Page
+    x:Class="InteropTools.Pages.Extras.DeviceInformationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InteropTools.Pages.Extras"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:InteropTools.Controls"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle x:Name="HeaderBackground" Fill="{ThemeResource SystemAcrylicWindowChromeMediumBrush}"/>
+        <Pivot Grid.RowSpan="2" x:Name="MainPivot" Style="{StaticResource PivotStyleTabHeader}">
+            <PivotItem>
+                <PivotItem.Header>
+                    <controls:TabHeader Glyph="" Label="General" />
+                </PivotItem.Header>
+                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" Padding="{x:Bind Frame.Padding, Mode=OneWay}">
+                    <StackPanel>
+                        <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource SubTitleTextBlockStyle}"
+                    Text="DEVICE NAME"
+                    TextWrapping="Wrap" />
+                        <TextBlock
+                    x:Name="DeviceName"
+                    Margin="0,0,0,16"
+                    TextWrapping="Wrap" />
+                        <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource SubTitleTextBlockStyle}"
+                    Text="DEVICE INFORMATION"
+                    TextWrapping="Wrap" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Operating System:" />
+                            <TextBlock
+                        x:Name="OSName"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="System Version:" />
+                            <TextBlock
+                        x:Name="SystemVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Device Form:" />
+                            <TextBlock
+                        x:Name="DeviceForm"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Device Family:" />
+                            <TextBlock
+                        x:Name="DeviceFamily"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Device Family Version:" />
+                            <TextBlock
+                        x:Name="DeviceFamilyVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Hardware Sku:" />
+                            <TextBlock
+                        x:Name="Sku"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Manufacturer:" />
+                            <TextBlock
+                        x:Name="Manufacturer"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Model:" />
+                            <TextBlock
+                        x:Name="Model"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Firmware Version:" />
+                            <TextBlock
+                        x:Name="FirmwareVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Hardware Version:" />
+                            <TextBlock
+                        x:Name="HardwareVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Telemetry Collection Level:" />
+                            <TextBlock
+                        x:Name="CollectionLevel"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="UUID:" />
+                            <TextBlock
+                        x:Name="UUID"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="Hardware ID:" />
+                            <TextBlock
+                        x:Name="HardwareId"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+
+            <PivotItem>
+                <PivotItem.Header>
+                    <controls:TabHeader Glyph="" Label="Operating System" />
+                </PivotItem.Header>
+                <Grid x:Name="OSPivotGrid">
+                    <Grid.Background>
+                        <ImageBrush x:Name="BackgroundHeroImage" ImageSource="ms-appx:///Assets/th.jpg" Opacity="0.5" Stretch="Fill" />
+                    </Grid.Background>
+
+                    <ScrollViewer x:Name="OSContent" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" Padding="{x:Bind Frame.Padding, Mode=OneWay}">
+                        <StackPanel>
+                            <TextBlock
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        Text="CURRENT BUILD VERSION"
+                        TextWrapping="Wrap" />
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Version:" />
+                                <TextBlock
+                            x:Name="ReleaseId"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="OS build:" />
+                                <TextBlock
+                            x:Name="OSbuild"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Build String:" />
+                                <TextBlock
+                            x:Name="BuildLab"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Build String Extended:" />
+                                <TextBlock
+                            x:Name="BuildLabEx"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Major Build Number:" />
+                                <TextBlock
+                            x:Name="CurrentMajorBuildNumber"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Minor Build Number:" />
+                                <TextBlock
+                            x:Name="CurrentMinorBuildNumber"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Build Number:" />
+                                <TextBlock
+                            x:Name="CurrentBuildNumber"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Delta Version Number:" />
+                                <TextBlock
+                            x:Name="UBR"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Build Branch:" />
+                                <TextBlock
+                            x:Name="BuildBranch"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Compile Date:" />
+                                <TextBlock
+                            x:Name="CompileDate"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+
+                            <TextBlock
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        Text="BUILD DETAILS"
+                        TextWrapping="Wrap" />
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Build GUID:" />
+                                <TextBlock
+                            x:Name="BuildGUID"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Builder:" />
+                                <TextBlock
+                            x:Name="Builder"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="CSD Build Number:" />
+                                <TextBlock
+                            x:Name="CSDBuildNumber"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="CSD Release Type:" />
+                                <TextBlock
+                            x:Name="CSDReleaseType"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="CSD Version:" />
+                                <TextBlock
+                            x:Name="CSDVersion"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Type:" />
+                                <TextBlock
+                            x:Name="CurrentType"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Componentized Build:" />
+                                <TextBlock
+                            x:Name="ComponentizedBuild"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Source OS Version:" />
+                                <TextBlock
+                            x:Name="SourceOSVersion"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+
+                            <TextBlock
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        Text="OS SKU DETAILS"
+                        TextWrapping="Wrap" />
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Edition ID:" />
+                                <TextBlock
+                            x:Name="EditionID"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Product Name:" />
+                                <TextBlock
+                            x:Name="ProductName"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Installation Type:" />
+                                <TextBlock
+                            x:Name="InstallationType"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Product ID:" />
+                                <TextBlock
+                            x:Name="ProductId"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Product Type:" />
+                                <TextBlock
+                            x:Name="ProductType"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="Product Suite:" />
+                                <TextBlock
+                            x:Name="ProductSuite"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <Grid Margin="0,8,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="OS Product Family Name:" />
+                                <TextBlock
+                            x:Name="OSProductPfn"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+
+                            <TextBlock
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        Text="SETUP DETAILS"
+                        TextWrapping="Wrap" />
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0,0,4,0" Text="System Root:" />
+                                <TextBlock
+                            x:Name="SystemRoot"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" />
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </PivotItem>
+
+            <PivotItem Padding="{x:Bind Frame.Padding, Mode=OneWay}">
+                <PivotItem.Header>
+                    <controls:TabHeader Glyph="" Label="Firmware" />
+                </PivotItem.Header>
+                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" Padding="{x:Bind Frame.Padding, Mode=OneWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="BIOS Release date:" />
+                            <TextBlock
+                        x:Name="BIOSReleaseDate"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="BIOS Version:" />
+                            <TextBlock
+                        x:Name="BIOSVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="System Manufacturer:" />
+                            <TextBlock
+                        x:Name="SystemManufacturer"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,0,4,0" Text="System Product Name:" />
+                            <TextBlock
+                        x:Name="SystemProductName"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>

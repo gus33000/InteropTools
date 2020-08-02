@@ -1,0 +1,236 @@
+﻿<Page
+    x:Class="InteropTools.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InteropTools.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Windows.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Settings"
+                    Visibility="{Binding PageTitleVisibility}" />
+
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="{x:Bind Settings_UseAuthAtStartup}"
+                    IsOn="{x:Bind ViewModel.UseAuthAtStartUp, Mode=TwoWay}">
+                    <ToggleSwitch.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ToggleSwitch.HeaderTemplate>
+                </ToggleSwitch>
+
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="{x:Bind Settings_UseTimestamps}"
+                    IsOn="{x:Bind ViewModel.UseTimeStamps, Mode=TwoWay}">
+                    <ToggleSwitch.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ToggleSwitch.HeaderTemplate>
+                </ToggleSwitch>
+
+                <TextBlock Style="{StaticResource SubTitleTextBlockStyle}" Text="{x:Bind Settings_Personalization}" />
+
+                <ComboBox
+                    Margin="0,0,0,24"
+                    Header="{x:Bind Settings_SelectYourTheme}"
+                    ItemsSource="{x:Bind ViewModel.Themes, Mode=OneTime}"
+                    SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay, Converter={StaticResource DisplayableToObjectConverter}}" />
+
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="{x:Bind Settings_MDL2Theme}"
+                    IsOn="{x:Bind ViewModel.UseMDL2, Mode=TwoWay}">
+                    <ToggleSwitch.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ToggleSwitch.HeaderTemplate>
+                </ToggleSwitch>
+
+                <ToggleSwitch
+                    Margin="0,0,0,24"
+                    Header="{x:Bind Settings_UseSystemAccentColor}"
+                    IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}" />
+
+                <StackPanel Visibility="{x:Bind ViewModel.UseSystemAccentColor, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+
+                    <RadioButton
+                        x:Name="PaletteRadio"
+                        Content="{x:Bind Settings_UseDefaultPalette}"
+                        GroupName="Palette"
+                        IsChecked="True"/>
+                    <RadioButton
+                        x:Name="UseCustom"
+                        Margin="0,0,0,24"
+                        Content="{x:Bind Settings_UseCustomColor}"
+                        GroupName="Palette" />
+
+
+                    <GridView
+                        Margin="0,0,0,24"
+                        Header="{x:Bind Settings_ChooseColor}"
+                        ItemContainerStyle="{StaticResource GridViewItemWithCheckBoxStyle}"
+                        ItemsSource="{x:Bind ViewModel.Brushes, Mode=OneTime}"
+                        SelectedItem="{x:Bind ViewModel.SelectedBrush, Mode=TwoWay, Converter={StaticResource SolidColorBrushToObjectConverter}}"
+                        Visibility="{x:Bind UseCustom.IsChecked, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapGrid
+                                Margin="0,10,0,20"
+                                MaximumRowsOrColumns="6"
+                                Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="SolidColorBrush">
+                                <Rectangle
+                                Width="60"
+                                Height="60"
+                                Fill="{x:Bind}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+
+                    <TextBlock Margin="0,0,0,2" Text="{x:Bind Settings_ChooseCustomColor}" Visibility="{x:Bind PaletteRadio.IsChecked, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}"/>
+                    <controls:ColorPicker Margin="0,0,0,24" x:Name="ColorPicker" ColorChanged="ColorPicker_ColorChanged" IsMoreButtonVisible="True" Visibility="{x:Bind PaletteRadio.IsChecked, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}" HorizontalAlignment="Left"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock
+                        Text="{x:Bind Settings_About}"
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        TextWrapping="Wrap"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                                            x:Name="BorderSource"
+                                            Width="71"
+                                            Height="71"
+                                            VerticalAlignment="Top"
+                                            Background="{ThemeResource SystemControlForegroundAccentBrush}">
+                            <Image
+                                                Width="71"
+                                                Height="71"
+                                                VerticalAlignment="Center"
+                                                Source="ms-appx:///Assets/Tiles/App/Square71x71Logo.png" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="12,0">
+
+                            <TextBlock x:Name="AppTitle" TextWrapping="Wrap" Margin="0,4,0,0" />
+                            <TextBlock
+                        x:Name="VersionShortText"
+                        Opacity="0.75"
+                        TextWrapping="Wrap" />
+                            <TextBlock
+                        x:Name="VersionText"
+                        Opacity="0.75"
+                        TextWrapping="Wrap" />
+
+                        </StackPanel>
+                    </Grid>
+
+                    <HyperlinkButton Margin="0,8,0,0" NavigateUri="http://insidewindows.net/category/interop-tools/">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                        Text="" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Settings_VisitIW}" />
+                        </Grid>
+                    </HyperlinkButton>
+
+                    <HyperlinkButton Margin="0,0,0,24" NavigateUri="https://twitter.com/InteropTools">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                        Text="" />
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Settings_Twitter}" />
+                        </Grid>
+                    </HyperlinkButton>
+
+
+                    <TextBlock
+                        Style="{StaticResource SubTitleTextBlockStyle}"
+                        Text="{x:Bind Settings_Credits}" />
+                    <TextBlock
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="@tfwboredom on twitter and Michael Young - Help for the Application Logo"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="vcfan @ xda-developers.com - NDTK RPC Code"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="djamol @ xda-developers.com - New Capability Engine Unlock"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="@Myria-chan on twitter - TŅSTSIGNING (pre-10572) (CVE-2015-2552)"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="winphouser @ xda-developers.com - Brightness Slider and Offline Charging Tweak"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="snickler @ xda-developers.com - SSH findings"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="Microsoft - for providing a way of editing the registry natively"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Opacity="0.75"
+                        Text="Our friends at the RealWorld Debug Team ;)"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

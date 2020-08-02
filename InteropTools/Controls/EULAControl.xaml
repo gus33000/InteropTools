@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="InteropTools.Pages.EULAControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InteropTools.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto">
+        <RichTextBlock>
+            <Paragraph TextAlignment="Right">
+                <Bold>Last updated October 2019</Bold>
+                <LineBreak/>
+                <LineBreak/>
+            </Paragraph>
+            <Paragraph>
+                <Bold>INTEROP TOOLS DEVELOPMENT TEAM SOFTWARE LICENSE TERMS</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>INTEROP TOOLS (PREVIEW)</Bold>
+                <LineBreak/>
+                <LineBreak/>
+                <Bold>Copyright (c) 2016-2019  Interop Tools Development Team</Bold>
+                <LineBreak/>
+                <LineBreak/>
+            </Paragraph>
+            <Paragraph>
+                <Bold>1. Disclaimer</Bold>
+                <LineBreak/>
+            </Paragraph>
+            <Paragraph Margin="40,0,0,0">
+                <Run>This software is licensed "as-is". You bear the risk of using it. The developer gives no express warranties, guarantees or conditions. To the extent permitted under your local laws, the developer excludes the implied warranties of merchantability, fitness for a particular purpose and non-infringement. In no event shall the developer be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software. If you use this software, you accept this disclaimer. If you don't want to accept this disclaimer, then don't use the software.</Run>
+                <LineBreak/>
+                <LineBreak/>
+            </Paragraph>
+            <Paragraph>
+                <Bold>2. Privacy Policy</Bold>
+                <LineBreak/>
+            </Paragraph>
+            <Paragraph Margin="40,0,0,0">
+                <Run>This privacy policy contains all the types of information that is and that isn't collected and stored by this software and how those informations are used by the developers of Interop Tools (IT Dev Team). If you have any additional question about this privacy policy please contact us.</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run>This software, being a preview app uses HockeyApp's services to collect crash data when the App encounters a critical bug. This data may contain the device name, the Operating System version the app run on and the crash log of the App. We only uses this data to help fix critical bugs during the preview to ensure a better experience for consumers. The app won't collect any personal information about your device except from the ones mentioned before.</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run>This software through the Remote Access feature also serves as a local only server for other devices on your network to connect to the app instance. This server is local only, and is only used to provide api access (such as Registry) to the other app instance running on another device locally on the same network. Any attempt to connect to the app will preceed by a permission popup on the destination device with the local server running asking if you want to allow the connection from the remote computer (of which IP address is displayed). The data transfered with remote access is local only and won't be collected online by HockeyApp or any other service.</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run>By using the software, you are consenting to us collecting the information mentioned above and our usage of those informations.</Run>
+                <LineBreak/>
+                <LineBreak/>
+            </Paragraph>
+        </RichTextBlock>
+    </ScrollViewer>
+</UserControl>

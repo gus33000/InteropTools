@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="InteropTools.TitlebarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InteropTools"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid x:Name="CustomTitleBar">
+        <Canvas
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Transparent" />
+
+        <Grid
+            Width="48"
+            HorizontalAlignment="Left">
+            <Rectangle
+                x:Name="BackButtonBg"
+                Fill="{ThemeResource SystemControlForegroundAccentBrush}"
+                Visibility="Collapsed" />
+            <TextBlock
+                x:Name="Arrow"
+                Width="13"
+                Margin="-1,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="{ThemeResource FullMDL2FontFamily}"
+                FontSize="16"
+                FontStretch="ExtraCondensed"
+                Opacity="0.5"
+                Text="" />
+        </Grid>
+        <TextBlock
+            x:Name="WindowTitle"
+            Margin="60,0,0,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource WindowTitleTextBlockStyle}"
+            TextTrimming="CharacterEllipsis"/>
+    </Grid>
+</UserControl>

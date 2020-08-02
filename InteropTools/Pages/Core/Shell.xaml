@@ -1,0 +1,1060 @@
+﻿<Page
+    x:Class="InteropTools.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="using:Intense.UI"
+    xmlns:intense="using:Intense.UI.Controls"
+    xmlns:local="using:InteropTools"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:InteropTools.Converters"
+    xmlns:controls="using:InteropTools.Controls"
+    xmlns:presentation="using:Intense.Presentation"
+    mc:Ignorable="d"
+    SizeChanged="UserControl_SizeChanged">
+
+    <ui:WindowChrome.Chrome>
+        <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeLowColor}"
+                         StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
+    </ui:WindowChrome.Chrome>
+
+    <Page.Resources>
+        <CollectionViewSource
+            x:Key="topitems"
+            x:Name="topitems"
+            IsSourceGrouped="True" />
+        <CollectionViewSource
+            x:Key="topitems2"
+            x:Name="topitems2"
+            IsSourceGrouped="True" />
+
+
+        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="inverseBooleanToVisibilityConverter" IsInverse="True" />
+        <converters:GlyphConverter x:Key="expandCollapseGlyphConverter" CollapsedGlyph="&#xE010;" ExpandedGlyph="&#xE70D;" />
+
+        <!--<DataTemplate x:Key="TreeViewItemDataTemplate">
+            <Grid
+                Height="40"
+                AllowDrop="false">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="48" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Width="48" Height="40">
+                    <FontIcon
+                        x:Name="expandCollapseFolder"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        Glyph="{Binding Data.Icon}"
+                        Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <TextBlock
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Text="{Binding Data.Name}"
+                    TextWrapping="Wrap" />
+                </Grid>
+
+
+                <FontIcon
+                    Grid.Column="2"
+                    x:Name="expandCollapseChevron"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                    FontSize="12"
+                    Glyph="{Binding IsExpanded, Converter={StaticResource expandCollapseGlyphConverter}}"
+                    Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <FontIcon
+                    Grid.Column="2"
+                    x:Name="expandCollapseChevron2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                    FontSize="12"
+                    Glyph="&#xE2AC;"
+                    Opacity="0"
+                    Visibility="{Binding Data.IsGroup, Converter={StaticResource inverseBooleanToVisibilityConverter}}" />
+            </Grid>
+        </DataTemplate>-->
+
+        <Style x:Key="AutoSuggestBoxShellStyle" TargetType="AutoSuggestBox">
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AutoSuggestBox">
+                        <Grid>
+                            <TextBox
+                                x:Name="TextBox"
+                                Width="{TemplateBinding Width}"
+                                Margin="0"
+                                Padding="10"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Canvas.ZIndex="0"
+                                DesiredCandidateWindowAlignment="BottomEdge"
+                                Header="{TemplateBinding Header}"
+                                PlaceholderText="{TemplateBinding PlaceholderText}"
+                                ScrollViewer.BringIntoViewOnFocusChange="False"
+                                Style="{TemplateBinding TextBoxStyle}" />
+                            <Popup x:Name="SuggestionsPopup">
+                                <Border x:Name="SuggestionsContainer">
+                                    <Border.RenderTransform>
+                                        <TranslateTransform x:Name="UpwardTransform" />
+                                    </Border.RenderTransform>
+                                    <ListView
+                                        x:Name="SuggestionsList"
+                                        MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+                                        Margin="{ThemeResource AutoSuggestListMargin}"
+                                        Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                        BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                                        BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+                                        DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                        IsItemClickEnabled="True"
+                                        ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                        ItemTemplate="{TemplateBinding ItemTemplate}"
+                                        ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}">
+                                        <ListView.ItemContainerTransitions>
+                                            <TransitionCollection />
+                                        </ListView.ItemContainerTransitions>
+                                    </ListView>
+                                </Border>
+                            </Popup>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Orientation">
+                                    <VisualState x:Name="Landscape" />
+                                    <VisualState x:Name="Portrait" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AutoSuggestBoxTextBoxStyle" TargetType="TextBox">
+            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" />
+            <Setter Property="SelectionHighlightColor" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Grid.Resources>
+                                <Style x:Name="DeleteButtonStyle" TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Border
+                                                        x:Name="BorderElement"
+                                                        Background="{ThemeResource TextBoxButtonBackgroundThemeBrush}"
+                                                        BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <TextBlock
+                                                            x:Name="GlyphElement"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            AutomationProperties.AccessibilityView="Raw"
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            FontSize="12"
+                                                            FontStyle="Normal"
+                                                            Foreground="{ThemeResource SystemControlBackgroundChromeBlackMediumBrush}"
+                                                            Text="&#xE10A;" />
+                                                    </Border>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="PointerOver">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltAccentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Pressed">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation
+                                                                        Storyboard.TargetName="BorderElement"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        To="0"
+                                                                        Duration="0" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                                <Style x:Name="QueryButtonStyle" TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <Border
+                                                        x:Name="BorderElement"
+                                                        Background="{ThemeResource TextBoxButtonBackgroundThemeBrush}"
+                                                        BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter
+                                                            x:Name="ContentPresenter"
+                                                            Margin="{TemplateBinding Padding}"
+                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                            AutomationProperties.AccessibilityView="Raw"
+                                                            Content="{TemplateBinding Content}"
+                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                            ContentTransitions="{TemplateBinding ContentTransitions}" />
+                                                    </Border>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="PointerOver">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltAccentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Pressed">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation
+                                                                        Storyboard.TargetName="BorderElement"
+                                                                        Storyboard.TargetProperty="Opacity"
+                                                                        To="0"
+                                                                        Duration="0" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border
+                                x:Name="BackgroundElement"
+                                Grid.Row="1"
+                                Grid.RowSpan="1"
+                                Grid.ColumnSpan="3"
+                                Margin="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Opacity="{ThemeResource TextControlBackgroundRestOpacity}" />
+                            <Border
+                                x:Name="BorderElement"
+                                Grid.Row="1"
+                                Grid.RowSpan="1"
+                                Grid.ColumnSpan="3"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <ContentPresenter
+                                x:Name="HeaderContentPresenter"
+                                Grid.Row="0"
+                                Grid.ColumnSpan="3"
+                                Margin="0,0,0,8"
+                                x:DeferLoadStrategy="Lazy"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                FontWeight="Normal"
+                                Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                TextWrapping="Wrap"
+                                Visibility="Collapsed" />
+                            <ScrollViewer
+                                x:Name="ContentElement"
+                                Grid.Row="1"
+                                Margin="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                AutomationProperties.AccessibilityView="Raw"
+                                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                IsTabStop="False"
+                                IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                ZoomMode="Disabled" />
+                            <ContentControl
+                                x:Name="PlaceholderTextContentPresenter"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Margin="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                Content="{TemplateBinding PlaceholderText}"
+                                Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                                IsHitTestVisible="False"
+                                IsTabStop="False" />
+                            <Button
+                                x:Name="DeleteButton"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                MinWidth="48"
+                                Margin="{ThemeResource HelperButtonThemePadding}"
+                                VerticalAlignment="Stretch"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                FontSize="{TemplateBinding FontSize}"
+                                IsTabStop="False"
+                                Style="{StaticResource DeleteButtonStyle}"
+                                Visibility="Collapsed" />
+                            <Button
+                                x:Name="QueryButton"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                MinWidth="48"
+                                Margin="{ThemeResource HelperButtonThemePadding}"
+                                VerticalAlignment="Stretch"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                FontSize="{TemplateBinding FontSize}"
+                                IsTabStop="False"
+                                Style="{StaticResource QueryButtonStyle}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundHoverOpacity}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement" Storyboard.TargetProperty="Opacity">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocusedOpacity}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ButtonStates">
+                                    <VisualState x:Name="ButtonVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="ButtonCollapsed" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <DataTemplate x:Key="MenuNavigationItemTemplateAlt" x:DataType="presentation:NavigationItem">
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontWeight="Normal" Text="{x:Bind Icon, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" Style="{StaticResource MenuNavigationItemIconTextBlockStyle}" />
+                <TextBlock Margin="12,0,0,0" Grid.Column="1" TextWrapping="Wrap" Text="{x:Bind DisplayName, Mode=OneWay}" Style="{StaticResource MenuNavigationItemTitleTextBlockStyle}" />
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="MenuNavigationListViewItemStyleAlt" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <!--<Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>-->
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="ContentBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0:0:0"
+                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="SelectionIndicator"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="FontWeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="SemiBold" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0:0:0"
+                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="SelectionIndicator"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="FontWeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="SemiBold" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0:0:0"
+                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="SelectionIndicator"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <DoubleAnimation Storyboard.TargetName="BorderBackground"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground" Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="{ThemeResource ListViewItemDisabledThemeOpacity}"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="MultiSelectStates">
+                                    <VisualState x:Name="MultiSelectDisabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="-32" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="32" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.333" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultiSelectEnabled">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheckBoxTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectClipTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                                        Storyboard.TargetProperty="X">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-32"/>
+                                                <SplineDoubleKeyFrame KeyTime="0:0:0.333" Value="0" KeySpline="0.1,0.9,0.2,1"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectSquare" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenterGrid" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="32,0,0,0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DataVirtualizationStates">
+                                    <VisualState x:Name="DataAvailable"/>
+                                    <VisualState x:Name="DataPlaceholder">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderRect" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ReorderHintStates">
+                                    <VisualState x:Name="NoReorderHint"/>
+                                    <VisualState x:Name="BottomReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Bottom" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="TopReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Top" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="RightReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Right" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="LeftReorderHint">
+                                        <Storyboard>
+                                            <DragOverThemeAnimation TargetName="ContentBorder" ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" Direction="Left" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition To="NoReorderHint" GeneratedDuration="0:0:0.2"/>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DragStates">
+                                    <VisualState x:Name="NotDragging" />
+                                    <VisualState x:Name="Dragging">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                            <DragItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DraggingTarget">
+                                        <Storyboard>
+                                            <DropTargetItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultipleDraggingPrimary">
+                                        <Storyboard>
+                                            <!-- These two Opacity animations are required - the FadeInThemeAnimations
+                                            on the same elements animate an internal Opacity. -->
+                                            <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayBackground"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1" />
+                                            <DoubleAnimation Storyboard.TargetName="MultiArrangeOverlayText"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="1" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentBorder"
+                                                            Storyboard.TargetProperty="Opacity"
+                                                            Duration="0"
+                                                            To="{ThemeResource ListViewItemDragThemeOpacity}" />
+                                            <FadeInThemeAnimation TargetName="MultiArrangeOverlayBackground" />
+                                            <FadeInThemeAnimation TargetName="MultiArrangeOverlayText" />
+                                            <DragItemThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MultipleDraggingSecondary">
+                                        <Storyboard>
+                                            <FadeOutThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="DraggedPlaceholder">
+                                        <Storyboard>
+                                            <FadeOutThemeAnimation TargetName="ContentBorder" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition To="NotDragging" GeneratedDuration="0:0:0.2"/>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="BorderBackground"
+                                    IsHitTestVisible="False"
+                                    Fill="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                                    Opacity="0"
+                                    Control.IsTemplateFocusTarget="True"/>
+                            <Rectangle  Margin="0" x:Name="SelectionIndicator"
+                                    IsHitTestVisible="False"
+                                    Fill="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Opacity="0"
+                                    Width="4"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"/>
+
+                            <Grid x:Name="ContentPresenterGrid"
+                                Background="Transparent"
+                                Margin="0">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform x:Name="ContentPresenterTranslateTransform"/>
+                                </Grid.RenderTransform>
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Content="{TemplateBinding Content}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Margin="{TemplateBinding Padding}"
+                                                TextWrapping="Wrap"
+                                                Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                            </Grid>
+                            <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
+                            In the DataPlaceholder state, the Content is not loaded yet so we
+                            approximate the size of the item using placeholder text. -->
+                            <TextBlock x:Name="PlaceholderTextBlock"
+                                    Opacity="0"
+                                    Text="Xg"
+                                    Foreground="{x:Null}"
+                                    Margin="{TemplateBinding Padding}"
+                                    IsHitTestVisible="False"
+                                    AutomationProperties.AccessibilityView="Raw"/>
+                            <Rectangle x:Name="PlaceholderRect"
+                                    Visibility="Collapsed"
+                                    Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"/>
+                            <Rectangle x:Name="MultiArrangeOverlayBackground"
+                                    IsHitTestVisible="False"
+                                    Opacity="0"
+                                    Fill="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                                    Grid.ColumnSpan="2"/>
+                            <Border x:Name="MultiSelectSquare"
+                                BorderBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                BorderThickness="2"
+                                Width="20"
+                                Height="20"
+                                Margin="12,0,0,0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Visibility="Collapsed" >
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0,0,20,20">
+                                        <RectangleGeometry.Transform>
+                                            <TranslateTransform x:Name="MultiSelectClipTransform"/>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </Border.Clip>
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="MultiSelectCheckBoxTransform"/>
+                                </Border.RenderTransform>
+                                <FontIcon x:Name="MultiSelectCheck"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                        Glyph="&#xE73E;"
+                                        FontSize="16"
+                                        Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                                        Visibility="Collapsed"
+                                        Opacity="0"/>
+                            </Border>
+                            <TextBlock x:Name="MultiArrangeOverlayText"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DragItemsCount}"
+                                    Foreground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                    FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+                                    FontSize="26.667"
+                                    IsHitTestVisible="False"
+                                    Opacity="0"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="WordEllipsis"
+                                    Margin="18,0,0,0"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    Grid.ColumnSpan="2"/>
+                            <!--Margin="18,9,0,0"-->
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuNavigationListViewStyleAlt" TargetType="ListView">
+            <Setter Property="ItemTemplate" Value="{StaticResource MenuNavigationItemTemplateAlt}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource MenuNavigationListViewItemStyleAlt}" />
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="AppContent" Margin="0,-1">
+        <Grid x:Name="MainContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Rectangle x:Name="NormalBackground" Visibility="Collapsed" Grid.RowSpan="2" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+            <Rectangle x:Name="HostBackdropPane" Grid.RowSpan="2" Fill="{ThemeResource SystemAcrylicWindowChromeLowBrush}"/>
+
+            <local:SwipeableSplitView FocusDisengaged="SplitView_FocusDisengaged" FocusEngaged="SplitView_FocusEngaged" PaneOpenChanged="SplitView_PaneOpenChanged" Tapped="SplitView_Tapped" x:Name="SplitView" PaneBackground="Transparent" Grid.Row="1" IsPanSelectorEnabled="False" IsSwipeablePaneOpen="{x:Bind ViewModel.IsSplitViewPaneOpen, Mode=TwoWay}" >
+                <SplitView.Content>
+                    <Grid x:Name="ContentGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush2}">
+                        <Grid x:Name="ShellGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <intense:ContentFrame x:Name="ShellFrame" SourcePageType="{x:Bind ViewModel.SelectedPageType, Mode=TwoWay}">
+                                <intense:ContentFrame.ContentTransitions>
+                                    <TransitionCollection>
+                                        <NavigationThemeTransition>
+                                            <EntranceNavigationTransitionInfo />
+                                        </NavigationThemeTransition>
+                                    </TransitionCollection>
+                                </intense:ContentFrame.ContentTransitions>
+                            </intense:ContentFrame>
+                        </Grid>
+                    </Grid>
+                </SplitView.Content>
+                <SplitView.Pane>
+                    <Grid x:Name="SplitViewPaneGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Rectangle x:Name="NormalBackDropPane" Grid.RowSpan="5" Fill="{ThemeResource SystemAcrylicContentChromeLowBrush}" Visibility="Collapsed"/>
+
+                        <!-- pane header -->
+                        <StackPanel x:Name="PaneHeader" Orientation="Horizontal" Margin="0,9,0,0">
+                            <Button Content="&#xE700;" Command="{x:Bind ViewModel.ToggleSplitViewPaneCommand}" Style="{StaticResource IconButtonStyle}" Click="Button_Click"/>
+                            <TextBlock Text="{x:Bind Shell_Tools}" Style="{StaticResource PageHeaderTitleTextBlockStyle}" />
+                        </StackPanel>
+
+                        <Grid Grid.Row="1" Margin="0,18,0,0">
+                            <Rectangle x:Name="HostBackdropSearch" Fill="{ThemeResource SystemAcrylicWindowChromeMediumBrushAlt}"/>
+                            <Rectangle x:Name="NormalBackdropSearch" Fill="{ThemeResource SystemAcrylicContentChromeMediumBrushAlt}" Visibility="Collapsed"/>
+
+                            <ListView
+                            x:Name="SearchListButton"
+                            IsItemClickEnabled="True"
+                            ItemClick="ListView_ItemClick"
+                            ScrollViewer.VerticalScrollMode="Disabled"
+                            SelectionMode="None"
+                            ItemContainerStyle="{StaticResource SearchButtonListViewItemStyle}">
+                                <ListViewItem MinHeight="40" BorderThickness="0">
+                                    <Grid
+                                    Height="40"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="48" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Width="16"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            HorizontalAlignment="Center"
+                                            FontSize="16"
+                                            Text="" />
+                                        <TextBlock
+                                        Grid.Column="1"
+                                        Margin="12,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        Text="Search" />
+                                    </Grid>
+                                </ListViewItem>
+                            </ListView>
+
+                            <Grid Width="48" HorizontalAlignment="Left">
+                                <TextBlock
+                                            Width="16"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            HorizontalAlignment="Center"
+                                            FontSize="16"
+                                            Text=""
+                                            Visibility="{x:Bind SearchBox.Visibility, Mode=OneWay}"/>
+                            </Grid>
+
+                            <AutoSuggestBox
+                            x:Name="SearchBox"
+                            Margin="46,0,0,0"
+                            HorizontalAlignment="Stretch"
+                            PlaceholderText="{x:Bind Shell_Search}"
+                            QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                            SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                            TextChanged="AutoSuggestBox_TextChanged"
+                            Style="{StaticResource AutoSuggestBoxShellStyle}">
+                                <AutoSuggestBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <ToolTipService.ToolTip>
+                                                <TextBlock Text="{Binding Description}" />
+                                            </ToolTipService.ToolTip>
+                                            <TextBlock
+                                            Margin="4"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                            Text="{Binding Icon}" />
+                                            <TextBlock
+                                            Grid.Column="1"
+                                            Margin="4"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding DisplayName}"
+                                            TextWrapping="Wrap" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </AutoSuggestBox.ItemTemplate>
+                            </AutoSuggestBox>
+                        </Grid>
+
+                        <!-- top menu tree-->
+                        <ListView
+                            x:Name="TopList"
+                            Grid.Row="2"
+                            Margin="0,12,0,0"
+                            ItemsSource="{Binding Source={StaticResource topitems2}}"
+                            ScrollViewer.VerticalScrollMode="Auto"
+                            SelectedItem="{x:Bind ViewModel.SelectedTopItem, Mode=TwoWay, Converter={StaticResource NavigationItemToObjectConverter}}"
+                            Style="{StaticResource MenuNavigationListViewStyleAlt}"
+                            SelectionChanged="TopList_SelectionChanged"
+                            Visibility="Visible">
+                            <ListView.GroupStyle>
+                                <GroupStyle HidesIfEmpty="True">
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <StackPanel
+                                                    Height="40"
+                                                    Orientation="Horizontal"
+                                                    Visibility="{Binding Key.Visibility}">
+                                                    <TextBlock
+                                                        Width="16"
+                                                        Margin="16,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                                        FontSize="15"
+                                                        Text="{Binding Key.Icon}" />
+                                                    <TextBlock
+                                                        Margin="16,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="15"
+                                                        FontWeight="Medium"
+                                                        Text="{Binding Key.DisplayName}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                        </ListView>
+
+                        <!-- top menu-->
+                        <!--<TreeView
+                            x:Name="TreeView"
+                            Grid.Row="2"
+                            Margin="0,12,0,0"
+                            ItemContainerStyle="{StaticResource MenuNavigationListViewItemStyle2}"
+                            ItemTemplate="{StaticResource TreeViewItemDataTemplate}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollMode="Disabled"
+                            ItemInvoked="TreeView_ItemInvoked">
+                            <TreeView.ItemContainerTransitions>
+                                <TransitionCollection />
+                            </TreeView.ItemContainerTransitions>
+                        </TreeView>-->
+
+                        <ListView
+                            Grid.Row="3"
+                            Margin="0,24,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            ScrollViewer.VerticalScrollMode="Disabled"
+                            SelectionMode="None">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListViewItem
+                                MaxHeight="40"
+                                MinWidth="0"
+                                MinHeight="0">
+                                <controls:UserDisplayControl/>
+                            </ListViewItem>
+                        </ListView>
+
+                        <!-- bottom menu-->
+                        <ListView Grid.Row="4"
+                                  ItemsSource="{x:Bind ViewModel.BottomItems}"
+                                  SelectedItem="{x:Bind ViewModel.SelectedBottomItem, Mode=TwoWay, Converter={StaticResource NavigationItemToObjectConverter}}"
+                                  Style="{StaticResource MenuNavigationListViewStyleAlt}" />
+                    </Grid>
+                </SplitView.Pane>
+            </local:SwipeableSplitView>
+
+            <Grid Grid.Row="0" x:Name="NarrowHeaderGrid">
+                <intense:PageHeader x:Name="NarrowHeader" 
+                            Background="{ThemeResource SystemAcrylicWindowChromeLowBrush}"
+                            Icon="&#xE700;"
+                            IconButtonStyle="{StaticResource IconButtonStyle}"
+                            IconCommand="{x:Bind ViewModel.ToggleSplitViewPaneCommand}"
+                            Title="{x:Bind ViewModel.SelectedItem.DisplayNameUppercase, Mode=OneWay}" />
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="TitlebarNarrowBackground" VerticalAlignment="Top" Height="{x:Bind Titlebar.Height, Mode=OneWay}" Visibility="Collapsed">
+            <Rectangle VerticalAlignment="Top" Height="{x:Bind Titlebar.Height, Mode=OneWay}" Fill="{ThemeResource SystemAcrylicWindowChromeLowBrush}" Visibility="{x:Bind Titlebar.Visibility, Mode=OneWay}"/>
+        </Grid>
+
+        <local:TitlebarControl x:Name="Titlebar" VerticalAlignment="Top" SizeChanged="Titlebar_SizeChanged"/>
+    </Grid>
+</Page>
