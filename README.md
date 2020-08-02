@@ -13,7 +13,7 @@ This repository contains two branches:
 
 ![App](Assets/v1.png)
 
-The former contains the source code of the original application distributed on various channeols, XDA and Store mainly. It has a few issues, but here's how to get going today:
+The former contains the source code of the original application distributed on various channels, XDA and Store mainly. It has a few issues, but here's how to get going today:
 
 You will need the following SDKs:
 * 10240
