@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/LokiMidgard/AppExtensionService/blob/master/License.md</licenseUrl>
+    <projectUrl>https://github.com/LokiMidgard/AppExtensionService</projectUrl>
+    <iconUrl>https://github.com/LokiMidgard/AppExtensionService/blob/master/Assets/Logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>
+      - Fixed Bugs
+      - Added Sample
+      - [BEAKING CHANGE] Method Signatures Changed
+    </releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>UWP AppService AppExtension Plugin</tags>
+  </metadata>
+</package>

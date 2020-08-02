@@ -1,0 +1,1102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{3E508259-5704-4194-8F99-B6B25CA477D1}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InteropTools</RootNamespace>
+    <AssemblyName>InteropTools</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <PackageCertificateKeyFile>InteropTools_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>AA0468CCCFE6C4377C3537DD80F2FA8DF6C90FEC</PackageCertificateThumbprint>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyDebug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyRelease|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyDebug|ARM' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyRelease|ARM' ">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyDebug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LegacyRelease|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\AsyncHelper.cs" />
+    <Compile Include="Classes\DeviceInfo.cs" />
+    <Compile Include="Classes\ObservableRangeCollection.cs" />
+    <Compile Include="Classes\SSHSystemAccessHelper.cs" />
+    <Compile Include="ContentDialogs\AppManager\AppPackageContentDialog.xaml.cs">
+      <DependentUpon>AppPackageContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Certificates\CertificateDetailsContentDialog.xaml.cs">
+      <DependentUpon>CertificateDetailsContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Core\DualMessageDialogContentDialog.xaml.cs">
+      <DependentUpon>DualMessageDialogContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Core\ExpandableRowListViewControl.cs" />
+    <Compile Include="ContentDialogs\Core\MessageDialogContentDialog.xaml.cs">
+      <DependentUpon>MessageDialogContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Core\PickProviderContentDialog.xaml.cs">
+      <DependentUpon>PickProviderContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Core\SelectSessionContentDialog.xaml.cs">
+      <DependentUpon>SelectSessionContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Providers\SelectRegistryProviderContentDialog.xaml.cs">
+      <DependentUpon>SelectRegistryProviderContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Providers\Viewmodel.cs" />
+    <Compile Include="ContentDialogs\Registry\AddKeyContentDialog.xaml.cs">
+      <DependentUpon>AddKeyContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Registry\DeleteRegKeyContentDialog.xaml.cs">
+      <DependentUpon>DeleteRegKeyContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Registry\ImportRegContentDialog.xaml.cs">
+      <DependentUpon>ImportRegContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Registry\MountHiveContentDialog.xaml.cs">
+      <DependentUpon>MountHiveContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\Registry\RenameKeyContentDialog.xaml.cs">
+      <DependentUpon>RenameKeyContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialogs\SSH\AddUserContentDialog.xaml.cs">
+      <DependentUpon>AddUserContentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AnimatedFlipView.cs" />
+    <Compile Include="Controls\Blurring\Acrylic\AcrylicAccent.xaml.cs">
+      <DependentUpon>AcrylicAccent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Blurring\Acrylic\AcrylicLow.xaml.cs">
+      <DependentUpon>AcrylicLow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Blurring\Acrylic\AcrylicMedium.xaml.cs">
+      <DependentUpon>AcrylicMedium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Blurring\BackDrop\BackDropMedium.xaml.cs">
+      <DependentUpon>BackDropMedium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomFlipView.cs" />
+    <Compile Include="Controls\FlipViewExtensions.cs" />
+    <Compile Include="Controls\FlipViewIndicator.cs" />
+    <Compile Include="Controls\Keyboards\Carret.xaml.cs">
+      <DependentUpon>Carret.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Keyboards\FakeKeyboard.xaml.cs">
+      <DependentUpon>FakeKeyboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Pivots\TabHeader.xaml.cs">
+      <DependentUpon>TabHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplitViews\Extensions.cs" />
+    <Compile Include="Controls\SplitViews\SwipeableSplitView.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\TreeView\GlyphConverter.cs" />
+    <Compile Include="CorePages\CoreFrame.xaml.cs">
+      <DependentUpon>CoreFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorePages\ExtendedSplashScreen.xaml.cs">
+      <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorePages\IPage.cs" />
+    <Compile Include="CorePages\LaunchedForResultsPage.xaml.cs">
+      <DependentUpon>LaunchedForResultsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorePages\NavigationItemData.cs" />
+    <Compile Include="CorePages\NavigationItemToObjectConverter2.cs" />
+    <Compile Include="CorePages\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorePages\TabsControl.xaml.cs">
+      <DependentUpon>TabsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorePages\UserDisplayControl.xaml.cs">
+      <DependentUpon>UserDisplayControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\AlphaKeyGroup.cs" />
+    <Compile Include="Presentation\DisplayableTheme.cs" />
+    <Compile Include="Presentation\SettingsViewModel.cs" />
+    <Compile Include="Presentation\ShellViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\CCMDProvider.cs" />
+    <Compile Include="ShellPages\Store\StorePage.xaml.cs">
+      <DependentUpon>StorePage.xaml</DependentUpon>
+    </Compile>
+    <None Include="Caps.txt" />
+    <Content Include="Microsoft.UI.Xaml\Assets\NoiseAsset_256X256_PNG.png" />
+    <Content Include="Web\assets\welcomeheader.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\css\winstrap-optional.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\css\winstrap-optional.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\css\winstrap.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\css\winstrap.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\js\vendor\bootstrap.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\js\vendor\jquery.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Views\editor.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\Views\browser.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\FullMDL2.ttf" />
+    <Compile Include="Providers\CLocalOnlyProvider.cs" />
+    <Compile Include="Providers\CRemoteRegistryProvider.cs" />
+    <Compile Include="Providers\LegacyBridge\LegacyBridgeRegistryProvider.cs" />
+    <Compile Include="Providers\MainRegistryProvider.cs" />
+    <Compile Include="RemoteClasses\Client\RemoteAuthClient.cs" />
+    <Compile Include="RemoteClasses\Client\RemoteClient.cs" />
+    <Compile Include="RemoteClasses\Server\RegistryActions.cs" />
+    <Compile Include="RemoteClasses\Server\RemoteServer.cs" />
+    <Compile Include="RemoteClasses\Server\WebServer.cs" />
+    <Compile Include="Resources\TextResources.cs" />
+    <Compile Include="ShellPages\AppManager\AppListControl.xaml.cs">
+      <DependentUpon>AppListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\AppManager\AppManagerPage.xaml.cs">
+      <DependentUpon>AppManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\AppManager\AppProductPage.xaml.cs">
+      <DependentUpon>AppProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Certificates\CertificatesPage.xaml.cs">
+      <DependentUpon>CertificatesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Core\ExtensionsPage.xaml.cs">
+      <DependentUpon>ExtensionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Core\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Core\Viewmodel.cs" />
+    <Compile Include="ShellPages\Core\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Core\YourDevicePage.xaml.cs">
+      <DependentUpon>YourDevicePage.xaml</DependentUpon>
+    </Compile>
+    <None Include="InteropTools_StoreKey.pfx" />
+    <None Include="InteropTools_TemporaryKey.pfx" />
+    <None Include="ShellPages\IO\BreadCrumbControl.xaml.cs">
+      <DependentUpon>BreadCrumbControl.xaml</DependentUpon>
+    </None>
+    <None Include="ShellPages\IO\BrowserControl.xaml.cs">
+      <DependentUpon>BrowserControl.xaml</DependentUpon>
+    </None>
+    <None Include="ShellPages\IO\FileExplorerPage.xaml.cs">
+      <DependentUpon>FileExplorerPage.xaml</DependentUpon>
+    </None>
+    <Compile Include="ShellPages\Process\TaskManager.xaml.cs">
+      <DependentUpon>TaskManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\AsyncHelpers.cs" />
+    <Compile Include="ShellPages\Registry\BreadCrumbControl.xaml.cs">
+      <DependentUpon>BreadCrumbControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\BrowserControl.xaml.cs">
+      <DependentUpon>BrowserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\BrowservNextPage.xaml.cs">
+      <DependentUpon>BrowservNextPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\DefaultAppsPage.xaml.cs">
+      <DependentUpon>DefaultAppsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\FileSystemData.cs" />
+    <Compile Include="ShellPages\Registry\ImportRegFilePage.xaml.cs">
+      <DependentUpon>ImportRegFilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\InteropUnlockPage.xaml.cs">
+      <DependentUpon>InteropUnlockPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\KeyboardCarretPage.xaml.cs">
+      <DependentUpon>KeyboardCarretPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\NotificationLEDPage.xaml.cs">
+      <DependentUpon>NotificationLEDPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\RegistryBrowserPage.xaml.cs">
+      <DependentUpon>RegistryBrowserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\RegistryEditorPage.xaml.cs">
+      <DependentUpon>RegistryEditorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\RegistryHistory.xaml.cs">
+      <DependentUpon>RegistryHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\RegistrySearchPage.xaml.cs">
+      <DependentUpon>RegistrySearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\TweakBoolControl.xaml.cs">
+      <DependentUpon>TweakBoolControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\TweakInputControl.xaml.cs">
+      <DependentUpon>TweakInputControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\TweaksPage.xaml.cs">
+      <DependentUpon>TweaksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\x50PlusDevicesNDTKUnlock.xaml.cs">
+      <DependentUpon>x50PlusDevicesNDTKUnlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\Registry\YourWindowsBuildPage.xaml.cs">
+      <DependentUpon>YourWindowsBuildPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\SSH\ConsolePage.xaml.cs">
+      <DependentUpon>ConsolePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ShellPages\SSH\SSHAccountManagerPage.xaml.cs">
+      <DependentUpon>SSHAccountManagerPage.xaml</DependentUpon>
+    </Compile>
+    <None Include="Web\css\winstrap-optional.css.map">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\css\winstrap.css.map">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\fonts\glyphs\winjs-symbols.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\glyphs\winjs-symbols.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\fonts\glyphs\winjs-symbols.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\fonts\selawk.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\selawk.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\fonts\selawkb.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\selawkb.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\fonts\selawkl.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\selawkl.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\fonts\selawksb.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\selawksb.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\fonts\selawksl.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Web\fonts\selawksl.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Web\js\vendor\jquery.min.map">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)' == 'StoreDebug' Or '$(Configuration)' == 'StoreRelease' ">
+      <ItemGroup>
+        <AppxManifest Include="Package.Store.appxmanifest">
+          <SubType>Designer</SubType>
+        </AppxManifest>
+        <PRIResource Include="Resources\en-US\Resources.resw" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <AppxManifest Include="Package.appxmanifest">
+          <SubType>Designer</SubType>
+        </AppxManifest>
+        <None Include="InteropTools_TemporaryKey.pfx" />
+        <PRIResource Include="Resources\en-US\Resources.resw" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Content Include="Assets\JumpList\apps.png" />
+    <Content Include="Assets\JumpList\certs.png" />
+    <Content Include="Assets\JumpList\interopunlock.png" />
+    <Content Include="Assets\JumpList\registrybrowser.png" />
+    <Content Include="Assets\JumpList\registryeditor.png" />
+    <Content Include="Assets\JumpList\registrysearch.png" />
+    <Content Include="Assets\JumpList\remoteaccess.png" />
+    <Content Include="Assets\JumpList\sftp.png" />
+    <Content Include="Assets\JumpList\tweaks.png" />
+    <Content Include="Assets\JumpList\yourdevice.png" />
+    <Content Include="Assets\microsoft_logo.png" />
+    <Content Include="Assets\reg.png" />
+    <Content Include="Assets\rs.jpg" />
+    <Content Include="Assets\rs2.jpg" />
+    <Content Include="Assets\th.jpg" />
+    <Content Include="Assets\th2.jpg" />
+    <Content Include="Assets\Tiles\App\NewStoreLogo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\NewStoreLogo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\NewStoreLogo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\NewStoreLogo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\NewStoreLogo.scale-400.png" />
+    <Content Include="Assets\Tiles\App\SplashScreen.scale-100.png" />
+    <Content Include="Assets\Tiles\App\SplashScreen.scale-125.png" />
+    <Content Include="Assets\Tiles\App\SplashScreen.scale-150.png" />
+    <Content Include="Assets\Tiles\App\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Tiles\App\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Tiles\App\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Tiles\App\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\Square310x310Logo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\Square310x310Logo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\Square310x310Logo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Tiles\App\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Tiles\App\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\Tiles\App\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Tiles\App\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Tiles\App\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Tiles\App\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Tiles\App\Wide310x150Logo.scale-400.png" />
+    <Content Include="Assets\Tiles\desktop.png" />
+    <Content Include="Assets\Tiles\generic.png" />
+    <Content Include="Assets\Tiles\holographic.png" />
+    <Content Include="Assets\Tiles\iot.png" />
+    <Content Include="Assets\Tiles\Large\desktop.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\desktop.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\desktop.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\desktop.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\desktop.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\generic.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\generic.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\generic.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\generic.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\generic.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\holographic.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\holographic.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\holographic.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\holographic.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\holographic.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\iot.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\iot.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\iot.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\iot.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\iot.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\phone.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\phone.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\phone.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\phone.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\phone.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\team.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\team.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\team.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\team.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\team.scale-400.png" />
+    <Content Include="Assets\Tiles\Large\xbox.scale-100.png" />
+    <Content Include="Assets\Tiles\Large\xbox.scale-125.png" />
+    <Content Include="Assets\Tiles\Large\xbox.scale-150.png" />
+    <Content Include="Assets\Tiles\Large\xbox.scale-200.png" />
+    <Content Include="Assets\Tiles\Large\xbox.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\desktop.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\desktop.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\desktop.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\desktop.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\desktop.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\generic.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\generic.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\generic.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\generic.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\generic.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\holographic.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\holographic.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\holographic.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\holographic.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\holographic.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\iot.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\iot.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\iot.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\iot.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\iot.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\phone.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\phone.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\phone.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\phone.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\phone.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\team.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\team.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\team.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\team.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\team.scale-400.png" />
+    <Content Include="Assets\Tiles\Medium\xbox.scale-100.png" />
+    <Content Include="Assets\Tiles\Medium\xbox.scale-125.png" />
+    <Content Include="Assets\Tiles\Medium\xbox.scale-150.png" />
+    <Content Include="Assets\Tiles\Medium\xbox.scale-200.png" />
+    <Content Include="Assets\Tiles\Medium\xbox.scale-400.png" />
+    <Content Include="Assets\Tiles\phone.png" />
+    <Content Include="Assets\Tiles\Small\desktop.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\desktop.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\desktop.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\desktop.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\desktop.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\generic.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\generic.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\generic.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\generic.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\generic.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\holographic.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\holographic.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\holographic.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\holographic.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\holographic.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\iot.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\iot.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\iot.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\iot.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\iot.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\phone.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\phone.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\phone.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\phone.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\phone.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\team.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\team.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\team.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\team.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\team.scale-400.png" />
+    <Content Include="Assets\Tiles\Small\xbox.scale-100.png" />
+    <Content Include="Assets\Tiles\Small\xbox.scale-125.png" />
+    <Content Include="Assets\Tiles\Small\xbox.scale-150.png" />
+    <Content Include="Assets\Tiles\Small\xbox.scale-200.png" />
+    <Content Include="Assets\Tiles\Small\xbox.scale-400.png" />
+    <Content Include="Assets\Tiles\team.png" />
+    <Content Include="Assets\Tiles\Wide\desktop.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\desktop.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\desktop.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\desktop.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\desktop.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\generic.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\generic.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\generic.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\generic.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\generic.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\holographic.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\holographic.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\holographic.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\holographic.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\holographic.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\iot.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\iot.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\iot.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\iot.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\iot.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\phone.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\phone.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\phone.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\phone.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\phone.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\team.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\team.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\team.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\team.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\team.scale-400.png" />
+    <Content Include="Assets\Tiles\Wide\xbox.scale-100.png" />
+    <Content Include="Assets\Tiles\Wide\xbox.scale-125.png" />
+    <Content Include="Assets\Tiles\Wide\xbox.scale-150.png" />
+    <Content Include="Assets\Tiles\Wide\xbox.scale-200.png" />
+    <Content Include="Assets\Tiles\Wide\xbox.scale-400.png" />
+    <Content Include="Assets\Tiles\xbox.png" />
+    <Content Include="Web\fonts\LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <EmbeddedResource Include="Resources\BuildDate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="ContentDialogs\AppManager\AppPackageContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Certificates\CertificateDetailsContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Core\DualMessageDialogContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Core\MessageDialogContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Core\PickProviderContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Core\SelectSessionContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Providers\SelectRegistryProviderContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Registry\AddKeyContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Registry\DeleteRegKeyContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Registry\ImportRegContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\Registry\MountHiveContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentDialogs\Registry\RenameKeyContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialogs\SSH\AddUserContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Blurring\Acrylic\AcrylicAccent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Blurring\Acrylic\AcrylicLow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Blurring\Acrylic\AcrylicMedium.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Blurring\BackDrop\BackDropMedium.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Keyboards\Carret.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Keyboards\FakeKeyboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Pivots\TabHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CorePages\CoreFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CorePages\ExtendedSplashScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CorePages\LaunchedForResultsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CorePages\Shell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CorePages\TabsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CorePages\UserDisplayControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Microsoft.UI.Xaml\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Microsoft.UI.Xaml\Themes\rs1_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Microsoft.UI.Xaml\Themes\rs2_generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Microsoft.UI.Xaml\Themes\rs2_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Microsoft.UI.Xaml\Themes\rs3_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\AppManager\AppListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\AppManager\AppManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\AppManager\AppProductPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Certificates\CertificatesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Core\ExtensionsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Core\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Core\WelcomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Core\YourDevicePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <None Include="ShellPages\IO\BreadCrumbControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ShellPages\IO\BrowserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ShellPages\IO\FileExplorerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <Page Include="ShellPages\Process\TaskManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ShellPages\Registry\BreadCrumbControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\BrowserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\BrowservNextPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\DefaultAppsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\ImportRegFilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\InteropUnlockPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\KeyboardCarretPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\NotificationLEDPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\RegistryBrowserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\RegistryEditorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\RegistryHistory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\RegistrySearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\TweakBoolControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\TweakInputControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\TweaksPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\x50PlusDevicesNDTKUnlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Registry\YourWindowsBuildPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\SSH\ConsolePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\SSH\SSHAccountManagerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShellPages\Store\StorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\rs1_neon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\rs2_neon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="HockeySDK.UWP">
+      <Version>4.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Services.Store.SDK">
+      <Version>10.1705.16001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
+      <Version>1.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>1.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="MyToolkit.Extended">
+      <Version>2.5.16</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Nito.AsyncEx">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Restup">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="SSH.NET">
+      <Version>2016.1.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\InteropTools.AppExtensibilityBackgroundTask\InteropTools.AppExtensibilityBackgroundTask.csproj">
+      <Project>{8631bc36-c8eb-4a61-bf5e-8b87320dd47a}</Project>
+      <Name>InteropTools.AppExtensibilityBackgroundTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InteropTools.Providers.Applications.Definition\InteropTools.Providers.Applications.Definition.csproj">
+      <Project>{b20a250d-a531-4220-a2a3-d5deb3dd1727}</Project>
+      <Name>InteropTools.Providers.Applications.Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InteropTools.Providers\InteropTools.Providers.csproj">
+      <Project>{c5b8e40b-c8df-404b-85c2-c01557b2e720}</Project>
+      <Name>InteropTools.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Providers\Libs\AppPlugin\AppPlugin.csproj">
+      <Project>{d35e5f0f-601c-43bf-82d6-89f51ac6aa8b}</Project>
+      <Name>AppPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\Intense\Intense.csproj">
+      <Project>{d2a81c93-b22f-4a64-b582-8ed6ad8adc4f}</Project>
+      <Name>Intense</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Providers\OSReboot\Definition\InteropTools.Providers.OSReboot.Definition\InteropTools.Providers.OSReboot.Definition.csproj">
+      <Project>{810b1a1f-236e-4675-b797-6e6fbee0decd}</Project>
+      <Name>InteropTools.Providers.OSReboot.Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Providers\Registry\Definition\InteropTools.Providers.Registry.Definition\InteropTools.Providers.Registry.Definition.csproj">
+      <Project>{79303cb0-e637-4589-ad32-005c26e737f9}</Project>
+      <Name>InteropTools.Providers.Registry.Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\XamlTreeView\TreeViewControl.vcxproj">
+      <Project>{94560d69-a345-4e44-b897-eaa2b0e23238}</Project>
+      <Name>TreeViewControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
+      <Name>Microsoft Engagement Framework</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.16299.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.UI.Xaml, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\Prebuilt\Temp\Microsoft.UI.Xaml.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\Extensions\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreRelease|x86'">
+    <OutputPath>bin\x86\StoreRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreRelease|ARM'">
+    <OutputPath>bin\ARM\StoreRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreRelease|x64'">
+    <OutputPath>bin\x64\StoreRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreDebug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\StoreDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreDebug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\StoreDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'StoreDebug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\StoreDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+      SET HOUR=%25time:~0,2%25
+      SET dtStamp9=%25date:~-2%25%25date:~4,2%25%25date:~7,2%25-0%25time:~1,1%25%25time:~3,2%25
+      SET dtStamp24=%25date:~-2%25%25date:~4,2%25%25date:~7,2%25-%25time:~0,2%25%25time:~3,2%25
+
+      if "%25HOUR:~0,1%25" == " " (SET dtStamp=%25dtStamp9%25) else (SET dtStamp=%25dtStamp24%25)
+
+      echo.%25dtStamp%25&gt; "$(ProjectDir)\Resources\BuildDate.txt"
+      copy /Y "$(ProjectDir)..\Libs\Prebuilt\$(Platform)\Microsoft.UI.Xaml.dll" "$(ProjectDir)..\Libs\Prebuilt\Temp\"
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

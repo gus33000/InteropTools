@@ -1,0 +1,139 @@
+﻿<UserControl
+    x:Class="InteropTools.CorePages.TabsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.CorePages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Button
+            x:Name="ViewPreviews"
+            Grid.Column="0"
+            Width="32"
+            Height="32"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="ViewPreviews_Click"
+            Content=""
+            FontFamily="{StaticResource FullMDL2FontFamily}" />
+
+        <ListView
+            x:Name="TabsListView"
+            Grid.Column="1"
+            Height="32"
+            Margin="4,0,4,0"
+            VerticalAlignment="Top"
+            IsItemClickEnabled="True"
+            ItemClick="TabsListView_ItemClick"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Disabled"
+            SelectionMode="None">
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel
+                        Orientation="Horizontal"
+                        ScrollViewer.HorizontalScrollMode="Enabled"
+                        ScrollViewer.VerticalScrollMode="Disabled" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="VerticalContentAlignment" Value="Top" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ListViewItemPresenter Padding="0" ContentMargin="0" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Rectangle
+                            Fill="{ThemeResource SystemChromeMediumColor}"
+                            Opacity="0.75"
+                            Visibility="{Binding SelectedVisibility}" />
+                        <StackPanel Width="200" Margin="8,0,8,0">
+                            <Grid Margin="0,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="0,0,4,0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    Text="{Binding Symbol}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    MaxWidth="200"
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Text="{Binding DisplayName}"
+                                    TextTrimming="WordEllipsis" />
+                            </Grid>
+
+                            <Grid Height="180" HorizontalAlignment="Center">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    FontSize="100"
+                                    Opacity="0.25"
+                                    Text=""
+                                    TextAlignment="Center" />
+                                <Border
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    BorderThickness="1"
+                                    Visibility="{Binding PreviewVisibility}">
+                                    <Image
+                                        MaxHeight="180"
+                                        HorizontalAlignment="Stretch"
+                                        Source="{Binding Preview}"
+                                        Stretch="Uniform" />
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button
+            x:Name="CreateNewTab"
+            Grid.Column="2"
+            Width="32"
+            Height="32"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="CreateNewTab_Click"
+            Content=""
+            FontFamily="{StaticResource FullMDL2FontFamily}" />
+    </Grid>
+</UserControl>

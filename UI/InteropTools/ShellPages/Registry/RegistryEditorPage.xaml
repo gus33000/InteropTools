@@ -1,0 +1,542 @@
+﻿<Page
+    xmlns:core="using:InteropTools.CorePages"
+    x:Class="InteropTools.ShellPages.Registry.RegistryEditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlsacrylic="using:InteropTools.Controls.Blurring.Acrylic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.Registry"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xamlExtensions="using:InteropTools.Classes"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="EllipsisButton" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource AppBarEllipsisButtonBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource AppBarEllipsisButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource AppBarEllipsisButtonBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0,0,9,0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Width" Value="{ThemeResource AppBarExpandButtonThemeWidth}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarEllipsisButtonBorderBrushDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AppBarStyle1" TargetType="AppBar">
+            <Setter Property="Background" Value="{ThemeResource SystemChromeMediumColor}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundChromeMediumBrush}" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="ClosedDisplayMode" Value="Minimal" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBar" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid x:Name="MainPanel">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="328" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <controlsacrylic:AcrylicLow
+                x:Name="HistoryBackground"
+                Grid.Column="0"
+                Margin="0,-33,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+        </Grid>
+
+        <ScrollViewer x:Name="MainScrollViewer" Grid.Row="0" Padding="0,-60,0,-60">
+            <Grid Margin="0,60,0,60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="SecondaryColumn" Width="328" />
+                    <ColumnDefinition x:Name="OtherColumn" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="MainRow" Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ScrollViewer
+                    x:Name="EditorUI"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalScrollBarVisibility="Auto" Padding="0,-60,0,-60">
+                    <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}" Margin="0,60,0,60">
+                        <TextBlock
+                            DataContext="{x:Bind Frame}"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="Registry Editor"
+                            Visibility="{Binding PageTitleVisibility}" />
+                        <TextBlock Text="REGISTRY HIVE" Style="{StaticResource TitleTextBlockStyle3}" />
+                        <ComboBox Margin="0,0,0,24"
+                            x:Name="HiveSelector"
+                            HorizontalAlignment="Stretch"
+                            SelectedIndex="5">
+                            <ComboBoxItem Content="HKEY_CURRENT_CONFIG (HKCC)" />
+                            <ComboBoxItem Content="HKEY_CLASSES_ROOT (HKCR)" />
+                            <ComboBoxItem Content="HKEY_CURRENT_USER (HKCU)" />
+                            <ComboBoxItem Content="HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)" />
+                            <ComboBoxItem Content="HKEY_DYN_DATA (HKDD)" />
+                            <ComboBoxItem Content="HKEY_LOCAL_MACHINE (HKLM)" />
+                            <ComboBoxItem Content="HKEY_PERFORMANCE_DATA (HKPD)" />
+                            <ComboBoxItem Content="HKEY_USERS (HKU)" />
+                        </ComboBox>
+                        <TextBlock Text="REGISTRY KEY PATH" Style="{StaticResource TitleTextBlockStyle3}" />
+                        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="32" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                x:Name="PathInput"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                GotFocus="PathInput_GotFocus"
+                                IsSpellCheckEnabled="False"
+                                IsTextPredictionEnabled="False"
+                                LostFocus="PathInput_LostFocus"
+                                PlaceholderText="Example: Software\Microsoft\Windows NT\CurrentVersion"
+                                TextChanging="PathInput_TextChanging" />
+                            <Button
+                                x:Name="KeyActionButton"
+                                Grid.Column="1"
+                                Width="32"
+                                Height="32"
+                                Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Click="KeyActionButton_Click"
+                                FontFamily="{StaticResource FullMDL2FontFamily}"
+                                FontSize="11"
+                                IsEnabled="False">
+                                <SymbolIcon
+                                    x:Name="KeyActionIcon"
+                                    Margin="-16,-16,-16,-16"
+                                    Symbol="Cancel" />
+                            </Button>
+                        </Grid>
+                        <TextBlock Text="REGISTRY VALUE NAME" Style="{StaticResource TitleTextBlockStyle3}" />
+                        <ComboBox
+                            x:Name="ValueNameSelector"
+                            HorizontalAlignment="Stretch"
+                            SelectedIndex="0"
+                            SelectionChanged="ValueNameSelector_SelectionChanged">
+                            <ComboBoxItem Content="Normal" />
+                            <ComboBoxItem Content="Default" />
+                        </ComboBox>
+                        <TextBox
+                            x:Name="ValueNameInput"
+                            Margin="0,12,0,24"
+                            GotFocus="ValueNameInput_GotFocus"
+                            IsSpellCheckEnabled="False"
+                            IsTextPredictionEnabled="False"
+                            LostFocus="ValueNameInput_LostFocus"
+                            PlaceholderText="Example: CurrentBuild"
+                            TextChanging="ValueNameInput_TextChanging"
+                            />
+                        <TextBlock Text="REGISTRY VALUE TYPE" Style="{StaticResource TitleTextBlockStyle3}" />
+                        <StackPanel Margin="0,0,0,24">
+                            <ComboBox
+                                x:Name="TypeSelector"
+                                HorizontalAlignment="Stretch"
+                                SelectedIndex="9"
+                                SelectionChanged="TypeSelector_SelectionChanged">
+                                <ComboBoxItem Content="Binary (REG_BINARY)" />
+                                <ComboBoxItem Content="Hardware Resource List (REG_FULL_RESOURCE_DESCRIPTOR)" />
+                                <ComboBoxItem Content="Integer (REG_DWORD)" />
+                                <ComboBoxItem Content="Integer Big Endian (REG_DWORD_BIG_ENDIAN)" />
+                                <ComboBoxItem Content="Long (REG_QWORD)" />
+                                <ComboBoxItem Content="Multi String (REG_MULTI_SZ)" />
+                                <ComboBoxItem Content="None (REG_NONE)" />
+                                <ComboBoxItem Content="Resource List (REG_RESOURCE_LIST)" />
+                                <ComboBoxItem Content="Resource Requirement (REG_RESOURCE_REQUIREMENTS_LIST)" />
+                                <ComboBoxItem Content="String (REG_SZ)" />
+                                <ComboBoxItem Content="Symbolic Link (REG_LINK)" />
+                                <ComboBoxItem Content="Variable String (REG_EXPAND_SZ)" />
+                                <ComboBoxItem Content="Custom" />
+                            </ComboBox>
+                            <TextBox
+                                x:Name="ValueTypeInput"
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Stretch"
+                                InputScope="Number"
+                                IsSpellCheckEnabled="False"
+                                IsTextPredictionEnabled="False"
+                                PlaceholderText="Example: 1"
+                                Visibility="Collapsed"
+                                />
+                        </StackPanel>
+                        <TextBlock Text="REGISTRY VALUE DATA" Style="{StaticResource TitleTextBlockStyle3}" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                x:Name="ValueDataInput"
+                                Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                IsSpellCheckEnabled="False"
+                                IsTextPredictionEnabled="False"
+                                PlaceholderText="Example: 10240"
+                                Style="{StaticResource MultilineTextBoxStyle}"
+                                TextChanging="ValueDataInput_TextChanging" />
+                            <Border
+                                x:Name="ValueDataBorder"
+                                Grid.Row="0"
+                                BorderBrush="#FFE84F24"
+                                BorderThickness="0" />
+                        </Grid>
+
+                        <Grid Margin="0,24,0,20" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*" />
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="ReadButton"
+                                Grid.Column="0"
+                                Margin="0,0,5,0"
+                                HorizontalAlignment="Stretch"
+                                Click="ReadButton_Click"
+                                Content="Read Data" />
+                            <Button
+                                x:Name="WriteButton"
+                                Grid.Column="1"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                Click="WriteButton_Click"
+                                Content="Write Data" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <ScrollViewer
+                    x:Name="HistoryUI"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalScrollBarVisibility="Auto"
+                    Padding="0,-60,0,-60">
+                    <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}" Margin="0,60,0,60">
+                        <Grid Margin="0,7,0,18">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TitleTextBlockStyle3}"
+                                Text="HISTORY" />
+                            <HyperlinkButton
+                                x:Name="ClearHistoryLink"
+                                Grid.Column="1"
+                                VerticalAlignment="Stretch"
+                                Click="ClearHistoryLink_Click"
+                                Content="Clear all">
+                                <HyperlinkButton.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                    </DataTemplate>
+                                </HyperlinkButton.ContentTemplate>
+                            </HyperlinkButton>
+                        </Grid>
+                        <Grid Margin="0,0,0,12">
+                            <Grid
+                                x:Name="EmptyText"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Opacity="0.5"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    Text=""
+                                    FontSize="48"
+                                    Margin="0,0,0,18"
+                                    TextAlignment="Center" />
+
+                                <TextBlock Grid.Row="1" Text="Your history list is empty. Read or write to a registry value to fill this space in." TextWrapping="Wrap" TextAlignment="Center" Opacity="0.5"/>
+                            </Grid>
+                            <ListView
+                                x:Name="HistoryList"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                IsItemClickEnabled="True"
+                                ItemClick="HistoryList_ItemClick"
+                                ScrollViewer.VerticalScrollMode="Auto"
+                                SelectionMode="None">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,4,0,4">
+                                            <Grid HorizontalAlignment="Left">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    Opacity="0.75"
+                                                    Text="Hive" />
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Hive}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    Opacity="0.75"
+                                                    Text="Key" />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Key}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    Opacity="0.75"
+                                                    Text="Value Name" />
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Text="{Binding ValueName}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    Opacity="0.75"
+                                                    Text="Value Data" />
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Text="{Binding ValueData}"
+                                                    TextWrapping="Wrap" />
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Margin="0,0,8,0"
+                                                    Opacity="0.75"
+                                                    Text="Operation" />
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Operation}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <AppBar
+            x:Name="MainAppBar"
+            Width="{x:Bind Frame.ActualWidth, Mode=OneWay}"
+            Height="45"
+            HorizontalAlignment="Right"
+            IsOpen="True"
+            IsSticky="True"
+            IsTabStop="False"
+            Style="{StaticResource AppBarStyle1}"
+            Visibility="Collapsed">
+            <Grid>
+                <StackPanel
+                    x:Name="KeySuggestions"
+                    Background="{ThemeResource SystemChromeMediumColor}"
+                    Visibility="Collapsed">
+                    <ListView
+                        x:Name="Suggestions"
+                        IsItemClickEnabled="True"
+                        IsTabStop="False"
+                        ItemClick="Suggestions_ItemClick"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.HorizontalScrollMode="Enabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollMode="Disabled"
+                        ScrollViewer.ZoomMode="Disabled"
+                        SelectionMode="None">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="IsTabStop" Value="False" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="8,8,4,8"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                        FontSize="22"
+                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                        Text="{Binding Symbol}" />
+                                    <TextBlock
+                                        Margin="4,8,8,8"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+                <StackPanel
+                    x:Name="ValueSuggestions"
+                    Background="{ThemeResource SystemChromeMediumColor}"
+                    Visibility="Collapsed">
+                    <ListView
+                        x:Name="ValSuggestions"
+                        IsItemClickEnabled="True"
+                        IsTabStop="False"
+                        ItemClick="ValSuggestions_ItemClick"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.HorizontalScrollMode="Enabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollMode="Disabled"
+                        ScrollViewer.ZoomMode="Disabled"
+                        SelectionMode="None">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="IsTabStop" Value="False" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Margin="8,8,4,8"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                        FontSize="22"
+                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                        Text="{Binding Symbol}" />
+                                    <TextBlock
+                                        Margin="4,8,8,8"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
+</Page>

@@ -1,0 +1,739 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Applications" xml:space="preserve">
+    <value>Applications</value>
+  </data>
+  <data name="Certificates" xml:space="preserve">
+    <value>Certificates</value>
+  </data>
+  <data name="Access_all_app_functionalities_from_a_remote_device" xml:space="preserve">
+    <value>Access all app functionalities from a remote device</value>
+  </data>
+  <data name="Coming_soon" xml:space="preserve">
+    <value>Coming soon</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="Do_you_really_want_to_delete_that_key_" xml:space="preserve">
+    <value>Do you really want to delete that key?</value>
+  </data>
+  <data name="Delete_the_key" xml:space="preserve">
+    <value>Delete the key</value>
+  </data>
+  <data name="Do_you_really_want_to_add_that_key_" xml:space="preserve">
+    <value>Do you really want to add that key?</value>
+  </data>
+  <data name="Add_the_key" xml:space="preserve">
+    <value>Add the key</value>
+  </data>
+  <data name="Don_t_add_the_key" xml:space="preserve">
+    <value>Don't add the key</value>
+  </data>
+  <data name="Data_Offline" xml:space="preserve">
+    <value>Data Offline</value>
+  </data>
+  <data name="Dependency_Issue" xml:space="preserve">
+    <value>Dependency Issue</value>
+  </data>
+  <data name="Deployment_In_Progress" xml:space="preserve">
+    <value>Deployment In Progress</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Default_apps" xml:space="preserve">
+    <value>Default apps</value>
+  </data>
+  <data name="Access_cmd_from_SSH" xml:space="preserve">
+    <value>Access cmd from SSH</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="About_the_app_and_credits" xml:space="preserve">
+    <value>About the app and credits</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="Copy_name" xml:space="preserve">
+    <value>Copy name</value>
+  </data>
+  <data name="Copy_key_location" xml:space="preserve">
+    <value>Copy key location</value>
+  </data>
+  <data name="Copy_hive_name" xml:space="preserve">
+    <value>Copy hive name</value>
+  </data>
+  <data name="Copy_full_details" xml:space="preserve">
+    <value>Copy full details</value>
+  </data>
+  <data name="_connected_to_" xml:space="preserve">
+    <value> connected to </value>
+  </data>
+  <data name="An_unexpected_error_happened_while_writing_key_value_data" xml:space="preserve">
+    <value>An unexpected error happened while writing key value data.</value>
+  </data>
+  <data name="Connects_to_a_remote_device_which_has_remote_access_enabled__Level_of_access_is_subject_to_the_remote_device" xml:space="preserve">
+    <value>Connects to a remote device which has remote access enabled. Level of access is subject to the remote device.</value>
+  </data>
+  <data name="Connection_refused" xml:space="preserve">
+    <value>Connection refused</value>
+  </data>
+  <data name="Connection_accepted" xml:space="preserve">
+    <value>Connection accepted</value>
+  </data>
+  <data name="Connects_to_this_device_natively_using_different_runtime_components__Provides_system_level_access_for_Nokia__excluding_x50s___Samsung_and_LG_devices__Other_devices_get_normal_access_to_the_registry" xml:space="preserve">
+    <value>Connects to this device natively using different runtime components. Provides system level access for Nokia (excluding x50s), Samsung and LG devices. Other devices get normal access to the registry.</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
+  </data>
+  <data name="Client_Authentication_Issuer" xml:space="preserve">
+    <value>Client Authentication Issuer</value>
+  </data>
+  <data name="Certificate_Enrollment_Requests" xml:space="preserve">
+    <value>Certificate Enrollment Requests</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Do_you_really_want_to_delete_that_value" xml:space="preserve">
+    <value>Do you really want to delete that value?</value>
+  </data>
+  <data name="Delete_the_value" xml:space="preserve">
+    <value>Delete the value</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Current_Key" xml:space="preserve">
+    <value>Current Key</value>
+  </data>
+  <data name="Can_access_the_registry_.Text" xml:space="preserve">
+    <value>Can access the registry:</value>
+  </data>
+  <data name="Add_User.PrimaryButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Add_User.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Add_User.Title" xml:space="preserve">
+    <value>Add User</value>
+  </data>
+  <data name="Certificate_Details.PrimaryButtonText" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Certificate_Details.Title" xml:space="preserve">
+    <value>Certificate Details</value>
+  </data>
+  <data name="Choose_a_provider_to_get_started.Text" xml:space="preserve">
+    <value>Choose a provider to get started</value>
+  </data>
+  <data name="Connect.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="CONNECTING.Text" xml:space="preserve">
+    <value>CONNECTING</value>
+  </data>
+  <data name="About_Title.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Add_key_Button.Label" xml:space="preserve">
+    <value>Add key</value>
+  </data>
+  <data name="Add_value_Button.Label" xml:space="preserve">
+    <value>Add value</value>
+  </data>
+  <data name="Certificate_Info" xml:space="preserve">
+    <value>Certificate Info</value>
+  </data>
+  <data name="CMD_Title.Text" xml:space="preserve">
+    <value>Command Prompt</value>
+  </data>
+  <data name="Credits.Text" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="Current_Key_Label.Text" xml:space="preserve">
+    <value>Current Key</value>
+  </data>
+  <data name="Current_User_Header.Header" xml:space="preserve">
+    <value>Current User</value>
+  </data>
+  <data name="Default_Apps_Title.Text" xml:space="preserve">
+    <value>Default Apps</value>
+  </data>
+  <data name="Enable_Remote_Access.Text" xml:space="preserve">
+    <value>Enable Remote Access</value>
+  </data>
+  <data name="Enable_Remote_Access_Desc.Text" xml:space="preserve">
+    <value>Allows you to remotely connect to this device to edit the registry</value>
+  </data>
+  <data name="Exception_Thrown__" xml:space="preserve">
+    <value>Exception Thrown: </value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="Fake_device" xml:space="preserve">
+    <value>Fake device</value>
+  </data>
+  <data name="Feedback_Desc.Text" xml:space="preserve">
+    <value>If you find any bug or crash or odd behavior or just want to suggest something new, please file a feedback in the Feedback Hub via this button or post it on the xda thread.</value>
+  </data>
+  <data name="For_testing_purposes_only" xml:space="preserve">
+    <value>For testing purposes only.</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Go_back.Text" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="Hardware_Resource_List" xml:space="preserve">
+    <value>Hardware Resource List</value>
+  </data>
+  <data name="Hive" xml:space="preserve">
+    <value>Hive</value>
+  </data>
+  <data name="Host_name.PlaceholderText" xml:space="preserve">
+    <value>Host name</value>
+  </data>
+  <data name="Import_a__reg_or_a__itreg_file_from_this_page_to_the_registry" xml:space="preserve">
+    <value>Import a .reg or a .itreg file from this page to the registry</value>
+  </data>
+  <data name="Import_Reg.PrimaryButtonText" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Import_Reg.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Import_Reg.Title" xml:space="preserve">
+    <value>Do you want to import this registry file?</value>
+  </data>
+  <data name="Import_Reg_Desc.Text" xml:space="preserve">
+    <value>The following modifications will be made to the device registry. Tap import to confirm the changes or tap cancel to abort.</value>
+  </data>
+  <data name="Import_Reg_File" xml:space="preserve">
+    <value>Import Reg File</value>
+  </data>
+  <data name="Installation_canceled" xml:space="preserve">
+    <value>Installation canceled</value>
+  </data>
+  <data name="Installation_succeeded" xml:space="preserve">
+    <value>Installation succeeded</value>
+  </data>
+  <data name="Installing____" xml:space="preserve">
+    <value>Installing... </value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+  <data name="Integer_Big_Endian" xml:space="preserve">
+    <value>Integer Big Endian</value>
+  </data>
+  <data name="Intermediate_Certification_Authorities" xml:space="preserve">
+    <value>Intermediate Certification Authorities</value>
+  </data>
+  <data name="Interop_Unlock" xml:space="preserve">
+    <value>Interop Unlock</value>
+  </data>
+  <data name="In_order_to_use_this_page" xml:space="preserve">
+    <value>In order to use this page, you need to have properly configured cmd access already via the SSH Account Manager, please enable UMCI and provision the cmd files before attempting to use this page. Note: To use this page directly on the phone, you need to set HKLM\System\ControlSet001\Services\MpsSvc Start value to 4, doing this will break all application deployments, so be sure to set it back to 2 after being done.</value>
+  </data>
+  <data name="Jump_To.Label" xml:space="preserve">
+    <value>Jump to</value>
+  </data>
+  <data name="Keep_the_key" xml:space="preserve">
+    <value>Keep the key</value>
+  </data>
+  <data name="Keep_the_value" xml:space="preserve">
+    <value>Keep the value</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Keyb_Settings_Title.Text" xml:space="preserve">
+    <value>Keyboard Settings</value>
+  </data>
+  <data name="Launch_the_app_without_the_registry_features_enabled" xml:space="preserve">
+    <value>Launch the app without the registry features enabled</value>
+  </data>
+  <data name="Lets_get_started.Text" xml:space="preserve">
+    <value>Let's get started</value>
+  </data>
+  <data name="License_Issue" xml:space="preserve">
+    <value>License Issue</value>
+  </data>
+  <data name="Local_Machine_Header.Header" xml:space="preserve">
+    <value>Local Machine</value>
+  </data>
+  <data name="Local_Provider_.Text" xml:space="preserve">
+    <value>Local Provider:</value>
+  </data>
+  <data name="Long" xml:space="preserve">
+    <value>Long</value>
+  </data>
+  <data name="Manage_the_current_SSH_Authentication_Method" xml:space="preserve">
+    <value>Manage the current SSH Authentication Method</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Multi_String" xml:space="preserve">
+    <value>Multi String</value>
+  </data>
+  <data name="Needs_Remediation" xml:space="preserve">
+    <value>Needs Remediation</value>
+  </data>
+  <data name="Neutral" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="New_name.PlaceholderText" xml:space="preserve">
+    <value>New name</value>
+  </data>
+  <data name="New_user.PlaceholderText" xml:space="preserve">
+    <value>New user</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Not_Available" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="Not_implemented" xml:space="preserve">
+    <value>Not implemented</value>
+  </data>
+  <data name="Not_yet_valid" xml:space="preserve">
+    <value>Not yet valid</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Okay" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="Open_Application.Text" xml:space="preserve">
+    <value>Open Application</value>
+  </data>
+  <data name="Open_in_Store.Text" xml:space="preserve">
+    <value>Open in Store</value>
+  </data>
+  <data name="Package_Info.PrimaryButtonText" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Package_Info.Title" xml:space="preserve">
+    <value>Package Info</value>
+  </data>
+  <data name="Package_Offline" xml:space="preserve">
+    <value>Package Offline</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Path_Input.PlaceholderText" xml:space="preserve">
+    <value>Jump to...</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>Personal</value>
+  </data>
+  <data name="Port.PlaceholderText" xml:space="preserve">
+    <value>Port number</value>
+  </data>
+  <data name="Preview_Build_Roots" xml:space="preserve">
+    <value>Preview Build Roots</value>
+  </data>
+  <data name="Reboot_required" xml:space="preserve">
+    <value>Reboot required</value>
+  </data>
+  <data name="Registering____" xml:space="preserve">
+    <value>Registering... </value>
+  </data>
+  <data name="Registration_canceled" xml:space="preserve">
+    <value>Registration canceled</value>
+  </data>
+  <data name="Registration_succeeded" xml:space="preserve">
+    <value>Registration succeeded</value>
+  </data>
+  <data name="Registry" xml:space="preserve">
+    <value>Registry</value>
+  </data>
+  <data name="Registry_Browser" xml:space="preserve">
+    <value>Registry Browser</value>
+  </data>
+  <data name="Registry_Browser_Title.Text" xml:space="preserve">
+    <value>Registry Browser</value>
+  </data>
+  <data name="Registry_Editor" xml:space="preserve">
+    <value>Registry Editor</value>
+  </data>
+  <data name="Registry_less_provider" xml:space="preserve">
+    <value>Registry-less provider</value>
+  </data>
+  <data name="Registry_Search" xml:space="preserve">
+    <value>Registry Search</value>
+  </data>
+  <data name="Remediation" xml:space="preserve">
+    <value>Needs Remediation</value>
+  </data>
+  <data name="Remote_Access" xml:space="preserve">
+    <value>Remote Access</value>
+  </data>
+  <data name="Remote_Access_Title.Text" xml:space="preserve">
+    <value>Remote Access</value>
+  </data>
+  <data name="Remote_Device" xml:space="preserve">
+    <value>Remote Device</value>
+  </data>
+  <data name="REMOTE_DEVICE_CONNECTION_DETAILS.Text" xml:space="preserve">
+    <value>REMOTE DEVICE CONNECTION DETAILS</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Rename_Key.PrimaryButtonText" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Rename_Key.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Rename_Key.Title" xml:space="preserve">
+    <value>Rename key</value>
+  </data>
+  <data name="Resource_List" xml:space="preserve">
+    <value>Resource List</value>
+  </data>
+  <data name="Resource_Requirement" xml:space="preserve">
+    <value>Resource Requirement</value>
+  </data>
+  <data name="Search_and_view_registry_hives__keys__and_values" xml:space="preserve">
+    <value>Search and view registry hives, keys, and values</value>
+  </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="Select_Session.PrimaryButtonText" xml:space="preserve">
+    <value>Add a new session</value>
+  </data>
+  <data name="Select_Session.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Select_Session.Title" xml:space="preserve">
+    <value>Select a session</value>
+  </data>
+  <data name="Send_Feedback.Text" xml:space="preserve">
+    <value>Send Feedback</value>
+  </data>
+  <data name="Servicing" xml:space="preserve">
+    <value>Servicing</value>
+  </data>
+  <data name="Smart_Card_Trusted_Roots" xml:space="preserve">
+    <value>Smart Card Trusted Roots</value>
+  </data>
+  <data name="Something_went_wrong" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="Sort_Mode.Label" xml:space="preserve">
+    <value>Toggle Sort Mode</value>
+  </data>
+  <data name="SSH" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="SSH_Account_Manager" xml:space="preserve">
+    <value>SSH Account Manager</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="Switch_Session.Text" xml:space="preserve">
+    <value>Switch Session</value>
+  </data>
+  <data name="Symbolic_Link" xml:space="preserve">
+    <value>Symbolic Link</value>
+  </data>
+  <data name="Tampered" xml:space="preserve">
+    <value>Tampered</value>
+  </data>
+  <data name="Test_Provider" xml:space="preserve">
+    <value>Test Provider</value>
+  </data>
+  <data name="The_following_Remote_device_wants_to_access_your_phone_Registry" xml:space="preserve">
+    <value>The following Remote device wants to access your phone Registry</value>
+  </data>
+  <data name="This_device" xml:space="preserve">
+    <value>This device</value>
+  </data>
+  <data name="Thrid_Party_Root_Certification_Authorities" xml:space="preserve">
+    <value>Thrid-Party Root Certification Authorities</value>
+  </data>
+  <data name="Touch_Keyb.Label" xml:space="preserve">
+    <value>Show Touch Keyboard</value>
+  </data>
+  <data name="To_complete_this_operation__you_ll_need_to_reboot_your_device_" xml:space="preserve">
+    <value>To complete this operation, you'll need to reboot your device.</value>
+  </data>
+  <data name="Trusted_Certificates" xml:space="preserve">
+    <value>Trusted Certificates</value>
+  </data>
+  <data name="Trusted_Devices" xml:space="preserve">
+    <value>Trusted Devices</value>
+  </data>
+  <data name="Trusted_People" xml:space="preserve">
+    <value>Trusted People</value>
+  </data>
+  <data name="Trusted_Publishers" xml:space="preserve">
+    <value>Trusted Publishers</value>
+  </data>
+  <data name="Trusted_Root_Certification_Authorities" xml:space="preserve">
+    <value>Trusted Root Certification Authorities</value>
+  </data>
+  <data name="Tweak" xml:space="preserve">
+    <value>Tweak</value>
+  </data>
+  <data name="Tweaks" xml:space="preserve">
+    <value>Tweaks</value>
+  </data>
+  <data name="Tweaks_Input.PlaceholderText" xml:space="preserve">
+    <value>Tap the edit button to save the value</value>
+  </data>
+  <data name="Tweaks_Title.Text" xml:space="preserve">
+    <value>Tweaks</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Unlock_device_capabilities_and_more" xml:space="preserve">
+    <value>Unlock device capabilities and more</value>
+  </data>
+  <data name="Untrusted_Certificates" xml:space="preserve">
+    <value>Untrusted Certificates</value>
+  </data>
+  <data name="Update_canceled" xml:space="preserve">
+    <value>Update canceled</value>
+  </data>
+  <data name="Update_succeeded" xml:space="preserve">
+    <value>Update succeeded</value>
+  </data>
+  <data name="Updating____" xml:space="preserve">
+    <value>Updating... </value>
+  </data>
+  <data name="User_Directory_Store" xml:space="preserve">
+    <value>User Directory Store</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Value_Tapped" xml:space="preserve">
+    <value>
+The above value was copied to your clipboard</value>
+  </data>
+  <data name="Variable_String" xml:space="preserve">
+    <value>Variable String</value>
+  </data>
+  <data name="View_and_edit_registry_values__create_and_edit_keys" xml:space="preserve">
+    <value>View and edit registry values, create and edit keys</value>
+  </data>
+  <data name="View_and_manage_applications" xml:space="preserve">
+    <value>View and manage applications</value>
+  </data>
+  <data name="View_and_manage_certificates" xml:space="preserve">
+    <value>View and manage certificates</value>
+  </data>
+  <data name="View_and_manage_default_applications" xml:space="preserve">
+    <value>View and manage default applications</value>
+  </data>
+  <data name="View_information_about_your_device" xml:space="preserve">
+    <value>View information about your device</value>
+  </data>
+  <data name="View_the_status_and_apply_tweaks_for_your_device" xml:space="preserve">
+    <value>View the status and apply tweaks for your device</value>
+  </data>
+  <data name="View__browse__create_and_edit_through_the_registry" xml:space="preserve">
+    <value>View, browse, create and edit through the registry</value>
+  </data>
+  <data name="Visit_XDA.Text" xml:space="preserve">
+    <value>Visit the XDA thread</value>
+  </data>
+  <data name="Visit_XDA_Desc.Text" xml:space="preserve">
+    <value>Feel free to ask for support in this thread, or just check for updates.</value>
+  </data>
+  <data name="Waiting_for_permission_from_the_remote_server" xml:space="preserve">
+    <value>Waiting for permission from the remote server</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Welcome_message_and_quick_launch_pages" xml:space="preserve">
+    <value>Welcome message and quick launch pages</value>
+  </data>
+  <data name="Welcome_Title.Text" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="We_couldn_t_access_the_specified_key_because_its_access_is_protected__no_changes_to_the_phone_registry_were_made" xml:space="preserve">
+    <value>We couldn't access the specified key because its access is protected, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_" xml:space="preserve">
+    <value>We couldn't add the specified key, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_delete_the_specified_key__no_changes_to_the_phone_registry_were_made_" xml:space="preserve">
+    <value>We couldn't delete the specified key, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_delete_the_specified_value__no_changes_to_the_phone_registry_were_made" xml:space="preserve">
+    <value>We couldn't delete the specified value, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_read_the_specified_registry_value__no_changes_to_the_phone_registry_were_made_" xml:space="preserve">
+    <value>We couldn't read the specified registry value, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_rename_the_specified_key_because_its_access_is_denied__no_changes_to_the_phone_registry_were_made" xml:space="preserve">
+    <value>We couldn't rename the specified key because its access is denied, no changes to the phone registry were made.</value>
+  </data>
+  <data name="We_couldn_t_rename_the_specified_key_due_to_an_unknown_error__no_changes_to_the_phone_registry_were_made" xml:space="preserve">
+    <value>We couldn't rename the specified key due to an unknown error, no changes to the phone registry were made.</value>
+  </data>
+  <data name="WIP__CMD_as_SYSTEM_Access" xml:space="preserve">
+    <value>(WIP) CMD as SYSTEM Access</value>
+  </data>
+  <data name="WIP__Keyboard_options" xml:space="preserve">
+    <value>(WIP) Keyboard options</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Your_Device" xml:space="preserve">
+    <value>Your Device</value>
+  </data>
+  <data name="You_can_t_use_this_right_now" xml:space="preserve">
+    <value>You can't use this right now</value>
+  </data>
+</root>

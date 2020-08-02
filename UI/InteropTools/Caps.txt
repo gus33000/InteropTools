@@ -1,0 +1,30 @@
+﻿Others
+    <rescap:Capability Name="oemPublicDirectory"/>
+    <rescap:Capability Name="runtimeConfig"/>
+    <rescap:Capability Name="oemCustom"/>
+
+TH1
+    <rescap:Capability Name="deviceUnlock"/>
+    <rescap:Capability Name="deviceManagementAdministrator"/>
+    <rescap:Capability Name="userDataSystem"/>
+    <rescap:Capability Name="packageManagement"/>
+    <rescap:Capability Name="packageQuery"/>
+    <rescap:Capability Name="extendedExecutionUnconstrained"/>
+
+Others
+    <rescap:Capability Name="registryRead"/>
+    <rescap:Capability Name="registryWrite"/>
+
+
+	
+    <uap:Capability Name="sharedUserCertificates" />
+    <rescap:Capability Name="id_cap_runtime_config" />
+    <rescap:Capability Name="id_cap_oem_custom" />
+    <rescap:Capability Name="deviceUnlock" />
+    <rescap:Capability Name="deviceManagementAdministrator" />
+    <rescap:Capability Name="userDataSystem" />
+    <rescap:Capability Name="packageManagement" />
+    <rescap:Capability Name="packageQuery" />
+    <rescap:Capability Name="extendedExecutionUnconstrained" />
+
+	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" 

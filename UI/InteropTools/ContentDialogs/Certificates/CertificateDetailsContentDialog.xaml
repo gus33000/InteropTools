@@ -1,0 +1,260 @@
+﻿<ContentDialog
+    x:Class="InteropTools.ContentDialogs.Certificates.CertificateDetailsContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ContentDialogs.Certificates"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="Certificate_Details"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    mc:Ignorable="d">
+
+    <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Margin="0,4,0,0"
+                    VerticalAlignment="Top"
+                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                    FontSize="32"
+                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                    Text="" />
+
+                <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                    <TextBlock
+                        x:Name="Subject"
+                        Margin="0,0,0,0"
+                        FontSize="20"
+                        FontWeight="Normal"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="FriendlyName"
+                        Margin="0,6,0,0"
+                        FontWeight="Normal"
+                        Opacity="0.75"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel Margin="0,12,0,0">
+                <TextBlock x:Name="SubjectHeader" Text="Subject" />
+                <TextBlock
+                    x:Name="SName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <!--<TextBlock Text="Subject Alternative Name" x:Name="SubjectAlternativeNameHeader"/>
+                <TextBlock Tapped="Value_Tapped" Opacity="0.75" Margin="0,6,0,6" x:Name="SubjectAlternativeName" TextWrapping="Wrap"/>-->
+                <TextBlock x:Name="FriendlyNameHeader" Text="Friendly Name" />
+                <TextBlock
+                    x:Name="FName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="IssuerHeader" Text="Issuer" />
+                <TextBlock
+                    x:Name="Issuer"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="StoreNameHeader" Text="Store Name" />
+                <TextBlock
+                    x:Name="StoreName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="KeyStorageProviderNameHeader" Text="Key Storage Provider Name" />
+                <TextBlock
+                    x:Name="KeyStorageProviderName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Margin="0,12,0,0">
+                <TextBlock x:Name="ValidFromHeader" Text="Valid From" />
+                <TextBlock
+                    x:Name="ValidFrom"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="ValidToHeader" Text="Valid To" />
+                <TextBlock
+                    x:Name="ValidTo"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Margin="0,12,0,0">
+                <TextBlock x:Name="SerialNumberHeader" Text="Serial Number" />
+                <TextBlock
+                    x:Name="SerialNumber"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="KeyAlgorithmNameHeader" Text="Key Algorithm Name" />
+                <TextBlock
+                    x:Name="KeyAlgorithmName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="SignatureAlgorithmNameHeader" Text="Signature Algorithm Name" />
+                <TextBlock
+                    x:Name="SignatureAlgorithmName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="SignatureHashAlgorithmNameHeader" Text="Signature Hash Algorithm Name" />
+                <TextBlock
+                    x:Name="SignatureHashAlgorithmName"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <StackPanel Margin="0,12,0,0">
+                <TextBlock x:Name="HasPrivateKeyHeader" Text="Private Key" />
+                <TextBlock
+                    x:Name="HasPrivateKey"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="IsPerUserHeader" Text="Per User" />
+                <TextBlock
+                    x:Name="IsPerUser"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="IsSecurityDeviceBoundHeader" Text="Security Device Bound" />
+                <TextBlock
+                    x:Name="IsSecurityDeviceBound"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+                <TextBlock x:Name="IsStronglyProtectedHeader" Text="Strongly Protected" />
+                <TextBlock
+                    x:Name="IsStronglyProtected"
+                    Margin="0,6,0,6"
+                    Opacity="0.75"
+                    Tapped="Value_Tapped"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <TextBlock
+                Margin="0,6,0,0"
+                FontSize="20"
+                FontWeight="Normal"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Certificate Chain"
+                TextWrapping="Wrap" />
+            <ListView
+                x:Name="ChainListView"
+                VerticalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemClick="ChainListView_ItemClick"
+                ScrollViewer.VerticalScrollMode="Disabled"
+                SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,4,0,4" RightTapped="StackPanel_RightTapped">
+                            <TextBlock Text="{Binding Index}" Visibility="Collapsed" />
+
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding Padding}" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                                        FontSize="32"
+                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                        Text="" />
+                                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Text="{Binding Subject}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.75"
+                                            Text="{Binding Issuer}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Opacity="0.75"
+                                            Text="{Binding ValidTo}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Opacity="0.75"
+                                            Text="{Binding HasPrivateKey}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Opacity="0.75"
+                                            Text="{Binding IsSecurityDeviceBound}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="5"
+                                            Opacity="0.75"
+                                            Text="{Binding FriendlyName}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Grid.Row="6"
+                                            Opacity="0.75"
+                                            Text="{Binding Status}"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

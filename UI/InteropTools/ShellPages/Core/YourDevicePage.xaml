@@ -1,0 +1,193 @@
+﻿<Page
+    xmlns:core="using:InteropTools.CorePages"
+    x:Class="InteropTools.ShellPages.Core.YourDevicePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Your Device"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding PageTitleVisibility}" />
+
+                <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Text="DEVICE NAME"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    x:Name="DeviceName"
+                    Margin="0,0,0,16"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Text="DEVICE INFORMATION"
+                    TextWrapping="Wrap" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Operating System:" />
+                    <TextBlock
+                        x:Name="OSName"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="System Version:" />
+                    <TextBlock
+                        x:Name="SystemVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Device Form:" />
+                    <TextBlock
+                        x:Name="DeviceForm"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Device Family:" />
+                    <TextBlock
+                        x:Name="DeviceFamily"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Device Family Version:" />
+                    <TextBlock
+                        x:Name="DeviceFamilyVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Hardware Sku:" />
+                    <TextBlock
+                        x:Name="Sku"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Manufacturer:" />
+                    <TextBlock
+                        x:Name="Manufacturer"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Model:" />
+                    <TextBlock
+                        x:Name="Model"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Firmware Version:" />
+                    <TextBlock
+                        x:Name="FirmwareVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Hardware Version:" />
+                    <TextBlock
+                        x:Name="HardwareVersion"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Telemetry Collection Level:" />
+                    <TextBlock
+                        x:Name="CollectionLevel"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="UUID:" />
+                    <TextBlock
+                        x:Name="UUID"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,0,4,0" Text="Hardware ID:" />
+                    <TextBlock
+                        x:Name="HardwareId"
+                        Grid.Column="1"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,60 @@
+﻿<ContentDialog
+    x:Class="InteropTools.ContentDialogs.Registry.AddKeyContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ContentDialogs.Registry"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Add a key"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Add"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonText="Cancel"
+    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock
+                Margin="0,12,0,0"
+                HorizontalAlignment="Stretch"
+                Text="Registry Hive"
+                TextWrapping="Wrap" />
+            <ComboBox
+                x:Name="HiveSelector"
+                Margin="0,6,0,0"
+                HorizontalAlignment="Stretch"
+                SelectedIndex="5">
+                <ComboBoxItem Content="HKEY_CURRENT_CONFIG" />
+                <ComboBoxItem Content="HKEY_CLASSES_ROOT" />
+                <ComboBoxItem Content="HKEY_CURRENT_USER" />
+                <ComboBoxItem Content="HKEY_CURRENT_USER_LOCAL_SETTINGS" />
+                <ComboBoxItem Content="HKEY_DYN_DATA" />
+                <ComboBoxItem Content="HKEY_LOCAL_MACHINE" />
+                <ComboBoxItem Content="HKEY_PERFORMANCE_DATA" />
+                <ComboBoxItem Content="HKEY_USERS" />
+            </ComboBox>
+            <TextBlock
+                Margin="0,12,0,0"
+                HorizontalAlignment="Stretch"
+                Text="Registry Key Location Path"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="KeyLocationPathInputBox"
+                Margin="0,6,0,0"
+                HorizontalAlignment="Stretch"
+                TextWrapping="Wrap" />
+            <TextBlock
+                Margin="0,12,0,0"
+                HorizontalAlignment="Stretch"
+                Text="Registry Key Name"
+                TextWrapping="Wrap" />
+            <TextBox
+                x:Name="KeyNameInputBox"
+                Margin="0,6,0,0"
+                HorizontalAlignment="Stretch"
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </ScrollViewer>
+
+</ContentDialog>

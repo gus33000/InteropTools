@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap uap3 rescap mp">
+  <Identity Name="6da9a7fe-2128-45d3-a339-c36d067b3cd7" Publisher="CN=gus33000" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="6da9a7fe-2128-45d3-a339-c36d067b3cd7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>Flighting Client OS Reboot Provider</DisplayName>
+    <Description>This provider communicates with the Flighting service in order to provide OS Reboot access.</Description>
+    <PublisherDisplayName>gus33000</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="InteropTools.Providers.OSReboot.FlightingProvider.App.App">
+      <uap:VisualElements DisplayName="Flighting Client OS Reboot Provider" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="This provider communicates with the Flighting service in order to provide OS Reboot access." BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.appService" EntryPoint="InteropTools.Providers.OSReboot.FlightingProvider.OSRebootProvider">
+          <uap:AppService Name="FlightingRebootProviderService" />
+        </uap:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="InteropTools.Providers.OSReboot" Id="FlightingRebootProvider" DisplayName="Flighting Client OS Reboot Provider" Description="This provider communicates with the Flighting service in order to provide OS Reboot access." PublicFolder="Assets">
+            <uap3:Properties>
+              <Service>FlightingRebootProviderService</Service>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="id_cap_diagnostic_client" />
+    <rescap:Capability Name="id_cap_interopservices" />
+  </Capabilities>
+</Package>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap uap3 rescap mp">
+  <Identity Name="429f264b-4566-4433-bfce-a5580d1f40f1" Publisher="CN=gus33000" Version="1.0.13.0" />
+  <mp:PhoneIdentity PhoneProductId="429f264b-4566-4433-bfce-a5580d1f40f1" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>WinRT Registry Provider</DisplayName>
+    <PublisherDisplayName>gus33000</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>This provider communicates with the native OS functions in order to provide basic registry access.</Description>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="InteropTools.Providers.Registry.RegistryRTProvider.App.App">
+      <uap:VisualElements AppListEntry="none" DisplayName="WinRT Registry Provider" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="This provider communicates with the native OS functions in order to provide basic registry access." BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.appService" EntryPoint="InteropTools.Providers.Registry.RegistryRTProvider.RegistryProvider">
+          <uap:AppService Name="RegRTProviderService" />
+        </uap:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="InteropTools.Providers.Registry" Id="RegRTProvider" DisplayName="WinRT Registry Provider" Description="This provider communicates with the native OS functions in order to provide basic registry access." PublicFolder="Assets">
+            <uap3:Properties>
+              <Service>RegRTProviderService</Service>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="id_cap_runtime_config" />
+    <rescap:Capability Name="id_cap_oem_custom" />
+    <rescap:Capability Name="oemPublicDirectory" />
+    <rescap:Capability Name="runtimeConfig" />
+    <rescap:Capability Name="oemCustom" />
+    <rescap:Capability Name="deviceUnlock" />
+    <rescap:Capability Name="deviceManagementAdministrator" />
+    <rescap:Capability Name="userDataSystem" />
+  </Capabilities>
+</Package>

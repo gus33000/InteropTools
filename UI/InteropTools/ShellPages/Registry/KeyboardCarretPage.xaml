@@ -1,0 +1,61 @@
+﻿<Page
+    xmlns:core="using:InteropTools.CorePages"
+    x:Class="InteropTools.ShellPages.Registry.KeyboardCarretPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlskeyboard="using:InteropTools.Controls.Keyboards"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.Registry"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!--
+            Padding="{x:Bind Frame.Padding, Mode=OneWay}"
+            Height="300"  Margin="20"
+        -->
+        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,12">
+                <TextBlock
+                    x:Uid="Keyb_Settings_Title"
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Visibility="{Binding PageTitleVisibility}" />
+
+
+                <Grid
+                    Height="300"
+                    Margin="12.5"
+                    HorizontalAlignment="Stretch">
+                    <controlskeyboard:FakeKeyboard x:Name="FakeKeyb" />
+                    <Canvas Background="Transparent">
+                        <controlskeyboard:Carret
+                            x:Name="Carret"
+                            Width="30"
+                            Height="30" />
+                    </Canvas>
+                </Grid>
+
+                <StackPanel>
+                    <TextBlock Text="x axis" />
+                    <Slider
+                        x:Name="x"
+                        HorizontalAlignment="Stretch"
+                        Maximum="100"
+                        Minimum="0"
+                        ValueChanged="x_ValueChanged" />
+                    <TextBlock Text="y axis" />
+                    <Slider
+                        x:Name="y"
+                        HorizontalAlignment="Stretch"
+                        Maximum="100"
+                        Minimum="0"
+                        ValueChanged="y_ValueChanged" />
+                </StackPanel>
+
+                <TextBox />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

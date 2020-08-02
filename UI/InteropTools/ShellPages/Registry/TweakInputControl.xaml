@@ -1,0 +1,43 @@
+﻿<UserControl
+    x:Class="InteropTools.ShellPages.Registry.TweakInputControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.Registry"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="0,0,0,24" HorizontalAlignment="Stretch">
+        <TextBlock x:Name="TitleBox" TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="DescBox"
+            Margin="0,4,0,0"
+            Opacity="0.75"
+            TextWrapping="Wrap" />
+        <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="32" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="InputBox"
+                x:Uid="Tweaks_Input"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                IsSpellCheckEnabled="False" />
+            <Button
+                x:Name="SetValueButton"
+                Grid.Column="1"
+                Width="32"
+                Height="32"
+                Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                Click="SetValueButton_Click"
+                FontFamily="{StaticResource FullMDL2FontFamily}"
+                FontSize="11">
+                <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
+            </Button>
+        </Grid>
+    </StackPanel>
+</UserControl>

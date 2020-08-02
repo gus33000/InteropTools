@@ -1,0 +1,759 @@
+﻿<Page
+    xmlns:core="using:InteropTools.CorePages"
+    x:Class="InteropTools.ShellPages.Registry.RegistryBrowserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controlsacrylic="using:InteropTools.Controls.Blurring.Acrylic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.Registry"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <Storyboard x:Key="PlayAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <Storyboard x:Key="RevertAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <Storyboard x:Key="PlayAnimationCreate">
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <Storyboard x:Key="RevertAnimationCreate">
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <Storyboard x:Key="PlayAnimationFavorite">
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <Storyboard x:Key="RevertAnimationFavorite">
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+        </Storyboard>
+
+        <!--  ListViewHeader matching the start menu headers, more Win10 like  -->
+        <Style TargetType="ListViewHeaderItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Padding" Value="0,8,0,4" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewHeaderItem">
+                        <StackPanel
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid x:Name="MainGrid">
+        <controlsacrylic:AcrylicLow />
+        <Grid x:Name="MainViewer" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <local:BrowserControl
+                    x:Name="BrowserCtrl"
+                    Grid.Row="1"
+                    OnCurrentItemChanged="BrowserControl_OnCurrentItemChanged"
+                    Padding="{x:Bind Frame.Padding, Mode=TwoWay}">
+                    <local:BrowserControl.Projection>
+                        <PlaneProjection RotationX="0" />
+                    </local:BrowserControl.Projection>
+                </local:BrowserControl>
+                <controlsacrylic:AcrylicLow Grid.Row="0" DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
+                <controlsacrylic:AcrylicMedium Grid.Row="0" x:Name="MediumAcrylic"/>
+                <StackPanel Grid.Row="0">
+                    <Grid>
+                        <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
+                            <TextBlock
+                                x:Uid="Registry_Browser_Title"
+                                DataContext="{x:Bind Frame}"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Visibility="{Binding PageTitleVisibility}" />
+
+                            <Grid
+                                x:Name="JumpToGrid"
+                                Margin="0,0,0,18"
+                                HorizontalAlignment="Stretch"
+                                Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="32" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    x:Name="PathInput"
+                                    x:Uid="Path_Input"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Stretch"
+                                    IsSpellCheckEnabled="False"
+                                    LostFocus="PathInput_LostFocus" />
+                                <Button
+                                    x:Name="KeyActionButton"
+                                    Grid.Column="1"
+                                    Width="32"
+                                    Height="32"
+                                    Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Click="KeyActionButton_Click"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    FontSize="11"
+                                    IsEnabled="False">
+                                    <SymbolIcon
+                                        x:Name="KeyActionIcon"
+                                        Margin="-16,-16,-16,-16"
+                                        Symbol="Cancel" />
+                                </Button>
+                            </Grid>
+                            <Grid Margin="0,-14,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    x:Name="BreadCrumbBarIcon"
+                                    Grid.Column="0"
+                                    Margin="0,0,4,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    FontSize="24"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                <local:BreadCrumbControl
+                                    x:Name="Breadcrumbbar"
+                                    Grid.Column="1"
+                                    Margin="0,2,0,0"
+                                    HorizontalAlignment="Stretch" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Grid
+                    x:Name="ValEditCtrl"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Opacity="0"
+                    Visibility="Collapsed">
+                    <Grid.Projection>
+                        <PlaneProjection RotationX="-90" />
+                    </Grid.Projection>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="MainContent" HorizontalAlignment="Stretch">
+                        <controlsacrylic:AcrylicLow Margin="-48,0" />
+                        <Grid Margin="12,12" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource FullMDL2FontFamily}"
+                                FontSize="32"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="" />
+                            <Grid Grid.Column="1" Margin="8,0,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    x:Name="EditItemTitle"
+                                    Grid.Row="0"
+                                    Text="Completely Real and not fake value"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    x:Name="EditItemDesc"
+                                    Grid.Row="1"
+                                    Opacity="0.75"
+                                    Text="What are you saying? This is a mock ui? Soon..."
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Pivot Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Pivot.Style>
+                            <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
+                        </Pivot.Style>
+
+                        <PivotItem Header="Edit Value">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <Grid>
+                                    <StackPanel x:Name="EditValuePanel">
+                                        <TextBlock Margin="0,12,0,4" Text="Registry Value Type" />
+                                        <ComboBox
+                                            x:Name="TypeSelector"
+                                            HorizontalAlignment="Stretch"
+                                            SelectedIndex="9"
+                                            SelectionChanged="TypeSelector_SelectionChanged">
+                                            <ComboBoxItem Content="Binary (REG_BINARY)" />
+                                            <ComboBoxItem Content="Hardware Resource List (REG_FULL_RESOURCE_DESCRIPTOR)" />
+                                            <ComboBoxItem Content="Integer (REG_DWORD)" />
+                                            <ComboBoxItem Content="Integer Big Endian (REG_DWORD_BIG_ENDIAN)" />
+                                            <ComboBoxItem Content="Long (REG_QWORD)" />
+                                            <ComboBoxItem Content="Multi String (REG_MULTI_SZ)" />
+                                            <ComboBoxItem Content="None (REG_NONE)" />
+                                            <ComboBoxItem Content="Resource List (REG_RESOURCE_LIST)" />
+                                            <ComboBoxItem Content="Resource Requirement (REG_RESOURCE_REQUIREMENTS_LIST)" />
+                                            <ComboBoxItem Content="String (REG_SZ)" />
+                                            <ComboBoxItem Content="Symbolic Link (REG_LINK)" />
+                                            <ComboBoxItem Content="Variable String (REG_EXPAND_SZ)" />
+                                            <ComboBoxItem Content="Custom" />
+                                        </ComboBox>
+                                        <TextBox
+                                            x:Name="ValueTypeInput"
+                                            Margin="0,24,0,4"
+                                            HorizontalAlignment="Stretch"
+                                            InputScope="Number"
+                                            IsSpellCheckEnabled="False"
+                                            IsTextPredictionEnabled="False"
+                                            PlaceholderText="Example: 1" />
+                                        <TextBlock Margin="0,24,0,4" Text="Registry Value Data" />
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBox
+                                                x:Name="ValueDataInput"
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Stretch"
+                                                IsSpellCheckEnabled="False"
+                                                IsTextPredictionEnabled="False"
+                                                PlaceholderText="Example: 10240"
+                                                Style="{StaticResource MultilineTextBoxStyle}"
+                                                TextChanging="ValueDataInput_TextChanging" />
+                                            <Border
+                                                x:Name="ValueDataBorder"
+                                                Grid.Row="0"
+                                                BorderBrush="#FFE84F24"
+                                                BorderThickness="0" />
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
+                        </PivotItem>
+                        <PivotItem Header="Rename Value" />
+                        <PivotItem Header="Delete Value" />
+                        <PivotItem Header="Copy Value" />
+                        <PivotItem Header="Add to favorites" />
+                    </Pivot>
+
+                    <CommandBar Grid.Row="2">
+                        <AppBarButton
+                            x:Name="ValEditRefresh"
+                            Click="ValEditRefresh_Click"
+                            Icon="Refresh"
+                            Label="Refresh" />
+                        <AppBarButton
+                            x:Name="ValEditCancel"
+                            Click="ValEditCancel_Click"
+                            Icon="Clear"
+                            Label="Cancel" />
+                        <AppBarButton
+                            x:Name="ValEditAccept"
+                            Click="ValEditAccept_Click"
+                            Icon="Accept"
+                            Label="Write" />
+                    </CommandBar>
+                </Grid>
+                <Grid
+                    x:Name="ValCreateCtrl"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Opacity="0"
+                    Visibility="Collapsed">
+                    <Grid.Projection>
+                        <PlaneProjection RotationX="-90" />
+                    </Grid.Projection>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Pivot.Style>
+                            <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
+                        </Pivot.Style>
+
+                        <PivotItem Header="Create Value">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <Grid>
+                                    <StackPanel x:Name="CreateValuePanel">
+
+                                        <TextBlock Margin="0,12,0,4" Text="Registry Value Name" />
+                                        <ComboBox
+                                            x:Name="ValueNameSelector"
+                                            HorizontalAlignment="Stretch"
+                                            SelectedIndex="0"
+                                            SelectionChanged="ValueNameSelector_SelectionChanged">
+                                            <ComboBoxItem Content="Normal" />
+                                            <ComboBoxItem Content="Default" />
+                                        </ComboBox>
+                                        <TextBox
+                                            x:Name="ValueNameInput"
+                                            Margin="0,12,0,0"
+                                            IsSpellCheckEnabled="False"
+                                            IsTextPredictionEnabled="False"
+                                            PlaceholderText="Example: CurrentBuild" />
+
+                                        <TextBlock Margin="0,24,0,4" Text="Registry Value Type" />
+                                        <ComboBox
+                                            x:Name="CreateTypeSelector"
+                                            HorizontalAlignment="Stretch"
+                                            SelectedIndex="9"
+                                            SelectionChanged="CreateTypeSelector_SelectionChanged">
+                                            <ComboBoxItem Content="Binary (REG_BINARY)" />
+                                            <ComboBoxItem Content="Hardware Resource List (REG_FULL_RESOURCE_DESCRIPTOR)" />
+                                            <ComboBoxItem Content="Integer (REG_DWORD)" />
+                                            <ComboBoxItem Content="Integer Big Endian (REG_DWORD_BIG_ENDIAN)" />
+                                            <ComboBoxItem Content="Long (REG_QWORD)" />
+                                            <ComboBoxItem Content="Multi String (REG_MULTI_SZ)" />
+                                            <ComboBoxItem Content="None (REG_NONE)" />
+                                            <ComboBoxItem Content="Resource List (REG_RESOURCE_LIST)" />
+                                            <ComboBoxItem Content="Resource Requirement (REG_RESOURCE_REQUIREMENTS_LIST)" />
+                                            <ComboBoxItem Content="String (REG_SZ)" />
+                                            <ComboBoxItem Content="Symbolic Link (REG_LINK)" />
+                                            <ComboBoxItem Content="Variable String (REG_EXPAND_SZ)" />
+                                            <ComboBoxItem Content="Custom" />
+                                        </ComboBox>
+                                        <TextBox
+                                            x:Name="CreateValueTypeInput"
+                                            Margin="0,24,0,4"
+                                            HorizontalAlignment="Stretch"
+                                            InputScope="Number"
+                                            IsSpellCheckEnabled="False"
+                                            IsTextPredictionEnabled="False"
+                                            PlaceholderText="Example: 1" />
+                                        <TextBlock Margin="0,24,0,4" Text="Registry Value Data" />
+
+
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBox
+                                                x:Name="CreateValueDataInput"
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Stretch"
+                                                IsSpellCheckEnabled="False"
+                                                IsTextPredictionEnabled="False"
+                                                PlaceholderText="Example: 10240"
+                                                Style="{StaticResource MultilineTextBoxStyle}"
+                                                TextChanging="CreateValueDataInput_TextChanging" />
+                                            <Border
+                                                x:Name="CreateValueDataBorder"
+                                                Grid.Row="0"
+                                                BorderBrush="#FFE84F24"
+                                                BorderThickness="0" />
+                                        </Grid>
+
+
+                                    </StackPanel>
+
+                                </Grid>
+                            </ScrollViewer>
+                        </PivotItem>
+                    </Pivot>
+
+                    <CommandBar Grid.Row="2">
+                        <AppBarButton
+                            x:Name="ValCreateCancel"
+                            Click="ValCreateCancel_Click"
+                            Icon="Clear"
+                            Label="Cancel" />
+                        <AppBarButton
+                            x:Name="ValCreateAccept"
+                            Click="ValCreateAccept_Click"
+                            Icon="Accept"
+                            Label="Write" />
+                    </CommandBar>
+                </Grid>
+
+                <Grid
+                    x:Name="FavListCtrl"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Opacity="0"
+                    Visibility="Collapsed">
+                    <Grid.Projection>
+                        <PlaneProjection RotationX="-90" />
+                    </Grid.Projection>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Pivot.Style>
+                            <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
+                        </Pivot.Style>
+
+                        <PivotItem Header="Favorites">
+                            <Grid HorizontalAlignment="Stretch">
+                                <ListView
+                                    x:Name="FavoriteListView"
+                                    HorizontalAlignment="Stretch"
+                                    IsItemClickEnabled="True"
+                                    ItemClick="FavoriteListView_ItemClick"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    ScrollViewer.VerticalScrollMode="Auto"
+                                    SelectionMode="None">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="Margin" Value="0" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="VerticalContentAlignment" Value="Top" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewItem">
+                                                        <ListViewItemPresenter Padding="0" ContentMargin="0" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ToolTipService.ToolTip>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Text="{Binding regitem.Hive}" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Text="{Binding regitem.Key}" />
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Text="{Binding DisplayName}" />
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Text="{Binding Description}" />
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Text="{Binding regitem.Value}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,4,0"
+                                                        Text="Hive:" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,4,0"
+                                                        Text="Key:" />
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,4,0"
+                                                        Text="Name:" />
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,4,0"
+                                                        Text="Type:" />
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,4,0"
+                                                        Text="Value:" />
+                                                </Grid>
+                                            </ToolTipService.ToolTip>
+                                            <Grid
+                                                Grid.Column="1"
+                                                Margin="0,4,0,4"
+                                                HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="0,4,0,0"
+                                                    VerticalAlignment="Top"
+                                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                                    FontSize="32"
+                                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                                    Text="{Binding Symbol}" />
+                                                <Grid Grid.Column="1" Margin="8,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Text="{Binding DisplayName}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Opacity="0.75"
+                                                        Text="{Binding Description}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.RowSpan="2"
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Opacity="0.5"
+                                                        Text="{Binding LastModified}"
+                                                        TextWrapping="Wrap" />
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </PivotItem>
+                    </Pivot>
+
+                    <CommandBar Grid.Row="2">
+                        <AppBarButton
+                            x:Name="FavCancel"
+                            Click="FavCancel_Click"
+                            Icon="Clear"
+                            Label="Cancel" />
+                    </CommandBar>
+                </Grid>
+            </Grid>
+            <CommandBar
+                x:Name="MainCommandBar"
+                Grid.Row="1"
+                VerticalAlignment="Bottom">
+
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton x:Name="MountHive" Label="Mount hive" Click="MountHive_Click"/>
+                </CommandBar.SecondaryCommands>
+                
+                <AppBarButton
+                    Click="AppBarButton_Click_1"
+                    Icon="OutlineStar"
+                    Label="View favorites" />
+                <AppBarButton
+                    x:Uid="Sort_Mode"
+                    Click="AppBarButton_Click"
+                    Icon="Sort" />
+                <AppBarToggleButton
+                    x:Name="JumpToButton"
+                    x:Uid="Jump_To"
+                    Click="JumpToButton_Click"
+                    Icon="MoveToFolder" />
+                <AppBarButton
+                    x:Uid="Add_key_Button"
+                    Click="AddKeyButton_Click"
+                    Icon="NewFolder" />
+                <AppBarButton
+                    x:Uid="Add_value_Button"
+                    Click="AddValueButton_Click"
+                    Icon="Add" />
+            </CommandBar>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MediumAcrylic.Visibility" Value="Collapsed" />
+                        <Setter Target="MainGrid.Margin" Value="0,-33,0,0" />
+                        <Setter Target="MainViewer.Margin" Value="0,33,0,0" />
+                        <Setter Target="MainContent.Padding" Value="48,0,48,0" />
+                        <Setter Target="EditValuePanel.Padding" Value="48,0,48,0" />
+                        <Setter Target="CreateValuePanel.Padding" Value="48,0,48,0" />
+                        <Setter Target="FavoriteListView.Padding" Value="48,0,48,0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MediumAcrylic.Visibility" Value="Visible" />
+                        <Setter Target="MainGrid.Margin" Value="0,0,0,0" />
+                        <Setter Target="MainViewer.Margin" Value="0,0,0,0" />
+                        <Setter Target="MainContent.Padding" Value="12,0,12,0" />
+                        <Setter Target="EditValuePanel.Padding" Value="12,0,12,0" />
+                        <Setter Target="CreateValuePanel.Padding" Value="12,0,12,0" />
+                        <Setter Target="FavoriteListView.Padding" Value="12,0,12,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>
