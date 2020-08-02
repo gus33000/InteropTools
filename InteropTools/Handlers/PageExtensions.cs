@@ -18,6 +18,9 @@ namespace InteropTools.Handlers
             var page = (Window.Current.Content as FrameworkElement);
             var margin = new Thickness(0, 0, 0, 0);
 
+            if (page == null)
+                return;
+
             var addedheight = (GetCurrentDisplaySize().Height - page.ActualHeight) / 2;
             var addedwidth = (GetCurrentDisplaySize().Width - page.ActualWidth) / 2;
 
@@ -37,6 +40,9 @@ namespace InteropTools.Handlers
         {
             var page = (Window.Current.Content as FrameworkElement);
             var margin = new Thickness(0, 0, 0, 0);
+
+            if (page == null)
+                return;
 
             var addedheight = (GetCurrentDisplaySize().Height - page.ActualHeight) / 2;
             var addedwidth = (GetCurrentDisplaySize().Width - page.ActualWidth) / 2;

@@ -14,4 +14,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Registry.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
