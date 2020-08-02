@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap uap3 mp">
-  <Identity Name="52346ITDevTeam.InteropToolsSampleProvider" Publisher="CN=EDCB61F7-02FF-43C6-8E0B-FDE1D2E3E137" Version="1.1.3.0" />
+  <Identity Name="52346ITDevTeam.InteropToolsSampleProvider" Publisher="CN=Gus" Version="1.1.3.0" />
   <mp:PhoneIdentity PhoneProductId="4bc9b512-5997-4cab-96e1-c8bfcf8b6fac" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Interop Tools Sample Provider</DisplayName>

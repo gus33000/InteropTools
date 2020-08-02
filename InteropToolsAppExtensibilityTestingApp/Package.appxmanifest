@@ -8,7 +8,7 @@
 
   <Identity
     Name="65707955-5ffe-426f-b937-23e59837bff9"
-    Publisher="CN=gus33000"
+    Publisher="CN=Gus"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="65707955-5ffe-426f-b937-23e59837bff9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
