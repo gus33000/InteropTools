@@ -11,7 +11,7 @@ This repository contains two branches:
 
 ### InteropTools branch
 
-![Devices](assets/v1.png)
+![App](Assets/v1.png)
 
 The former contains the source code of the original application distributed on various channeols, XDA and Store mainly. It has a few issues, but here's how to get going today:
 
@@ -27,7 +27,7 @@ Due to an issue in the app, which I never got around to fix, it can only be ran 
 
 ### InteropToolsv2 branch
 
-![Devices](assets/v2.png)
+![App](Assets/v2.png)
 
 The later branch contains the beginning of a rewrite, codenamed Farewell (heh sad coincidence, I know) which I never finished. It is much cleaner code overall, and focused on cleaning up the UI code. It can be ran fine, as long as you got all SDKs installed; It originally didn't, but I commented out the crashy bit for release, that the former branch had, it's related to the TreeView control. I commented that out a few years ago..
 
