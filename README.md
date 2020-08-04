@@ -38,7 +38,7 @@ The later branch contains the beginning of a rewrite, codenamed Farewell (heh sa
 * A lot of friends who provided support for a lot of years while this app was alive, you guys rock and without you, this app and the entire ride wouldn't have existed.
 * Jeremy Sinclair over the XDA forums who also provided a huge help while making this app, and a huge friend I can't live without, even if he still complains about his Pro X online, every week.
 * The entire WP XDA Dev community who helped a lot and where I had a great time talking with :)
-* Rye from the Ring of Lightning Network circa 2016 for his help with NdtkLb (No idea what he's up to today...)
+* Rye from the Ring of Lightning Network circa 2016 for his help with NdtkLib (No idea what he's up to today...)
 * The entire team behind Inside Windows, which at the time hosted a website and provided help with hosting binaries of the app. The telegram group is still alive and kicking today, check it out @insidewindows on telegram if you want to have some fun with us.
 * You! for using this app back when it was alive, and back when Windows 10 Mobile was alive, yeah, years have passed.
 * Some people I surely forgot!
