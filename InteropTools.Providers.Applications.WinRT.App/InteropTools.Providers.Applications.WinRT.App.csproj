@@ -33,7 +33,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\x86\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -46,7 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\x86\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\x86\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +58,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\ARM\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\ARM\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -71,7 +71,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\ARM\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\ARM\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -83,7 +83,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\x64\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\x64\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -96,7 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <IntermediateOutputPath>C:\Users\Gus\AppData\Local\Temp\vs7284.tmp\x64\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\gus33\AppData\Local\Temp\vs184E.tmp\x64\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -138,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.5</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Nito.AsyncEx">
       <Version>4.0.1</Version>

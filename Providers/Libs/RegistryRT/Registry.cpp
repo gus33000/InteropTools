@@ -1,3 +1,26 @@
+/*
+MIT License
+
+Copyright (c) 2019 Gustave Monce - @gus33000 - gus33000.me
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 #include "pch.h"
 #include "Registry.h"
 
@@ -12,224 +35,222 @@ Registry::Registry()
 void Registry::InitNTDLLEntryPoints()
 {
 	NtOpenThread = (LPNTOPENTHREAD)GetProcAddress("NTDLL.DLL", "NtOpenThread");
-	if (!NtOpenThread) {
+	if (!NtOpenThread)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
 	}
 	NtCreateKey = (LPNTCREATEKEY)GetProcAddress("NTDLL.DLL", "NtCreateKey");
-	if (!NtCreateKey) {
+	if (!NtCreateKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
 	}
 	NtOpenKey = (LPNTOPENKEY)GetProcAddress("NTDLL.DLL", "NtOpenKey");
-	if (!NtOpenKey) {
+	if (!NtOpenKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtFlushKey = (LPNTFLUSHKEY)GetProcAddress("NTDLL.DLL", "NtFlushKey");
-	if (!NtFlushKey) {
+	if (!NtFlushKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtDeleteKey = (LPNTDELETEKEY)GetProcAddress("NTDLL.DLL", "NtDeleteKey");
-	if (!NtDeleteKey) {
+	if (!NtDeleteKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtQueryKey = (LPNTQUERYKEY)GetProcAddress("NTDLL.DLL", "NtQueryKey");
-	if (!NtQueryKey) {
+	if (!NtQueryKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtEnumerateKey = (LPNTENUMERATEKEY)GetProcAddress("NTDLL.DLL", "NtEnumerateKey");
-	if (!NtEnumerateKey) {
+	if (!NtEnumerateKey)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtClose = (LPNTCLOSE)GetProcAddress("NTDLL.DLL", "NtClose");
-	if (!NtClose) {
+	if (!NtClose)
+	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtSetValueKey = (LPNTSETVALUEKEY)GetProcAddress("NTDLL.DLL", "NtSetValueKey");
 	if (!NtSetValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtSetInformationKey = (LPNTSETINFORMATIONKEY)GetProcAddress("NTDLL.DLL", "NtSetInformationKey");
 	if (!NtSetInformationKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtQueryValueKey = (LPNTQUERYVALUEKEY)GetProcAddress("NTDLL.DLL", "NtQueryValueKey");
 	if (!NtQueryValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtEnumerateValueKey = (LPNTENUMERATEVALUEKEY)GetProcAddress("NTDLL.DLL", "NtEnumerateValueKey");
 	if (!NtEnumerateValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtDeleteValueKey = (LPNTDELETEVALUEKEY)GetProcAddress("NTDLL.DLL", "NtDeleteValueKey");
 	if (!NtDeleteValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtRenameKey = (LPNTRENAMEKEY)GetProcAddress("NTDLL.DLL", "NtRenameKey");
 	if (!NtDeleteValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtQueryMultipleValueKey = (LPNTQUERYMULTIPLEVALUEKEY)GetProcAddress("NTDLL.DLL", "NtQueryMultipleValueKey");
 	if (!NtQueryMultipleValueKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtNotifyChangeKey = (LPNTNOTIFYCHANGEKEY)GetProcAddress("NTDLL.DLL", "NtNotifyChangeKey");
 	if (!NtNotifyChangeKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtCreateFile = (LPNTCREATEFILE)GetProcAddress("NTDLL.DLL", "NtCreateFile");
 	if (!NtCreateFile)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtOpenProcessToken = (LPNTOPENPROCESSTOKEN)GetProcAddress("NTDLL.DLL", "NtOpenProcessToken");
 	if (!NtOpenProcessToken)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtAdjustPrivilegesToken = (LPNTADJUSTPRIVILEGESTOKEN)GetProcAddress("NTDLL.DLL", "NtAdjustPrivilegesToken");
 	if (!NtAdjustPrivilegesToken)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtQueryInformationToken = (LPNTQUERYINFORMATIONTOKEN)GetProcAddress("NTDLL.DLL", "NtQueryInformationToken");
 	if (!NtQueryInformationToken)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	RtlAllocateHeap = (LPRTLALLOCATEHEAP)GetProcAddress("NTDLL.DLL", "RtlAllocateHeap");
 	if (!RtlAllocateHeap)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	RtlFreeHeap = (LPRTLFREEHEAP)GetProcAddress("NTDLL.DLL", "RtlFreeHeap");
 	if (!RtlFreeHeap)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtRestoreKey = (LPNTRESTOREKEY)GetProcAddress("NTDLL.DLL", "NtRestoreKey");
 	if (!NtRestoreKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtSaveKey = (LPNTSAVEKEY)GetProcAddress("NTDLL.DLL", "NtSaveKey");
 	if (!NtSaveKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtLoadKey = (LPNTLOADKEY)GetProcAddress("NTDLL.DLL", "NtLoadKey");
 	if (!NtLoadKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtLoadKey2 = (LPNTLOADKEY2)GetProcAddress("NTDLL.DLL", "NtLoadKey2");
 	if (!NtLoadKey2)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtReplaceKey = (LPNTREPLACEKEY)GetProcAddress("NTDLL.DLL", "NtReplaceKey");
 	if (!NtReplaceKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtUnloadKey = (LPNTUNLOADKEY)GetProcAddress("NTDLL.DLL", "NtUnloadKey");
 	if (!NtUnloadKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtCompactKeys = (LPNTCOMPACTKEYS)GetProcAddress("NTDLL.DLL", "NtCompactKeys");
 	if (!NtCompactKeys)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtCompressKey = (LPNTCOMPRESSKEY)GetProcAddress("NTDLL.DLL", "NtCompressKey");
 	if (!NtCompressKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtLockRegistryKey = (LPNTLOCKREGISTRYKEY)GetProcAddress("NTDLL.DLL", "NtLockRegistryKey");
 	if (!NtLockRegistryKey)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtQueryOpenSubKeysEx = (LPNTQUERYOPENSUBKEYSEX)GetProcAddress("NTDLL.DLL", "NtQueryOpenSubKeysEx");
 	if (!NtQueryOpenSubKeysEx)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtSaveKeyEx = (LPNTSAVEKEYEX)GetProcAddress("NTDLL.DLL", "NtSaveKeyEx");
 	if (!NtSaveKeyEx)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtLoadKeyEx = (LPNTLOADKEYEX)GetProcAddress("NTDLL.DLL", "NtLoadKeyEx");
 	if (!NtLoadKeyEx)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtUnloadKey2 = (LPNTUNLOADKEY2)GetProcAddress("NTDLL.DLL", "NtUnloadKey2");
 	if (!NtUnloadKey2)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
 	NtUnloadKeyEx = (LPNTUNLOADKEYEX)GetProcAddress("NTDLL.DLL", "NtUnloadKeyEx");
 	if (!NtUnloadKeyEx)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
-
 	}
-
 	RtlInitString = (LPRTLINITSTRING)GetProcAddress("NTDLL.DLL", "RtlInitString");
+	if (!RtlInitString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlInitAnsiString = (LPRTLINITANSISTRING)GetProcAddress("NTDLL.DLL", "RtlInitAnsiString");
+	if (!RtlInitAnsiString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlInitUnicodeString = (LPRTLINITUNICODESTRING)GetProcAddress("NTDLL.DLL", "RtlInitUnicodeString");
+	if (!RtlInitUnicodeString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlAnsiStringToUnicodeString = (LPRTLANSISTRINGTOUNICODESTRING)GetProcAddress("NTDLL.DLL", "RtlAnsiStringToUnicodeString");
+	if (!RtlAnsiStringToUnicodeString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlUnicodeStringToAnsiString = (LPRTLUNICODESTRINGTOANSISTRING)GetProcAddress("NTDLL.DLL", "RtlUnicodeStringToAnsiString");
-	RtlFreeString = (LPRTLFREESTRING)GetProcAddress("NTDLL.DLL", "RtlFreeString");
+	if (!RtlUnicodeStringToAnsiString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlFreeAnsiString = (LPRTLFREEANSISTRING)GetProcAddress("NTDLL.DLL", "RtlFreeAnsiString");
+	if (!RtlFreeAnsiString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlFreeUnicodeString = (LPRTLFREEUNICODESTRING)GetProcAddress("NTDLL.DLL", "RtlFreeUnicodeString");
+	if (!RtlFreeUnicodeString)
+	{
+		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+	}
 	RtlConvertSidToUnicodeString = (LPRTLCONVERTSIDTOUNICODESTRING)GetProcAddress("NTDLL.DLL", "RtlConvertSidToUnicodeString");
-	if (RtlInitString && RtlInitAnsiString && RtlInitUnicodeString &&
-		RtlAnsiStringToUnicodeString && RtlUnicodeStringToAnsiString &&
-		RtlFreeString && RtlFreeAnsiString && RtlFreeUnicodeString && RtlConvertSidToUnicodeString)
+	if (!RtlConvertSidToUnicodeString)
 	{
 		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
 	}
@@ -237,23 +258,18 @@ void Registry::InitNTDLLEntryPoints()
 	GetTokenInformation = (LPGETTOKENINFORMATION)GetProcAddress("kernelbase.dll", "GetTokenInformation");
 	OpenProcessToken = (LPOPENPROCESSTOKEN)GetProcAddress("kernelbase.dll", "OpenProcessToken");
 	OpenThreadToken = (LPOPENTHREADTOKEN)GetProcAddress("kernelbase.dll", "OpenThreadToken");
-	if (GetTokenInformation && OpenProcessToken && OpenThreadToken)
+	if (!GetTokenInformation || !OpenProcessToken || !OpenThreadToken)
 	{
-		throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+		GetTokenInformation = (LPGETTOKENINFORMATION)GetProcAddress("Advapi32.dll", "GetTokenInformation");
+		OpenProcessToken = (LPOPENPROCESSTOKEN)GetProcAddress("Advapi32.dll", "OpenProcessToken");
+		OpenThreadToken = (LPOPENTHREADTOKEN)GetProcAddress("Advapi32.dll", "OpenThreadToken");
+		if (!GetTokenInformation || !OpenProcessToken || !OpenThreadToken)
+		{
+			throw ref new Platform::COMException(HRESULT_FROM_WIN32(GetLastError()));
+		}
 	}
 }
 
-/****************************************************************************
-**
-**	Function:	IsKeyHidden
-**
-**  Purpose:	Call this function to check if it is a hidden subkey.
-**
-**  Arguments:	(IN) - FULL path to the key to be checked.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::IsKeyHidden(RegistryHive Hive, Platform::String^ Key)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -288,19 +304,6 @@ Platform::Boolean Registry::IsKeyHidden(RegistryHive Hive, Platform::String^ Key
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	FindHiddenKeys
-**
-**  Purpose:	Call this function to find hidden subkeys.
-**
-**  Arguments:	(IN) - Current path to the key to be tested.
-**				(IN) - Perform the test recursively?
-**				(IN/OUT) - Fills the CStringArray with the findings.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::FindHiddenKeys(RegistryHive Hive, Platform::String^ Key, Platform::Array<Platform::String^> ^*csaSubkeys)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -563,19 +566,6 @@ Platform::Boolean Registry::QueryValue(RegistryHive Hive, Platform::String^ Key,
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	ReadValue
-**
-**  Purpose:	Call this function to read entries in the registry.
-**
-**  Arguments:	(IN) - Name of the value.
-**				(IN) - Registry Type of value (i.e. REG_SZ).
-**				(IN) - Data Returned.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 BOOL Registry::ReadValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, RegistryType RegType, KEY_VALUE_PARTIAL_INFORMATION** retInfo)
 {
 	DWORD dwSize = 0;
@@ -655,20 +645,6 @@ BOOL Registry::ReadValue(RegistryHive Hive, Platform::String^ Key, Platform::Str
 	return TRUE;
 }
 
-
-/****************************************************************************
-**
-**	Function:	ReadValue
-**
-**  Purpose:	Call this function to read entries in the registry.
-**
-**  Arguments:	(IN) - Name of the value.
-**				(IN) - Registry Type of value (i.e. REG_SZ).
-**				(IN) - Data Returned.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 BOOL Registry::ReadValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, uint32 RegType, KEY_VALUE_PARTIAL_INFORMATION** retInfo)
 {
 	DWORD dwSize = 0;
@@ -748,57 +724,6 @@ RegistryRT:ULONG dwType = 0;
 	return TRUE;
 }
 
-
-/********************************************************************************
-**
-**	Function:	GetValueInfo
-**
-**  Purpose:	Call GetValueInfo to determine the type/size of a data value
-**				associated with the current key. ValueName is a string
-**				containing the name of the data value to query.  On success,
-**				GetDataType returns the type of the data value.
-**				On failure, GetValueInfo returns REG_NONE
-**
-**  Arguments:	(IN)	 CString	- Value name.
-**				(IN/OUT) int		- Value to get the size.
-**
-**  Returns:	DWORD - Reg value type (see below).
-**
-**				REG_XXX Type Value:
-**				=================================================================
-**				REG_BINARY -	Binary data in any form
-**				REG_DWORD -		A 4-byte numerical value
-**				REG_DWORD_LITTLE_ENDIAN - A 4-byte numerical value whose least
-**								significant byte is at the lowest
-**								address
-**				REG_DWORD_BIG_ENDIAN - A 4-byte numerical value whose least
-**								significant byte is at the highest
-**								address
-**				REG_EXPAND_SZ - A zero-terminated Unicode string, containing
-**								unexpanded references to environment variables,
-**								such as "%PATH%"
-**				REG_LINK -		A Unicode string naming a symbolic link. This type
-**								is irrelevant to device and intermediate drivers
-**				REG_MULTI_SZ -	An array of zero-terminated strings, terminated by
-**								another zero
-**
-**				REG_NONE -		Data with no particular type
-**				REG_SZ -		A zero-terminated Unicode string
-**				REG_RESOURCE_LIST - A device driver's list of hardware resources,
-**								used by the driver or one of the physical
-**								devices it controls, in the \ResourceMap tree
-**				REG_RESOURCE_REQUIREMENTS_LIST - A device driver's list of possible
-**								hardware resources it or one of the
-**								physical devices it controls can
-**								use, from which the system writes a
-**								subset into the \ResourceMap tree
-**
-**				REG_FULL_RESOURCE_DESCRIPTOR - A list of hardware resources that a
-**								physical device is using, detected
-**								and written into the \HardwareDescription
-**								tree by the system
-**
-**********************************************************************************/
 RegistryType Registry::GetValueInfo(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, int nSize)
 {
 
@@ -881,56 +806,6 @@ RegistryType Registry::GetValueInfo(RegistryHive Hive, Platform::String^ Key, Pl
 	return static_cast<RegistryType>(retval);
 }
 
-/********************************************************************************
-**
-**	Function:	GetValueInfo
-**
-**  Purpose:	Call GetValueInfo to determine the type/size of a data value
-**				associated with the current key. ValueName is a string
-**				containing the name of the data value to query.  On success,
-**				GetDataType returns the type of the data value.
-**				On failure, GetValueInfo returns REG_NONE
-**
-**  Arguments:	(IN)	 CString	- Value name.
-**				(IN/OUT) int		- Value to get the size.
-**
-**  Returns:	DWORD - Reg value type (see below).
-**
-**				REG_XXX Type Value:
-**				=================================================================
-**				REG_BINARY -	Binary data in any form
-**				REG_DWORD -		A 4-byte numerical value
-**				REG_DWORD_LITTLE_ENDIAN - A 4-byte numerical value whose least
-**								significant byte is at the lowest
-**								address
-**				REG_DWORD_BIG_ENDIAN - A 4-byte numerical value whose least
-**								significant byte is at the highest
-**								address
-**				REG_EXPAND_SZ - A zero-terminated Unicode string, containing
-**								unexpanded references to environment variables,
-**								such as "%PATH%"
-**				REG_LINK -		A Unicode string naming a symbolic link. This type
-**								is irrelevant to device and intermediate drivers
-**				REG_MULTI_SZ -	An array of zero-terminated strings, terminated by
-**								another zero
-**
-**				REG_NONE -		Data with no particular type
-**				REG_SZ -		A zero-terminated Unicode string
-**				REG_RESOURCE_LIST - A device driver's list of hardware resources,
-**								used by the driver or one of the physical
-**								devices it controls, in the \ResourceMap tree
-**				REG_RESOURCE_REQUIREMENTS_LIST - A device driver's list of possible
-**								hardware resources it or one of the
-**								physical devices it controls can
-**								use, from which the system writes a
-**								subset into the \ResourceMap tree
-**
-**				REG_FULL_RESOURCE_DESCRIPTOR - A list of hardware resources that a
-**								physical device is using, detected
-**								and written into the \HardwareDescription
-**								tree by the system
-**
-**********************************************************************************/
 unsigned int Registry::GetValueInfo2(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, int nSize)
 {
 
@@ -1038,23 +913,6 @@ Platform::String^ Registry::GetRootPathFor(RegistryHive hRoot)
 	return csRootPath;
 }
 
-/****************************************************************************
-**
-**	Function:	ValueExists
-**
-**  Purpose:	Call ValueExists to determine if a particular key exists in
-**				the registry. Calling Value Exists is especially useful before
-**				calling other NtRegistry methods that operate only on existing
-**				keys.
-**
-**				Name is the name of the data value for which to check.
-**				ValueExists returns True if a match if found, False otherwise.
-**
-**  Arguments:	(IN)  CString	- Name of the value to check.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::ValueExists(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1190,18 +1048,6 @@ Platform::Boolean Registry::GetKeyLastWriteTime(RegistryHive Hive, Platform::Str
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	GetSubKeyList
-**
-**  Purpose:	Call this function to get an array of all the subkeys.
-**
-**  Arguments:	(IN) - Current path to the key to be enumerated.
-**				(IN/OUT) - CStringArray that will receive all the subkey names.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::GetSubKeyList(RegistryHive Hive, Platform::String^ Key, Platform::Array<Platform::String^> ^*csaSubkeys)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1260,18 +1106,6 @@ Platform::Boolean Registry::GetSubKeyList(RegistryHive Hive, Platform::String^ K
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	GetValueList
-**
-**  Purpose:	Call this function to get an array of all the values.
-**
-**  Arguments:	(IN) - Current path to the value to be enumerated.
-**				(IN/OUT) - CStringArray that will receive all the value names.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::GetValueList(RegistryHive Hive, Platform::String^ Key, Platform::Array<Platform::String^> ^*csaValues)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1397,20 +1231,6 @@ Platform::String^ Registry::GetCurrentUserSID() {
 	return UserSid;
 }
 
-/****************************************************************************
-**
-**	Function:	WriteValue
-**
-**  Purpose:	Call this function to write entries in the registry.
-**
-**  Arguments:	(IN) - Name of the value.
-**				(IN) - Value to be written.
-**				(IN) - Value size.
-**				(IN) - Registry Type value.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::WriteValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, PVOID pValue, RegistryRT::ULONG ulValueLength, RegistryType dwRegType)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1488,21 +1308,6 @@ Platform::Boolean Registry::WriteValue(RegistryHive Hive, Platform::String^ Key,
 	return TRUE;
 }
 
-
-/****************************************************************************
-**
-**	Function:	WriteValue
-**
-**  Purpose:	Call this function to write entries in the registry.
-**
-**  Arguments:	(IN) - Name of the value.
-**				(IN) - Value to be written.
-**				(IN) - Value size.
-**				(IN) - Registry Type value.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::WriteValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, PVOID pValue, RegistryRT::ULONG ulValueLength, DWORD dwRegType)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1590,20 +1395,6 @@ Platform::Boolean Registry::WriteValue(RegistryHive Hive, Platform::String^ Key,
 	return WriteValue(Hive, Key, Name, csaValue->Data, (ULONG)csaValue->Length, type);
 }
 
-/****************************************************************************
-**
-**	Function:	RenameKey
-**
-**  Purpose:	Call RenameKey to rename a specific key
-**
-**  Arguments:	(IN)  CString	- Name of the key to rename.
-**				(IN)  CString	- Name of the new key name.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-**  NOTE:		The "csNewKeyName" can ONLY contain the name NO SLASHES !!!
-**
-****************************************************************************/
 Platform::Boolean Registry::RenameKey(RegistryHive Hive, Platform::String^ Key, Platform::String^ csNewKeyName)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1660,19 +1451,6 @@ Platform::Boolean Registry::RenameKey(RegistryHive Hive, Platform::String^ Key, 
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	DeleteKey
-**
-**  Purpose:	Call DeleteKey to remove a specified key and its associated data,
-**				if any. Returns FALSE if there are subkeys.  Subkeys must be
-**				explicitly deleted by separate calls to DeleteKey.
-**
-**  Arguments:	(IN)  CString	- Name of the key to delete.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::DeleteKey(RegistryHive Hive, Platform::String^ Key)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1717,17 +1495,6 @@ Platform::Boolean Registry::DeleteKey(RegistryHive Hive, Platform::String^ Key)
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	DeleteKeysRecursive
-**
-**  Purpose:	Call this function to recursively delete subkeys.
-**
-**  Arguments:	(IN) - Current path to the key to be deleted.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::DeleteKeysRecursive(RegistryHive Hive, Platform::String^ Key)
 {
 	String^ hivepath = GetRootPathFor(Hive);
@@ -1856,21 +1623,6 @@ Platform::Boolean Registry::CreateKey(RegistryHive Hive, Platform::String^ Key)
 	return TRUE;
 }
 
-/****************************************************************************
-**
-**	Function:	DeleteValue
-**
-**  Purpose:	Call DeleteValue to remove a specific data value
-**				associated with the current key. Name is string
-**				containing the name of the value to delete. Keys can contain
-**				multiple data values, and every value associated with a key
-**				has a unique name.
-**
-**  Arguments:	(IN)  CString	- Name of the value to delete.
-**
-**  Returns:	BOOL - Success/Failure.
-**
-****************************************************************************/
 Platform::Boolean Registry::DeleteValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name)
 {
 	String^ hivepath = GetRootPathFor(Hive);

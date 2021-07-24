@@ -1,3 +1,26 @@
+/*
+MIT License
+
+Copyright (c) 2019 Gustave Monce - @gus33000 - gus33000.me
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 #pragma once
 #include <collection.h>
 #include <windows.h>
@@ -45,11 +68,6 @@ namespace RegistryRT
 
 	typedef ULONG ACCESS_MASK, *PACCESS_MASK;
 
-
-	// this is taken from "ntddk.h" header file
-	//
-	// Define the create disposition values
-	//
 	#define FILE_SUPERSEDE					0x00000000
 	#define FILE_OPEN						0x00000001
 	#define FILE_CREATE						0x00000002
@@ -58,13 +76,8 @@ namespace RegistryRT
 	#define FILE_OVERWRITE_IF				0x00000005
 	#define FILE_MAXIMUM_DISPOSITION		0x00000005
 
-	//  Function failed during execution.
-	//
 	#define ERROR_FUNCTION_FAILED			1627L
 
-	//
-	// Define the create/open option flags
-	//
 	#define FILE_DIRECTORY_FILE				0x00000001
 	#define FILE_WRITE_THROUGH				0x00000002
 	#define FILE_SEQUENTIAL_ONLY			0x00000004
@@ -98,7 +111,6 @@ namespace RegistryRT
 	#define FILE_VALID_MAILSLOT_OPTION_FLAGS	0x00000032
 	#define FILE_VALID_SET_FLAGS			0x00000036
 
-	// this is taken from "NTStatus.h" header file
 	#define STATUS_SUCCESS				((NTSTATUS)0x00000000L) // ntsubauth
 	#define STATUS_BUFFER_OVERFLOW		((NTSTATUS)0x80000005L)
 	#define STATUS_INVALID_PARAMETER	((NTSTATUS)0xC000000DL)
@@ -106,8 +118,6 @@ namespace RegistryRT
 	#define STATUS_NO_MORE_ENTRIES		((NTSTATUS)0x8000001AL)
 	#define STATUS_OBJECT_TYPE_MISMATCH ((NTSTATUS)0xC0000024L)
 
-	// 
-	// I hate to type ;-)
 	#define NT_SUCCESS(Status) ((NTSTATUS)(Status) == STATUS_SUCCESS)
 	#define HKU		HKEY_USERS
 	#define HKLM	HKEY_LOCAL_MACHINE
@@ -158,10 +168,7 @@ namespace RegistryRT
 	typedef STRING *POEM_STRING;
 	typedef STRING ANSI_STRING;
 	typedef STRING *PANSI_STRING;
-
-	// =================================================================
-	// Key query structures
-	// =================================================================
+	
 	typedef struct _KEY_BASIC_INFORMATION
 	{
 		LARGE_INTEGER LastWriteTime;// The last time the key or any of its values changed.
@@ -229,97 +236,6 @@ namespace RegistryRT
 		KeyWriteTimeInformation
 	} KEY_SET_INFORMATION_CLASS;
 
-
-	// =================================================================
-	// DesiredAccess Flags
-	// =================================================================
-	// KEY_QUERY_VALUE			Value entries for the key can be read. 
-	// KEY_SET_VALUE			Value entries for the key can be written. 
-	// KEY_CREATE_SUB_KEY		Subkeys for the key can be created. 
-	// KEY_ENUMERATE_SUB_KEYS	All subkeys for the key can be read. 
-	// KEY_NOTIFY				This flag is irrelevant to device and intermediate drivers, 
-	//							and to other kernel-mode code. 
-	// KEY_CREATE_LINK			A symbolic link to the key can be created. This flag is 
-	//							irrelvant to device and intermediate drivers. 
-	// 
-	// KEY_QUERY_VALUE			(0x0001)
-	// KEY_SET_VALUE			(0x0002)
-	// KEY_CREATE_SUB_KEY		(0x0004)
-	// KEY_ENUMERATE_SUB_KEYS	(0x0008)
-	// KEY_NOTIFY				(0x0010)
-	// KEY_CREATE_LINK			(0x0020)
-	//
-	//
-	// =================================================================
-	// DesiredAccess to Key Values
-	// =================================================================
-	// KEY_READ				STANDARD_RIGHTS_READ, KEY_QUERY_VALUE, 
-	//						KEY_ENUMERATE_SUB_KEYS, and KEY_NOTIFY 
-	// KEY_WRITE			STANDARD_RIGHTS_WRITE, KEY_SET_VALUE, and KEY_CREATE_SUBKEY 
-	// KEY_EXECUTE			KEY_READ. This value is irrelevant to device and intermediate 
-	// 						drivers. 
-	// KEY_ALL_ACCESS		STANDARD_RIGHTS_ALL, KEY_QUERY_VALUE, KEY_SET_VALUE, 
-	// 						KEY_CREATE_SUB_KEY, KEY_ENUMERATE_SUBKEY, KEY_NOTIFY 
-	// 						and KEY_CREATE_LINK 
-	// 
-	// 
-	// =================================================================
-	// CreateOptions Values
-	// =================================================================
-	// REG_OPTION_NON_VOLATILE		Key is preserved when the system is rebooted. 
-	// REG_OPTION_VOLATILE			Key is not to be stored across boots. 
-	// REG_OPTION_CREATE_LINK		The created key is a symbolic link. This value is 
-	//								irrelevant to device and intermediate drivers. 
-	// REG_OPTION_BACKUP_RESTORE	Key is being opened or created with special privileges 
-	//								allowing backup/restore operations. This value is 
-	// 								irrelevant to device and intermediate drivers. 
-	// 
-	// REG_OPTION_NON_VOLATILE		(0x00000000L)
-	// REG_OPTION_VOLATILE			(0x00000001L)
-	// REG_OPTION_CREATE_LINK		(0x00000002L)
-	// REG_OPTION_BACKUP_RESTORE	(0x00000004L)
-	// 
-	// 
-	// =================================================================
-	// Disposition Values
-	// =================================================================
-	// REG_CREATED_NEW_KEY		A new key object was created. 
-	// REG_OPENED_EXISTING_KEY	An existing key object was opened. 
-	// 
-	// REG_CREATED_NEW_KEY		(0x00000001L)
-	// REG_OPENED_EXISTING_KEY	(0x00000002L)
-	//
-	//
-	// =================================================================
-	// Value entry query structures
-	// REG_XXX Type Value:
-	// =================================================================
-	// REG_BINARY			Binary data in any form 
-	// REG_DWORD			A 4-byte numerical value (32-bit number) 
-	// REG_DWORD_LITTLE_ENDIAN  A 4-byte numerical value whose least significant 
-	//						byte is at the lowest address 
-	// REG_QWORD			64-bit number. 
-	// REG_QWORD_LITTLE_ENDIAN	A 64-bit number in little-endian format. This is 
-	//						equivalent to REG_QWORD. 
-	// REG_DWORD_BIG_ENDIAN A 4-byte numerical value whose least significant byte 
-	//						is at the highest address 
-	// REG_EXPAND_SZ		A zero-terminated Unicode string, containing unexpanded 
-	//						references to environment variables, such as "%PATH%" 
-	// REG_LINK				A Unicode string naming a symbolic link. This type is 
-	//						irrelevant to device and intermediate drivers 
-	// REG_MULTI_SZ			An array of zero-terminated strings, terminated by another zero 
-	// REG_NONE				Data with no particular type 
-	// REG_SZ				A zero-terminated Unicode string 
-	// REG_RESOURCE_LIST	A device driver's list of hardware resources, used by the driver 
-	//						or one of the physical devices it controls, in the \ResourceMap tree 
-	// REG_RESOURCE_REQUIREMENTS_LIST	A device driver's list of possible hardware resources 
-	//						it or one of the physical devices it controls can use, from which 
-	//						the system writes a subset into the \ResourceMap tree 
-	// REG_FULL_RESOURCE_DESCRIPTOR		A list of hardware resources that a physical device 
-	//						is using, detected and written into the \HardwareDescription tree 
-	//						by the system 
-	//
-	// =================================================================
 	typedef struct _KEY_VALUE_BASIC_INFORMATION
 	{
 		ULONG TitleIndex;	// Device and intermediate drivers should ignore this member.
@@ -402,10 +318,6 @@ namespace RegistryRT
 			IN ULONG Reserved
 			);
 
-
-	//
-	// ClientId
-	//
 	typedef struct _CLIENT_ID
 	{
 		HANDLE UniqueProcess;
@@ -413,41 +325,13 @@ namespace RegistryRT
 	} CLIENT_ID;
 	typedef CLIENT_ID *PCLIENT_ID;
 
-
-	// =================================================================
-	//
-	// Valid values for the Attributes field
-	//
-	// This handle can be inherited by child processes of the current process.
 	#define OBJ_INHERIT				0x00000002L
-
-	// This flag only applies to objects that are named within the Object Manager. 
-	// By default, such objects are deleted when all open handles to them are closed. 
-	// If this flag is specified, the object is not deleted when all open handles are 
-	// closed. Drivers can use ZwMakeTemporaryObject to delete permanent objects.
 	#define OBJ_PERMANENT			0x00000010L
-
-	// Only a single handle can be open for this object.
 	#define OBJ_EXCLUSIVE			0x00000020L
-
-	// If this flag is specified, a case-insensitive comparison is used when 
-	// matching the ObjectName parameter against the names of existing objects. 
-	// Otherwise, object names are compared using the default system settings.
-	#define OBJ_CASE_INSENSITIVE	0x00000040L
-
-	// If this flag is specified to a routine that creates objects, and that object 
-	// already exists then the routine should open that object. Otherwise, the routine 
-	// creating the object returns an NTSTATUS code of STATUS_OBJECT_NAME_COLLISION.
+	#define OBJ_CASE_INSENSITIVE	0x00000040
 	#define OBJ_OPENIF				0x00000080L
-
-	// Specifies that the handle can only be accessed in kernel mode.
 	#define OBJ_KERNEL_HANDLE		0x00000200L
-
-	// The routine opening the handle should enforce all access checks 
-	// for the object, even if the handle is being opened in kernel mode.
 	#define OBJ_FORCE_ACCESS_CHECK	0x00000400L
-
-	//
 	#define OBJ_VALID_ATTRIBUTES    0x000007F2L
 
 
@@ -469,131 +353,19 @@ namespace RegistryRT
 		(p)->SecurityDescriptor = s;                      \
 		(p)->SecurityQualityOfService = NULL;             \
 		}
-	//
-	// =================================================================
-
-
+		
 	#define RtlFillMemory(Destination,Length,Fill) memset((Destination),(Fill),(Length))
 	#define RtlZeroMemory(Destination,Length) memset((Destination),0,(Length))
 	#define RtlCopyMemory(Destination,Source,Length) memcpy((Destination),(Source),(Length))
 	#define RtlMoveMemory(Destination,Source,Length) memmove((Destination),(Source),(Length))
 
-
-	// =================================================================
-	//  NTDLL Entry Points
-	// =================================================================
-	/*
-	Mapping Native APIs to Win32 Registry functions
-
-	// Creates or opens a Registry key.
-	NtCreateKey				RegCreateKey
-
-	// Opens an existing Registry key.
-	NtOpenKey				RegOpenKey
-
-	// Deletes a Registry key.
-	NtDeleteKey				RegDeleteKey
-
-	// Deletes a value.
-	NtDeleteValueKey		RegDeleteValue
-
-	// Enumerates the subkeys of a key.
-	NtEnumerateKey			RegEnumKey, RegEnumKeyEx
-
-	// Enumerates the values within a key.
-	NtEnumerateValueKey		RegEnumValue
-
-	// Flushes changes back to the Registry on disk.
-	NtFlushKey				RegFlushKey
-
-	// Gets the Registry rolling. The single parameter to this
-	// specifies whether its a setup boot or a normal boot.
-	NtInitializeRegistry	NONE
-
-	// Allows a program to be notified of changes to a particular
-	// key or its subkeys.
-	NtNotifyChangeKey		RegNotifyChangeKeyValue
-
-	// Queries information about a key.
-	NtQueryKey				RegQueryKey
-
-	// Retrieves information about multiple specified values.
-	// This API was introduced in NT 4.0.
-	NtQueryMultiplValueKey	RegQueryMultipleValues
-
-	// Retrieves information about a specified value.
-	NtQueryValueKey			RegQueryValue, RegQueryValueEx
-
-	// Changes the backing file for a key and its subkeys.
-	// Used for backup/restore.
-	NtReplaceKey			RegReplaceKey
-
-	// Saves the contents of a key and subkey to a file.
-	NtSaveKey				RegSaveKey
-
-	// Loads the contents of a key from a specified file.
-	NtRestoreKey			RegRestoreKey
-
-	// Sets attributes of a key.
-	NtSetInformationKey		NONE
-
-	// Sets the data associated with a value.
-	NtSetValueKey			RegSetValue, RegSetValueEx
-
-	// Loads a hive file into the Registry.
-	NtLoadKey				RegLoadKey
-
-	// Introduced in NT 4.0. Allows for options on loading a hive.
-	NtLoadKey2				NONE
-
-	// Unloads a hive from the Registry.
-	NtUnloadKey				RegUnloadKey
-
-	// New to WinXP. Makes key storage adjacent.
-	NtCompactKeys			NONE
-
-	// New to WinXP. Performs in-place compaction of a hive.
-	NtCompressKey			NONE
-
-	// New to WinXP. Locks a registry key for modification.
-	NtLockRegistryKey		NONE
-
-	// New to WinXP. Renames a Registry key.
-	NtRenameKey				NONE
-	NtRenameKey(IN HANDLE KeyHandle, IN PUNICODE_STRING ReplacementName);
-
-	// New to WinXP. Saves the contents of a key and its subkeys to a file.
-	NtSaveKeyEx				RegSaveKeyEx
-
-	// New to WinXP. Unloads a hive from the Registry.
-	NtUnloadKeyEx			NONE
-
-	// New to Server 2K3. Loads a hive into the Registry.
-	NtLoadKeyEx				NONE
-
-	// New to Serer 2K3. Unloads a hive from the Registry.
-	NtUnloadKey2			NONE
-
-	// New to Server 2003. Returns the keys opened beneath a specified key.
-	NtQueryOpenSubKeysEx	NONE
-
-	*/
-
-
-	// =================================================================
-	//  RTL String Functions
-	// =================================================================
-
-	// RtlInitString
 	typedef NTSTATUS(STDAPICALLTYPE RTLINITSTRING)
 		(
 			IN OUT PSTRING DestinationString,
 			IN LPCSTR SourceString
 			);
-	//IN PCSZ
 	typedef RTLINITSTRING FAR * LPRTLINITSTRING;
 
-	// RtlInitAnsiString
 	typedef NTSTATUS(STDAPICALLTYPE RTLINITANSISTRING)
 		(
 			IN OUT PANSI_STRING DestinationString,
@@ -601,7 +373,6 @@ namespace RegistryRT
 			);
 	typedef RTLINITANSISTRING FAR * LPRTLINITANSISTRING;
 
-	// RtlInitUnicodeString
 	typedef NTSTATUS(STDAPICALLTYPE RTLINITUNICODESTRING)
 		(
 			IN OUT PUNICODE_STRING DestinationString,
@@ -609,7 +380,6 @@ namespace RegistryRT
 			);
 	typedef RTLINITUNICODESTRING FAR * LPRTLINITUNICODESTRING;
 
-	// RtlAnsiStringToUnicodeString
 	typedef NTSTATUS(STDAPICALLTYPE RTLANSISTRINGTOUNICODESTRING)
 		(
 			IN OUT PUNICODE_STRING	DestinationString,
@@ -618,7 +388,6 @@ namespace RegistryRT
 			);
 	typedef RTLANSISTRINGTOUNICODESTRING FAR * LPRTLANSISTRINGTOUNICODESTRING;
 
-	// RtlUnicodeStringToAnsiString
 	typedef NTSTATUS(STDAPICALLTYPE RTLUNICODESTRINGTOANSISTRING)
 		(
 			IN OUT PANSI_STRING		DestinationString,
@@ -627,44 +396,24 @@ namespace RegistryRT
 			);
 	typedef RTLUNICODESTRINGTOANSISTRING FAR * LPRTLUNICODESTRINGTOANSISTRING;
 
-	// RtlFreeString
-	typedef NTSTATUS(STDAPICALLTYPE RTLFREESTRING)
-		(
-			IN PSTRING String
-			);
-	typedef RTLFREESTRING FAR * LPRTLFREESTRING;
-
-	// RtlFreeAnsiString
 	typedef NTSTATUS(STDAPICALLTYPE RTLFREEANSISTRING)
 		(
 			IN PANSI_STRING AnsiString
 			);
 	typedef RTLFREEANSISTRING FAR * LPRTLFREEANSISTRING;
 
-	// RtlFreeUnicodeString
 	typedef NTSTATUS(STDAPICALLTYPE RTLFREEUNICODESTRING)
 		(
 			IN PUNICODE_STRING UnicodeString
 			);
 	typedef RTLFREEUNICODESTRING FAR * LPRTLFREEUNICODESTRING;
 
-
-	// RtlConvertSidToUnicodeString
 	typedef NTSTATUS(STDAPICALLTYPE RTLCONVERTSIDTOUNICODESTRING)(
 		OUT PUNICODE_STRING UnicodeString,
 		IN  PSID            Sid,
 		IN  BOOLEAN         AllocateDestinationString
 		);
 	typedef RTLCONVERTSIDTOUNICODESTRING FAR * LPRTLCONVERTSIDTOUNICODESTRING;
-
-
-	//DWORD WINAPI RtlEqualUnicodeString(PUNICODE_STRING s1,PUNICODE_STRING s2,DWORD x);
-	//DWORD WINAPI RtlUpcaseUnicodeString(PUNICODE_STRING dest,PUNICODE_STRING src,BOOLEAN doalloc);
-	//NTSTATUS WINAPI RtlCompareUnicodeString(PUNICODE_STRING String1, PUNICODE_STRING String2, BOOLEAN CaseInSensitive);
-
-	// =================================================================
-	//  END - RTL String Functions
-	// =================================================================
 
 	typedef BOOL(WINAPI GETTOKENINFORMATION)
 		(
@@ -693,7 +442,6 @@ namespace RegistryRT
 			);
 	typedef OPENTHREADTOKEN FAR * LPOPENTHREADTOKEN;
 
-	// NtCreateKey
 	typedef NTSTATUS(STDAPICALLTYPE NTCREATEKEY)
 		(
 			IN HANDLE				KeyHandle,
@@ -706,8 +454,6 @@ namespace RegistryRT
 			);
 	typedef NTCREATEKEY FAR * LPNTCREATEKEY;
 
-
-	// NtOpenKey
 	typedef NTSTATUS(STDAPICALLTYPE NTOPENKEY)
 		(
 			IN HANDLE				KeyHandle,
@@ -716,21 +462,18 @@ namespace RegistryRT
 			);
 	typedef NTOPENKEY FAR * LPNTOPENKEY;
 
-	// NtFlushKey
 	typedef NTSTATUS(STDAPICALLTYPE NTFLUSHKEY)
 		(
 			IN HANDLE KeyHandle
 			);
 	typedef NTFLUSHKEY FAR * LPNTFLUSHKEY;
 
-	// NtDeleteKey
 	typedef NTSTATUS(STDAPICALLTYPE NTDELETEKEY)
 		(
 			IN HANDLE KeyHandle
 			);
 	typedef NTDELETEKEY FAR * LPNTDELETEKEY;
 
-	// NtSetValueKey
 	typedef NTSTATUS(STDAPICALLTYPE NTSETVALUEKEY)
 		(
 			IN HANDLE			KeyHandle,
@@ -742,7 +485,6 @@ namespace RegistryRT
 			);
 	typedef NTSETVALUEKEY FAR * LPNTSETVALUEKEY;
 
-	// NtQueryValueKey
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYVALUEKEY)
 		(
 			// Is the handle, returned by a successful 
@@ -757,8 +499,6 @@ namespace RegistryRT
 			);
 	typedef NTQUERYVALUEKEY FAR * LPNTQUERYVALUEKEY;
 
-
-	// NtSetInformationKey
 	typedef NTSTATUS(STDAPICALLTYPE NTSETINFORMATIONKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -768,7 +508,6 @@ namespace RegistryRT
 			);
 	typedef NTSETINFORMATIONKEY FAR * LPNTSETINFORMATIONKEY;
 
-	// NtQueryKey
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -779,7 +518,6 @@ namespace RegistryRT
 			);
 	typedef NTQUERYKEY FAR * LPNTQUERYKEY;
 
-	// NtEnumerateKey
 	typedef NTSTATUS(STDAPICALLTYPE NTENUMERATEKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -791,7 +529,6 @@ namespace RegistryRT
 			);
 	typedef NTENUMERATEKEY FAR * LPNTENUMERATEKEY;
 
-	// NtDeleteValueKey
 	typedef NTSTATUS(STDAPICALLTYPE NTDELETEVALUEKEY)
 		(
 			IN HANDLE			KeyHandle,
@@ -799,7 +536,6 @@ namespace RegistryRT
 			);
 	typedef NTDELETEVALUEKEY FAR * LPNTDELETEVALUEKEY;
 
-	// NtEnumerateValueKey
 	typedef NTSTATUS(STDAPICALLTYPE NTENUMERATEVALUEKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -811,7 +547,6 @@ namespace RegistryRT
 			);
 	typedef NTENUMERATEVALUEKEY FAR * LPNTENUMERATEVALUEKEY;
 
-	// NtQueryMultipleValueKey
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYMULTIPLEVALUEKEY)
 		(
 			IN HANDLE		KeyHandle,
@@ -823,7 +558,6 @@ namespace RegistryRT
 			);
 	typedef NTQUERYMULTIPLEVALUEKEY FAR * LPNTQUERYMULTIPLEVALUEKEY;
 
-	// NtNotifyChangeKey
 	typedef NTSTATUS(STDAPICALLTYPE NTNOTIFYCHANGEKEY)
 		(
 			IN HANDLE				KeyHandle,
@@ -839,7 +573,6 @@ namespace RegistryRT
 			);
 	typedef NTNOTIFYCHANGEKEY FAR * LPNTNOTIFYCHANGEKEY;
 
-	// NtRenameKey
 	typedef NTSTATUS(STDAPICALLTYPE NTRENAMEKEY)
 		(
 			IN HANDLE			KeyHandle,
@@ -847,32 +580,6 @@ namespace RegistryRT
 			);
 	typedef NTRENAMEKEY FAR * LPNTRENAMEKEY;
 
-
-	// =================================================================
-	//
-	// REG_FORCE_RESTORE		Windows 2000 and later: If specified, the restore 
-	//	(0x00000008L)			operation is executed even if open handles exist at or 
-	//							beneath the location in the registry hierarchy the hKey 
-	//							parameter points to. 
-	// REG_NO_LAZY_FLUSH		If specified, the key or hive specified by the hKey 
-	//	(0x00000004L)			parameter will not be lazy flushed, or flushed 
-	//							automatically and regularly after an interval of time. 
-	// REG_REFRESH_HIVE			If specified, the location of the hive the hKey parameter 
-	//	(0x00000002L)			points to will be restored to its state immediately 
-	//							following the last flush. The hive must not be lazy 
-	//							flushed (by calling RegRestoreKey with REG_NO_LAZY_FLUSH 
-	//							specified as the value of this parameter), the caller must 
-	//							have TCB privilege, and the handle the hKey parameter 
-	//							refers to must point to the root of the hive. 
-	// REG_WHOLE_HIVE_VOLATILE	If specified, a new, volatile (memory only) set of 
-	//	(0x00000001L)			registry information, or hive, is created. If 
-	//							REG_WHOLE_HIVE_VOLATILE is specified, the key identified 
-	//							by the hKey parameter must be either the HKEY_USERS or 
-	//							HKEY_LOCAL_MACHINE value.  
-	//
-	// =================================================================
-	//
-	// NtRestoreKey
 	typedef NTSTATUS(STDAPICALLTYPE NTRESTOREKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -881,7 +588,6 @@ namespace RegistryRT
 			);
 	typedef NTRESTOREKEY FAR * LPNTRESTOREKEY;
 
-	// NtSaveKey
 	typedef NTSTATUS(STDAPICALLTYPE NTSAVEKEY)
 		(
 			IN HANDLE	KeyHandle,
@@ -889,7 +595,6 @@ namespace RegistryRT
 			);
 	typedef NTSAVEKEY FAR * LPNTSAVEKEY;
 
-	// NtLoadKey
 	typedef NTSTATUS(STDAPICALLTYPE NTLOADKEY)
 		(
 			IN POBJECT_ATTRIBUTES DestinationKeyName,	// - and HANDLE to root key.
@@ -900,7 +605,6 @@ namespace RegistryRT
 			);
 	typedef NTLOADKEY FAR * LPNTLOADKEY;
 
-	// NtLoadKey2
 	typedef NTSTATUS(STDAPICALLTYPE NTLOADKEY2)
 		(
 			IN POBJECT_ATTRIBUTES DestinationKeyName,
@@ -909,7 +613,6 @@ namespace RegistryRT
 			);
 	typedef NTLOADKEY2 FAR * LPNTLOADKEY2;
 
-	// NtReplaceKey
 	typedef NTSTATUS(STDAPICALLTYPE NTREPLACEKEY)
 		(
 			IN POBJECT_ATTRIBUTES	NewHiveFileName,
@@ -918,25 +621,18 @@ namespace RegistryRT
 			);
 	typedef NTREPLACEKEY FAR * LPNTREPLACEKEY;
 
-	// NtUnloadKey
 	typedef NTSTATUS(STDAPICALLTYPE NTUNLOADKEY)
 		(
 			IN POBJECT_ATTRIBUTES	DestinationKeyName
 			);
 	typedef NTUNLOADKEY FAR * LPNTUNLOADKEY;
 
-	// =================================================================
-
-	// NtClose
 	typedef NTSTATUS(STDAPICALLTYPE NTCLOSE)
 		(
 			IN HANDLE KeyHandle
 			);
 	typedef NTCLOSE FAR * LPNTCLOSE;
 
-	// =================================================================
-
-	// NtCreateFile
 	typedef NTSTATUS(STDAPICALLTYPE NTCREATEFILE)
 		(
 			OUT PHANDLE             FileHandle,
@@ -953,7 +649,6 @@ namespace RegistryRT
 			);
 	typedef NTCREATEFILE FAR * LPNTCREATEFILE;
 
-	// NtOpenThread
 	typedef NTSTATUS(STDAPICALLTYPE NTOPENTHREAD)
 		(
 			OUT PHANDLE				ThreadHandle,
@@ -963,7 +658,6 @@ namespace RegistryRT
 			);
 	typedef NTOPENTHREAD FAR * LPNTOPENTHREAD;
 
-	// NtOpenProcessToken
 	typedef NTSTATUS(STDAPICALLTYPE NTOPENPROCESSTOKEN)
 		(
 			IN HANDLE               ProcessHandle,
@@ -972,7 +666,6 @@ namespace RegistryRT
 			);
 	typedef NTOPENPROCESSTOKEN FAR * LPNTOPENPROCESSTOKEN;
 
-	// NtAdjustPrivilegesToken
 	typedef NTSTATUS(STDAPICALLTYPE NTADJUSTPRIVILEGESTOKEN)
 		(
 			IN HANDLE               TokenHandle,
@@ -984,7 +677,6 @@ namespace RegistryRT
 			);
 	typedef NTADJUSTPRIVILEGESTOKEN FAR * LPNTADJUSTPRIVILEGESTOKEN;
 
-	// NtQueryInformationToken
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYINFORMATIONTOKEN)
 		(
 			IN HANDLE TokenHandle,
@@ -995,7 +687,6 @@ namespace RegistryRT
 			);
 	typedef NTQUERYINFORMATIONTOKEN FAR * LPNTQUERYINFORMATIONTOKEN;
 
-	// RtlAllocateHeap
 	typedef NTSTATUS(STDAPICALLTYPE RTLALLOCATEHEAP)
 		(
 			IN PVOID HeapHandle,
@@ -1004,7 +695,6 @@ namespace RegistryRT
 			);
 	typedef RTLALLOCATEHEAP FAR * LPRTLALLOCATEHEAP;
 
-	// RtlFreeHeap
 	typedef NTSTATUS(STDAPICALLTYPE RTLFREEHEAP)
 		(
 			IN PVOID HeapHandle,
@@ -1013,9 +703,6 @@ namespace RegistryRT
 			);
 	typedef RTLFREEHEAP FAR * LPRTLFREEHEAP;
 
-
-
-	// NtCompactKeys
 	typedef NTSTATUS(STDAPICALLTYPE NTCOMPACTKEYS)
 		(
 			IN ULONG NrOfKeys,
@@ -1023,21 +710,18 @@ namespace RegistryRT
 			);
 	typedef NTCOMPACTKEYS FAR * LPNTCOMPACTKEYS;
 
-	// NtCompressKey
 	typedef NTSTATUS(STDAPICALLTYPE NTCOMPRESSKEY)
 		(
 			IN HANDLE Key
 			);
 	typedef NTCOMPRESSKEY FAR * LPNTCOMPRESSKEY;
 
-	// NtLockRegistryKey
 	typedef NTSTATUS(STDAPICALLTYPE NTLOCKREGISTRYKEY)
 		(
 			IN HANDLE KeyHandle
 			);
 	typedef NTLOCKREGISTRYKEY FAR * LPNTLOCKREGISTRYKEY;
 
-	// NtQueryOpenSubKeysEx
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYOPENSUBKEYSEX)
 		(
 			IN POBJECT_ATTRIBUTES TargetKey,
@@ -1047,7 +731,6 @@ namespace RegistryRT
 			);
 	typedef NTQUERYOPENSUBKEYSEX FAR * LPNTQUERYOPENSUBKEYSEX;
 
-	// NtSaveKeyEx
 	typedef NTSTATUS(STDAPICALLTYPE NTSAVEKEYEX)
 		(
 			IN HANDLE KeyHandle,
@@ -1056,7 +739,6 @@ namespace RegistryRT
 			);
 	typedef NTSAVEKEYEX FAR * LPNTSAVEKEYEX;
 
-	// NtLoadKeyEx
 	typedef NTSTATUS(STDAPICALLTYPE NTLOADKEYEX)
 		(
 			IN POBJECT_ATTRIBUTES TargetKey,
@@ -1066,7 +748,6 @@ namespace RegistryRT
 			);
 	typedef NTLOADKEYEX FAR * LPNTLOADKEYEX;
 
-	// NtUnloadKey2
 	typedef NTSTATUS(STDAPICALLTYPE NTUNLOADKEY2)
 		(
 			IN POBJECT_ATTRIBUTES TargetKey,
@@ -1074,7 +755,6 @@ namespace RegistryRT
 			);
 	typedef NTUNLOADKEY2 FAR * LPNTUNLOADKEY2;
 
-	// NtUnloadKeyEx
 	typedef NTSTATUS(STDAPICALLTYPE NTUNLOADKEYEX)
 		(
 			IN POBJECT_ATTRIBUTES TargetKey,
@@ -1088,7 +768,6 @@ namespace RegistryRT
 	} OBJECT_INFORMATION_CLASS;
 
 
-	// NtQueryObject
 	typedef NTSTATUS(STDAPICALLTYPE NTQUERYOBJECT)
 		(
 			_In_opt_  HANDLE                   Handle,
@@ -1107,138 +786,50 @@ namespace RegistryRT
 		property LPGETTOKENINFORMATION			GetTokenInformation;
 		property LPOPENPROCESSTOKEN				OpenProcessToken;
 		property LPOPENTHREADTOKEN				OpenThreadToken;
-
-		////////////////////////////////////////////////////////
-		// Nt Native API's
-		//
-		// NTDLL.dll Entry Points
-		//
 		property LPNTCREATEKEY				NtCreateKey;
 		property LPNTOPENKEY				NtOpenKey;
 		property LPNTDELETEKEY				NtDeleteKey;
 		property LPNTFLUSHKEY				NtFlushKey;
 		property LPNTQUERYKEY				NtQueryKey;
 		property LPNTENUMERATEKEY			NtEnumerateKey;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt Value Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPNTSETVALUEKEY			NtSetValueKey;
 		property LPNTSETINFORMATIONKEY		NtSetInformationKey;
 		property LPNTQUERYVALUEKEY			NtQueryValueKey;
 		property LPNTENUMERATEVALUEKEY		NtEnumerateValueKey;
 		property LPNTDELETEVALUEKEY			NtDeleteValueKey;
 		property LPNTQUERYMULTIPLEVALUEKEY	NtQueryMultipleValueKey;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt New Functions for WinXP and Serer 2K3
-		////////////////////////////////////////////////////////
-		//
-		// (WinXP) Renames a Registry key.
 		property LPNTRENAMEKEY				NtRenameKey;
-		// (WinXP) Makes key storage adjacent.
 		property LPNTCOMPACTKEYS			NtCompactKeys;
-		// (WinXP) Performs in-place compaction of a hive.
 		property LPNTCOMPRESSKEY			NtCompressKey;
-		// (WinXP) Locks a registry key for modification.
 		property LPNTLOCKREGISTRYKEY		NtLockRegistryKey;
-		// (Server 2K3) Returns the keys opened beneath a specified key.
 		property LPNTQUERYOPENSUBKEYSEX		NtQueryOpenSubKeysEx;
-		// (WinXP) Saves the contents of a key and its subkeys to a file.
 		property LPNTSAVEKEYEX				NtSaveKeyEx;
-		// (Server 2K3) Loads a hive into the Registry.
 		property LPNTLOADKEYEX				NtLoadKeyEx;
-		// (Server 2K3) Unloads a hive from the Registry.
 		property LPNTUNLOADKEY2				NtUnloadKey2;
-		// (WinXP) Unloads a hive from the Registry.
 		property LPNTUNLOADKEYEX			NtUnloadKeyEx;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt Hive Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPNTSAVEKEY				NtSaveKey;
 		property LPNTRESTOREKEY				NtRestoreKey;
 		property LPNTLOADKEY				NtLoadKey;
 		property LPNTLOADKEY2				NtLoadKey2;
 		property LPNTREPLACEKEY				NtReplaceKey;
 		property LPNTUNLOADKEY				NtUnloadKey;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt Misc Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPNTCLOSE					NtClose;
 		property LPNTNOTIFYCHANGEKEY		NtNotifyChangeKey;
 		property LPNTOPENTHREAD				NtOpenThread;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt File Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPNTCREATEFILE				NtCreateFile;
-		//
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Nt Process Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPNTOPENPROCESSTOKEN		NtOpenProcessToken;
 		property LPNTADJUSTPRIVILEGESTOKEN	NtAdjustPrivilegesToken;
 		property LPNTQUERYINFORMATIONTOKEN	NtQueryInformationToken;
-		//
-		////////////////////////////////////////////////////////
-
-		////////////////////////////////////////////////////////
-		// END - Native API Functions
-		////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////
-		// Rtl String Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPRTLINITSTRING				RtlInitString;
 		property LPRTLINITANSISTRING			RtlInitAnsiString;
 		property LPRTLINITUNICODESTRING			RtlInitUnicodeString;
 		property LPRTLANSISTRINGTOUNICODESTRING	RtlAnsiStringToUnicodeString;
 		property LPRTLUNICODESTRINGTOANSISTRING	RtlUnicodeStringToAnsiString;
-		property LPRTLFREESTRING				RtlFreeString;
 		property LPRTLFREEANSISTRING			RtlFreeAnsiString;
 		property LPRTLFREEUNICODESTRING			RtlFreeUnicodeString;
 		property LPRTLCONVERTSIDTOUNICODESTRING	RtlConvertSidToUnicodeString;
-		//
-		////////////////////////////////////////////////////////
-
-		////////////////////////////////////////////////////////
-		// Nt Heap Functions
-		////////////////////////////////////////////////////////
-		//
 		property LPRTLALLOCATEHEAP			RtlAllocateHeap;
 		property LPRTLFREEHEAP				RtlFreeHeap;
-		//
-		////////////////////////////////////////////////////////
-
-		//property LPRTLOOKUPPRIVILEGEVALUE	LookupPrivilegeValue;
-
 		property LPNTQUERYOBJECT	NtQueryObject;
 
 	public:
@@ -1285,10 +876,5 @@ namespace RegistryRT
 		// Customs
 		Platform::Boolean Registry::WriteValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, PVOID pValue, RegistryRT::ULONG ulValueLength, DWORD dwRegType);
 		BOOL Registry::ReadValue(RegistryHive Hive, Platform::String^ Key, Platform::String^ Name, uint32 RegType, KEY_VALUE_PARTIAL_INFORMATION** retInfo);
-
-		/*BOOL Registry::SaveKey(RegistryHive Hive, Platform::String^ Key, Platform::String^ csHiveFile);
-		BOOL Registry::RestoreKey(RegistryHive Hive, Platform::String^ Key, Platform::String^ csHiveFile);
-		BOOL Registry::SaveRestoreKey(RegistryHive Hive, Platform::String^ Key, Platform::String^ csHiveFile, BOOL bSaveKey);
-		NTSTATUS Registry::EnablePrivilege(Platform::String^ csPrivilege, BOOL bEnable);*/
 	};
 }
