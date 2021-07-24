@@ -48,47 +48,50 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="controls:PullToRefreshListView">
-                        <Border x:Name="Root"
+                        <Border
+                            x:Name="Root"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
-                                <Border x:Name="RefreshIndicator"
-                                    VerticalAlignment="Top">
+                                <Border x:Name="RefreshIndicator" VerticalAlignment="Top">
                                     <Grid>
-                                        <ContentPresenter x:Name="PullAndReleaseIndicatorContent"
-                                                      HorizontalAlignment="Center"
-                                                      FontSize="20" />
+                                        <ContentPresenter
+                                            x:Name="PullAndReleaseIndicatorContent"
+                                            HorizontalAlignment="Center"
+                                            FontSize="20" />
                                         <ContentPresenter Content="{TemplateBinding RefreshIndicatorContent}" />
                                     </Grid>
                                     <Border.RenderTransform>
                                         <CompositeTransform x:Name="RefreshIndicatorTransform" />
                                     </Border.RenderTransform>
                                 </Border>
-                                <ScrollViewer x:Name="ScrollViewer"
-                                          AutomationProperties.AccessibilityView="Raw"
-                                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                          IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                          IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                          TabNavigation="{TemplateBinding TabNavigation}"
-                                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
-                                          Padding="0,-60,0,-60">
-                                    <ItemsPresenter x:Name="ItemsPresenter"
-                                                Margin="0,60,0,60"
-                                                Padding="{TemplateBinding Padding}"
-                                                Footer="{TemplateBinding Footer}"
-                                                FooterTemplate="{TemplateBinding FooterTemplate}"
-                                                FooterTransitions="{TemplateBinding FooterTransitions}"
-                                                Header="{TemplateBinding Header}"
-                                                HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                                HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+                                <ScrollViewer
+                                    x:Name="ScrollViewer"
+                                    Padding="0,-60,0,-60"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                    HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                    IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                    IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                    IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                    IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                    IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                    TabNavigation="{TemplateBinding TabNavigation}"
+                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                    VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                    ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                    <ItemsPresenter
+                                        x:Name="ItemsPresenter"
+                                        Margin="0,60,0,60"
+                                        Padding="{TemplateBinding Padding}"
+                                        Footer="{TemplateBinding Footer}"
+                                        FooterTemplate="{TemplateBinding FooterTemplate}"
+                                        FooterTransitions="{TemplateBinding FooterTransitions}"
+                                        Header="{TemplateBinding Header}"
+                                        HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                        HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                                 </ScrollViewer>
                             </Grid>
 
@@ -234,25 +237,25 @@
         <SemanticZoom x:Name="ZoomGrid" Grid.Row="1">
             <SemanticZoom.ZoomedInView>
                 <controls:PullToRefreshListView
-                        x:Name="ListBrowser"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        ContinuumNavigationTransitionInfo.ExitElementContainer="True"
-                        IsItemClickEnabled="True"
-                        IsPullToRefreshWithMouseEnabled="True"
-                        ItemClick="ListBrowser_ItemClick"
-                        ItemsSource="{Binding Source={StaticResource RegistryGroups}}"
-                        OverscrollLimit="0.4"
-                        PullProgressChanged="ListBrowser_PullProgressChanged"
-                        PullThreshold="100"
-                        RefreshRequested="ListBrowser_RefreshRequested"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollMode="Auto"
-                        SelectionMode="None"
-                        Padding="{x:Bind Padding, Mode=OneWay}"
-                        ItemContainerStyle="{StaticResource BrowserControlListViewItemContainerStyle}"
-                        Margin="-20,0">
+                    x:Name="ListBrowser"
+                    Margin="-20,0"
+                    Padding="{x:Bind Padding, Mode=OneWay}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    ContinuumNavigationTransitionInfo.ExitElementContainer="True"
+                    IsItemClickEnabled="True"
+                    IsPullToRefreshWithMouseEnabled="True"
+                    ItemClick="ListBrowser_ItemClick"
+                    ItemContainerStyle="{StaticResource BrowserControlListViewItemContainerStyle}"
+                    ItemsSource="{Binding Source={StaticResource RegistryGroups}}"
+                    OverscrollLimit="0.4"
+                    PullProgressChanged="ListBrowser_PullProgressChanged"
+                    PullThreshold="100"
+                    RefreshRequested="ListBrowser_RefreshRequested"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Auto"
+                    SelectionMode="None">
 
                     <controls:PullToRefreshListView.ItemContainerTransitions>
                         <TransitionCollection>

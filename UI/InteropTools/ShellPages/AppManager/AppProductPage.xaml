@@ -73,31 +73,29 @@
                         <ScrollViewer
                             Grid.Row="1"
                             Grid.Column="1"
-                            VerticalScrollMode="Disabled"
+                            HorizontalScrollBarVisibility="Auto"
                             HorizontalScrollMode="Auto"
-                            HorizontalScrollBarVisibility="Auto">
-                            <Grid
-                            Margin="24,0,0,6"
-                            VerticalAlignment="Bottom">
+                            VerticalScrollMode="Disabled">
+                            <Grid Margin="24,0,0,6" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Button
-                                Grid.Column="0"
-                                Margin="0,0,5,0"
-                                Background="{ThemeResource SystemControlForegroundAccentBrush}"
-                                Click="Button_Click_1"
-                                Foreground="White">
-                                    <TextBlock Text="Launch App" TextWrapping="Wrap"/>
+                                    Grid.Column="0"
+                                    Margin="0,0,5,0"
+                                    Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Click="Button_Click_1"
+                                    Foreground="White">
+                                    <TextBlock Text="Launch App" TextWrapping="Wrap" />
                                 </Button>
                                 <Button
-                                x:Name="OpenStore"
-                                Grid.Column="1"
-                                Margin="5,0,0,0"
-                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                                Click="Button_Click">
-                                    <TextBlock Text="Open in the Store" TextWrapping="Wrap"/>
+                                    x:Name="OpenStore"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                    Click="Button_Click">
+                                    <TextBlock Text="Open in the Store" TextWrapping="Wrap" />
                                 </Button>
 
                             </Grid>
@@ -334,7 +332,7 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">

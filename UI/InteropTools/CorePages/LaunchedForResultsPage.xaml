@@ -2,59 +2,126 @@
     x:Class="InteropTools.CorePages.LaunchedForResultsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:InteropTools.CorePages"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:corecd="using:InteropTools.ContentDialogs.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.CorePages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Making sure you're trusting the app you're using" FontSize="18" TextWrapping="Wrap" Margin="24,18,24,0"/>
+        <TextBlock
+            Margin="24,18,24,0"
+            FontSize="18"
+            Text="Making sure you're trusting the app you're using"
+            TextWrapping="Wrap" />
 
-        <ScrollViewer Grid.Row="1" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" Margin="24,0,24,24">
+        <ScrollViewer
+            Grid.Row="1"
+            Margin="24,0,24,24"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto">
             <StackPanel>
-                <TextBlock x:Name="Title1" Margin="0,8,0,0" Text="To access the following priviledged APIs, ITExtTest needs your permission in order to prevent unwanted modifications to your device." TextWrapping="Wrap"/>
+                <TextBlock
+                    x:Name="Title1"
+                    Margin="0,8,0,0"
+                    Text="To access the following priviledged APIs, ITExtTest needs your permission in order to prevent unwanted modifications to your device."
+                    TextWrapping="Wrap" />
 
                 <Grid Margin="0,32,0,0">
-                    <TextBlock FontFamily="{StaticResource FullMDL2FontFamily}" Text="" FontSize="42" HorizontalAlignment="Stretch" TextAlignment="Center"/>
+                    <TextBlock
+                        HorizontalAlignment="Stretch"
+                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                        FontSize="42"
+                        Text=""
+                        TextAlignment="Center" />
                 </Grid>
 
                 <Grid Margin="0,8,0,0">
-                    <TextBlock x:Name="Title2" Text="ITExtTest wants to access the following APIs" FontSize="26" FontWeight="SemiLight" TextWrapping="Wrap" TextAlignment="Center"/>
+                    <TextBlock
+                        x:Name="Title2"
+                        FontSize="26"
+                        FontWeight="SemiLight"
+                        Text="ITExtTest wants to access the following APIs"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
                 </Grid>
 
-                <corecd:ExpandableRowListViewControl Margin="0,32,0,0" x:Name="control" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto">
+                <corecd:ExpandableRowListViewControl
+                    x:Name="control"
+                    Margin="0,32,0,0"
+                    VerticalAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Auto">
                     <corecd:ExpandableRowListViewControl.Items>
                         <corecd:ExpandableRowListViewControlItem x:Name="item1">
                             <corecd:ExpandableRowListViewControlItem.RowHeader>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Background="{ThemeResource SystemAccentColor}" Height="32" Width="32">
-                                        <TextBlock Foreground="White" Text="&#xE2AC;" FontFamily="Segoe MDL2 Assets" TextAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border
+                                        Width="32"
+                                        Height="32"
+                                        Background="{ThemeResource SystemAccentColor}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Foreground="White"
+                                            Text="&#xE2AC;"
+                                            TextAlignment="Center" />
                                     </Border>
-                                    <TextBlock Grid.Column="1" Margin="8,0" Text="Access to all the registry APIs" VerticalAlignment="Center"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        Text="Access to all the registry APIs" />
                                 </Grid>
                             </corecd:ExpandableRowListViewControlItem.RowHeader>
                             <corecd:ExpandableRowListViewControlItem.Content>
                                 <StackPanel>
-                                    <TextBlock Opacity="0.75" Margin="40,8,0,0" Text="• RegQueryKeyLastModifiedTime"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegAddKey"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegDeleteKey"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegDeleteValue"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegRenameKey"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegQueryKeyStatus"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegQueryValue"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,0" Text="• RegSetValue"/>
-                                    <TextBlock Opacity="0.75" Margin="40,0,0,8" Text="• RegEnumKey"/>
+                                    <TextBlock
+                                        Margin="40,8,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegQueryKeyLastModifiedTime" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegAddKey" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegDeleteKey" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegDeleteValue" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegRenameKey" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegQueryKeyStatus" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegQueryValue" />
+                                    <TextBlock
+                                        Margin="40,0,0,0"
+                                        Opacity="0.75"
+                                        Text="• RegSetValue" />
+                                    <TextBlock
+                                        Margin="40,0,0,8"
+                                        Opacity="0.75"
+                                        Text="• RegEnumKey" />
                                 </StackPanel>
                             </corecd:ExpandableRowListViewControlItem.Content>
                         </corecd:ExpandableRowListViewControlItem>
@@ -63,18 +130,33 @@
                             <corecd:ExpandableRowListViewControlItem.RowHeader>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Background="{ThemeResource SystemAccentColor}" Height="32" Width="32">
-                                        <TextBlock Foreground="White" Text="&#xE950;" FontFamily="Segoe MDL2 Assets" TextAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border
+                                        Width="32"
+                                        Height="32"
+                                        Background="{ThemeResource SystemAccentColor}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Foreground="White"
+                                            Text="&#xE950;"
+                                            TextAlignment="Center" />
                                     </Border>
-                                    <TextBlock Grid.Column="1" Margin="8,0" Text="Access to all the device info APIs" VerticalAlignment="Center"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        Text="Access to all the device info APIs" />
                                 </Grid>
                             </corecd:ExpandableRowListViewControlItem.RowHeader>
                             <corecd:ExpandableRowListViewControlItem.Content>
                                 <StackPanel>
-                                    <TextBlock Opacity="0.75" Margin="40,8,0,8" Text="• TBD"/>
+                                    <TextBlock
+                                        Margin="40,8,0,8"
+                                        Opacity="0.75"
+                                        Text="• TBD" />
                                 </StackPanel>
                             </corecd:ExpandableRowListViewControlItem.Content>
                         </corecd:ExpandableRowListViewControlItem>
@@ -85,12 +167,23 @@
 
         <Grid Grid.Row="2" Margin="24,0,24,24">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="AllowButton" Margin="0,0,2,0" Content="Allow" HorizontalAlignment="Stretch" Click="AllowButton_Click"/>
-            <Button x:Name="DenyButton" Margin="2,0,0,0" Grid.Column="1" Content="Deny" HorizontalAlignment="Stretch" Click="DenyButton_Click"/>
+            <Button
+                x:Name="AllowButton"
+                Margin="0,0,2,0"
+                HorizontalAlignment="Stretch"
+                Click="AllowButton_Click"
+                Content="Allow" />
+            <Button
+                x:Name="DenyButton"
+                Grid.Column="1"
+                Margin="2,0,0,0"
+                HorizontalAlignment="Stretch"
+                Click="DenyButton_Click"
+                Content="Deny" />
         </Grid>
     </Grid>
 </Page>

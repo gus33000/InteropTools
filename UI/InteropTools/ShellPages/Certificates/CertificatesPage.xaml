@@ -1,8 +1,8 @@
 ﻿<Page
-    xmlns:core="using:InteropTools.CorePages"
     x:Class="InteropTools.ShellPages.Certificates.CertificatesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="using:InteropTools.CorePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InteropTools.ShellPages.Certificates"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -41,12 +41,13 @@
                             TextWrapping="Wrap" />
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Issuer:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Issuer:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"
@@ -55,12 +56,13 @@
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Valid to:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Valid to:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"
@@ -69,12 +71,13 @@
                         </Grid>
                         <Grid Grid.Row="3">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Has private key:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Has private key:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"
@@ -83,12 +86,13 @@
                         </Grid>
                         <Grid Grid.Row="4">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Is security device bound:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Is security device bound:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"
@@ -97,12 +101,13 @@
                         </Grid>
                         <Grid Grid.Row="5" Visibility="{Binding FriendlyNameVisibility}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Friendly name:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Friendly name:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"
@@ -111,12 +116,13 @@
                         </Grid>
                         <Grid Grid.Row="6">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Status:" 
-                                       Margin="0,0,4,0"
-                                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Text="Status:" />
                             <TextBlock
                                 Grid.Column="1"
                                 Opacity="0.75"

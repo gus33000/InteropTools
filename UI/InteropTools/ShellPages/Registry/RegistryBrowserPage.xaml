@@ -1,11 +1,11 @@
 ﻿<Page
-    xmlns:core="using:InteropTools.CorePages"
     x:Class="InteropTools.ShellPages.Registry.RegistryBrowserPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controlsacrylic="using:InteropTools.Controls.Blurring.Acrylic"
+    xmlns:core="using:InteropTools.CorePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InteropTools.ShellPages.Registry"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -198,18 +198,21 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                
+
                 <local:BrowserControl
                     x:Name="BrowserCtrl"
                     Grid.Row="1"
-                    OnCurrentItemChanged="BrowserControl_OnCurrentItemChanged"
-                    Padding="{x:Bind Frame.Padding, Mode=TwoWay}">
+                    Padding="{x:Bind Frame.Padding, Mode=TwoWay}"
+                    OnCurrentItemChanged="BrowserControl_OnCurrentItemChanged">
                     <local:BrowserControl.Projection>
                         <PlaneProjection RotationX="0" />
                     </local:BrowserControl.Projection>
                 </local:BrowserControl>
-                <controlsacrylic:AcrylicLow Grid.Row="0" DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
-                <controlsacrylic:AcrylicMedium Grid.Row="0" x:Name="MediumAcrylic"/>
+                <controlsacrylic:AcrylicLow
+                    Grid.Row="0"
+                    DataContext="{x:Bind Frame}"
+                    Visibility="{Binding PageTitleVisibility}" />
+                <controlsacrylic:AcrylicMedium x:Name="MediumAcrylic" Grid.Row="0" />
                 <StackPanel Grid.Row="0">
                     <Grid>
                         <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
@@ -696,9 +699,12 @@
                 VerticalAlignment="Bottom">
 
                 <CommandBar.SecondaryCommands>
-                    <AppBarButton x:Name="MountHive" Label="Mount hive" Click="MountHive_Click"/>
+                    <AppBarButton
+                        x:Name="MountHive"
+                        Click="MountHive_Click"
+                        Label="Mount hive" />
                 </CommandBar.SecondaryCommands>
-                
+
                 <AppBarButton
                     Click="AppBarButton_Click_1"
                     Icon="OutlineStar"

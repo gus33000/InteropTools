@@ -42,23 +42,24 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="#000000" VerticalAlignment="Stretch">
+    <Grid VerticalAlignment="Stretch" Background="#000000">
         <controlsacrylic:AcrylicAccent x:Name="Bg" Opacity="0" />
         <Canvas x:Name="LoadingPanel">
-            <Image x:Name="extendedSplashImage" Source="ms-appx:///Assets/Tiles/App/SplashScreen.png" HorizontalAlignment="Center" />
+            <Image
+                x:Name="extendedSplashImage"
+                HorizontalAlignment="Center"
+                Source="ms-appx:///Assets/Tiles/App/SplashScreen.png" />
             <Image
                 x:Name="extendedSplashImage2"
+                HorizontalAlignment="Center"
                 Opacity="0"
-                Source="ms-appx:///Assets/Tiles/App/SplashScreen.png"
                 RenderTransformOrigin="0.5,0.5"
-                HorizontalAlignment="Center">
+                Source="ms-appx:///Assets/Tiles/App/SplashScreen.png">
 
                 <Image.RenderTransform>
-                    <ScaleTransform
-                        ScaleX="0.35"
-                        ScaleY="0.35" />
+                    <ScaleTransform ScaleX="0.35" ScaleY="0.35" />
                 </Image.RenderTransform>
-                
+
             </Image>
             <ProgressRing
                 x:Name="splashProgressRing"
@@ -67,7 +68,7 @@
                 HorizontalAlignment="Center"
                 Foreground="White"
                 IsActive="True"
-                Opacity="0"/>
+                Opacity="0" />
         </Canvas>
         <TextBlock
             x:Name="VersionText"
@@ -94,7 +95,7 @@
                         Text=""
                         TextAlignment="Center" />
 
-                    <!--<TextBlock 
+                    <!--<TextBlock
                         Margin="0,0,0,24"
                         Text="WARNING: THE EXTENSION FORMAT OF INTEROP TOOLS CHANGED WITH THIS RELEASE, PLEASE DOWNLOAD UPDATED EXTENSIONS FROM INSIDEWINDOWS.NET"
                         TextAlignment="Center"
@@ -107,7 +108,7 @@
                         Text="Added an option to enable timestamps for keys in the Registry Browser if wanted. The header about various informations in the Welcome page has been 50% implemented. Re-added Tweaks page as per request. Fixed RPC communications issues with NDTK on ARM (thanks everyone and sorry for not noticing that at first) (Will require an update to the NDTK registry provider extension if you use Interop Tools S (Store)). You should now be able to edit system access values fine like before and most stuff should work again. Fixed some words being cut in the dialog for providers on th1-th2. Fixed application manager issues as reported. Fixed an issue where recently used pages wouldn't show up correctly. Fixed an issue where the switch for Interop Unlock would appear to be off after a reboot."
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
-                    
+
                     <Grid MaxWidth="250" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -148,7 +149,7 @@
                     </Grid>
                 </StackPanel>
             </controls:CustomFlipViewItem>
-            
+
             <!--<controls:CustomFlipViewItem ManipulationDelta="FlipViewItem_ManipulationDelta" ManipulationMode="TranslateX">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock
@@ -301,105 +302,116 @@
             </controls:CustomFlipViewItem>-->
         </controls:CustomFlipView>
 
-        <Grid x:Name="EULAFlipView" Visibility="Collapsed" VerticalAlignment="Center" Margin="80">
+        <Grid
+            x:Name="EULAFlipView"
+            Margin="80"
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock
-                        Margin="0,0,0,48"
-                        FontSize="28"
-                        Text="End user license agreement"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
+                Margin="0,0,0,48"
+                FontSize="28"
+                Text="End user license agreement"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
 
-            <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto" Margin="0,0,0,48">
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="0,0,0,48"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollMode="Auto">
                 <RichTextBlock>
                     <Paragraph TextAlignment="Right">
                         <Bold>Last updated June 2017</Bold>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                     </Paragraph>
                     <Paragraph>
                         <Bold>INTEROP TOOLS DEVELOPMENT TEAM SOFTWARE LICENSE TERMS</Bold>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                         <Bold>INTEROP TOOLS (PREVIEW)</Bold>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                         <Bold>Copyright (c) 2016-2017  Interop Tools Development Team</Bold>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                     </Paragraph>
                     <Paragraph>
                         <Bold>1. Disclaimer</Bold>
-                        <LineBreak/>
+                        <LineBreak />
                     </Paragraph>
                     <Paragraph Margin="40,0,0,0">
-                        <Run>This software is licensed "as-is". You bear the risk of using it. The developer gives no express warranties, guarantees or conditions. To the extent permitted under your local laws, the developer excludes the implied warranties of merchantability, fitness for a particular purpose and non-infringement. In no event shall the developer be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software. If you use this software, you accept this disclaimer. If you don't want to accept this disclaimer, then don't use the software.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <Run>This software is licensed &quot;as-is&quot;. You bear the risk of using it. The developer gives no express warranties, guarantees or conditions. To the extent permitted under your local laws, the developer excludes the implied warranties of merchantability, fitness for a particular purpose and non-infringement. In no event shall the developer be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software. If you use this software, you accept this disclaimer. If you don't want to accept this disclaimer, then don't use the software.</Run>
+                        <LineBreak />
+                        <LineBreak />
                     </Paragraph>
                     <Paragraph>
                         <Bold>2. Privacy Policy</Bold>
-                        <LineBreak/>
+                        <LineBreak />
                     </Paragraph>
                     <Paragraph Margin="40,0,0,0">
                         <Run>This privacy policy contains all the types of information that is and that isn't collected and stored by this software and how those informations are used by the developers of Interop Tools (IT Dev Team). If you have any additional question about this privacy policy please contact us.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                         <Run>This software, being a preview app uses HockeyApp's services to collect crash data when the App encounters a critical bug. This data may contain the device name, the Operating System version the app run on and the crash log of the App. We only uses this data to help fix critical bugs during the preview to ensure a better experience for consumers. The app won't collect any personal information about your device except from the ones mentioned before.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                         <Run>This software through the Remote Access feature also serves as a local only server for other devices on your network to connect to the app instance. This server is local only, and is only used to provide api access (such as Registry) to the other app instance running on another device locally on the same network. Any attempt to connect to the app will preceed by a permission popup on the destination device with the local server running asking if you want to allow the connection from the remote computer (of which IP address is displayed). The data transfered with remote access is local only and won't be collected online by HockeyApp or any other service.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                         <Run>By using the software, you are consenting to us collecting the information mentioned above and our usage of those informations.</Run>
-                        <LineBreak/>
-                        <LineBreak/>
+                        <LineBreak />
+                        <LineBreak />
                     </Paragraph>
                 </RichTextBlock>
             </ScrollViewer>
 
-            <Grid MaxWidth="250" HorizontalAlignment="Stretch" Grid.Row="2">
+            <Grid
+                Grid.Row="2"
+                MaxWidth="250"
+                HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Rectangle
-                            Grid.Column="0"
-                            Margin="0,0,6,0"
-                            Fill="White" />
+                    Grid.Column="0"
+                    Margin="0,0,6,0"
+                    Fill="White" />
                 <Rectangle
-                            Grid.Column="1"
-                            Margin="6,0,0,0"
-                            Fill="White" />
+                    Grid.Column="1"
+                    Margin="6,0,0,0"
+                    Fill="White" />
                 <Rectangle
-                            Grid.Column="0"
-                            Margin="0,0,6,0"
-                            Fill="{ThemeResource SystemControlHighlightAltListAccentHighBrush}" />
+                    Grid.Column="0"
+                    Margin="0,0,6,0"
+                    Fill="{ThemeResource SystemControlHighlightAltListAccentHighBrush}" />
                 <Rectangle
-                            Grid.Column="1"
-                            Margin="6,0,0,0"
-                            Fill="{ThemeResource SystemControlHighlightAltListAccentHighBrush}" />
+                    Grid.Column="1"
+                    Margin="6,0,0,0"
+                    Fill="{ThemeResource SystemControlHighlightAltListAccentHighBrush}" />
                 <Button
-                            Grid.Column="0"
-                            Height="42"
-                            Margin="0,0,6,0"
-                            HorizontalAlignment="Stretch"
-                            Background="Transparent"
-                            Content="Deny"
-                            Click="Button_Click_3"/>
+                    Grid.Column="0"
+                    Height="42"
+                    Margin="0,0,6,0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    Click="Button_Click_3"
+                    Content="Deny" />
                 <Button
-                            Grid.Column="1"
-                            Height="42"
-                            Margin="6,0,0,0"
-                            HorizontalAlignment="Stretch"
-                            Background="Transparent"
-                            Click="Button_Click_4"
-                            Content="Accept" />
+                    Grid.Column="1"
+                    Height="42"
+                    Margin="6,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    Click="Button_Click_4"
+                    Content="Accept" />
             </Grid>
         </Grid>
     </Grid>

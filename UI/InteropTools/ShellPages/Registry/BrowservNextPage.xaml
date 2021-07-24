@@ -1,5 +1,4 @@
 ﻿<Page
-    xmlns:core="using:InteropTools.CorePages"
     x:Class="InteropTools.ShellPages.Registry.BrowservNextPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +7,7 @@
     xmlns:controlsbackdrop="using:InteropTools.Controls.Blurring.Backdrop"
     xmlns:converters="using:InteropTools.Converters"
     xmlns:converterstreeview="using:InteropTools.Converters.TreeView"
+    xmlns:core="using:InteropTools.CorePages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InteropTools.ShellPages.Registry"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -18,11 +18,14 @@
     <Page.Resources>
 
 
-        <Style x:Key="TitleTextBlockStyle2" TargetType="TextBlock" BasedOn="{StaticResource TitleTextBlockStyle}">
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Style
+            x:Key="TitleTextBlockStyle2"
+            BasedOn="{StaticResource TitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
         </Style>
 
 
@@ -1088,47 +1091,47 @@
 
                         <Grid x:Name="ValEditCtrl" Visibility="Collapsed">
 
-                            <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.75"/>
+                            <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.75" />
 
                             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                 <StackPanel Margin="48,0" Orientation="Horizontal">
                                     <AppBarButton
-                                    x:Name="ValEditRefresh"
-                                    Width="48"
-                                    Height="48"
-                                    Click="ValEditRefresh_Click"
-                                    Icon="Refresh" />
+                                        x:Name="ValEditRefresh"
+                                        Width="48"
+                                        Height="48"
+                                        Click="ValEditRefresh_Click"
+                                        Icon="Refresh" />
                                     <AppBarButton
-                                    x:Name="ValEditCancel"
-                                    Width="48"
-                                    Height="48"
-                                    Click="ValEditCancel_Click"
-                                    Icon="Clear" />
+                                        x:Name="ValEditCancel"
+                                        Width="48"
+                                        Height="48"
+                                        Click="ValEditCancel_Click"
+                                        Icon="Clear" />
                                     <AppBarButton
-                                    x:Name="ValEditAccept"
-                                    Width="48"
-                                    Height="48"
-                                    Click="ValEditAccept_Click"
-                                    Icon="Accept" />
+                                        x:Name="ValEditAccept"
+                                        Width="48"
+                                        Height="48"
+                                        Click="ValEditAccept_Click"
+                                        Icon="Accept" />
                                 </StackPanel>
 
                                 <Grid
-                                x:Name="MainContent"
-                                Margin="{x:Bind Frame.Padding, Mode=OneWay}"
-                                HorizontalAlignment="Stretch">
+                                    x:Name="MainContent"
+                                    Margin="{x:Bind Frame.Padding, Mode=OneWay}"
+                                    HorizontalAlignment="Stretch">
                                     <Grid Margin="12,12" HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
-                                        Margin="0,4,0,0"
-                                        VerticalAlignment="Top"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
-                                        FontSize="32"
-                                        Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                        Text="" />
+                                            Margin="0,4,0,0"
+                                            VerticalAlignment="Top"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            FontSize="32"
+                                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                            Text="" />
                                         <Grid Grid.Column="1" Margin="8,0,0,0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -1138,43 +1141,43 @@
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                            x:Name="EditItemTitle"
-                                            Grid.Row="0"
-                                            Text="Completely Real and not fake value"
-                                            TextWrapping="Wrap" />
+                                                x:Name="EditItemTitle"
+                                                Grid.Row="0"
+                                                Text="Completely Real and not fake value"
+                                                TextWrapping="Wrap" />
                                             <TextBlock
-                                            x:Name="EditItemDesc"
-                                            Grid.Row="1"
-                                            Opacity="0.75"
-                                            Text="What are you saying? This is a mock ui? Soon..."
-                                            TextWrapping="Wrap" />
+                                                x:Name="EditItemDesc"
+                                                Grid.Row="1"
+                                                Opacity="0.75"
+                                                Text="What are you saying? This is a mock ui? Soon..."
+                                                TextWrapping="Wrap" />
                                         </Grid>
                                     </Grid>
                                 </Grid>
                                 <Pivot
-                                VerticalAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                Style="{StaticResource PivotStyle1}">
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Style="{StaticResource PivotStyle1}">
                                     <PivotItem>
                                         <PivotItem.Header>
                                             <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource TitleTextBlockStyle2}"
-                                            Text="Edit Value" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TitleTextBlockStyle2}"
+                                                Text="Edit Value" />
                                         </PivotItem.Header>
 
                                         <ScrollViewer
-                                        Padding="{x:Bind Frame.Padding, Mode=OneWay}"
-                                        VerticalScrollBarVisibility="Auto"
-                                        VerticalScrollMode="Auto">
+                                            Padding="{x:Bind Frame.Padding, Mode=OneWay}"
+                                            VerticalScrollBarVisibility="Auto"
+                                            VerticalScrollMode="Auto">
                                             <Grid>
                                                 <StackPanel x:Name="EditValuePanel">
                                                     <TextBlock Margin="0,12,0,4" Text="Registry Value Type" />
                                                     <ComboBox
-                                                    x:Name="TypeSelector"
-                                                    HorizontalAlignment="Stretch"
-                                                    SelectedIndex="9"
-                                                    SelectionChanged="TypeSelector_SelectionChanged">
+                                                        x:Name="TypeSelector"
+                                                        HorizontalAlignment="Stretch"
+                                                        SelectedIndex="9"
+                                                        SelectionChanged="TypeSelector_SelectionChanged">
                                                         <ComboBoxItem Content="Binary (REG_BINARY)" />
                                                         <ComboBoxItem Content="Hardware Resource List (REG_FULL_RESOURCE_DESCRIPTOR)" />
                                                         <ComboBoxItem Content="Integer (REG_DWORD)" />
@@ -1190,32 +1193,32 @@
                                                         <ComboBoxItem Content="Custom" />
                                                     </ComboBox>
                                                     <TextBox
-                                                    x:Name="ValueTypeInput"
-                                                    Margin="0,24,0,4"
-                                                    HorizontalAlignment="Stretch"
-                                                    InputScope="Number"
-                                                    IsSpellCheckEnabled="False"
-                                                    IsTextPredictionEnabled="False"
-                                                    PlaceholderText="Example: 1" />
+                                                        x:Name="ValueTypeInput"
+                                                        Margin="0,24,0,4"
+                                                        HorizontalAlignment="Stretch"
+                                                        InputScope="Number"
+                                                        IsSpellCheckEnabled="False"
+                                                        IsTextPredictionEnabled="False"
+                                                        PlaceholderText="Example: 1" />
                                                     <TextBlock Margin="0,24,0,4" Text="Registry Value Data" />
                                                     <Grid>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto" />
                                                         </Grid.RowDefinitions>
                                                         <TextBox
-                                                        x:Name="ValueDataInput"
-                                                        Grid.Row="0"
-                                                        HorizontalAlignment="Stretch"
-                                                        IsSpellCheckEnabled="False"
-                                                        IsTextPredictionEnabled="False"
-                                                        PlaceholderText="Example: 10240"
-                                                        Style="{StaticResource MultilineTextBoxStyle}"
-                                                        TextChanging="ValueDataInput_TextChanging" />
+                                                            x:Name="ValueDataInput"
+                                                            Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            IsSpellCheckEnabled="False"
+                                                            IsTextPredictionEnabled="False"
+                                                            PlaceholderText="Example: 10240"
+                                                            Style="{StaticResource MultilineTextBoxStyle}"
+                                                            TextChanging="ValueDataInput_TextChanging" />
                                                         <Border
-                                                        x:Name="ValueDataBorder"
-                                                        Grid.Row="0"
-                                                        BorderBrush="#FFE84F24"
-                                                        BorderThickness="0" />
+                                                            x:Name="ValueDataBorder"
+                                                            Grid.Row="0"
+                                                            BorderBrush="#FFE84F24"
+                                                            BorderThickness="0" />
                                                     </Grid>
                                                 </StackPanel>
                                             </Grid>
@@ -1224,39 +1227,39 @@
                                     <PivotItem>
                                         <PivotItem.Header>
                                             <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource TitleTextBlockStyle2}"
-                                            Text="Rename Value" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TitleTextBlockStyle2}"
+                                                Text="Rename Value" />
                                         </PivotItem.Header>
                                     </PivotItem>
                                     <PivotItem>
                                         <PivotItem.Header>
                                             <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource TitleTextBlockStyle2}"
-                                            Text="Delete Value" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TitleTextBlockStyle2}"
+                                                Text="Delete Value" />
                                         </PivotItem.Header>
                                     </PivotItem>
                                     <PivotItem>
                                         <PivotItem.Header>
                                             <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource TitleTextBlockStyle2}"
-                                            Text="Copy Value" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TitleTextBlockStyle2}"
+                                                Text="Copy Value" />
                                         </PivotItem.Header>
                                     </PivotItem>
                                     <PivotItem>
                                         <PivotItem.Header>
                                             <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource TitleTextBlockStyle2}"
-                                            Text="Add to favorites" />
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TitleTextBlockStyle2}"
+                                                Text="Add to favorites" />
                                         </PivotItem.Header>
                                     </PivotItem>
                                 </Pivot>
                             </StackPanel>
                         </Grid>
-                        
+
                     </Grid>
                 </StackPanel>
 

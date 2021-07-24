@@ -2,128 +2,152 @@
     x:Class="InteropTools.ShellPages.IO.FileExplorerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:InteropTools.ShellPages.IO"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:InteropTools.ShellPages.IO"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
 
         <Storyboard x:Key="PlayAnimation">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="ValEditCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="ValEditCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
         </Storyboard>
 
         <Storyboard x:Key="RevertAnimation">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="-90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="ValEditCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="ValEditCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValEditCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
         </Storyboard>
 
         <Storyboard x:Key="PlayAnimationCreate">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="ValCreateCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="ValCreateCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
         </Storyboard>
 
         <Storyboard x:Key="RevertAnimationCreate">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="-90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="ValCreateCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="ValCreateCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="ValCreateCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
         </Storyboard>
 
         <Storyboard x:Key="PlayAnimationFavorite">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="FavListCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="FavListCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
         </Storyboard>
 
         <Storyboard x:Key="RevertAnimationFavorite">
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="-90" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="FavListCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="FavListCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="0" 
-                         Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" 
-                         Storyboard.TargetName="BrowserCtrl" />
-            <DoubleAnimation Duration="0:0:0.18" 
-                         To="1" 
-                         Storyboard.TargetProperty="Opacity" 
-                         Storyboard.TargetName="BrowserCtrl" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="-90"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="FavListCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)"
+                To="0"
+                Duration="0:0:0.18" />
+            <DoubleAnimation
+                Storyboard.TargetName="BrowserCtrl"
+                Storyboard.TargetProperty="Opacity"
+                To="1"
+                Duration="0:0:0.18" />
         </Storyboard>
 
-        <!--ListViewHeader matching the start menu headers, more Win10 like-->
+        <!--  ListViewHeader matching the start menu headers, more Win10 like  -->
         <Style TargetType="ListViewHeaderItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
@@ -137,16 +161,18 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewHeaderItem">
-                        <StackPanel Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Margin="{TemplateBinding Padding}"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <StackPanel
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}" />
                         </StackPanel>
                     </ControlTemplate>
                 </Setter.Value>
@@ -168,52 +194,110 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Background="{ThemeResource SystemChromeLowColor}">
                     <Grid>
-                        <Rectangle Fill="{ThemeResource SystemChromeMediumColor}"/>
-                        <Rectangle DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" Fill="{ThemeResource SystemChromeLowColor}"/>
+                        <Rectangle Fill="{ThemeResource SystemChromeMediumColor}" />
+                        <Rectangle
+                            DataContext="{x:Bind Frame}"
+                            Fill="{ThemeResource SystemChromeLowColor}"
+                            Visibility="{Binding PageTitleVisibility}" />
                         <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
-                            <TextBlock x:Uid="Registry_Browser_Title" Style="{StaticResource TitleTextBlockStyle}"
-                           DataContext="{x:Bind Frame}" Visibility="{Binding PageTitleVisibility}" />
+                            <TextBlock
+                                x:Uid="Registry_Browser_Title"
+                                DataContext="{x:Bind Frame}"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Visibility="{Binding PageTitleVisibility}" />
 
-                            <Grid x:Name="JumpToGrid" Visibility="Collapsed" Margin="0,0,0,18" HorizontalAlignment="Stretch">
+                            <Grid
+                                x:Name="JumpToGrid"
+                                Margin="0,0,0,18"
+                                HorizontalAlignment="Stretch"
+                                Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="32" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox x:Name="PathInput" Grid.Column="0" IsSpellCheckEnabled="False"
-                             x:Uid="Path_Input" HorizontalAlignment="Stretch" LostFocus="PathInput_LostFocus" />
-                                <Button x:Name="KeyActionButton" IsEnabled="False" Background="{ThemeResource SystemControlForegroundAccentBrush}"
-                            FontFamily="{StaticResource FullMDL2FontFamily}" FontSize="11" Grid.Column="1" Width="32" Height="32"
-                            Click="KeyActionButton_Click">
-                                    <SymbolIcon x:Name="KeyActionIcon" Symbol="Cancel" Margin="-16,-16,-16,-16" />
+                                <TextBox
+                                    x:Name="PathInput"
+                                    x:Uid="Path_Input"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Stretch"
+                                    IsSpellCheckEnabled="False"
+                                    LostFocus="PathInput_LostFocus" />
+                                <Button
+                                    x:Name="KeyActionButton"
+                                    Grid.Column="1"
+                                    Width="32"
+                                    Height="32"
+                                    Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Click="KeyActionButton_Click"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    FontSize="11"
+                                    IsEnabled="False">
+                                    <SymbolIcon
+                                        x:Name="KeyActionIcon"
+                                        Margin="-16,-16,-16,-16"
+                                        Symbol="Cancel" />
                                 </Button>
                             </Grid>
                             <Grid Margin="0,-14,0,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="BreadCrumbBarIcon" Margin="0,0,4,0" Grid.Column="0" FontSize="24" FontFamily="{StaticResource FullMDL2FontFamily}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
-                                <local:BreadCrumbControl Margin="0,2,0,0" Grid.Column="1" x:Name="Breadcrumbbar" HorizontalAlignment="Stretch"/>
+                                <TextBlock
+                                    x:Name="BreadCrumbBarIcon"
+                                    Grid.Column="0"
+                                    Margin="0,0,4,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    FontSize="24"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+                                <local:BreadCrumbControl
+                                    x:Name="Breadcrumbbar"
+                                    Grid.Column="1"
+                                    Margin="0,2,0,0"
+                                    HorizontalAlignment="Stretch" />
                             </Grid>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <local:BrowserControl x:Name="BrowserCtrl" Grid.Row="1"
-                                  OnCurrentItemChanged="BrowserControl_OnCurrentItemChanged">
+                <local:BrowserControl
+                    x:Name="BrowserCtrl"
+                    Grid.Row="1"
+                    OnCurrentItemChanged="BrowserControl_OnCurrentItemChanged">
                     <local:BrowserControl.Projection>
-                        <PlaneProjection RotationX="0"/>
+                        <PlaneProjection RotationX="0" />
                     </local:BrowserControl.Projection>
                 </local:BrowserControl>
             </Grid>
-            <CommandBar x:Name="MainCommandBar" VerticalAlignment="Bottom" Grid.Row="1">
+            <CommandBar
+                x:Name="MainCommandBar"
+                Grid.Row="1"
+                VerticalAlignment="Bottom">
                 <CommandBar.Background>
-                    <SolidColorBrush Color="{ThemeResource SystemChromeHighColor}" Opacity="0.325"/>
+                    <SolidColorBrush Opacity="0.325" Color="{ThemeResource SystemChromeHighColor}" />
                 </CommandBar.Background>
-                <AppBarButton Icon="OutlineStar" Click="AppBarButton_Click_1" Label="View favorites"/>
-                <AppBarButton x:Uid="Sort_Mode" Click="AppBarButton_Click" Icon="Sort" />
-                <AppBarToggleButton x:Uid="Jump_To" x:Name="JumpToButton" Click="JumpToButton_Click" Icon="MoveToFolder" />
-                <AppBarButton x:Uid="Add_key_Button" Icon="NewFolder" Click="AddKeyButton_Click" />
-                <AppBarButton x:Uid="Add_value_Button" Icon="Add" Click="AddValueButton_Click" />
+                <AppBarButton
+                    Click="AppBarButton_Click_1"
+                    Icon="OutlineStar"
+                    Label="View favorites" />
+                <AppBarButton
+                    x:Uid="Sort_Mode"
+                    Click="AppBarButton_Click"
+                    Icon="Sort" />
+                <AppBarToggleButton
+                    x:Name="JumpToButton"
+                    x:Uid="Jump_To"
+                    Click="JumpToButton_Click"
+                    Icon="MoveToFolder" />
+                <AppBarButton
+                    x:Uid="Add_key_Button"
+                    Click="AddKeyButton_Click"
+                    Icon="NewFolder" />
+                <AppBarButton
+                    x:Uid="Add_value_Button"
+                    Click="AddValueButton_Click"
+                    Icon="Add" />
             </CommandBar>
         </Grid>
 
