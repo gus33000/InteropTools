@@ -22,7 +22,7 @@ namespace InteropTools.ContentDialogs.AppManager
         private Package _package;
         private readonly string fullname = "";
 
-        private readonly ObservableCollection<Item> ItemsList = new ObservableCollection<Item>();
+        private readonly ObservableCollection<Item> ItemsList = new();
 
         public AppPackageContentDialog(string fullname)
         {
@@ -33,7 +33,7 @@ namespace InteropTools.ContentDialogs.AppManager
 
         public async void GatherInfos()
         {
-            PackageManager PackageMan = new PackageManager();
+            PackageManager PackageMan = new();
 
             try
             {
@@ -623,13 +623,13 @@ namespace InteropTools.ContentDialogs.AppManager
 
                         try
                         {
-                            Size logosize = new Size
+                            Size logosize = new()
                             {
                                 Height = 48,
                                 Width = 48
                             };
                             Windows.Storage.Streams.RandomAccessStreamReference applogo = AppEntry.DisplayInfo.GetLogo(logosize);
-                            BitmapImage bitmapImage = new BitmapImage();
+                            BitmapImage bitmapImage = new();
                             Windows.Storage.Streams.IRandomAccessStreamWithContentType ras = await applogo.OpenReadAsync();
                             bitmapImage.SetSource(ras);
                             logo = bitmapImage;
@@ -666,7 +666,7 @@ namespace InteropTools.ContentDialogs.AppManager
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
         {
             TextBlock SelectedItem = (TextBlock)e.OriginalSource;
-            DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             Hide();

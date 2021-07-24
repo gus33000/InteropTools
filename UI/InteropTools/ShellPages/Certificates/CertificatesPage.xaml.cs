@@ -16,7 +16,7 @@ namespace InteropTools.ShellPages.Certificates
         public string PageName => "Certificates";
         public PageGroup PageGroup => PageGroup.General;
 
-        private readonly List<string> _knownCertificateStores = new List<string>
+        private readonly List<string> _knownCertificateStores = new()
         {
             "TrustedPublisher",
             "ClientAuthIssuer",
@@ -41,7 +41,7 @@ namespace InteropTools.ShellPages.Certificates
             "Homegroup Machine Certificates"
         };
 
-        private readonly ObservableCollection<Certificate> _maincertList = new ObservableCollection<Certificate>();
+        private readonly ObservableCollection<Certificate> _maincertList = new();
 
         public CertificatesPage()
         {
@@ -74,10 +74,10 @@ namespace InteropTools.ShellPages.Certificates
             {
                 try
                 {
-                    CertificateQuery query = new CertificateQuery { StoreName = certStore };
+                    CertificateQuery query = new() { StoreName = certStore };
                     IReadOnlyList<Certificate> certificates = await CertificateStores.FindAllAsync(query);
-                    List<Certificate> localMachineCerts = new List<Certificate>();
-                    List<Certificate> currentUserCerts = new List<Certificate>();
+                    List<Certificate> localMachineCerts = new();
+                    List<Certificate> currentUserCerts = new();
 
                     foreach (Certificate cert in certificates)
                     {
@@ -102,22 +102,22 @@ namespace InteropTools.ShellPages.Certificates
 
                     if (localMachineCerts.Count != 0)
                     {
-                        PivotItem lmpivot = new PivotItem { Header = GetFriendlyStoreName(certStore) };
+                        PivotItem lmpivot = new() { Header = GetFriendlyStoreName(certStore) };
                         LocalMachinePivot.Items.Add(lmpivot);
-                        ListView listview = new ListView
+                        ListView listview = new()
                         {
                             ItemTemplate = CertListViewTemplate,
                             IsItemClickEnabled = true,
                             SelectionMode = ListViewSelectionMode.None
                         };
                         listview.ItemClick += Listview_ItemClick;
-                        ObservableCollection<DisplayCertificate> certList = new ObservableCollection<DisplayCertificate>();
+                        ObservableCollection<DisplayCertificate> certList = new();
                         listview.ItemsSource = certList;
                         lmpivot.Content = listview;
 
                         foreach (Certificate cert in localMachineCerts)
                         {
-                            DisplayCertificate dispCert = new DisplayCertificate(cert) { Index = _maincertList.Count.ToString() };
+                            DisplayCertificate dispCert = new(cert) { Index = _maincertList.Count.ToString() };
                             _maincertList.Add(cert);
                             certList.Add(dispCert);
                         }
@@ -129,22 +129,22 @@ namespace InteropTools.ShellPages.Certificates
                     }
 
                     {
-                        PivotItem cupivot = new PivotItem { Header = GetFriendlyStoreName(certStore) };
+                        PivotItem cupivot = new() { Header = GetFriendlyStoreName(certStore) };
                         CurrentUserPivot.Items.Add(cupivot);
-                        ListView listview = new ListView
+                        ListView listview = new()
                         {
                             ItemTemplate = CertListViewTemplate,
                             IsItemClickEnabled = true,
                             SelectionMode = ListViewSelectionMode.None
                         };
                         listview.ItemClick += Listview_ItemClick;
-                        ObservableCollection<DisplayCertificate> certList = new ObservableCollection<DisplayCertificate>();
+                        ObservableCollection<DisplayCertificate> certList = new();
                         listview.ItemsSource = certList;
                         cupivot.Content = listview;
 
                         foreach (Certificate cert in currentUserCerts)
                         {
-                            DisplayCertificate dispCert = new DisplayCertificate(cert) { Index = _maincertList.Count.ToString() };
+                            DisplayCertificate dispCert = new(cert) { Index = _maincertList.Count.ToString() };
                             _maincertList.Add(cert);
                             certList.Add(dispCert);
                         }
@@ -251,8 +251,8 @@ namespace InteropTools.ShellPages.Certificates
             StackPanel sndr = (StackPanel)sender;
             string index = ((TextBlock)sndr.Children[0]).Text;
             Certificate selectedItem = _maincertList[int.Parse(index)];
-            MenuFlyout flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
-            MenuFlyoutItem flyoutitem1 = new MenuFlyoutItem
+            MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+            MenuFlyoutItem flyoutitem1 = new()
             {
                 Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete", ResourceContext.GetForCurrentView()).ValueAsString
             };

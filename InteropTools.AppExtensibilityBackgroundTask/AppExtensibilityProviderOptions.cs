@@ -5,7 +5,7 @@ namespace InteropTools.AppExtensibilityBackgroundTask
 {
     internal class AppExtensibilityProviderOptions : Options
     {
-        public static readonly Guid ID = new Guid("AB577183-9A64-47E0-B4B6-E8B5D309F537");
+        public static readonly Guid ID = new("AB577183-9A64-47E0-B4B6-E8B5D309F537");
 
         private readonly AbstractOption[] abstractOption;
 

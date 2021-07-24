@@ -75,7 +75,7 @@ namespace InteropTools.ShellPages.Core
 
             foreach (RebootPlugin item in reglist.Plugins)
             {
-                DisplayableRegPlugin itm = new DisplayableRegPlugin(item)
+                DisplayableRegPlugin itm = new(item)
                 {
                     Logo = new BitmapImage()
                 };
@@ -91,7 +91,7 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RegPlugin>())
                         {
-                            DisplayableRegPlugin itm = new DisplayableRegPlugin(item)
+                            DisplayableRegPlugin itm = new(item)
                             {
                                 Logo = new BitmapImage()
                             };
@@ -121,7 +121,7 @@ namespace InteropTools.ShellPages.Core
 
             foreach (RebootPlugin item in rebootlist.Plugins)
             {
-                DisplayablePowerPlugin itm = new DisplayablePowerPlugin(item)
+                DisplayablePowerPlugin itm = new(item)
                 {
                     Logo = new BitmapImage()
                 };
@@ -137,7 +137,7 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RebootPlugin>())
                         {
-                            DisplayablePowerPlugin itm = new DisplayablePowerPlugin(item)
+                            DisplayablePowerPlugin itm = new(item)
                             {
                                 Logo = new BitmapImage()
                             };
@@ -167,7 +167,7 @@ namespace InteropTools.ShellPages.Core
 
             foreach (RebootPlugin item in applicationlist.Plugins)
             {
-                DisplayableApplicationPlugin itm = new DisplayableApplicationPlugin(item)
+                DisplayableApplicationPlugin itm = new(item)
                 {
                     Logo = new BitmapImage()
                 };
@@ -183,7 +183,7 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<ApplicationPlugin>())
                         {
-                            DisplayableApplicationPlugin itm = new DisplayableApplicationPlugin(item)
+                            DisplayableApplicationPlugin itm = new(item)
                             {
                                 Logo = new BitmapImage()
                             };

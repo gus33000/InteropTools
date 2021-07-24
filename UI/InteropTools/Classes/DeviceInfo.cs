@@ -14,7 +14,7 @@ namespace InteropTools.Classes
         private DeviceInfo()
         {
             HardwareId = GetId();
-            EasClientDeviceInformation deviceInformation = new EasClientDeviceInformation();
+            EasClientDeviceInformation deviceInformation = new();
             FriendlyName = deviceInformation.FriendlyName;
             UUID = deviceInformation.Id.ToString();
             OperatingSystem = deviceInformation.OperatingSystem;

@@ -49,7 +49,7 @@ namespace InteropTools.ShellPages.Core
         private void Refresh()
         {
             Shell shell = (Shell)App.AppContent;
-            Presentation.ShellViewModel vm = shell.ViewModel;
+            _ = shell.ViewModel;
             GridView2.ItemsSource = ((Shell)App.AppContent).recentitems5max;
         }
 
@@ -74,7 +74,7 @@ namespace InteropTools.ShellPages.Core
 			var square310X310Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/310x310Logo.scale-400.png");
 			var square30X30Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/44x44Logo.scale-400.png");*/
             string tileActivationArguments = page;
-            SecondaryTile secondaryTile = new SecondaryTile(page,
+            SecondaryTile secondaryTile = new(page,
                                                   item.DisplayName,
                                                   tileActivationArguments,
                                                   null,

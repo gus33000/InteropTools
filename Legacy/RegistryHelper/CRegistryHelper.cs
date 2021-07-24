@@ -1047,7 +1047,7 @@ namespace RegistryHelper
 
         public bool DoesFileExists(string path)
         {
-            bool fileexists = false;
+            bool fileexists;
             try
             {
                 fileexists = File.Exists(path);

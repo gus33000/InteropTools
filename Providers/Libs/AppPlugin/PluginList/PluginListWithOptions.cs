@@ -22,7 +22,7 @@ namespace AppPlugin.PluginList
 
             internal PluginProvider(AppExtension ext, string serviceName) : base(ext, serviceName)
             {
-                PrototypeOptions = GetPlugin(null, default(CancellationToken)).ContinueWith(x => x.Result.RequestOptionsAsync()).Unwrap();
+                PrototypeOptions = GetPlugin(null, default).ContinueWith(x => x.Result.RequestOptionsAsync()).Unwrap();
             }
 
 
@@ -31,7 +31,7 @@ namespace AppPlugin.PluginList
                 return PluginConnection.CreateAsync(ServiceName, Extension, progress, cancelTokem);
             }
 
-            public async Task<TOut> ExecuteAsync(TIn input, TOption options, IProgress<TProgress> progress = null, CancellationToken cancelTokem = default(CancellationToken))
+            public async Task<TOut> ExecuteAsync(TIn input, TOption options, IProgress<TProgress> progress = null, CancellationToken cancelTokem = default)
             {
                 using (PluginConnection plugin = await GetPlugin(progress, cancelTokem))
                 {
@@ -54,7 +54,7 @@ namespace AppPlugin.PluginList
             private readonly Guid id = Guid.NewGuid();
 
 
-            private PluginConnection(AppServiceConnection connection, IProgress<TProgress> progress, CancellationToken cancelTokem = default(CancellationToken))
+            private PluginConnection(AppServiceConnection connection, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
             {
                 this.connection = connection;
                 connection.ServiceClosed += Connection_ServiceClosed;
@@ -101,14 +101,14 @@ namespace AppPlugin.PluginList
 
                 if (!response.Message.ContainsKey(AbstractPlugin<object, object, object>.RESULT_KEY))
                 {
-                    return default(TOption);
+                    return default;
                 }
 
                 string resultString = response.Message[AbstractPlugin<object, object, object>.RESULT_KEY] as string;
 
                 if (string.IsNullOrWhiteSpace(resultString))
                 {
-                    return default(TOption);
+                    return default;
                 }
 
                 TOption output = Helper.DeSerilize<TOption>(resultString);
@@ -148,7 +148,7 @@ namespace AppPlugin.PluginList
                 Dispose();
             }
 
-            public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default(CancellationToken))
+            public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
             {
                 AppServiceConnection connection = new AppServiceConnection();
 
@@ -169,7 +169,6 @@ namespace AppPlugin.PluginList
                     //Clean up before we go
                     Exceptions.ConnectionFailureException exception = new Exceptions.ConnectionFailureException(status, connection);
                     connection.Dispose();
-                    connection = null;
                     throw exception;
                 }
             }
@@ -216,14 +215,14 @@ namespace AppPlugin.PluginList
 
                 if (!response.Message.ContainsKey(AbstractPlugin<object, object, object>.RESULT_KEY))
                 {
-                    return default(TOut);
+                    return default;
                 }
 
                 string outputString = response.Message[AbstractPlugin<object, object, object>.RESULT_KEY] as string;
 
                 if (string.IsNullOrWhiteSpace(outputString))
                 {
-                    return default(TOut);
+                    return default;
                 }
 
                 TOut output = Helper.DeSerilize<TOut>(outputString);

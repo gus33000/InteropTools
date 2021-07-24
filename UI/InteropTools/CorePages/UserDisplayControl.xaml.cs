@@ -57,10 +57,10 @@ namespace InteropTools.CorePages
                 if (datapic != null)
                 {
                     okay = true;
-                    BitmapImage pic = new BitmapImage();
+                    BitmapImage pic = new();
                     pic.SetSource(await datapic.OpenReadAsync());
 
-                    ImageBrush imgbrush = new ImageBrush
+                    ImageBrush imgbrush = new()
                     {
                         ImageSource = pic
                     };

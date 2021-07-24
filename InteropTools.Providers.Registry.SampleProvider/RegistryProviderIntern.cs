@@ -137,8 +137,8 @@ namespace InteropTools.Providers.Registry.SampleProvider
                                 }
 
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Hive.HasValue ? item.Hive.Value.ToString() : "")));
-                                itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Key == null ? "" : item.Key)));
-                                itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Name == null ? "" : item.Name)));
+                                itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Key ?? "")));
+                                itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Name ?? "")));
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Type.HasValue ? item.Type.Value.ToString() : "")));
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.ValueType.HasValue ? item.ValueType.Value.ToString() : "")));
                                 returnvalue.Add(itemlist);

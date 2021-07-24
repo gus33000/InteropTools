@@ -81,7 +81,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new Result { Status = "SUCCESS" };
+                                    Result result = new() { Status = "SUCCESS" };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -105,7 +105,7 @@ namespace InteropTools.RemoteClasses.Server
 
                                     string valuedata = error.regvalue;
 
-                                    Result result = new Result
+                                    Result result = new()
                                     {
                                         Error = error.returncode.ToString(),
                                         ValueData = valuedata,
@@ -131,7 +131,7 @@ namespace InteropTools.RemoteClasses.Server
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     Enum.TryParse(data.ValueType, out RegTypes type);
                                     HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName, type, data.ValueData);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -151,7 +151,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     KeyStatus status = await _helper.GetKeyStatus(hive, data.Key);
-                                    Result result = new Result { Status = status.ToString() };
+                                    Result result = new() { Status = status.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -171,7 +171,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.DeleteValue(hive, data.Key, data.ValueName);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -191,7 +191,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.DeleteKey(hive, data.Key, data.Recursive);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -211,7 +211,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.AddKey(hive, data.Key);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -231,7 +231,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.RenameKey(hive, data.Key, data.NewName);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -250,7 +250,7 @@ namespace InteropTools.RemoteClasses.Server
                                 try
                                 {
                                     IReadOnlyList<RegistryItemCustom> regitems = await _helper.GetRegistryHives2();
-                                    Result result = new Result();
+                                    Result result = new();
                                     List<Item> items = regitems.Select(item => new Item
                                     {
                                         Hive = item.Hive.ToString(),
@@ -280,7 +280,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     IReadOnlyList<RegistryItemCustom> regitems = await _helper.GetRegistryItems2(hive, data.Key);
-                                    Result result = new Result();
+                                    Result result = new();
                                     List<Item> items = regitems.Select(item => new Item
                                     {
                                         Hive = item.Hive.ToString(),
@@ -312,7 +312,7 @@ namespace InteropTools.RemoteClasses.Server
                                     uint type = data.ValueType2;
                                     GetKeyValueReturn2 error = await _helper.GetKeyValue(hive, data.Key, data.ValueName, type);
                                     string valuedata = error.regvalue;
-                                    Result result = new Result
+                                    Result result = new()
                                     {
                                         Error = error.returncode.ToString(),
                                         ValueData = valuedata,
@@ -338,7 +338,7 @@ namespace InteropTools.RemoteClasses.Server
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     uint type = data.ValueType2;
                                     HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName, type, data.ValueData);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -356,7 +356,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new Result { Exists = _helper.DoesFileExists(data.Path) };
+                                    Result result = new() { Exists = _helper.DoesFileExists(data.Path) };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -374,7 +374,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new Result { AppInstallationPath = _helper.GetAppInstallationPath() };
+                                    Result result = new() { AppInstallationPath = _helper.GetAppInstallationPath() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -394,7 +394,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     GetKeyLastModifiedTime error = await _helper.GetKeyLastModifiedTime(hive, data.Key);
-                                    Result result = new Result { Error = error.returncode.ToString(), LastModifiedTime = error.LastModified };
+                                    Result result = new() { Error = error.returncode.ToString(), LastModifiedTime = error.LastModified };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -412,7 +412,7 @@ namespace InteropTools.RemoteClasses.Server
                                 try
                                 {
                                     HelperErrorCodes error = await _helper.LoadHive(data.FilePath, data.mountpoint, data.inUser);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -430,7 +430,7 @@ namespace InteropTools.RemoteClasses.Server
                                 try
                                 {
                                     HelperErrorCodes error = await _helper.UnloadHive(data.mountpoint, data.inUser);
-                                    Result result = new Result { Error = error.ToString() };
+                                    Result result = new() { Error = error.ToString() };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -455,7 +455,7 @@ namespace InteropTools.RemoteClasses.Server
                 {
                     try
                     {
-                        Result result = new Result { Status = "FAILED" };
+                        Result result = new() { Status = "FAILED" };
                         data.Result = result;
                         string resultjson = JsonConvert.SerializeObject(data);
                         return resultjson;

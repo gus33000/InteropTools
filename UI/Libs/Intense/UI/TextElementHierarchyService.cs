@@ -19,13 +19,11 @@ namespace Intense.UI
 
         public IEnumerable<TextElement> GetChildren(TextElement o)
         {
-            Paragraph paragraph = o as Paragraph;
-            if (paragraph != null)
+            if (o is Paragraph paragraph)
             {
                 return paragraph.Inlines;
             }
-            Span span = o as Span;
-            if (span != null)
+            if (o is Span span)
             {
                 return span.Inlines;
             }

@@ -199,7 +199,7 @@ namespace InteropTools.ShellPages.AppManager
 
         private async void BrowseMainPackageButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            FileOpenPicker picker = new FileOpenPicker
+            FileOpenPicker picker = new()
             {
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.ComputerFolder
@@ -294,7 +294,7 @@ namespace InteropTools.ShellPages.AppManager
 
         private async void BrowseMainUnpackedPackageButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            FileOpenPicker picker = new FileOpenPicker
+            FileOpenPicker picker = new()
             {
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.ComputerFolder
@@ -550,7 +550,7 @@ namespace InteropTools.ShellPages.AppManager
         */
         private async void BrowseUpdatePackageButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            FileOpenPicker picker = new FileOpenPicker
+            FileOpenPicker picker = new()
             {
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.ComputerFolder

@@ -50,7 +50,7 @@ namespace InteropTools.Presentation
         public static List<AlphaKeyGroup<T>> CreateGroups(IEnumerable<T> items, CultureInfo ci, GetKeyDelegate getKey,
             bool sort)
         {
-            CharacterGroupings slg = new CharacterGroupings();
+            CharacterGroupings slg = new();
             List<AlphaKeyGroup<T>> list = CreateGroups(slg);
 
             foreach (T item in items)

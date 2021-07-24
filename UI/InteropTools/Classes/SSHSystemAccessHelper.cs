@@ -31,7 +31,7 @@ namespace InteropTools.Classes
 
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "4")
             {
@@ -48,7 +48,7 @@ namespace InteropTools.Classes
             }
 
             ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                               RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+                               RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -142,12 +142,12 @@ namespace InteropTools.Classes
                     string Server = helper.GetHostName();
                     string Username = "InteropTools";
                     string Password = regvalue;
-                    PasswordConnectionInfo coninfo = new PasswordConnectionInfo(Server, Username, Password)
+                    PasswordConnectionInfo coninfo = new(Server, Username, Password)
                     {
                         Timeout = new TimeSpan(0, 0, 5),
                         RetryAttempts = 1
                     };
-                    SftpClient sclient = new SftpClient(coninfo)
+                    SftpClient sclient = new(coninfo)
                     {
                         OperationTimeout = new TimeSpan(0, 0, 5)
                     };
@@ -166,7 +166,7 @@ namespace InteropTools.Classes
                     sclient.UploadFile(netisol, "/C/Windows/System32/CheckNetIsolation.exe");
                     sclient.UploadFile(netisolmui, "/C/Windows/System32/en-US/CheckNetIsolation.exe.mui");
                     sclient.Disconnect();
-                    SshClient SshClient = new SshClient(coninfo);
+                    SshClient SshClient = new(coninfo);
                     SshClient.Connect();
                     SshClient.KeepAliveInterval = new TimeSpan(0, 0, 10);
                     string str = SshClient.RunCommand(@"%SystemRoot%\system32\CheckNetIsolation.exe LoopbackExempt -a -n=" + Package.Current.Id.FamilyName).Execute();

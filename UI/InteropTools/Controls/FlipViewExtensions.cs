@@ -76,9 +76,7 @@ namespace InteropTools.Controls
 
             if ((bool)args.NewValue)
             {
-                IEnumerable enumerable = flipView.ItemsSource as IEnumerable;
-
-                if (enumerable != null)
+                if (flipView.ItemsSource is IEnumerable enumerable)
                 {
                     Initialize(flipView);
                 }
@@ -89,11 +87,9 @@ namespace InteropTools.Controls
             }
             else
             {
-                FlipViewList flipViewList = flipView.ItemsSource as FlipViewList;
-
                 flipView.SelectionChanged -= flipView_SelectionChanged;
 
-                if (flipViewList != null)
+                if (flipView.ItemsSource is FlipViewList flipViewList)
                 {
                     object selectedItem = flipView.SelectedItem;
 
@@ -117,9 +113,8 @@ namespace InteropTools.Controls
         {
             flipView.SelectionChanged -= flipView_SelectionChanged;
 
-            INotifyCollectionChanged collectionChanged = flipView.ItemsSource as INotifyCollectionChanged;
 
-            if (collectionChanged != null)
+            if (flipView.ItemsSource is INotifyCollectionChanged collectionChanged)
             {
                 collectionChanged.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e)
                 {
@@ -127,13 +122,12 @@ namespace InteropTools.Controls
                 };
             }
 
-            IEnumerable enumerable = flipView.ItemsSource as IEnumerable;
 
-            if (enumerable != null)
+            if (flipView.ItemsSource is IEnumerable enumerable)
             {
                 IEnumerable<object> enumerableObjects = enumerable.OfType<object>();
 
-                FlipViewList loopingList = new FlipViewList(enumerableObjects);
+                FlipViewList loopingList = new(enumerableObjects);
 
                 loopingList.Insert(0, enumerableObjects.Last());
 
@@ -181,11 +175,9 @@ namespace InteropTools.Controls
         {
             FlipView flipView = sender as FlipView;
 
-            FlipViewList list = flipView.ItemsSource as FlipViewList;
 
-            int count = 0;
-
-            if (list == null)
+            int count;
+            if (flipView.ItemsSource is not FlipViewList list)
             {
                 count = Initialize(flipView);
             }

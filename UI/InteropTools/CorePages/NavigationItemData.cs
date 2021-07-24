@@ -45,9 +45,7 @@ namespace InteropTools.CorePages
 
         public override bool Equals(object obj)
         {
-            NavigationItemData eqobj = obj as NavigationItemData;
-
-            if (eqobj == null)
+            if (obj is not NavigationItemData eqobj)
             {
                 return false;
             }

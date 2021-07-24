@@ -28,37 +28,34 @@ namespace InteropTools.ShellPages.Registry
 
         private async Task<bool> CheckRestoreNDTK()
         {
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
             return regvalue.ToLower() == "c:\\windows\\system32\\ndtksvc.dll";
         }
 
         private async Task<bool> CheckRestoreNDTKx50()
         {
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
             return regvalue.ToLower() == "c:\\data\\users\\public\\ndtk\\ndtksvc.dll";
         }
 
         private async Task<bool> CheckFSAccess()
         {
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp",
               "ObjectName",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "LocalSystem")
             {
@@ -69,7 +66,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SYSTEM\\controlset001\\services\\SdStor\\Parameters",
               "PackedCommandEnable",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -80,7 +77,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp",
               "Type",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "16")
             {
@@ -91,7 +88,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp",
               "ServiceSidType",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -102,7 +99,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "Data0",
-              RegTypes.REG_BINARY); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
               !((regvalue.ToLower() == "7508bca3290b900c") ||
@@ -115,7 +112,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "Data1",
-              RegTypes.REG_BINARY); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
               !((regvalue.ToLower() == "0000000001000000") ||
@@ -128,7 +125,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "DataType0",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -139,7 +136,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "DataType1",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -150,7 +147,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "Guid",
-              RegTypes.REG_BINARY); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
               !((regvalue.ToLower() == "16287a2d5e0cfc459ce7570e5ecde9c9") ||
@@ -163,7 +160,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
               "Type",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
             return regvalue == "7";
         }
         /*
@@ -393,13 +390,12 @@ namespace InteropTools.ShellPages.Registry
 
         private async Task<bool> CheckCapUnlock()
         {
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SYSTEM\\controlset001\\Control\\CI",
               "CI_DEVELOPERMODE",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -410,7 +406,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\DeviceReg\\Install",
               "MaxUnsignedApp",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "65539")
             {
@@ -421,7 +417,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\DeviceReg",
               "PortalUrlProd",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "https://127.0.0.1")
             {
@@ -432,7 +428,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\DeviceReg",
               "PortalUrlInt",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "https://127.0.0.1")
             {
@@ -443,7 +439,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\PackageManager",
               "EnableAppLicenseCheck",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "0")
             {
@@ -454,7 +450,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\PackageManager",
               "EnableAppSignatureCheck",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "0")
             {
@@ -465,7 +461,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\PackageManager",
               "EnableAppProvisioning",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "0")
             {
@@ -476,7 +472,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager",
               "DeveloperUnlockState",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -487,7 +483,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\DeveloperUnlock",
               "DeveloperUnlockState",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -498,7 +494,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
               "CapabilityClass",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "CAPABILITY_CLASS_DEVELOPER_UNLOCK")
             {
@@ -509,7 +505,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
               "PrincipalClass",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "PRINCIPAL_CLASS_ISV_DEVELOPER_UNLOCK")
             {
@@ -520,7 +516,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
               "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "CAPABILITY_CLASS_FIRST_PARTY_APPLICATIONS")
             {
@@ -531,7 +527,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
               "CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue !=
                 "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS\nCAPABILITY_CLASS_ENTERPRISE_APPLICATIONS\nCAPABILITY_CLASS_DEVELOPER_UNLOCK")
@@ -543,7 +539,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
               "CAPABILITY_CLASS_ENTERPRISE_OEM_LOW_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS")
             {
@@ -554,7 +550,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
               "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS")
             {
@@ -565,7 +561,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
               "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_VERY_HIGH_ACCESS_APPLICATIONS")
             {
@@ -576,7 +572,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
               "AttachEnabled",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -587,7 +583,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
               "Enabled",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "0")
             {
@@ -598,7 +594,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               @"SOFTWARE\Microsoft\Silverlight\Debugger",
               "WaitForAttach",
-              RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -637,13 +633,12 @@ namespace InteropTools.ShellPages.Registry
 
         private async Task<bool> CheckNewCapUnlock()
         {
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
               "CapabilityClass",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "capabilityClass_DevUnlock_Internal")
             {
@@ -654,7 +649,7 @@ namespace InteropTools.ShellPages.Registry
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
               "PrincipalClass",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != "principalClass_DevUnlock_Internal")
             {

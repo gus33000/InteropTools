@@ -28,7 +28,7 @@ namespace InteropTools.ShellPages.Registry
         private readonly IRegistryProvider _helper;
 
         private readonly ObservableCollection<AppAssotiationItem> _itemlist =
-          new ObservableCollection<AppAssotiationItem>();
+          new();
 
         private readonly string _resUnknown = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).
                                               ValueAsString;
@@ -73,8 +73,8 @@ namespace InteropTools.ShellPages.Registry
                 {
                     counter++;
                     await RunInUiThread(() => { LoadingBar.Value = counter; });
-                    AppAssotiationItem appasso = new AppAssotiationItem { Extension = item.Name };
-                    List<AppAssotiation> listasso = new List<AppAssotiation>();
+                    AppAssotiationItem appasso = new() { Extension = item.Name };
+                    List<AppAssotiation> listasso = new();
                     RegTypes regtype;
                     string regvalue;
                     GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_CLASSES_ROOT, item.Name, "Content Type",
@@ -88,7 +88,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         foreach (RegistryItemCustom item2 in items2)
                         {
-                            AppAssotiation appAssotiation = new AppAssotiation();
+                            AppAssotiation appAssotiation = new();
                             IReadOnlyList<RegistryItemCustom> items3 = await _helper.GetRegistryItems2(RegHives.HKEY_CURRENT_USER,
                                                                   @"Software\Classes\" + item2.Name + @"\Application");
 
@@ -191,9 +191,9 @@ namespace InteropTools.ShellPages.Registry
                 try
                 {
                     List<string> pfnlist = (from item in _itemlist from item2 in item.Applist select item2.Launchuri.ToLower()).ToList();
-                    List<Packageinfos> packages = new List<Packageinfos>();
-                    PackageManager pkgman = new PackageManager();
-                    ObservableRangeCollection<Package> applist = new ObservableRangeCollection<Package>();
+                    List<Packageinfos> packages = new();
+                    PackageManager pkgman = new();
+                    ObservableRangeCollection<Package> applist = new();
                     applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.None));
                     applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.Bundle));
                     applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.Framework));
@@ -210,7 +210,7 @@ namespace InteropTools.ShellPages.Registry
 
                     applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.Resource));
                     applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.Xap));
-                    List<Package> pkgs = new List<Package>();
+                    List<Package> pkgs = new();
 
                     foreach (Package item in applist)
                     {
@@ -226,7 +226,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         if (pfnlist.Contains(package.Id.FamilyName.ToLower()))
                         {
-                            Packageinfos app = new Packageinfos { Packagefamillyname = package.Id.FamilyName.ToLower() };
+                            Packageinfos app = new() { Packagefamillyname = package.Id.FamilyName.ToLower() };
                             string arch = _resUnknown;
 
                             switch (package.Id.Architecture)
@@ -296,7 +296,7 @@ namespace InteropTools.ShellPages.Registry
 
                                     try
                                     {
-                                        Size logosize = new Size
+                                        Size logosize = new()
                                         {
                                             Height = 48,
                                             Width = 48
@@ -304,7 +304,7 @@ namespace InteropTools.ShellPages.Registry
                                         Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                         await RunInUiThread(() =>
                                         {
-                                            BitmapImage bitmapImage = new BitmapImage();
+                                            BitmapImage bitmapImage = new();
                                             bitmapImage.SetSource(applogo);
 
                                             app.logo = bitmapImage;

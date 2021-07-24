@@ -21,13 +21,13 @@ namespace InteropTools.ShellPages.Registry
         private readonly IRegistryProvider _helper;
 
         private readonly ObservableCollection<RegistryHistoryItem> _registryHistoryList =
-          new ObservableCollection<RegistryHistoryItem>();
+          new();
 
         private readonly ObservableCollection<SuggestionItem> _suggestionList =
-          new ObservableCollection<SuggestionItem>();
+          new();
 
         private readonly ObservableCollection<SuggestionItem> _valSuggestionList =
-          new ObservableCollection<SuggestionItem>();
+          new();
 
         private bool initialized = false;
 
@@ -712,14 +712,12 @@ namespace InteropTools.ShellPages.Registry
                 return 0;
             }
 
-            uint val = 0;
-
             try
             {
                 if (ValueTypeInput != null)
                 {
                     ValueTypeInput.Visibility = Visibility.Visible;
-                    val = uint.Parse(ValueTypeInput.Text);
+                    uint val = uint.Parse(ValueTypeInput.Text);
                     return val;
                 }
             }

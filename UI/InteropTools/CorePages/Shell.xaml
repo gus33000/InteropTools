@@ -1585,7 +1585,7 @@
                             ItemTemplate="{StaticResource TreeView2ItemDataTemplate}"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.HorizontalScrollMode="Disabled"
-                            SelectionChanged="sampleTreeView2_SelectionChanged">
+                            SelectionChanged="SampleTreeView2_SelectionChanged">
                             <tvs:TreeView2.ItemContainerTransitions>
                                 <TransitionCollection />
                             </tvs:TreeView2.ItemContainerTransitions>

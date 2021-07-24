@@ -234,7 +234,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            List<RegistryItem> itemList = new List<RegistryItem>
+            List<RegistryItem> itemList = new()
             {
                 new RegistryItem
                 {
@@ -314,7 +314,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>
+            List<RegistryItemCustom> itemList = new()
             {
                 new RegistryItemCustom
                 {
@@ -395,7 +395,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryItems(RegHives hive, string key)
         {
             Renci.SshNet.SshClient Client = App.SshClient;
-            List<RegistryItem> ItemsList = new List<RegistryItem>();
+            List<RegistryItem> ItemsList = new();
             string hivename = hive.ToString();
             string querystr = hivename + @"\" + key;
 
@@ -434,12 +434,9 @@ namespace InteropTools.Providers
                         string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                         string valuename = temparray[0];
                         RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
-                        string valuedata = "";
-
                         if (temparray.Length == 3)
                         {
-                            valuedata = temparray[2];
-
+                            string valuedata = temparray[2];
                             if (regtype == RegTypes.REG_DWORD)
                             {
                                 valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
@@ -496,12 +493,9 @@ namespace InteropTools.Providers
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
-                                string valuedata = "";
-
                                 if (temparray.Length == 3)
                                 {
-                                    valuedata = temparray[2];
-
+                                    string valuedata = temparray[2];
                                     if (regtype == RegTypes.REG_DWORD)
                                     {
                                         valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
@@ -549,7 +543,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
             Renci.SshNet.SshClient Client = App.SshClient;
-            List<RegistryItemCustom> ItemsList = new List<RegistryItemCustom>();
+            List<RegistryItemCustom> ItemsList = new();
             string hivename = hive.ToString();
             string querystr = hivename + @"\" + key;
 
@@ -587,12 +581,9 @@ namespace InteropTools.Providers
                         string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                         string valuename = temparray[0];
                         uint regtype = uint.Parse(temparray[1]);
-                        string valuedata = "";
-
                         if (temparray.Length == 3)
                         {
-                            valuedata = temparray[2];
-
+                            string valuedata = temparray[2];
                             if (regtype == 4)
                             {
                                 valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
@@ -649,12 +640,9 @@ namespace InteropTools.Providers
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 uint regtype = uint.Parse(temparray[1]);
-                                string valuedata = "";
-
                                 if (temparray.Length == 3)
                                 {
-                                    valuedata = temparray[2];
-
+                                    string valuedata = temparray[2];
                                     if (regtype == 4)
                                     {
                                         valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();

@@ -95,12 +95,12 @@ namespace InteropTools.ShellPages.AppManager
             await ThreadPool.RunAsync(x => { function(); });
         }
 
-        private ObservableRangeCollection<Item> _filteredItemsList = new ObservableRangeCollection<Item>();
+        private ObservableRangeCollection<Item> _filteredItemsList = new();
 
-        private ObservableRangeCollection<Item> _itemsList = new ObservableRangeCollection<Item>();
+        private ObservableRangeCollection<Item> _itemsList = new();
 
-        public ObservableCollection<VolumeDisplayitem> _volumelist = new ObservableCollection<VolumeDisplayitem>();
-        public ObservableCollection<TypeDisplayitem> _typelist = new ObservableCollection<TypeDisplayitem>();
+        public ObservableCollection<VolumeDisplayitem> _volumelist = new();
+        public ObservableCollection<TypeDisplayitem> _typelist = new();
 
         private void _filteredItemsList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -111,7 +111,7 @@ namespace InteropTools.ShellPages.AppManager
 
         private void ItemsList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            List<Item> tmplist = new List<Item>();
+            List<Item> tmplist = new();
 
             foreach (Item item in _itemsList)
             {
@@ -176,7 +176,7 @@ namespace InteropTools.ShellPages.AppManager
                     {
                         ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource;
                     });
-                    List<Item> tmplist = new List<Item>();
+                    List<Item> tmplist = new();
 
                     _volumelist.Add(new VolumeDisplayitem());
 
@@ -252,7 +252,7 @@ namespace InteropTools.ShellPages.AppManager
                     {
                         foreach (PackageVolume vol in vols)
                         {
-                            ObservableRangeCollection<Package> applist = new ObservableRangeCollection<Package>();
+                            ObservableRangeCollection<Package> applist = new();
 
                             foreach (PackageTypes type in pkgtypes)
                             {
@@ -335,7 +335,7 @@ namespace InteropTools.ShellPages.AppManager
 
                                             try
                                             {
-                                                Size logosize = new Size
+                                                Size logosize = new()
                                                 {
                                                     Height = 160,
                                                     Width = 160
@@ -343,7 +343,7 @@ namespace InteropTools.ShellPages.AppManager
                                                 Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                                 await RunInUiThread(() =>
                                                 {
-                                                    BitmapImage bitmapImage = new BitmapImage();
+                                                    BitmapImage bitmapImage = new();
                                                     bitmapImage.SetSource(applogo);
                                                     logo = bitmapImage;
                                                 });
@@ -383,7 +383,7 @@ namespace InteropTools.ShellPages.AppManager
                     }
                     catch
                     {
-                        ObservableRangeCollection<Package> applist = new ObservableRangeCollection<Package>();
+                        ObservableRangeCollection<Package> applist = new();
 
                         foreach (PackageTypes type in pkgtypes)
                         {
@@ -466,7 +466,7 @@ namespace InteropTools.ShellPages.AppManager
 
                                         try
                                         {
-                                            Size logosize = new Size
+                                            Size logosize = new()
                                             {
                                                 Height = 160,
                                                 Width = 160
@@ -474,7 +474,7 @@ namespace InteropTools.ShellPages.AppManager
                                             Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                             await RunInUiThread(() =>
                                             {
-                                                BitmapImage bitmapImage = new BitmapImage();
+                                                BitmapImage bitmapImage = new();
                                                 bitmapImage.SetSource(applogo);
                                                 logo = bitmapImage;
                                             });
@@ -549,7 +549,7 @@ namespace InteropTools.ShellPages.AppManager
             string filtertext = FilterBox.Text;
             RunInThreadPool(async () =>
             {
-                ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                ObservableRangeCollection<Item> _filteredItemsListtmp = new();
                 _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                 if (_filteredItemsListtmp.Count != 0)
@@ -606,11 +606,11 @@ namespace InteropTools.ShellPages.AppManager
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Item item = (Item)((StackPanel)sender).DataContext;
-            MenuFlyout flyout = new MenuFlyout
+            MenuFlyout flyout = new()
             {
                 Placement = FlyoutPlacementMode.Top
             };
-            MenuFlyoutItem flyoutitem1 = new MenuFlyoutItem
+            MenuFlyoutItem flyoutitem1 = new()
             {
                 Text = InteropTools.Resources.TextResources.ApplicationManager_PackageListUninstall
             };
@@ -647,23 +647,16 @@ namespace InteropTools.ShellPages.AppManager
             {
                 get
                 {
-                    switch (type.ToString())
+                    return type.ToString() switch
                     {
-                        case "Bundle":
-                            return "";
-                        case "Framework":
-                            return "";
-                        case "Main":
-                            return "";
-                        case "Optional":
-                            return "";
-                        case "Resource":
-                            return "";
-                        case "Xap":
-                            return "";
-                        default:
-                            return "";
-                    }
+                        "Bundle" => "",
+                        "Framework" => "",
+                        "Main" => "",
+                        "Optional" => "",
+                        "Resource" => "",
+                        "Xap" => "",
+                        _ => "",
+                    };
                 }
             }
         }
@@ -690,7 +683,7 @@ namespace InteropTools.ShellPages.AppManager
                 string filtertext = FilterBox.Text;
                 RunInThreadPool(async () =>
                 {
-                    ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                    ObservableRangeCollection<Item> _filteredItemsListtmp = new();
                     _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                     if (_filteredItemsListtmp.Count != 0)
@@ -765,7 +758,7 @@ namespace InteropTools.ShellPages.AppManager
                 string filtertext = FilterBox.Text;
                 RunInThreadPool(async () =>
                 {
-                    ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                    ObservableRangeCollection<Item> _filteredItemsListtmp = new();
                     _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                     if (_filteredItemsListtmp.Count != 0)

@@ -58,7 +58,7 @@ namespace InteropTools.RemoteClasses.Server
         private async void Listener_ConnectionReceived(StreamSocketListener sender,
             StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            DataReader reader = new DataReader(args.Socket.InputStream);
+            DataReader reader = new(args.Socket.InputStream);
 
             try
             {

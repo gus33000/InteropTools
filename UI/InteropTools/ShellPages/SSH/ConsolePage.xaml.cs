@@ -123,7 +123,7 @@ namespace InteropTools.ShellPages.SSH
             {
                 string curtext = ConsoleBox.Text;
                 string newtext = Encoding.ASCII.GetString(data_);
-                curtext = curtext + newtext.Replace("\r\r", "\r");
+                curtext += newtext.Replace("\r\r", "\r");
                 ConsoleBox.Text = curtext;
                 MainScroll.ChangeView(0, MainScroll.ScrollableHeight, 1);
             });
@@ -131,8 +131,8 @@ namespace InteropTools.ShellPages.SSH
 
         private void ConsoleBox_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            MenuFlyout flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
-            MenuFlyoutItem flyoutitem = new MenuFlyoutItem
+            MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+            MenuFlyoutItem flyoutitem = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Paste",
@@ -160,7 +160,7 @@ namespace InteropTools.ShellPages.SSH
                 flyoutitem.IsEnabled = false;
             }
 
-            MenuFlyoutItem flyoutitem2 = new MenuFlyoutItem
+            MenuFlyoutItem flyoutitem2 = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Select_All",

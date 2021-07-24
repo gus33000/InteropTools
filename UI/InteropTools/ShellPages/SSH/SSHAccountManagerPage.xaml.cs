@@ -33,10 +33,9 @@ namespace InteropTools.ShellPages.SSH
                                 RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-env",
                                 RegTypes.REG_SZ, "currentdir,async,autoexec");
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if ((regvalue == null) || (regvalue == ""))
             {
@@ -61,10 +60,9 @@ namespace InteropTools.ShellPages.SSH
                 UserList.Items.RemoveAt(i);
             }
 
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue.Contains(";"))
             {
@@ -88,10 +86,9 @@ namespace InteropTools.ShellPages.SSH
         private async Task AddUser(string username)
         {
             _initialized = false;
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             bool add
                   = true;
@@ -229,10 +226,9 @@ namespace InteropTools.ShellPages.SSH
             sftprmdirrex.Text = "";
             sftpstatrex.Text = "";
             sftpwritefilerex.Text = "";
-            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "subsystems", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "subsystems", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue.Contains(","))
             {
@@ -264,7 +260,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "auth-method", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "auth-method", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue == "mac@microsoft.com,publickey")
             {
@@ -279,7 +275,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "user-pin", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "user-pin", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -287,7 +283,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "default-shell", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "default-shell", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -295,7 +291,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "user-name", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "user-name", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -303,7 +299,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-home-dir", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-home-dir", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -311,7 +307,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "default-home-dir", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "default-home-dir", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -319,7 +315,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-mkdir-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-mkdir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -327,7 +323,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-open-dir-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-open-dir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -335,7 +331,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-read-file-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-read-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -343,7 +339,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-remove-file-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-remove-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -351,7 +347,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-rmdir-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-rmdir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -359,7 +355,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-stat-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-stat-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -367,7 +363,7 @@ namespace InteropTools.ShellPages.SSH
             }
 
             ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-write-file-rex", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                                "sftp-write-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -465,10 +461,9 @@ namespace InteropTools.ShellPages.SSH
 
         private async Task RefreshUMCI()
         {
-            RegTypes regtype;
             string value;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                                RegTypes.REG_DWORD); regtype = ret.regtype; value = ret.regvalue;
+                                RegTypes.REG_DWORD); _ = ret.regtype; value = ret.regvalue;
             UMCIAuditModeBox.IsChecked = value == "1";
         }
 
@@ -542,7 +537,7 @@ namespace InteropTools.ShellPages.SSH
             _initialized = true;
         }
 
-        private async void sxsDefault_Checked(object sender, RoutedEventArgs e)
+        private async void SxsDefault_Checked(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
             {
@@ -587,7 +582,7 @@ namespace InteropTools.ShellPages.SSH
             _initialized = true;
         }
 
-        private async void sxsDefault_Unchecked(object sender, RoutedEventArgs e)
+        private async void SxsDefault_Unchecked(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
             {
@@ -632,7 +627,7 @@ namespace InteropTools.ShellPages.SSH
             _initialized = true;
         }
 
-        private async void sxsSFTP_Checked(object sender, RoutedEventArgs e)
+        private async void SxsSFTP_Checked(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
             {
@@ -677,7 +672,7 @@ namespace InteropTools.ShellPages.SSH
             _initialized = true;
         }
 
-        private async void sxsSFTP_Unchecked(object sender, RoutedEventArgs e)
+        private async void SxsSFTP_Unchecked(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
             {

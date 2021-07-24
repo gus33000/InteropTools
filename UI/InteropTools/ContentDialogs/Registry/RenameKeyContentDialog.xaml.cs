@@ -23,8 +23,7 @@ namespace InteropTools.ContentDialogs.Registry
             helper = App.MainRegistryHelper;
             this.hive = hive;
             this.key = key;
-            string currentkey = "";
-
+            string currentkey;
             if (key.Contains("\\"))
             {
                 currentkey = key.Split('\\').Last();

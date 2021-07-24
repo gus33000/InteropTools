@@ -27,12 +27,7 @@ namespace AppPlugin.PluginList
 
         internal AbstractPluginList(string pluginName)
         {
-            if (pluginName == null)
-            {
-                throw new ArgumentNullException(nameof(pluginName));
-            }
-
-            this.pluginName = pluginName;
+            this.pluginName = pluginName ?? throw new ArgumentNullException(nameof(pluginName));
             if (pluginName.Length > 39)
             {
                 throw new ArgumentException($"The Plugin name is longer than 39. (was {pluginName.Length})");
@@ -286,7 +281,6 @@ namespace AppPlugin.PluginList
                 }
 
                 // get extension properties
-                PropertySet properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
 
                 // get logo 
                 Windows.Storage.Streams.IRandomAccessStreamWithContentType filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
@@ -300,7 +294,7 @@ namespace AppPlugin.PluginList
                 #region Update Properties
                 // update app service information
                 ServiceName = null;
-                if (properties != null)
+                if (await ext.GetExtensionPropertiesAsync() is PropertySet properties)
                 {
                     if (properties.ContainsKey("Service"))
                     {
@@ -324,7 +318,7 @@ namespace AppPlugin.PluginList
             private readonly CancellationToken cancelTokem;
             private readonly Guid id = Guid.NewGuid();
 
-            private PluginConnection(AppServiceConnection connection, CancellationToken cancelTokem = default(CancellationToken))
+            private PluginConnection(AppServiceConnection connection, CancellationToken cancelTokem = default)
             {
                 this.connection = connection;
                 connection.ServiceClosed += Connection_ServiceClosed;
@@ -358,7 +352,7 @@ namespace AppPlugin.PluginList
                     return;
                 }
 
-                ValueSet valueSet = await RequestRecived(sender, args);
+                _ = await RequestRecived(sender, args);
                 await args.Request.SendResponseAsync(new ValueSet());
             }
 

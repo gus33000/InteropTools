@@ -83,15 +83,13 @@ namespace Intense.UI
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (colorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
@@ -161,15 +159,13 @@ namespace Intense.UI
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (colorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
@@ -205,15 +201,13 @@ namespace Intense.UI
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
-            if (colorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }

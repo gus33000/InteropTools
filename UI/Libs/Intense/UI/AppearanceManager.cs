@@ -174,7 +174,7 @@ namespace Intense.UI
         private static void ResetAllViews()
         {
             // TODO: reset for all views
-            AppearanceManager manager = GetForCurrentView();
+            _ = GetForCurrentView();
             //manager.Reset();
         }
 

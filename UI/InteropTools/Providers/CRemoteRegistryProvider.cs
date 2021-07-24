@@ -12,7 +12,7 @@ namespace InteropTools.Providers
     public sealed class CRemoteRegistryProvider : IRegistryProvider
     {
         private readonly RemoteClient _client;
-        private readonly CCMDProvider _cmdprov = new CCMDProvider();
+        private readonly CCMDProvider _cmdprov = new();
 
         private readonly string _hostname;
         private bool _initialized;
@@ -46,8 +46,8 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            GetKeyValueReturn ret = new GetKeyValueReturn();
-            RootObject jsonObject = new RootObject
+            GetKeyValueReturn ret = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyValue",
@@ -86,7 +86,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "SetKeyValue",
@@ -117,7 +117,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "DeleteValue",
@@ -146,7 +146,7 @@ namespace InteropTools.Providers
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyStatus",
@@ -174,7 +174,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "AddKey",
@@ -202,7 +202,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "DeleteKey",
@@ -231,7 +231,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "RenameKey",
@@ -260,8 +260,8 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            List<RegistryItem> itemList = new List<RegistryItem>();
-            RootObject jsonObject = new RootObject
+            List<RegistryItem> itemList = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryHives"
@@ -309,8 +309,8 @@ namespace InteropTools.Providers
                 return itemsList;
             }
 
-            List<RegistryItem> itemList = new List<RegistryItem>();
-            RootObject jsonObject = new RootObject
+            List<RegistryItem> itemList = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryItems",
@@ -348,7 +348,7 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "DoesFileExists",
@@ -375,7 +375,7 @@ namespace InteropTools.Providers
 
         public string GetAppInstallationPath()
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetAppInstallationPath"
@@ -421,8 +421,8 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime();
-            RootObject jsonObject = new RootObject
+            GetKeyLastModifiedTime ret = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyLastModifiedTime",
@@ -456,8 +456,8 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            GetKeyValueReturn2 ret = new GetKeyValueReturn2();
-            RootObject jsonObject = new RootObject
+            GetKeyValueReturn2 ret = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyValue2",
@@ -496,7 +496,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "SetKeyValue2",
@@ -527,8 +527,8 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>();
-            RootObject jsonObject = new RootObject
+            List<RegistryItemCustom> itemList = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryHives2"
@@ -576,8 +576,8 @@ namespace InteropTools.Providers
                 return itemsList;
             }
 
-            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>();
-            RootObject jsonObject = new RootObject
+            List<RegistryItemCustom> itemList = new();
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryItems2",
@@ -615,7 +615,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "LoadHive",
@@ -644,7 +644,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
         {
-            RootObject jsonObject = new RootObject
+            RootObject jsonObject = new()
             {
                 SessionId = App.SessionId,
                 Operation = "UnloadHive",
@@ -719,7 +719,7 @@ namespace InteropTools.Providers
         private static class AsyncHelper
         {
             private static readonly TaskFactory MyTaskFactory = new
-            TaskFactory(CancellationToken.None,
+(CancellationToken.None,
                         TaskCreationOptions.None,
                         TaskContinuationOptions.None,
                         TaskScheduler.Default);

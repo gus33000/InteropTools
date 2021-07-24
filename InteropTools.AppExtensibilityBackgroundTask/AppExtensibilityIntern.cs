@@ -57,8 +57,8 @@ namespace InteropTools.AppExtensibilityBackgroundTask
             string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr.First()));
             Enum.TryParse(operation, true, out REG_OPERATION operationenum);
 
-            List<List<string>> returnvalue = new List<List<string>>();
-            List<string> returnvalue2 = new List<string>();
+            List<List<string>> returnvalue = new();
+            List<string> returnvalue2 = new();
 
             switch (operationenum)
             {
@@ -119,7 +119,7 @@ namespace InteropTools.AppExtensibilityBackgroundTask
 
                         foreach (REG_ITEM item in items)
                         {
-                            List<string> itemlist = new List<string>();
+                            List<string> itemlist = new();
                             if (item.Data == null)
                             {
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes("")));
@@ -130,8 +130,8 @@ namespace InteropTools.AppExtensibilityBackgroundTask
                             }
 
                             itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Hive.HasValue ? item.Hive.Value.ToString() : "")));
-                            itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Key == null ? "" : item.Key)));
-                            itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Name == null ? "" : item.Name)));
+                            itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Key ?? "")));
+                            itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Name ?? "")));
                             itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Type.HasValue ? item.Type.Value.ToString() : "")));
                             itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.ValueType.HasValue ? item.ValueType.Value.ToString() : "")));
                             returnvalue.Add(itemlist);

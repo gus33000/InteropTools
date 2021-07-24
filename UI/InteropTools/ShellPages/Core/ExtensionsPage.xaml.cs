@@ -39,7 +39,7 @@ namespace InteropTools.ShellPages.Core
 
                 foreach (object item in e.AddedItems)
                 {
-                    ((ListViewItem)(sender as ListView).ContainerFromItem(e.AddedItems[0])).ContentTemplate = dtEnlarged;
+                    ((ListViewItem)(sender as ListView).ContainerFromItem(item)).ContentTemplate = dtEnlarged;
                 }
             }
         }

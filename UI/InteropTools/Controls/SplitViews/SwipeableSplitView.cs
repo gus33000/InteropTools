@@ -518,9 +518,7 @@ namespace InteropTools.Controls.SplitViews
 
         private T GetTemplateChild<T>(string name, string message = null) where T : DependencyObject
         {
-            T child = GetTemplateChild(name) as T;
-
-            if (child == null)
+            if (GetTemplateChild(name) is not T child)
             {
                 if (message == null)
                 {

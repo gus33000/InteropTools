@@ -134,7 +134,7 @@ namespace InteropTools.Presentation
 
             localSettings.Values["useSystemAccentColor"] = useSystemAccentColor;
             localSettings.Values["requireAuthAtStartUp"] = requireAuthAtStartUp;
-            localSettings.Values["selectedBrush"] = selectedBrush == null ? null : selectedBrush.Color.ToString();
+            localSettings.Values["selectedBrush"] = selectedBrush?.Color.ToString();
             localSettings.Values["useMDL2"] = useMDL2;
             localSettings.Values["useTimeStamps"] = useTimeStamps;
         }
@@ -142,7 +142,7 @@ namespace InteropTools.Presentation
         /// <summary>
         /// Gets the brushes.
         /// </summary>
-        public ObservableRangeCollection<SolidColorBrush> Brushes = new ObservableRangeCollection<SolidColorBrush>();
+        public ObservableRangeCollection<SolidColorBrush> Brushes = new();
 
         /// <summary>
         /// Gets or sets the selected brush.
@@ -181,7 +181,7 @@ namespace InteropTools.Presentation
             {
                 ApplicationData applicationData = ApplicationData.Current;
                 ApplicationDataContainer localSettings = applicationData.LocalSettings;
-                localSettings.Values["selectedTheme"] = value == null ? null : value.Theme.ToString();
+                localSettings.Values["selectedTheme"] = value?.Theme.ToString();
 
                 if (Set(ref selectedTheme, value) && value != null && value.Theme.HasValue)
                 {

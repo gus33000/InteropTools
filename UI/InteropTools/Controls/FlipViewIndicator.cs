@@ -43,7 +43,7 @@ namespace InteropTools.Controls
                 fvi.ItemsSource = fv.Items;
 
                 // create the element binding source
-                Binding eb = new Binding
+                Binding eb = new()
                 {
                     Mode = BindingMode.TwoWay,
                     Source = fv,

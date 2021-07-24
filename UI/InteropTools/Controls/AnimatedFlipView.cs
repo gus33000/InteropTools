@@ -24,7 +24,7 @@ namespace InteropTools.Controls
         {
             if (_scrollViewer != null)
             {
-                DispatcherTimer timer = new DispatcherTimer
+                DispatcherTimer timer = new()
                 {
                     Interval = TimeSpan.FromSeconds(3)
                 };
@@ -32,9 +32,9 @@ namespace InteropTools.Controls
                 {
                     if (!_isRunningAnimation)
                     {
-                        Storyboard sb = new Storyboard();
+                        Storyboard sb = new();
 
-                        DoubleAnimation nextItemAnimation = new DoubleAnimation
+                        DoubleAnimation nextItemAnimation = new()
                         {
                             EnableDependentAnimation = true,
                             Duration = new Duration(TimeSpan.FromSeconds(10)),

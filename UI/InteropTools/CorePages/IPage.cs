@@ -17,48 +17,32 @@ namespace InteropTools.CorePages
     {
         public static string GetIconForPageGroup(PageGroup group)
         {
-            switch (group)
+            return group switch
             {
-                case PageGroup.Bottom:
-                    return "";
-                case PageGroup.Core:
-                    return "";
-                case PageGroup.General:
-                    return "";
-                case PageGroup.Registry:
-                    return "";
-                case PageGroup.SSH:
-                    return "";
-                case PageGroup.Tweaks:
-                    return "";
-                case PageGroup.Unlock:
-                    return "";
-                default:
-                    return "";
-            }
+                PageGroup.Bottom => "",
+                PageGroup.Core => "",
+                PageGroup.General => "",
+                PageGroup.Registry => "",
+                PageGroup.SSH => "",
+                PageGroup.Tweaks => "",
+                PageGroup.Unlock => "",
+                _ => "",
+            };
         }
 
         public static string GetNameForPageGroup(PageGroup group)
         {
-            switch (group)
+            return group switch
             {
-                case PageGroup.Bottom:
-                    return "";
-                case PageGroup.Core:
-                    return "Core";
-                case PageGroup.General:
-                    return InteropTools.Resources.TextResources.Shell_GeneralGroupName;
-                case PageGroup.Registry:
-                    return InteropTools.Resources.TextResources.Shell_RegistryGroupName;
-                case PageGroup.SSH:
-                    return InteropTools.Resources.TextResources.Shell_SSHGroupName;
-                case PageGroup.Tweaks:
-                    return InteropTools.Resources.TextResources.Shell_TweakGroupName;
-                case PageGroup.Unlock:
-                    return InteropTools.Resources.TextResources.Shell_UnlockGroupName;
-                default:
-                    return "";
-            }
+                PageGroup.Bottom => "",
+                PageGroup.Core => "Core",
+                PageGroup.General => InteropTools.Resources.TextResources.Shell_GeneralGroupName,
+                PageGroup.Registry => InteropTools.Resources.TextResources.Shell_RegistryGroupName,
+                PageGroup.SSH => InteropTools.Resources.TextResources.Shell_SSHGroupName,
+                PageGroup.Tweaks => InteropTools.Resources.TextResources.Shell_TweakGroupName,
+                PageGroup.Unlock => InteropTools.Resources.TextResources.Shell_UnlockGroupName,
+                _ => "",
+            };
         }
     }
 

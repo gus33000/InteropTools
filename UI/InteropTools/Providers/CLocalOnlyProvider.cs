@@ -31,8 +31,7 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            bool fileexists = false;
-
+            bool fileexists;
             try
             {
                 fileexists = File.Exists(path);
@@ -68,7 +67,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime
+            GetKeyLastModifiedTime ret = new()
             {
                 LastModified = new DateTime(),
                 returncode = HelperErrorCodes.NOT_IMPLEMENTED
@@ -83,7 +82,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            GetKeyValueReturn2 ret = new GetKeyValueReturn2
+            GetKeyValueReturn2 ret = new()
             {
                 regtype = 0,
                 regvalue = "",
@@ -94,7 +93,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            GetKeyValueReturn ret = new GetKeyValueReturn
+            GetKeyValueReturn ret = new()
             {
                 regtype = RegTypes.REG_ERROR,
                 regvalue = "",

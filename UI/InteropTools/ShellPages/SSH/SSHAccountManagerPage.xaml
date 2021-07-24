@@ -231,14 +231,14 @@
                                 <CheckBox
                                     x:Name="sxsDefault"
                                     Margin="0,16,0,0"
-                                    Checked="sxsDefault_Checked"
+                                    Checked="SxsDefault_Checked"
                                     Content="Default"
-                                    Unchecked="sxsDefault_Unchecked" />
+                                    Unchecked="SxsDefault_Unchecked" />
                                 <CheckBox
                                     x:Name="sxsSFTP"
-                                    Checked="sxsSFTP_Checked"
+                                    Checked="SxsSFTP_Checked"
                                     Content="SFTP"
-                                    Unchecked="sxsSFTP_Unchecked" />
+                                    Unchecked="SxsSFTP_Unchecked" />
 
                                 <TextBlock Margin="0,16,0,0" Text="Authentication method" />
                                 <ComboBox

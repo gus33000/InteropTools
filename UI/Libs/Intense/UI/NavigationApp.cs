@@ -29,9 +29,8 @@ namespace Intense.UI
         {
             base.OnLaunched(args);
 
-            Frame frame = Window.Current.Content as Frame;
 
-            if (frame == null)
+            if (!(Window.Current.Content is Frame frame))
             {
                 frame = new Frame
                 {

@@ -36,13 +36,13 @@ namespace InteropTools.RemoteClasses.Client
         {
             try
             {
-                HostName hostName = new HostName(Ip);
+                HostName hostName = new(Ip);
                 _socket = new StreamSocket();
                 await _socket.ConnectAsync(hostName, Port.ToString());
                 OnConnected?.Invoke();
                 _writer = new DataWriter(_socket.OutputStream);
                 Read();
-                RootObject jsonObject = new RootObject
+                RootObject jsonObject = new()
                 {
                     SessionID = App.SessionId,
                     Operation = "Authentificate"

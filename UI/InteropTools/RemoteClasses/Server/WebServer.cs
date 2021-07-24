@@ -18,7 +18,7 @@ namespace InteropTools.RemoteClasses.Server
     {
         public async Task Run()
         {
-            RestRouteHandler restRouteHandler = new RestRouteHandler();
+            RestRouteHandler restRouteHandler = new();
             restRouteHandler.RegisterController<ParameterController>();
 
             HttpServerConfiguration configuration = new HttpServerConfiguration()
@@ -27,7 +27,7 @@ namespace InteropTools.RemoteClasses.Server
               .EnableCors()
               .RegisterRoute(new StaticFileRouteHandler(@"Web"));
 
-            HttpServer httpServer = new HttpServer(configuration);
+            HttpServer httpServer = new(configuration);
             await httpServer.StartServerAsync();
 
             // now make sure the app won't stop after this (eg use a BackgroundTaskDeferral)
@@ -193,18 +193,17 @@ namespace InteropTools.RemoteClasses.Server
         [UriFormat("/core/getappbuildstring")]
         public IGetResponse GetAppBuildString()
         {
-            string buildString = "";
             Assembly assembly = GetType().GetTypeInfo().Assembly;
             Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
             string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
             PackageVersion appver = Package.Current.Id.Version;
             string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
-            buildString = appverstr + " (fbl_prerelease(gustavem)";
+            string buildString = appverstr + " (fbl_prerelease(gustavem)";
             Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
 
             if (myType != null)
             {
-                buildString = buildString + "/private";
+                buildString += "/private";
             }
 
             buildString = buildString + "." + builddate + ")";

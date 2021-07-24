@@ -49,7 +49,7 @@ namespace InteropTools.ContentDialogs.Providers
 
             foreach (RebootPlugin item in reglist.Plugins)
             {
-                DisplayablePlugin itm = new DisplayablePlugin(item)
+                DisplayablePlugin itm = new(item)
                 {
                     Logo = new BitmapImage()
                 };
@@ -65,7 +65,7 @@ namespace InteropTools.ContentDialogs.Providers
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RegPlugin>())
                         {
-                            DisplayablePlugin itm = new DisplayablePlugin(item)
+                            DisplayablePlugin itm = new(item)
                             {
                                 Logo = new BitmapImage()
                             };

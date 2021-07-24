@@ -16,10 +16,10 @@ namespace InteropTools.ContentDialogs.Certificates
     public sealed partial class CertificateDetailsContentDialog : ContentDialog
     {
         private readonly Certificate cert;
-        private readonly ObservableCollection<Certificate> certlist = new ObservableCollection<Certificate>();
+        private readonly ObservableCollection<Certificate> certlist = new();
 
         private readonly ObservableCollection<DisplayCertificate> chainCertList =
-          new ObservableCollection<DisplayCertificate>();
+          new();
 
         public CertificateDetailsContentDialog(Certificate cert, ObservableCollection<Certificate> certlist)
         {
@@ -309,10 +309,10 @@ namespace InteropTools.ContentDialogs.Certificates
             }
 
             CertificateChain result = await cert.BuildChainAsync(this.certlist);
-            ChainValidationResult validation = result.Validate();
+            _ = result.Validate();
             //Debug.WriteLine(validation.ToString());
             IReadOnlyList<Certificate> chain = result.GetCertificates(true);
-            List<Certificate> certlist = new List<Certificate>();
+            List<Certificate> certlist = new();
 
             foreach (Certificate cert2 in chain)
             {
@@ -320,15 +320,13 @@ namespace InteropTools.ContentDialogs.Certificates
             }
 
             int counter = 0;
-            int padding = 0;
-
             foreach (Certificate cert2 in certlist)
             {
-                DisplayCertificate dispcert = new DisplayCertificate(cert2)
+                DisplayCertificate dispcert = new(cert2)
                 {
                     Index = chainCertList.Count().ToString()
                 };
-                padding = counter * 16;
+                int padding = counter * 16;
                 dispcert.Padding = new GridLength(padding);
                 counter++;
                 chainCertList.Add(dispcert);
@@ -350,7 +348,7 @@ namespace InteropTools.ContentDialogs.Certificates
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
         {
             TextBlock SelectedItem = (TextBlock)e.OriginalSource;
-            DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             Hide();

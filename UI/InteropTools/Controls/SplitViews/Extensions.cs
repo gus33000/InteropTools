@@ -12,7 +12,7 @@ namespace InteropTools.Controls.SplitViews
     {
         public static List<Control> AllChildren(this DependencyObject parent)
         {
-            List<Control> list = new List<Control>();
+            List<Control> list = new();
 
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
@@ -38,9 +38,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static T GetParent<T>(this FrameworkElement element, string message = null) where T : DependencyObject
         {
-            T parent = element.Parent as T;
-
-            if (parent == null)
+            if (element.Parent is not T parent)
             {
                 if (message == null)
                 {
@@ -55,9 +53,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static T GetChild<T>(this Border element, string message = null) where T : DependencyObject
         {
-            T child = element.Child as T;
-
-            if (child == null)
+            if (element.Child is not T child)
             {
                 if (message == null)
                 {
@@ -72,9 +68,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static Storyboard GetStoryboard(this FrameworkElement element, string name, string message = null)
         {
-            Storyboard storyboard = element.Resources[name] as Storyboard;
-
-            if (storyboard == null)
+            if (element.Resources[name] is not Storyboard storyboard)
             {
                 if (message == null)
                 {
@@ -89,9 +83,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static CompositeTransform GetCompositeTransform(this FrameworkElement element, string message = null)
         {
-            CompositeTransform transform = element.RenderTransform as CompositeTransform;
-
-            if (transform == null)
+            if (element.RenderTransform is not CompositeTransform transform)
             {
                 if (message == null)
                 {

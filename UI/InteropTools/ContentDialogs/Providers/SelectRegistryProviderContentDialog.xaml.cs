@@ -36,7 +36,7 @@ namespace InteropTools.ContentDialogs.Providers
                 GetExtensions.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 Auto.IsEnabled = true;
                 Manual.IsEnabled = true;
-                if (Auto.IsChecked.HasValue ? Auto.IsChecked.Value : false)
+                if (Auto.IsChecked ?? false)
                 {
                     IsPrimaryButtonEnabled = true;
                 }

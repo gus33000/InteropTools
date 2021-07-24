@@ -46,22 +46,20 @@ namespace InteropTools.CorePages
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Windows.UI.Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
-            if (solidColorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
-            if (colorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
@@ -122,8 +120,7 @@ namespace InteropTools.CorePages
             new SettingsViewModel();
             await FadeInBg.BeginAsync();
             string devicefamily = AnalyticsInfo.VersionInfo.DeviceFamily;
-            string tileimg = "generic";
-
+            string tileimg;
             switch (devicefamily.ToLower())
             {
                 case "windows.desktop":
@@ -170,18 +167,17 @@ namespace InteropTools.CorePages
             }
 
             extendedSplashImage2.Source = new BitmapImage(new Uri("ms-appx:///Assets/Tiles/" + tileimg + ".png"));
-            string buildString = "";
             Assembly assembly = GetType().GetTypeInfo().Assembly;
             Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
             string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
             PackageVersion appver = Package.Current.Id.Version;
             string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
-            buildString = appverstr + " (fbl_prerelease(gustavem)";
+            string buildString = appverstr + " (fbl_prerelease(gustavem)";
             Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
 
             if (myType != null)
             {
-                buildString = buildString + "/private";
+                buildString += "/private";
             }
 
             buildString = buildString + "." + builddate + ")";

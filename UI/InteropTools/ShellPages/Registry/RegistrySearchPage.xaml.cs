@@ -31,11 +31,11 @@ namespace InteropTools.ShellPages.Registry
 
         private string _currentKey = "";
 
-        private readonly ObservableCollection<FilterItem> _filterItemsList = new ObservableCollection<FilterItem>();
+        private readonly ObservableCollection<FilterItem> _filterItemsList = new();
 
         private readonly IRegistryProvider _helper;
 
-        private static readonly ObservableRangeCollection<Item> _itemsList = new ObservableRangeCollection<Item>();
+        private static readonly ObservableRangeCollection<Item> _itemsList = new();
         private bool _paused;
         private bool _stopped = true;
 
@@ -767,7 +767,7 @@ namespace InteropTools.ShellPages.Registry
                         break;
                     }
 
-                    Item newitem = new Item
+                    Item newitem = new()
                     {
                         DisplayName = item.Name,
                         Symbol = "",
@@ -953,7 +953,7 @@ namespace InteropTools.ShellPages.Registry
                         continue;
                     }
 
-                    Item newitem = new Item
+                    Item newitem = new()
                     {
                         DisplayName = item.Name,
                         Symbol = "",
@@ -1123,8 +1123,8 @@ namespace InteropTools.ShellPages.Registry
         {
             StackPanel sndr = (StackPanel)sender;
             Item item = (Item)sndr.DataContext;
-            MenuFlyout flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
-            MenuFlyoutItem flyoutitem = new MenuFlyoutItem
+            MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+            MenuFlyoutItem flyoutitem = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_name",
@@ -1132,11 +1132,11 @@ namespace InteropTools.ShellPages.Registry
             };
             flyoutitem.Click += (sender_, e_) =>
             {
-                DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                 dataPackage.SetText(item.Name);
                 Clipboard.SetContent(dataPackage);
             };
-            MenuFlyoutItem flyoutitem2 = new MenuFlyoutItem
+            MenuFlyoutItem flyoutitem2 = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_key_location",
@@ -1155,11 +1155,11 @@ namespace InteropTools.ShellPages.Registry
                     return;
                 }
 
-                DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                 dataPackage.SetText(item.Key);
                 Clipboard.SetContent(dataPackage);
             };
-            MenuFlyoutItem flyoutitem3 = new MenuFlyoutItem
+            MenuFlyoutItem flyoutitem3 = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_hive_name",
@@ -1167,11 +1167,11 @@ namespace InteropTools.ShellPages.Registry
             };
             flyoutitem3.Click += (sender_, e_) =>
             {
-                DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                 dataPackage.SetText(item.Hive.ToString());
                 Clipboard.SetContent(dataPackage);
             };
-            MenuFlyoutItem flyoutitem4 = new MenuFlyoutItem
+            MenuFlyoutItem flyoutitem4 = new()
             {
                 Text =
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_full_details",
@@ -1192,14 +1192,14 @@ namespace InteropTools.ShellPages.Registry
                     case RegistryItemType.KEY:
                         {
                             str =
-                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type.ToString()}\r\nHive: {item.Hive.ToString()}";
+                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}";
                             break;
                         }
 
                     case RegistryItemType.VALUE:
                         {
                             str =
-                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type.ToString()}\r\nHive: {item.Hive.ToString()}\r\nValue Type: {item.ValueType.ToString()}\r\nValue: {item.Value}";
+                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}\r\nValue Type: {item.ValueType}\r\nValue: {item.Value}";
                             break;
                         }
                 }
@@ -1209,7 +1209,7 @@ namespace InteropTools.ShellPages.Registry
                     return;
                 }
 
-                DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                 dataPackage.SetText(str);
                 Clipboard.SetContent(dataPackage);
             };

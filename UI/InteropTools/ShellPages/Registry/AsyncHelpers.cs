@@ -14,7 +14,7 @@ namespace InteropTools.ShellPages.Registry
         public static void RunSync(Func<Task> task)
         {
             SynchronizationContext oldContext = SynchronizationContext.Current;
-            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
+            ExclusiveSynchronizationContext synch = new();
             SynchronizationContext.SetSynchronizationContext(synch);
             synch.Post(async _ =>
             {
@@ -46,9 +46,9 @@ namespace InteropTools.ShellPages.Registry
         public static T RunSync<T>(Func<Task<T>> task)
         {
             SynchronizationContext oldContext = SynchronizationContext.Current;
-            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
+            ExclusiveSynchronizationContext synch = new();
             SynchronizationContext.SetSynchronizationContext(synch);
-            T ret = default(T);
+            T ret = default;
             synch.Post(async _ =>
             {
                 try
@@ -75,9 +75,9 @@ namespace InteropTools.ShellPages.Registry
             private bool done;
             public Exception InnerException { get; set; }
 
-            private readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+            private readonly AutoResetEvent workItemsWaiting = new(false);
             private readonly Queue<Tuple<SendOrPostCallback, object>> items =
-                new Queue<Tuple<SendOrPostCallback, object>>();
+                new();
 
             public override void Send(SendOrPostCallback d, object state)
             {

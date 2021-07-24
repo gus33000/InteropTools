@@ -41,7 +41,7 @@ namespace InteropTools
         //public static RegPluginList regpluginlist;
         //public static PowerPluginList powerpluginlist;
 
-        public static readonly TextResources textResources = new TextResources();
+        public static readonly TextResources textResources = new();
 
         public static readonly string RemoteLoc = ResourceManager.Current.MainResourceMap.GetValue(
               "Resources/The_following_Remote_device_wants_to_access_your_phone_Registry",
@@ -49,7 +49,7 @@ namespace InteropTools
         public static readonly string RemoteAllowLoc = ResourceManager.Current.MainResourceMap.GetValue("Resources/Allow", ResourceContext.GetForCurrentView()).ValueAsString;
         public static readonly string RemoteDenyLoc = ResourceManager.Current.MainResourceMap.GetValue("Resources/Deny", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public static readonly ObservableRangeCollection<Session> Sessions = new ObservableRangeCollection<Session>();
+        public static readonly ObservableRangeCollection<Session> Sessions = new();
 
         public static bool Fancyness = false;
 
@@ -70,20 +70,20 @@ namespace InteropTools
 
         public static IRegistryProvider MainRegistryHelper = new MainRegistryProvider();
 
-        public static readonly DisplayRequest DisplayRequest = new DisplayRequest();
+        public static readonly DisplayRequest DisplayRequest = new();
 
         // External stuff
-        public static readonly RemoteServer Server = new RemoteServer();
+        public static readonly RemoteServer Server = new();
 
-        private static readonly Random Random = new Random();
+        private static readonly Random Random = new();
         public static readonly string SessionId = RandomString(10);
-        public static readonly List<Remote> AllowedRemotes = new List<Remote>();
-        public static readonly List<Remote> DeniedRemotes = new List<Remote>();
+        public static readonly List<Remote> AllowedRemotes = new();
+        public static readonly List<Remote> DeniedRemotes = new();
         // End of external stuff
 
         private static readonly Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         private static readonly double scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-        public static readonly Size size = new Size(bounds.Width * scaleFactor, bounds.Height * scaleFactor);
+        public static readonly Size size = new(bounds.Width * scaleFactor, bounds.Height * scaleFactor);
 
         public App()
         {
@@ -149,7 +149,7 @@ namespace InteropTools
             IRegistryProvider helper = MainRegistryHelper;
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); _ = ret.regtype; _ = ret.regvalue;
 
             //if (regvalue != "2") return false;
 
@@ -163,7 +163,7 @@ namespace InteropTools
             await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-env",
                                RegTypes.REG_SZ, "currentdir,async,autoexec");
             ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                               RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if ((regvalue == null) || (regvalue == ""))
             {
@@ -176,7 +176,7 @@ namespace InteropTools
 
             string username = "InteropTools";
             ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                               RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue.Contains(";"))
             {
@@ -241,12 +241,12 @@ namespace InteropTools
                 string Server = helper.GetHostName();
                 string Username = "InteropTools";
                 string Password = regvalue;
-                PasswordConnectionInfo coninfo = new PasswordConnectionInfo(Server, Username, Password)
+                PasswordConnectionInfo coninfo = new(Server, Username, Password)
                 {
                     Timeout = new TimeSpan(0, 0, 5),
                     RetryAttempts = 1
                 };
-                SftpClient sclient = new SftpClient(coninfo)
+                SftpClient sclient = new(coninfo)
                 {
                     OperationTimeout = new TimeSpan(0, 0, 5)
                 };
@@ -360,7 +360,7 @@ namespace InteropTools
 
         public static void AddNewSession(object args)
         {
-            Session session = new Session
+            Session session = new()
             {
                 Helper = null,
                 WindowContent = new Shell(args),//new SelectProviderPage(args),
@@ -375,7 +375,7 @@ namespace InteropTools
             if (CurrentSession != null)
             {
                 Sessions[(int)CurrentSession].WindowContent = App.AppContent;
-                RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
+                RenderTargetBitmap renderTargetBitmap = new();
                 await renderTargetBitmap.RenderAsync(Sessions[(int)CurrentSession].WindowContent);
                 Sessions[(int)CurrentSession].Preview = renderTargetBitmap;
             }
@@ -401,7 +401,7 @@ namespace InteropTools
 
             CurrentSession = Sessions.IndexOf(session);
             App.AppContent = session.WindowContent;
-            RenderTargetBitmap renderTargetBitmap_ = new RenderTargetBitmap();
+            RenderTargetBitmap renderTargetBitmap_ = new();
             await renderTargetBitmap_.RenderAsync(Sessions[(int)CurrentSession].WindowContent);
             Sessions[(int)CurrentSession].Preview = renderTargetBitmap_;
             Window.Current.Activate();
@@ -433,7 +433,7 @@ namespace InteropTools
                 if (args.PreviousExecutionState != ApplicationExecutionState.Running)
                 {
                     bool loadState = (args.PreviousExecutionState == ApplicationExecutionState.Terminated);
-                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(args.SplashScreen, loadState, file);
+                    ExtendedSplashScreen extendedSplash = new(args.SplashScreen, loadState, file);
                     App.AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
@@ -450,7 +450,7 @@ namespace InteropTools
                 if (args.PreviousExecutionState != ApplicationExecutionState.Running)
                 {
                     bool loadState = (args.PreviousExecutionState == ApplicationExecutionState.Terminated);
-                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(args.SplashScreen, loadState, file);
+                    ExtendedSplashScreen extendedSplash = new(args.SplashScreen, loadState, file);
                     App.AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
@@ -582,7 +582,7 @@ namespace InteropTools
                     if (eventArgs.PreviousExecutionState != ApplicationExecutionState.Running)
                     {
                         bool loadState = (eventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated);
-                        ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(eventArgs.SplashScreen, loadState, "");
+                        ExtendedSplashScreen extendedSplash = new(eventArgs.SplashScreen, loadState, "");
                         App.AppContent = extendedSplash;
                         Window.Current.Activate();
                     }
@@ -601,8 +601,7 @@ namespace InteropTools
                 ProtocolForResultsActivatedEventArgs protocolForResultsArgs = (ProtocolForResultsActivatedEventArgs)args;
 
                 // Window management
-                Frame rootFrame = Window.Current.Content as Frame;
-                if (rootFrame == null)
+                if (Window.Current.Content is not Frame rootFrame)
                 {
                     rootFrame = new Frame();
                     Window.Current.Content = rootFrame;
@@ -751,7 +750,7 @@ namespace InteropTools
                 if (e.PreviousExecutionState != ApplicationExecutionState.Running)
                 {
                     bool loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
-                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, loadState, e.Arguments);
+                    ExtendedSplashScreen extendedSplash = new(e.SplashScreen, loadState, e.Arguments);
                     App.AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
@@ -763,9 +762,8 @@ namespace InteropTools
             }
 
             string args = e.Arguments;
-            Shell currentContent = App.AppContent as Shell;
 
-            if (currentContent == null)
+            if (App.AppContent is not Shell currentContent)
             {
                 return;
             }
@@ -777,8 +775,7 @@ namespace InteropTools
         private async void RefreshTile()
         {
             string devicefamily = AnalyticsInfo.VersionInfo.DeviceFamily;
-            string tileimg = "generic";
-
+            string tileimg;
             switch (devicefamily.ToLower())
             {
                 case "windows.desktop":
@@ -824,7 +821,7 @@ namespace InteropTools
                     }
             }
 
-            TileContent content = new TileContent
+            TileContent content = new()
             {
                 Visual = new TileVisual
                 {
@@ -925,7 +922,7 @@ namespace InteropTools
         {
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
 
-            using (ExtendedExecutionSession session = new ExtendedExecutionSession())
+            using (ExtendedExecutionSession session = new())
             {
                 session.Reason = ExtendedExecutionReason.Unspecified;
                 session.Description = TextResources.App_SuspendingDescription;

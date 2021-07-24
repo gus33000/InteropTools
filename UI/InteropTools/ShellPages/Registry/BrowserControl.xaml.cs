@@ -33,7 +33,7 @@ namespace InteropTools.ShellPages.Registry
         public RegistryItemCustom _currentRegItem;
         private readonly IRegistryProvider _helper;
 
-        private readonly ObservableRangeCollection<Item> _itemlist = new ObservableRangeCollection<Item>();
+        private readonly ObservableRangeCollection<Item> _itemlist = new();
         private bool _moving;
 
         private bool _preventclick;
@@ -58,7 +58,7 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            CurrentItemChangedEventArgs args = new CurrentItemChangedEventArgs(previousItem, newItem);
+            CurrentItemChangedEventArgs args = new(previousItem, newItem);
             OnCurrentItemChanged(this, args);
         }
 
@@ -345,14 +345,14 @@ namespace InteropTools.ShellPages.Registry
             {
                 StackPanel sndr = (StackPanel)sender;
                 Item item = (Item)sndr.DataContext;
-                MenuFlyout flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
-                MenuFlyoutSubItem flyoutsubitems = new MenuFlyoutSubItem
+                MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+                MenuFlyoutSubItem flyoutsubitems = new()
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy",
                     ResourceContext.GetForCurrentView()).ValueAsString
                 };
-                MenuFlyoutItem flyoutitem = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem = new()
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_name",
@@ -360,11 +360,11 @@ namespace InteropTools.ShellPages.Registry
                 };
                 flyoutitem.Click += (sender_, e_) =>
                 {
-                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Name);
                     Clipboard.SetContent(dataPackage);
                 };
-                MenuFlyoutItem flyoutitem2 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem2 = new()
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_key_location",
@@ -383,11 +383,11 @@ namespace InteropTools.ShellPages.Registry
                         return;
                     }
 
-                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Key);
                     Clipboard.SetContent(dataPackage);
                 };
-                MenuFlyoutItem flyoutitem3 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem3 = new()
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_hive_name",
@@ -395,11 +395,11 @@ namespace InteropTools.ShellPages.Registry
                 };
                 flyoutitem3.Click += (sender_, e_) =>
                 {
-                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Hive.ToString());
                     Clipboard.SetContent(dataPackage);
                 };
-                MenuFlyoutItem flyoutitem4 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem4 = new()
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_full_details",
@@ -420,14 +420,14 @@ namespace InteropTools.ShellPages.Registry
                         case RegistryItemType.KEY:
                             {
                                 str =
-                                  $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type}\r\nHive: {item.regitem.Hive.ToString()}";
+                                  $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type}\r\nHive: {item.regitem.Hive}";
                                 break;
                             }
 
                         case RegistryItemType.VALUE:
                             {
                                 str =
-                                  $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type.ToString()}\r\nHive: {item.regitem.Hive.ToString()}\r\nValue Type: {item.regitem.ValueType.ToString()}\r\nValue: {item.regitem.Value}";
+                                  $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type}\r\nHive: {item.regitem.Hive}\r\nValue Type: {item.regitem.ValueType}\r\nValue: {item.regitem.Value}";
                                 break;
                             }
                     }
@@ -437,7 +437,7 @@ namespace InteropTools.ShellPages.Registry
                         return;
                     }
 
-                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(str);
                     Clipboard.SetContent(dataPackage);
                 };
@@ -453,9 +453,9 @@ namespace InteropTools.ShellPages.Registry
                 if (flyout.Items != null)
                 {
                     flyout.Items.Add(flyoutsubitems);
-                    MenuFlyoutSeparator flyoutitem5 = new MenuFlyoutSeparator();
+                    MenuFlyoutSeparator flyoutitem5 = new();
                     flyout.Items.Add(flyoutitem5);
-                    MenuFlyoutItem flyoutitem6 = new MenuFlyoutItem
+                    MenuFlyoutItem flyoutitem6 = new()
                     {
                         Text =
                         ResourceManager.Current.MainResourceMap.GetValue("Resources/Rename",
@@ -516,7 +516,7 @@ namespace InteropTools.ShellPages.Registry
                                 }
                         }
                     };
-                    MenuFlyoutItem flyoutitem7 = new MenuFlyoutItem
+                    MenuFlyoutItem flyoutitem7 = new()
                     {
                         Text =
                         ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete",
@@ -549,7 +549,7 @@ namespace InteropTools.ShellPages.Registry
 
                     if (_currentRegItem.Type == RegistryItemType.HIVE && (_currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || _currentRegItem.Hive == RegHives.HKEY_USERS) && item.regitem.Type == RegistryItemType.KEY)
                     {
-                        MenuFlyoutItem flyoutitemm = new MenuFlyoutItem
+                        MenuFlyoutItem flyoutitemm = new()
                         {
                             Text = "Unmount this hive"
                         };
@@ -728,8 +728,8 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         object value = localSettings.Values["browserfav_" + id];
@@ -757,8 +757,8 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
@@ -798,12 +798,7 @@ namespace InteropTools.ShellPages.Registry
             // Create the OnPropertyChanged method to raise the event
             protected void OnPropertyChanged(string name)
             {
-                PropertyChangedEventHandler handler = PropertyChanged;
-
-                if (handler != null)
-                {
-                    handler(this, new PropertyChangedEventArgs(name));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
             public string Symbol

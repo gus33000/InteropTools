@@ -98,7 +98,7 @@ namespace InteropTools.CorePages
             }
 
             Loaded += Shell_Loaded;
-            ShellViewModel vm = new ShellViewModel();
+            ShellViewModel vm = new();
 
             RootFrame.Navigated += RootFrame_Navigated;
             RootFrame.NavigationFailed += OnNavigationFailed;
@@ -140,7 +140,7 @@ namespace InteropTools.CorePages
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                TreeNode2 groupnode = new TreeNode2()
+                TreeNode2 groupnode = new()
                 {
                     Data = new NavigationItemData()
                     {
@@ -153,7 +153,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in element)
                 {
-                    TreeNode2 itemnode = new TreeNode2()
+                    TreeNode2 itemnode = new()
                     {
                         Data = new NavigationItemData()
                         {
@@ -409,7 +409,7 @@ namespace InteropTools.CorePages
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                TreeNode2 groupnode = new TreeNode2()
+                TreeNode2 groupnode = new()
                 {
                     Data = new NavigationItemData()
                     {
@@ -422,7 +422,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in element)
                 {
-                    TreeNode2 itemnode = new TreeNode2()
+                    TreeNode2 itemnode = new()
                     {
                         Data = new NavigationItemData()
                         {
@@ -541,7 +541,7 @@ namespace InteropTools.CorePages
             }
         }
 
-        public ObservableRangeCollection<TreeNode2> treeviewnodes = new ObservableRangeCollection<TreeNode2>();
+        public ObservableRangeCollection<TreeNode2> treeviewnodes = new();
 
         private void SelectedTopItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -571,22 +571,20 @@ namespace InteropTools.CorePages
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
-            if (solidColorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
-            if (colorBrush != null)
+            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
@@ -766,8 +764,8 @@ namespace InteropTools.CorePages
             return null;
         }
 
-        public ObservableRangeCollection<NavigationItem> recentitems = new ObservableRangeCollection<NavigationItem>();
-        public ObservableRangeCollection<NavigationItem> recentitems5max = new ObservableRangeCollection<NavigationItem>();
+        public ObservableRangeCollection<NavigationItem> recentitems = new();
+        public ObservableRangeCollection<NavigationItem> recentitems5max = new();
 
         private async void CheckAndUnlockSSH()
         {
@@ -873,8 +871,7 @@ namespace InteropTools.CorePages
         {
             Windows.Foundation.Rect size = Window.Current.Bounds;
             CustomTitleBarPanel.Height = titlebarheight;
-            string currentmode = "small";
-
+            string currentmode;
             if (size.Width >= 1024)
             {
                 currentmode = "big";
@@ -1154,9 +1151,7 @@ namespace InteropTools.CorePages
 
             public override bool Equals(object obj)
             {
-                GroupItem eqobj = obj as GroupItem;
-
-                if (eqobj == null)
+                if (obj is not GroupItem eqobj)
                 {
                     return false;
                 }
@@ -1329,11 +1324,11 @@ namespace InteropTools.CorePages
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 //Set the ItemsSource to be your filtered dataset
-                List<NoResultsItem> noresultitems = new List<NoResultsItem>
+                List<NoResultsItem> noresultitems = new()
                 {
                     new NoResultsItem()
                 };
-                List<NavigationItem> resultitems = new List<NavigationItem>();
+                List<NavigationItem> resultitems = new();
 
                 foreach (NavigationItem item in ViewModel.TopItems)
                 {
@@ -1395,11 +1390,11 @@ namespace InteropTools.CorePages
             {
                 // Use args.QueryText to determine what to do.
                 //Set the ItemsSource to be your filtered dataset
-                List<NoResultsItem> noresultitems = new List<NoResultsItem>
+                List<NoResultsItem> noresultitems = new()
                 {
                     new NoResultsItem()
                 };
-                List<NavigationItem> resultitems = new List<NavigationItem>();
+                List<NavigationItem> resultitems = new();
 
                 foreach (NavigationItem item in ViewModel.TopItems)
                 {
@@ -1433,7 +1428,7 @@ namespace InteropTools.CorePages
 
         private void SplitView_PaneOpenChanged(object sender)
         {
-            Windows.Foundation.Rect size = Window.Current.Bounds;
+            _ = Window.Current.Bounds;
 
             if (SplitView.IsSwipeablePaneOpen)
             {
@@ -1460,9 +1455,7 @@ namespace InteropTools.CorePages
 
         private void OnBackPressed(object sender, BackPressedEventArgs e)
         {
-            Shell shell = App.AppContent as Shell;
-
-            if (shell == null)
+            if (App.AppContent is not Shell shell)
             {
                 return;
             }
@@ -1482,9 +1475,7 @@ namespace InteropTools.CorePages
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            Shell shell = App.AppContent as Shell;
-
-            if (shell == null)
+            if (App.AppContent is not Shell shell)
             {
                 return;
             }
@@ -1502,7 +1493,7 @@ namespace InteropTools.CorePages
             e.Handled = true;
         }
 
-        private void sampleTreeView2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SampleTreeView2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {

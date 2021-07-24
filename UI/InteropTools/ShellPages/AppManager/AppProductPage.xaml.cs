@@ -36,7 +36,7 @@ namespace InteropTools.ShellPages.AppManager
         }
 
 
-        private readonly ObservableCollection<Item> ItemsList = new ObservableCollection<Item>();
+        private readonly ObservableCollection<Item> ItemsList = new();
 
         private Package _package;
 
@@ -53,7 +53,7 @@ namespace InteropTools.ShellPages.AppManager
 
         public async void GatherInfos(string fullname)
         {
-            PackageManager PackageMan = new PackageManager();
+            PackageManager PackageMan = new();
 
             try
             {
@@ -642,19 +642,19 @@ namespace InteropTools.ShellPages.AppManager
 
                         try
                         {
-                            Size logosize = new Size
+                            Size logosize = new()
                             {
                                 Height = 175,
                                 Width = 175
                             };
                             Windows.Storage.Streams.RandomAccessStreamReference applogo = AppEntry.DisplayInfo.GetLogo(logosize);
-                            BitmapImage bitmapImage = new BitmapImage();
+                            BitmapImage bitmapImage = new();
                             Windows.Storage.Streams.IRandomAccessStreamWithContentType ras = await applogo.OpenReadAsync();
                             bitmapImage.SetSource(ras);
                             logo = bitmapImage;
                             AppLogo.Source = logo;
                             //Create a transform to get a 1x1 image
-                            BitmapTransform myTransform = new BitmapTransform { ScaledHeight = 1, ScaledWidth = 1 };
+                            BitmapTransform myTransform = new() { ScaledHeight = 1, ScaledWidth = 1 };
                             BitmapDecoder dec = await BitmapDecoder.CreateAsync(await applogo.OpenReadAsync());
                             PixelDataProvider data = await dec.GetPixelDataAsync(BitmapPixelFormat.Rgba8,
                                                                    BitmapAlphaMode.Ignore,
@@ -697,7 +697,7 @@ namespace InteropTools.ShellPages.AppManager
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
         {
             TextBlock SelectedItem = (TextBlock)e.OriginalSource;
-            DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+            DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             //this.Hide();

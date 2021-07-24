@@ -104,7 +104,7 @@ namespace InteropTools.ShellPages.Core
         {
             string reply =
               await new RegistryActions().RegistryAction(data, args.Socket.Information.RemoteAddress.ToString());
-            DataWriter writer = new DataWriter(args.Socket.OutputStream);
+            DataWriter writer = new(args.Socket.OutputStream);
             writer.WriteUInt32(writer.MeasureString(reply));
             writer.WriteString(reply);
 
@@ -148,18 +148,17 @@ namespace InteropTools.ShellPages.Core
 
         private void Refresh()
         {
-            string buildString = "";
             Assembly assembly = GetType().GetTypeInfo().Assembly;
             Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
             string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
             PackageVersion appver = Package.Current.Id.Version;
             string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
-            buildString = appverstr + " (fbl_prerelease(gustavem)";
+            string buildString = appverstr + " (fbl_prerelease(gustavem)";
             Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
 
             if (myType != null)
             {
-                buildString = buildString + "/private";
+                buildString += "/private";
             }
 
             buildString = buildString + "." + builddate + ")";

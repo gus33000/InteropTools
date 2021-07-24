@@ -27,8 +27,7 @@ namespace Intense.UI.Converters
             {
                 return color;
             }
-            string str = value as string;
-            if (str != null)
+            if (value is string str)
             {
                 SolidColorBrush brush = XamlHelper.CreateSolidColorBrush(str);
                 return brush.Color;

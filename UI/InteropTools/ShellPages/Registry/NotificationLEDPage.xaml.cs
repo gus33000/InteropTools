@@ -247,7 +247,7 @@ namespace InteropTools.ShellPages.Registry
             private async void UpdateGlyphBitmapImage()
             {
                 DeviceThumbnail deviceThumbnail = await deviceInfo.GetGlyphThumbnailAsync();
-                BitmapImage glyphBitmapImage = new BitmapImage();
+                BitmapImage glyphBitmapImage = new();
                 await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
                 GlyphBitmapImage = glyphBitmapImage;
                 OnPropertyChanged("GlyphBitmapImage");

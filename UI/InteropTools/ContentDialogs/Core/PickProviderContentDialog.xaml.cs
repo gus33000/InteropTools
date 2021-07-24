@@ -19,7 +19,7 @@ namespace InteropTools.ContentDialogs.Core
 {
     public sealed partial class PickProviderContentDialog : ContentDialog
     {
-        private readonly ObservableCollection<ProviderItem> _itemsList = new ObservableCollection<ProviderItem>();
+        private readonly ObservableCollection<ProviderItem> _itemsList = new();
         private bool doNotClose = true;
         private RemoteAuthClient _client;
 
@@ -53,14 +53,14 @@ namespace InteropTools.ContentDialogs.Core
             Closing += ContentDialog_Closing;
 
             //#if !STORE
-            CNativeRegistryProvider nativeprov2 = new CNativeRegistryProvider();
+            CNativeRegistryProvider nativeprov2 = new();
             _itemsList.Add(new ProviderItem { Title = nativeprov2.GetTitle(), Description = nativeprov2.GetDescription(), Provider = nativeprov2, Symbol = nativeprov2.GetSymbol(), AllowsRegistryEditing = nativeprov2.AllowsRegistryEditing(), IsLocal = nativeprov2.IsLocal() });
             WarningText.Visibility = Visibility.Collapsed;
             //#endif
 
             if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.AppExtensions.AppExtensionCatalog", "Open"))
             {
-                LegacyBridgeRegistryProvider nativeprov = new LegacyBridgeRegistryProvider();
+                LegacyBridgeRegistryProvider nativeprov = new();
                 _itemsList.Add(new ProviderItem { Title = nativeprov.GetTitle(), Description = nativeprov.GetDescription(), Provider = nativeprov, Symbol = nativeprov.GetSymbol(), AllowsRegistryEditing = nativeprov.AllowsRegistryEditing(), IsLocal = nativeprov.IsLocal() });
             }
             else
@@ -68,7 +68,7 @@ namespace InteropTools.ContentDialogs.Core
                 WarningText.Visibility = Visibility.Visible;
             }
 
-            CSampleRegistryProvider sampleprov = new CSampleRegistryProvider();
+            CSampleRegistryProvider sampleprov = new();
             _itemsList.Add(new ProviderItem
             {
                 Title = sampleprov.GetTitle(),
@@ -253,7 +253,7 @@ namespace InteropTools.ContentDialogs.Core
         private void Client_OnAuthentificated()
         {
             StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Connection_accepted", ResourceContext.GetForCurrentView()).ValueAsString;
-            CRemoteRegistryProvider Helper = new CRemoteRegistryProvider(_remoteip, _remoteport);
+            CRemoteRegistryProvider Helper = new(_remoteip, _remoteport);
             App.RegistryHelper = Helper;
             doNotClose = false;
             Hide();

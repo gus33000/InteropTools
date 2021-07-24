@@ -226,8 +226,7 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            bool fileexists = false;
-
+            bool fileexists;
             try
             {
                 fileexists = File.Exists(path);
@@ -642,8 +641,8 @@ namespace InteropTools.Providers
                     Key = item.Key,
                     Name = item.Name,
                     Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.HIVE,
-                    Value = RegBufferToString(item.ValueType.HasValue ? item.ValueType.Value : 0, item.Data),
-                    ValueType = item.ValueType.HasValue ? item.ValueType.Value : 0
+                    Value = RegBufferToString(item.ValueType ?? 0, item.Data),
+                    ValueType = item.ValueType ?? 0
                 };
 
                 itemlist.Add(itm);

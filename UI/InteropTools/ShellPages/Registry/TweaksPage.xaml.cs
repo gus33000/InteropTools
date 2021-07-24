@@ -3166,13 +3166,13 @@ namespace InteropTools.ShellPages.Registry
 
         private void AddBoolTweak(Func<bool> Check, Action<bool> Apply, string Title, string Description)
         {
-            TweakBoolControl control = new TweakBoolControl(Check, Apply, Title, Description);
+            TweakBoolControl control = new(Check, Apply, Title, Description);
             BoolTweaks.Children.Add(control);
         }
 
         private void AddInputTweak(Func<string> Check, Action<string> Apply, string Title, string Description)
         {
-            TweakInputControl control = new TweakInputControl(Check, Apply, Title, Description);
+            TweakInputControl control = new(Check, Apply, Title, Description);
             BoolTweaks.Children.Add(control);
         }
     }

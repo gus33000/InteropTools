@@ -101,18 +101,14 @@ namespace InteropTools.Providers
 
         public HelperErrorCodes ConvertToOldStatus(REG_STATUS status)
         {
-            switch (status)
+            return status switch
             {
-                case REG_STATUS.ACCESS_DENIED:
-                    return HelperErrorCodes.ACCESS_DENIED;
-                case REG_STATUS.FAILED:
-                    return HelperErrorCodes.FAILED;
-                case REG_STATUS.NOT_SUPPORTED:
-                    return HelperErrorCodes.NOT_IMPLEMENTED;
-                case REG_STATUS.SUCCESS:
-                    return HelperErrorCodes.SUCCESS;
-            }
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+                REG_STATUS.ACCESS_DENIED => HelperErrorCodes.ACCESS_DENIED,
+                REG_STATUS.FAILED => HelperErrorCodes.FAILED,
+                REG_STATUS.NOT_SUPPORTED => HelperErrorCodes.NOT_IMPLEMENTED,
+                REG_STATUS.SUCCESS => HelperErrorCodes.SUCCESS,
+                _ => HelperErrorCodes.NOT_IMPLEMENTED,
+            };
         }
 
         public KeyStatus ConvertToOldKeyStatus(REG_KEY_STATUS status)
@@ -150,7 +146,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegAddKey(ConvertToNewHive(hive), key);
 
@@ -229,7 +225,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegDeleteKey(ConvertToNewHive(hive), key, recursive);
 
@@ -303,7 +299,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegDeleteValue(ConvertToNewHive(hive), key, keyvalue);
 
@@ -349,8 +345,7 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            bool fileexists = false;
-
+            bool fileexists;
             try
             {
                 fileexists = File.Exists(path);
@@ -391,7 +386,7 @@ namespace InteropTools.Providers
                 await InitializeNewProviderChoice();
             }
 
-            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime();
+            GetKeyLastModifiedTime ret = new();
             if (!IsAuto)
             {
                 long modified;
@@ -421,7 +416,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     long modified;
                     RegQueryKeyLastModifiedTime result = await provider.RegQueryKeyLastModifiedTime(ConvertToNewHive(hive), key);
@@ -507,7 +502,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_KEY_STATUS result = await provider.RegQueryKeyStatus(ConvertToNewHive(hive), key);
 
@@ -558,7 +553,7 @@ namespace InteropTools.Providers
                 await InitializeNewProviderChoice();
             }
 
-            GetKeyValueReturn ret = new GetKeyValueReturn();
+            GetKeyValueReturn ret = new();
             if (!IsAuto)
             {
                 REG_VALUE_TYPE newregtype;
@@ -592,7 +587,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     Debug.WriteLine(plugin.UniqueId);
 
@@ -664,7 +659,7 @@ namespace InteropTools.Providers
                 await InitializeNewProviderChoice();
             }
 
-            GetKeyValueReturn2 ret = new GetKeyValueReturn2();
+            GetKeyValueReturn2 ret = new();
             if (!IsAuto)
             {
                 uint regtype;
@@ -698,7 +693,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     uint regtype;
                     string regvalue;
@@ -791,7 +786,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     IReadOnlyList<REG_ITEM> items;
                     RegEnumKey result = await provider.RegEnumKey(null, "");
@@ -894,18 +889,18 @@ namespace InteropTools.Providers
 
         private IReadOnlyList<RegistryItemCustom> ConvertFromNewToOldListItems(IReadOnlyList<REG_ITEM> items)
         {
-            List<RegistryItemCustom> itemlist = new List<RegistryItemCustom>();
+            List<RegistryItemCustom> itemlist = new();
 
             foreach (REG_ITEM item in items)
             {
-                RegistryItemCustom itm = new RegistryItemCustom
+                RegistryItemCustom itm = new()
                 {
                     Hive = item.Hive.HasValue ? ConvertToOldHive(item.Hive.Value) : RegHives.HKEY_LOCAL_MACHINE,
                     Key = item.Key,
                     Name = item.Name,
                     Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.HIVE,
-                    Value = RegBufferToString(item.ValueType.HasValue ? item.ValueType.Value : 0, item.Data),
-                    ValueType = item.ValueType.HasValue ? item.ValueType.Value : 0
+                    Value = RegBufferToString(item.ValueType ?? 0, item.Data),
+                    ValueType = item.ValueType ?? 0
                 };
 
                 itemlist.Add(itm);
@@ -944,7 +939,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     IReadOnlyList<REG_ITEM> items;
                     RegEnumKey result = await provider.RegEnumKey(ConvertToNewHive(hive), key);
@@ -1009,7 +1004,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegRenameKey(ConvertToNewHive(hive), key, newname);
 
@@ -1083,7 +1078,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type), data);
 
@@ -1157,7 +1152,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, type, data);
 
@@ -1231,7 +1226,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegLoadHive(FileName, mountpoint, inUser);
 
@@ -1305,7 +1300,7 @@ namespace InteropTools.Providers
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
-                    RegistryProvider provider = new RegistryProvider(plugin);
+                    RegistryProvider provider = new(plugin);
 
                     REG_STATUS result = await provider.RegUnloadHive(mountpoint, inUser);
 

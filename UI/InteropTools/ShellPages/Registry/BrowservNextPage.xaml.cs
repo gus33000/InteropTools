@@ -46,7 +46,7 @@ namespace InteropTools.ShellPages.Registry
             ListBrowser.ItemsSource = _itemlist;
         }
 
-        private readonly ObservableRangeCollection<Item> _itemlist = new ObservableRangeCollection<Item>();
+        private readonly ObservableRangeCollection<Item> _itemlist = new();
 
         private async Task RunInUIThread(Action function)
         {
@@ -64,14 +64,11 @@ namespace InteropTools.ShellPages.Registry
         private void SampleTreeView2_ItemClick(object sender, ItemClickEventArgs e)
         {
             _itemlist.ClearList();
-            TreeNode2 node = e.ClickedItem as TreeNode2;
-            RunInThreadPool(async () =>
+            if (e.ClickedItem is TreeNode2 node)
             {
-                if (node != null)
+                RunInThreadPool(async () =>
                 {
-                    FileSystemData data = node.Data as FileSystemData;
-
-                    if (data != null)
+                    if (node.Data is FileSystemData data)
                     {
                         if (node.IsExpanded && data.IsFolder)
                         {
@@ -150,19 +147,15 @@ namespace InteropTools.ShellPages.Registry
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         private async void SampleTreeView2_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            TreeNode2 node = args.Item as TreeNode2;
-
-            if (node != null)
+            if (args.Item is TreeNode2 node)
             {
-                FileSystemData data = node.Data as FileSystemData;
-
-                if (data != null)
+                if (node.Data is FileSystemData data)
                 {
                     if (node.IsExpanded)
                     {
@@ -222,7 +215,7 @@ namespace InteropTools.ShellPages.Registry
 
         private List<BrowserControl.Item> GetFavoriteItemList()
         {
-            List<BrowserControl.Item> itemlist = new List<BrowserControl.Item>();
+            List<BrowserControl.Item> itemlist = new();
             //try
             //{
             ApplicationData applicationData = ApplicationData.Current;
@@ -489,8 +482,8 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         object value = localSettings.Values["browserfav_" + id];
@@ -518,8 +511,8 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
@@ -559,12 +552,7 @@ namespace InteropTools.ShellPages.Registry
             // Create the OnPropertyChanged method to raise the event
             protected void OnPropertyChanged(string name)
             {
-                PropertyChangedEventHandler handler = PropertyChanged;
-
-                if (handler != null)
-                {
-                    handler(this, new PropertyChangedEventArgs(name));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
             public string Symbol

@@ -44,10 +44,10 @@ namespace InteropTools.CorePages
         {
             if (protocolForResultsArgs.Data.ContainsKey("TestData"))
             {
-                string dataFromCaller = protocolForResultsArgs.Data["TestData"] as string;
+                _ = protocolForResultsArgs.Data["TestData"] as string;
             }
 
-            ValueSet result = new ValueSet
+            ValueSet result = new()
             {
                 ["ReturnedData"] = "The returned result"
             };
@@ -58,10 +58,10 @@ namespace InteropTools.CorePages
         {
             if (protocolForResultsArgs.Data.ContainsKey("TestData"))
             {
-                string dataFromCaller = protocolForResultsArgs.Data["TestData"] as string;
+                _ = protocolForResultsArgs.Data["TestData"] as string;
             }
 
-            ValueSet result = new ValueSet
+            ValueSet result = new()
             {
                 ["ReturnedData"] = "The returned result"
             };

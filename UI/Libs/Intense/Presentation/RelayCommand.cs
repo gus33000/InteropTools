@@ -41,11 +41,7 @@ namespace Intense.Presentation
         /// <param name="canExecute">The optional delegate determining whether command execution is enabled.</param>
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute ?? (o => true);
         }
 

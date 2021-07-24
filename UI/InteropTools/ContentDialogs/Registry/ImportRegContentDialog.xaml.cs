@@ -30,7 +30,7 @@ namespace InteropTools.ContentDialogs.Registry
             VALUE
         }
 
-        private readonly ObservableCollection<DisplayItem> displaylist = new ObservableCollection<DisplayItem>();
+        private readonly ObservableCollection<DisplayItem> displaylist = new();
 
         private IReadOnlyList<RegFileItem> regoperations;
 
@@ -45,19 +45,15 @@ namespace InteropTools.ContentDialogs.Registry
         {
             if (file != null)
             {
-                List<string> lines = new List<string>();
+                List<string> lines = new();
 
                 using (Windows.Storage.Streams.IRandomAccessStreamWithContentType inputStream = await file.OpenReadAsync())
                 {
-                    using (Stream classicStream = inputStream.AsStreamForRead())
+                    using Stream classicStream = inputStream.AsStreamForRead();
+                    using StreamReader streamReader = new(classicStream);
+                    while (streamReader.Peek() >= 0)
                     {
-                        using (StreamReader streamReader = new StreamReader(classicStream))
-                        {
-                            while (streamReader.Peek() >= 0)
-                            {
-                                lines.Add(streamReader.ReadLine());
-                            }
-                        }
+                        lines.Add(streamReader.ReadLine());
                     }
                 }
 
@@ -193,7 +189,7 @@ namespace InteropTools.ContentDialogs.Registry
 
         public static bool ParseReg(string[] regfiletext, out IReadOnlyList<RegFileItem> reglist)
         {
-            List<RegFileItem> list = new List<RegFileItem>();
+            List<RegFileItem> list = new();
             reglist = list;
             bool expects = true;
             bool isinkey = false;
@@ -1078,8 +1074,7 @@ namespace InteropTools.ContentDialogs.Registry
                                         if (curstr.Last() == '\\')
                                         {
                                             isStillParsingValue = true;
-                                            curdatasecondpart = curdatasecondpart +
-                                                                string.Join("", curstr.Reverse().Skip(1).Reverse());
+                                            curdatasecondpart +=                                                                 string.Join("", curstr.Reverse().Skip(1).Reverse());
 
                                             if (curstr.StartsWith("-"))
                                             {
@@ -1090,7 +1085,7 @@ namespace InteropTools.ContentDialogs.Registry
                                         else
                                         {
                                             isStillParsingValue = false;
-                                            curdatasecondpart = curdatasecondpart + curstr;
+                                            curdatasecondpart += curstr;
 
                                             if (curstr.StartsWith("-"))
                                             {

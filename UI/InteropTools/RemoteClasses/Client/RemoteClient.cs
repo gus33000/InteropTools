@@ -25,7 +25,7 @@ namespace InteropTools.RemoteClasses.Client
         {
             try
             {
-                HostName hostName = new HostName(Ip);
+                HostName hostName = new(Ip);
                 _socket = new StreamSocket();
 
                 try

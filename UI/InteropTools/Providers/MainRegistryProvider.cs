@@ -154,8 +154,7 @@ namespace InteropTools.Providers
             ShowStatusBarInfo("GetKeyValue", true);
 
             GetKeyValueReturn ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
-
-            HistoryItem itm = new HistoryItem()
+            _ = new HistoryItem()
             {
                 Operation = HistoryOperation.GetKeyValue,
                 Hive = hive,

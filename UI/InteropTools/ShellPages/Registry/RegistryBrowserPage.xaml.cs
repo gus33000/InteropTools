@@ -38,7 +38,7 @@ namespace InteropTools.ShellPages.Registry
             Unloaded += RegistryBrowserPage_Unloaded;
 
             Breadcrumbbar.OnItemClick += Breadcrumbbar_OnItemClick;
-            ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>
+            ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new()
             {
                 new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
             };
@@ -102,7 +102,7 @@ namespace InteropTools.ShellPages.Registry
 
         private List<BrowserControl.Item> GetFavoriteItemList()
         {
-            List<BrowserControl.Item> itemlist = new List<BrowserControl.Item>();
+            List<BrowserControl.Item> itemlist = new();
             //try
             //{
             ApplicationData applicationData = ApplicationData.Current;
@@ -498,7 +498,7 @@ namespace InteropTools.ShellPages.Registry
                             path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Count() - 1));
                         }
 
-                        RegistryItemCustom item = new RegistryItemCustom
+                        RegistryItemCustom item = new()
                         {
                             Name = keypath.Split('\\').First(),
                             Hive = hive,
@@ -692,7 +692,7 @@ namespace InteropTools.ShellPages.Registry
                                                                keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
                                         }
 
-                                        RegistryItemCustom item = new RegistryItemCustom
+                                        RegistryItemCustom item = new()
                                         {
                                             Name = keypath.Split('\\').First(),
                                             Hive = hive,
@@ -706,7 +706,7 @@ namespace InteropTools.ShellPages.Registry
 
                                     else
                                     {
-                                        RegistryItemCustom item = new RegistryItemCustom
+                                        RegistryItemCustom item = new()
                                         {
                                             Name = hive.ToString(),
                                             Hive = hive,
@@ -944,7 +944,7 @@ namespace InteropTools.ShellPages.Registry
                     MountHive.Visibility = Visibility.Collapsed;
                 }
 
-                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>();
+                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new();
 
                 if (e.newItem.Type != RegistryItemType.VALUE)
                 {
@@ -995,7 +995,7 @@ namespace InteropTools.ShellPages.Registry
 
                 else
                 {
-                    string key = e.newItem.Key ?? "";
+                    _ = e.newItem.Key ?? "";
                     ShowEditValueDialog(e.newItem, false);
                     //await
                     //new EditRegValueContentDialog(e.newItem.Hive, key, e.newItem.Name, e.newItem.ValueType, true)
@@ -1005,7 +1005,7 @@ namespace InteropTools.ShellPages.Registry
 
             else
             {
-                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>
+                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new()
                 {
                     new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
                 };
@@ -1088,14 +1088,12 @@ namespace InteropTools.ShellPages.Registry
                 return 0;
             }
 
-            uint val = 0;
-
             try
             {
                 if (ValueTypeInput != null)
                 {
                     ValueTypeInput.Visibility = Visibility.Visible;
-                    val = uint.Parse(ValueTypeInput.Text);
+                    uint val = uint.Parse(ValueTypeInput.Text);
                     return val;
                 }
             }
@@ -1502,14 +1500,12 @@ namespace InteropTools.ShellPages.Registry
                 return 0;
             }
 
-            uint val = 0;
-
             try
             {
                 if (CreateValueTypeInput != null)
                 {
                     CreateValueTypeInput.Visibility = Visibility.Visible;
-                    val = uint.Parse(CreateValueTypeInput.Text);
+                    uint val = uint.Parse(CreateValueTypeInput.Text);
                     return val;
                 }
             }
@@ -1576,7 +1572,7 @@ namespace InteropTools.ShellPages.Registry
                     inUser = true;
                 }
 
-                Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker
+                Windows.Storage.Pickers.FileOpenPicker picker = new()
                 {
                     ViewMode = Windows.Storage.Pickers.PickerViewMode.List,
                     SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder

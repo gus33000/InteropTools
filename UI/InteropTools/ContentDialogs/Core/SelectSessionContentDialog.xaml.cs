@@ -92,7 +92,7 @@ namespace InteropTools.ContentDialogs.Core
         private async void Test()
         {
             //Capture the screen (this) and apply no transformation<>
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
+            RenderTargetBitmap renderTargetBitmap = new();
             await renderTargetBitmap.RenderAsync(this, (int)ActualWidth, (int)ActualHeight);
         }
     }

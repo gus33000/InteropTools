@@ -31,7 +31,7 @@ namespace InteropTools.ShellPages.Registry
 
         private static async void OpenFile()
         {
-            FileOpenPicker picker = new FileOpenPicker
+            FileOpenPicker picker = new()
             {
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.ComputerFolder
