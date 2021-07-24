@@ -5,14 +5,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Management.Deployment;
 using Windows.System;
 using Windows.System.Threading;
@@ -22,9 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -40,21 +35,9 @@ namespace InteropTools.ShellPages.AppManager
         public string _Offline = InteropTools.Resources.TextResources.ApplicationManager_Offline;
         public string _SupportsHardLinks = InteropTools.Resources.TextResources.ApplicationManager_SupportsHardLinks;
 
-        public Visibility AllVisibility
-        {
-            get
-            {
-                return Volume == null ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        public Visibility AllVisibility => Volume == null ? Visibility.Visible : Visibility.Collapsed;
 
-        public Visibility VolumeVisibility
-        {
-            get
-            {
-                return Volume != null ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
+        public Visibility VolumeVisibility => Volume != null ? Visibility.Visible : Visibility.Collapsed;
 
         public PackageVolume Volume
         {
@@ -65,13 +48,7 @@ namespace InteropTools.ShellPages.AppManager
 
     public class TypeDisplayitem
     {
-        public string TypeName
-        {
-            get
-            {
-                return Type == null ? InteropTools.Resources.TextResources.ApplicationManager_AllTypes : Type.ToString();
-            }
-        }
+        public string TypeName => Type == null ? InteropTools.Resources.TextResources.ApplicationManager_AllTypes : Type.ToString();
 
         public PackageTypes? Type
         {
@@ -84,7 +61,7 @@ namespace InteropTools.ShellPages.AppManager
     {
         public AppListControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Refresh();
         }
 
@@ -97,7 +74,7 @@ namespace InteropTools.ShellPages.AppManager
         {
             try
             {
-                var selectedItem = (Item)e.ClickedItem;
+                Item selectedItem = (Item)e.ClickedItem;
                 (App.AppContent as Shell).RootFrame.Navigate(typeof(AppProductPage), selectedItem.FullName);
             }
             catch
@@ -125,16 +102,16 @@ namespace InteropTools.ShellPages.AppManager
         public ObservableCollection<VolumeDisplayitem> _volumelist = new ObservableCollection<VolumeDisplayitem>();
         public ObservableCollection<TypeDisplayitem> _typelist = new ObservableCollection<TypeDisplayitem>();
 
-        private void _filteredItemsList_CollectionChanged(Object sender, NotifyCollectionChangedEventArgs e)
+        private void _filteredItemsList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var itemSource = AlphaKeyGroup<Item>.CreateGroups(_filteredItemsList, CultureInfo.InvariantCulture,
+            List<AlphaKeyGroup<Item>> itemSource = AlphaKeyGroup<Item>.CreateGroups(_filteredItemsList, CultureInfo.InvariantCulture,
                              s => s.DisplayName, true);
             ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource;
         }
 
         private void ItemsList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var tmplist = new List<Item>();
+            List<Item> tmplist = new List<Item>();
 
             foreach (Item item in _itemsList)
             {
@@ -193,13 +170,13 @@ namespace InteropTools.ShellPages.AppManager
                         LoadingText.Text = "Fetching available system volumes...";
                         LoadingStack.Visibility = Visibility.Visible;
                     });
-                    var itemSource = AlphaKeyGroup<Item>.CreateGroups(_filteredItemsList, CultureInfo.InvariantCulture,
+                    List<AlphaKeyGroup<Item>> itemSource = AlphaKeyGroup<Item>.CreateGroups(_filteredItemsList, CultureInfo.InvariantCulture,
                                      s => s.DisplayName, true);
                     await RunInUiThread(() =>
                     {
                         ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource;
                     });
-                    var tmplist = new List<Item>();
+                    List<Item> tmplist = new List<Item>();
 
                     _volumelist.Add(new VolumeDisplayitem());
 
@@ -209,7 +186,7 @@ namespace InteropTools.ShellPages.AppManager
                     {
                         vols = await new PackageManager().GetPackageVolumesAsync();
 
-                        foreach (var vol in vols)
+                        foreach (PackageVolume vol in vols)
                         {
                             _volumelist.Add(new VolumeDisplayitem() { Volume = vol });
                         }
@@ -229,10 +206,10 @@ namespace InteropTools.ShellPages.AppManager
                         LoadingText.Text = "Fetching available package types...";
                         LoadingStack.Visibility = Visibility.Visible;
                     });
-                    var pkgtypes = Enum.GetValues(typeof(PackageTypes)).Cast<PackageTypes>();
+                    IEnumerable<PackageTypes> pkgtypes = Enum.GetValues(typeof(PackageTypes)).Cast<PackageTypes>();
                     _typelist.Add(new TypeDisplayitem());
 
-                    foreach (var type in pkgtypes)
+                    foreach (PackageTypes type in pkgtypes)
                     {
                         _typelist.Add(new TypeDisplayitem() { Type = type });
                     }
@@ -251,20 +228,20 @@ namespace InteropTools.ShellPages.AppManager
 
                     try
                     {
-                        foreach (var vol in vols)
+                        foreach (PackageVolume vol in vols)
                         {
-                            foreach (var type in pkgtypes)
+                            foreach (PackageTypes type in pkgtypes)
                             {
-                                var pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
+                                IList<Package> pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
                                 numofpkgs += pkgs.Count();
                             }
                         }
                     }
                     catch
                     {
-                        foreach (var type in pkgtypes)
+                        foreach (PackageTypes type in pkgtypes)
                         {
-                            var pkgs = new PackageManager().FindPackagesForUserWithPackageTypes("", type);
+                            IEnumerable<Package> pkgs = new PackageManager().FindPackagesForUserWithPackageTypes("", type);
                             numofpkgs += pkgs.Count();
                         }
                     }
@@ -273,22 +250,22 @@ namespace InteropTools.ShellPages.AppManager
 
                     try
                     {
-                        foreach (var vol in vols)
+                        foreach (PackageVolume vol in vols)
                         {
-                            var applist = new ObservableRangeCollection<Package>();
+                            ObservableRangeCollection<Package> applist = new ObservableRangeCollection<Package>();
 
-                            foreach (var type in pkgtypes)
+                            foreach (PackageTypes type in pkgtypes)
                             {
-                                var pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
+                                IList<Package> pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
 
-                                foreach (var package in pkgs)
+                                foreach (Package package in pkgs)
                                 {
                                     count++;
                                     await RunInUiThread(() =>
                                     {
-                                        LoadingText.Text = String.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
+                                        LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
                                     });
-                                    var arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
+                                    string arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
 
                                     switch (package.Id.Architecture)
                                     {
@@ -323,16 +300,16 @@ namespace InteropTools.ShellPages.AppManager
                                             }
                                     }
 
-                                    var displayname = package.Id.FamilyName;
-                                    var description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
+                                    string displayname = package.Id.FamilyName;
+                                    string description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                       package.Id.Version.Build + "." + package.Id.Version.Revision;
                                     dynamic logo = "";
 
                                     try
                                     {
-                                        var appEntries = await package.GetAppListEntriesAsync();
+                                        IReadOnlyList<AppListEntry> appEntries = await package.GetAppListEntriesAsync();
 
-                                        foreach (var appEntry in appEntries)
+                                        foreach (AppListEntry appEntry in appEntries)
                                         {
                                             try
                                             {
@@ -358,15 +335,15 @@ namespace InteropTools.ShellPages.AppManager
 
                                             try
                                             {
-                                                var logosize = new Size
+                                                Size logosize = new Size
                                                 {
                                                     Height = 160,
                                                     Width = 160
                                                 };
-                                                var applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
+                                                Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                                 await RunInUiThread(() =>
                                                 {
-                                                    var bitmapImage = new BitmapImage();
+                                                    BitmapImage bitmapImage = new BitmapImage();
                                                     bitmapImage.SetSource(applogo);
                                                     logo = bitmapImage;
                                                 });
@@ -406,20 +383,20 @@ namespace InteropTools.ShellPages.AppManager
                     }
                     catch
                     {
-                        var applist = new ObservableRangeCollection<Package>();
+                        ObservableRangeCollection<Package> applist = new ObservableRangeCollection<Package>();
 
-                        foreach (var type in pkgtypes)
+                        foreach (PackageTypes type in pkgtypes)
                         {
-                            var pkgs = new PackageManager().FindPackagesForUserWithPackageTypes("", type);
+                            IEnumerable<Package> pkgs = new PackageManager().FindPackagesForUserWithPackageTypes("", type);
 
-                            foreach (var package in pkgs)
+                            foreach (Package package in pkgs)
                             {
                                 count++;
                                 await RunInUiThread(() =>
                                 {
-                                    LoadingText.Text = String.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
+                                    LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
                                 });
-                                var arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
+                                string arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
 
                                 switch (package.Id.Architecture)
                                 {
@@ -454,16 +431,16 @@ namespace InteropTools.ShellPages.AppManager
                                         }
                                 }
 
-                                var displayname = package.Id.FamilyName;
-                                var description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
+                                string displayname = package.Id.FamilyName;
+                                string description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                   package.Id.Version.Build + "." + package.Id.Version.Revision;
                                 dynamic logo = "";
 
                                 try
                                 {
-                                    var appEntries = await package.GetAppListEntriesAsync();
+                                    IReadOnlyList<AppListEntry> appEntries = await package.GetAppListEntriesAsync();
 
-                                    foreach (var appEntry in appEntries)
+                                    foreach (AppListEntry appEntry in appEntries)
                                     {
                                         try
                                         {
@@ -489,15 +466,15 @@ namespace InteropTools.ShellPages.AppManager
 
                                         try
                                         {
-                                            var logosize = new Size
+                                            Size logosize = new Size
                                             {
                                                 Height = 160,
                                                 Width = 160
                                             };
-                                            var applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
+                                            Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                             await RunInUiThread(() =>
                                             {
-                                                var bitmapImage = new BitmapImage();
+                                                BitmapImage bitmapImage = new BitmapImage();
                                                 bitmapImage.SetSource(applogo);
                                                 logo = bitmapImage;
                                             });
@@ -546,7 +523,7 @@ namespace InteropTools.ShellPages.AppManager
                     await RunInUiThread(async () =>
                     {
                         await
-                        new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(String.Format(InteropTools.Resources.TextResources.ApplicationManager_PackageListError,
+                        new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(string.Format(InteropTools.Resources.TextResources.ApplicationManager_PackageListError,
                             "0x" + string.Format("{0:x}", caughtEx.HResult) + " " +
                             caughtEx.Message + " " + caughtEx.StackTrace));
                     });
@@ -567,23 +544,23 @@ namespace InteropTools.ShellPages.AppManager
 
         private void FilterBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
-            var selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
-            var filtertext = FilterBox.Text;
+            VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
+            TypeDisplayitem selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
+            string filtertext = FilterBox.Text;
             RunInThreadPool(async () =>
             {
-                var _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
                 _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                 if (_filteredItemsListtmp.Count != 0)
                 {
-                    for (var i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
+                    for (int i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
                     {
                         _filteredItemsListtmp.RemoveAt(i);
                     }
                 }
 
-                foreach (var item in _itemsList)
+                foreach (Item item in _itemsList)
                 {
                     if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
                     {
@@ -628,11 +605,15 @@ namespace InteropTools.ShellPages.AppManager
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var item = (Item)((StackPanel)sender).DataContext;
-            var flyout = new MenuFlyout();
-            flyout.Placement = FlyoutPlacementMode.Top;
-            var flyoutitem1 = new MenuFlyoutItem();
-            flyoutitem1.Text = InteropTools.Resources.TextResources.ApplicationManager_PackageListUninstall;
+            Item item = (Item)((StackPanel)sender).DataContext;
+            MenuFlyout flyout = new MenuFlyout
+            {
+                Placement = FlyoutPlacementMode.Top
+            };
+            MenuFlyoutItem flyoutitem1 = new MenuFlyoutItem
+            {
+                Text = InteropTools.Resources.TextResources.ApplicationManager_PackageListUninstall
+            };
             flyoutitem1.Click += async (sender_, e_) =>
             {
                 try
@@ -687,40 +668,40 @@ namespace InteropTools.ShellPages.AppManager
             }
         }
 
-        private void HyperlinkButton_Click(Object sender, RoutedEventArgs e)
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-        private void VolListView_ItemClick(Object sender, ItemClickEventArgs e)
+        private void VolListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             VolFlyout.Hide();
         }
 
-        private void VolListView_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private void VolListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((VolListView.SelectedItem as VolumeDisplayitem) != null)
             {
                 VolSelect.Content = (VolListView.SelectedItem as VolumeDisplayitem).Volume == null ? InteropTools.Resources.TextResources.ApplicationManager_AllVolumes :
                                     (VolListView.SelectedItem as VolumeDisplayitem).Volume.MountPoint + " (" + (VolListView.SelectedItem as VolumeDisplayitem).Volume.PackageStorePath.Replace((
                                           VolListView.SelectedItem as VolumeDisplayitem).Volume.MountPoint, (VolListView.SelectedItem as VolumeDisplayitem).Volume.Name) + ")";
-                var selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
-                var selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
-                var filtertext = FilterBox.Text;
+                VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
+                TypeDisplayitem selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
+                string filtertext = FilterBox.Text;
                 RunInThreadPool(async () =>
                 {
-                    var _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                    ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
                     _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                     if (_filteredItemsListtmp.Count != 0)
                     {
-                        for (var i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
+                        for (int i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
                         {
                             _filteredItemsListtmp.RemoveAt(i);
                         }
                     }
 
-                    foreach (var item in _itemsList)
+                    foreach (Item item in _itemsList)
                     {
                         if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
                         {
@@ -764,38 +745,38 @@ namespace InteropTools.ShellPages.AppManager
             }
         }
 
-        private void TypeSelect_Click(Object sender, RoutedEventArgs e)
+        private void TypeSelect_Click(object sender, RoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
 
-        private void TypeListView_ItemClick(Object sender, ItemClickEventArgs e)
+        private void TypeListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             TypeFlyout.Hide();
         }
 
-        private void TypeListView_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private void TypeListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((TypeListView.SelectedItem as TypeDisplayitem) != null)
             {
                 TypeSelect.Content = (TypeListView.SelectedItem as TypeDisplayitem).TypeName;
-                var selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
-                var selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
-                var filtertext = FilterBox.Text;
+                VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
+                TypeDisplayitem selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
+                string filtertext = FilterBox.Text;
                 RunInThreadPool(async () =>
                 {
-                    var _filteredItemsListtmp = new ObservableRangeCollection<Item>();
+                    ObservableRangeCollection<Item> _filteredItemsListtmp = new ObservableRangeCollection<Item>();
                     _filteredItemsListtmp.AddRange(_filteredItemsList);
 
                     if (_filteredItemsListtmp.Count != 0)
                     {
-                        for (var i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
+                        for (int i = _filteredItemsListtmp.Count - 1; i >= 0; i--)
                         {
                             _filteredItemsListtmp.RemoveAt(i);
                         }
                     }
 
-                    foreach (var item in _itemsList)
+                    foreach (Item item in _itemsList)
                     {
                         if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
                         {
@@ -866,10 +847,10 @@ namespace InteropTools.ShellPages.AppManager
             {
                 try
                 {
-                    var task = new PackageManager().RemovePackageAsync(item.FullName, RemovalOptions.None);
+                    IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> task = new PackageManager().RemovePackageAsync(item.FullName, RemovalOptions.None);
                     await task.AsTask(new Progress<DeploymentProgress>(progress =>
                     {
-                        LoadingText.Text = String.Format("Uninstalling {0}... ({1}%)", item.FullName, progress.percentage);
+                        LoadingText.Text = string.Format("Uninstalling {0}... ({1}%)", item.FullName, progress.percentage);
                     }));
                 }
                 catch

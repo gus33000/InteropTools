@@ -1,15 +1,9 @@
 ﻿using AppPlugin.PluginList;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 
 namespace AppPlugin
@@ -50,7 +44,7 @@ namespace AppPlugin
         /// <returns>The <see cref="AppPlugin.PluginList<,,,>"/></returns
         public static async Task<PluginList<TIn, TOut, TOption, TProgress>> ListAsync(string pluginName)
         {
-            var pluginList = new PluginList<TIn, TOut, TOption, TProgress>(pluginName);
+            PluginList<TIn, TOut, TOption, TProgress> pluginList = new PluginList<TIn, TOut, TOption, TProgress>(pluginName);
             await pluginList.InitAsync();
             return pluginList;
         }
@@ -77,37 +71,43 @@ namespace AppPlugin
 
             if (args.Request.Message.ContainsKey(OPTIONS_REQUEST_KEY))
             {
-                var options = await GetDefaultOptionsAsync();
+                TOption options = await GetDefaultOptionsAsync();
 
-                var optionString = Helper.Serilize(options);
-                var valueSet = new ValueSet();
-                valueSet.Add(RESULT_KEY, optionString);
+                string optionString = Helper.Serilize(options);
+                ValueSet valueSet = new ValueSet
+                {
+                    { RESULT_KEY, optionString }
+                };
                 await args.Request.SendResponseAsync(valueSet);
 
             }
             else
+            {
                 await base.RequestRecivedAsync(sender, args);
+            }
         }
 
 
         internal override async Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource)
         {
-            var inputString = args.Request.Message[START_KEY] as String;
-            var optionString = args.Request.Message[OPTION_KEY] as String;
+            string inputString = args.Request.Message[START_KEY] as string;
+            string optionString = args.Request.Message[OPTION_KEY] as string;
 
-            var input = Helper.DeSerilize<TIn>(inputString);
-            var options = Helper.DeSerilize<TOption>(optionString);
+            TIn input = Helper.DeSerilize<TIn>(inputString);
+            TOption options = Helper.DeSerilize<TOption>(optionString);
 
-            var progress = new Progress<TProgress>(async r =>
+            Progress<TProgress> progress = new Progress<TProgress>(async r =>
             {
-                var data = Helper.Serilize(r);
-                var dataSet = new ValueSet();
-                dataSet.Add(PROGRESS_KEY, data);
-                dataSet.Add(ID_KEY, id);
+                string data = Helper.Serilize(r);
+                ValueSet dataSet = new ValueSet
+                {
+                    { PROGRESS_KEY, data },
+                    { ID_KEY, id }
+                };
                 await sender.SendMessageAsync(dataSet);
             });
 
-            var output = await ExecuteAsync(input, options, progress, cancellationTokenSource.Token);
+            TOut output = await ExecuteAsync(input, options, progress, cancellationTokenSource.Token);
             return output;
         }
 

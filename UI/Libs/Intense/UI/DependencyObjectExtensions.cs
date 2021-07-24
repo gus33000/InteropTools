@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 
 namespace Intense.UI
@@ -12,7 +8,7 @@ namespace Intense.UI
     /// </summary>
     public static class DependencyObjectExtensions
     {
-        private static DependencyObjectHierarchyService service = new DependencyObjectHierarchyService();
+        private static readonly DependencyObjectHierarchyService service = new DependencyObjectHierarchyService();
 
         /// <summary>
         /// Returns a collection of ancestors of specified object.
@@ -53,7 +49,7 @@ namespace Intense.UI
         {
             return service.GetDescendantsAndSelf(o);
         }
-        
+
         /// <summary>
         /// Returns a collection of the siblings before specified object.
         /// </summary>

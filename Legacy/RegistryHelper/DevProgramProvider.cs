@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -12,7 +11,7 @@ namespace RegistryHelper
     public sealed class DevProgramProvider : IRegistryProvider
     {
 #if ARM
-        private static Dictionary<REG_HIVES, RegistryHive> _devproghives = new Dictionary<REG_HIVES, RegistryHive>
+        private static readonly Dictionary<REG_HIVES, RegistryHive> _devproghives = new Dictionary<REG_HIVES, RegistryHive>
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKCR },
             { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKCU },
@@ -24,7 +23,7 @@ namespace RegistryHelper
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKCULS }
         };
 
-        private static Dictionary<REG_VALUE_TYPE, RegistryType> _devprogvaltypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
+        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _devprogvaltypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
         {
             { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
             { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
@@ -41,12 +40,12 @@ namespace RegistryHelper
         };
 #endif
 
-        public Boolean IsSupported()
+        public bool IsSupported()
         {
             return true;
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
 #if ARM
             bool didSucceed = DevProgramReg.DeleteKey(_devproghives[hive], key, recursive);
@@ -58,7 +57,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
 #if ARM
             if (name == null)
@@ -75,7 +74,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new List<REG_ITEM>();
 
@@ -94,8 +93,7 @@ namespace RegistryHelper
                 return REG_STATUS.SUCCESS;
             }
 #if ARM
-            string[] subkeys;
-            var didSucceed = DevProgramReg.GetSubKeyNames(_devproghives[(REG_HIVES)hive], key, out subkeys);
+            bool didSucceed = DevProgramReg.GetSubKeyNames(_devproghives[(REG_HIVES)hive], key, out string[] subkeys);
 
             if ((didSucceed) && (subkeys != null))
             {
@@ -105,19 +103,17 @@ namespace RegistryHelper
                 }
             }
 
-            ValueInfo[] values;
-            var didSucceed2 = DevProgramReg.GetValues(_devproghives[(REG_HIVES)hive], key, out values);
+            bool didSucceed2 = DevProgramReg.GetValues(_devproghives[(REG_HIVES)hive], key, out ValueInfo[] values);
 
             if ((didSucceed2) && (values != null))
             {
                 foreach (ValueInfo value in values)
                 {
-                    REG_VALUE_TYPE valtype;
-                    String data = "";
+                    string data = "";
                     try
                     {
                         CRegistryHelper helper = new CRegistryHelper();
-                        helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _devprogvaltypes.FirstOrDefault(x => x.Value == value.Type).Key, out valtype, out data);
+                        helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _devprogvaltypes.FirstOrDefault(x => x.Value == value.Type).Key, out REG_VALUE_TYPE valtype, out data);
                     }
                     catch
                     {
@@ -138,14 +134,14 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryMultiString(REG_HIVES hive, String key, String regvalue, out String[] data)
+        public REG_STATUS RegQueryMultiString(REG_HIVES hive, string key, string regvalue, out string[] data)
         {
 #if ARM
             if (regvalue == null)
             {
                 regvalue = "";
             }
-            var didSucceed = DevProgramReg.ReadMultiString(_devproghives[hive], key, regvalue, out data);
+            bool didSucceed = DevProgramReg.ReadMultiString(_devproghives[hive], key, regvalue, out data);
             if (didSucceed)
             {
                 return REG_STATUS.SUCCESS;
@@ -155,7 +151,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryVariableString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryVariableString(REG_HIVES hive, string key, string regvalue, out string data)
         {
 #if ARM
             if (regvalue == null)
@@ -163,9 +159,7 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            REG_VALUE_TYPE valtype;
-            Byte[] datatmp;
-            var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ, out valtype, out datatmp);
+            REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ, out REG_VALUE_TYPE valtype, out byte[] datatmp);
             if (result == REG_STATUS.SUCCESS)
             {
                 data = Encoding.Unicode.GetString(datatmp);
@@ -179,7 +173,7 @@ namespace RegistryHelper
 #endif
         }
 
-        public REG_STATUS RegQueryDword(REG_HIVES hive, String key, String regvalue, out UInt32 data)
+        public REG_STATUS RegQueryDword(REG_HIVES hive, string key, string regvalue, out uint data)
         {
 #if ARM
             if (regvalue == null)
@@ -187,8 +181,7 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            UInt32 datatmp;
-            var didSucceed = DevProgramReg.ReadDWORD(_devproghives[hive], key, regvalue, out datatmp);
+            bool didSucceed = DevProgramReg.ReadDWORD(_devproghives[hive], key, regvalue, out uint datatmp);
             if (didSucceed)
             {
                 data = datatmp;
@@ -199,13 +192,12 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
 #if ARM
             if (!string.IsNullOrWhiteSpace(key))
             {
-                ValueInfo[] values;
-                DevProgramReg.GetValues(_devproghives[hive], key, out values);
+                DevProgramReg.GetValues(_devproghives[hive], key, out ValueInfo[] values);
                 string errorcode = DevProgramReg.GetError().ToString();
 
                 if (errorcode == "0")
@@ -229,7 +221,7 @@ namespace RegistryHelper
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-        public REG_STATUS RegQueryQword(REG_HIVES hive, String key, String regvalue, out UInt64 data)
+        public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
 #if ARM
             if (regvalue == null)
@@ -237,8 +229,7 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            UInt64 datatmp;
-            var didSucceed = DevProgramReg.ReadQWORD(_devproghives[hive], key, regvalue, out datatmp);
+            bool didSucceed = DevProgramReg.ReadQWORD(_devproghives[hive], key, regvalue, out ulong datatmp);
             if (didSucceed)
             {
                 data = datatmp;
@@ -249,7 +240,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryString(REG_HIVES hive, string key, string regvalue, out string data)
         {
 #if ARM
             if (regvalue == null)
@@ -257,7 +248,7 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            var didSucceed = DevProgramReg.ReadString(_devproghives[hive], key, regvalue, out data);
+            bool didSucceed = DevProgramReg.ReadString(_devproghives[hive], key, regvalue, out data);
             if (didSucceed)
             {
                 return REG_STATUS.SUCCESS;
@@ -267,7 +258,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out Byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
 #if ARM
             if (regvalue == null)
@@ -275,9 +266,7 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            RegistryType type;
-            Byte[] datatmp;
-            bool didSucceed = DevProgramReg.QueryValue(_devproghives[hive], key, regvalue, out type, out datatmp);
+            bool didSucceed = DevProgramReg.QueryValue(_devproghives[hive], key, regvalue, out RegistryType type, out byte[] datatmp);
             if (didSucceed)
             {
                 outvaltype = _devprogvaltypes.FirstOrDefault(x => x.Value == type).Key;
@@ -290,7 +279,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetDword(REG_HIVES hive, String key, String regvalue, UInt32 data)
+        public REG_STATUS RegSetDword(REG_HIVES hive, string key, string regvalue, uint data)
         {
 #if ARM
             if (regvalue == null)
@@ -307,7 +296,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetMultiString(REG_HIVES hive, String key, String regvalue, [ReadOnlyArray] String[] data)
+        public REG_STATUS RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data)
         {
 #if ARM
             if (regvalue == null)
@@ -324,7 +313,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetQword(REG_HIVES hive, String key, String regvalue, UInt64 data)
+        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data)
         {
 #if ARM
             if (regvalue == null)
@@ -341,7 +330,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data)
         {
 #if ARM
             if (regvalue == null)
@@ -358,7 +347,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] Byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
         {
 #if ARM
             if (regvalue == null)
@@ -375,7 +364,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegSetVariableString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data)
         {
 #if ARM
             if (regvalue == null)
@@ -383,14 +372,14 @@ namespace RegistryHelper
                 regvalue = "";
             }
 
-            var result = RegSetValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD, Encoding.Unicode.GetBytes(data));
+            REG_STATUS result = RegSetValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD, Encoding.Unicode.GetBytes(data));
             return result;
 #else
             return REG_STATUS.FAILED;
 #endif
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
 #if ARM
             bool didSucceed = DevProgramReg.RenameKey(_devproghives[hive], key, newname);
@@ -402,7 +391,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
 #if ARM
             bool didSucceed = DevProgramReg.CreateKey(_devproghives[hive], key);
@@ -414,7 +403,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             lastmodified = long.MinValue;
             return REG_STATUS.NOT_IMPLEMENTED;

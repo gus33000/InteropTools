@@ -1,19 +1,17 @@
 ﻿using RegistryRT;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistryHelper
 {
     public sealed class RegistryRTProvider : IRegistryProvider
     {
-        Registry helper = new Registry();
+        private readonly Registry helper = new Registry();
 
-        private static Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
+        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT },
             { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER },
@@ -25,7 +23,7 @@ namespace RegistryHelper
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
+        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
         {
             { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
             { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
@@ -53,12 +51,12 @@ namespace RegistryHelper
             }
         }
 
-        public Boolean IsSupported()
+        public bool IsSupported()
         {
             return true;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
             try
             {
@@ -70,7 +68,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
             try
             {
@@ -87,7 +85,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
             try
             {
@@ -99,7 +97,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new List<REG_ITEM>();
 
@@ -120,14 +118,12 @@ namespace RegistryHelper
 
             try
             {
-                String[] subkeys;
-                var didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out subkeys);
-                String[] subvalues;
-                var didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out subvalues);
+                bool didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out string[] subkeys);
+                bool didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out string[] subvalues);
 
                 if (subkeys != null)
                 {
-                    foreach (var subkey in subkeys)
+                    foreach (string subkey in subkeys)
                     {
                         list.Add(new REG_ITEM { Name = subkey, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
                     }
@@ -135,18 +131,17 @@ namespace RegistryHelper
 
                 if (subvalues != null)
                 {
-                    foreach (var subval in subvalues)
+                    foreach (string subval in subvalues)
                     {
-                        var type = helper.GetValueInfo(_hives[(REG_HIVES)hive], key, subval, 0);
+                        RegistryType type = helper.GetValueInfo(_hives[(REG_HIVES)hive], key, subval, 0);
 
-                        var propertype = _valtypes.FirstOrDefault(x => x.Value == type).Key;
+                        REG_VALUE_TYPE propertype = _valtypes.FirstOrDefault(x => x.Value == type).Key;
 
-                        REG_VALUE_TYPE valtype;
-                        String data = "";
+                        string data = "";
                         try
                         {
                             CRegistryHelper helper = new CRegistryHelper();
-                            helper.RegQueryValue((REG_HIVES)hive, key, subval, propertype, out valtype, out data);
+                            helper.RegQueryValue((REG_HIVES)hive, key, subval, propertype, out REG_VALUE_TYPE valtype, out data);
                         }
                         catch
                         {
@@ -172,11 +167,11 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
             try
             {
-                var ret = helper.GetKeyStatus(_hives[hive], key);
+                uint ret = helper.GetKeyStatus(_hives[hive], key);
 
                 if (ret == 0)
                 {
@@ -195,7 +190,7 @@ namespace RegistryHelper
             return REG_KEY_STATUS.NOT_FOUND;
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
             try
             {
@@ -207,13 +202,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryMultiString(REG_HIVES hive, String key, String regvalue, out String[] data)
+        public REG_STATUS RegQueryMultiString(REG_HIVES hive, string key, string regvalue, out string[] data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = new string[0];
@@ -239,18 +232,16 @@ namespace RegistryHelper
             }
             catch
             {
-                data = new String[0];
+                data = new string[0];
                 return REG_STATUS.FAILED;
             }
         }
 
-        public REG_STATUS RegQueryVariableString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryVariableString(REG_HIVES hive, string key, string regvalue, out string data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
@@ -266,13 +257,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryDword(REG_HIVES hive, String key, String regvalue, out UInt32 data)
+        public REG_STATUS RegQueryDword(REG_HIVES hive, string key, string regvalue, out uint data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = uint.MinValue;
@@ -288,13 +277,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryQword(REG_HIVES hive, String key, String regvalue, out UInt64 data)
+        public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = uint.MinValue;
@@ -310,13 +297,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryString(REG_HIVES hive, string key, string regvalue, out string data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
@@ -332,7 +317,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out Byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
             try
             {
@@ -340,18 +325,17 @@ namespace RegistryHelper
             }
             catch
             {
-                data = new Byte[0];
+                data = new byte[0];
                 outvaltype = REG_VALUE_TYPE.REG_NONE;
                 return REG_STATUS.FAILED;
             }
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, String key, String regvalue, out REG_VALUE_TYPE outvaltype, out Byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
             try
             {
-                RegistryType valtype;
-                if (!helper.QueryValue(_hives[hive], key, regvalue, out valtype, out data))
+                if (!helper.QueryValue(_hives[hive], key, regvalue, out RegistryType valtype, out data))
                 {
                     data = new byte[0];
                     outvaltype = REG_VALUE_TYPE.REG_NONE;
@@ -368,7 +352,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetDword(REG_HIVES hive, String key, String regvalue, UInt32 data)
+        public REG_STATUS RegSetDword(REG_HIVES hive, string key, string regvalue, uint data)
         {
             try
             {
@@ -380,7 +364,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetMultiString(REG_HIVES hive, String key, String regvalue, [ReadOnlyArray] String[] data)
+        public REG_STATUS RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data)
         {
             try
             {
@@ -392,7 +376,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetQword(REG_HIVES hive, String key, String regvalue, UInt64 data)
+        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data)
         {
             try
             {
@@ -404,7 +388,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data)
         {
             try
             {
@@ -417,11 +401,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] Byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
         {
             try
             {
-                var result = helper.WriteValue(_hives[hive], key, regvalue, data, _valtypes[valtype]);
+                bool result = helper.WriteValue(_hives[hive], key, regvalue, data, _valtypes[valtype]);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -430,7 +414,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetVariableString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data)
         {
             try
             {
@@ -443,11 +427,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             try
             {
-                var result = helper.GetKeyLastWriteTime(_hives[hive], key, out lastmodified);
+                bool result = helper.GetKeyLastWriteTime(_hives[hive], key, out lastmodified);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -461,8 +445,7 @@ namespace RegistryHelper
         {
             try
             {
-                uint valtypetmp;
-                if (!helper.QueryValue(_hives[hive], key, regvalue, out valtypetmp, out data))
+                if (!helper.QueryValue(_hives[hive], key, regvalue, out uint valtypetmp, out data))
                 {
                     data = new byte[0];
                     outvaltype = uint.MinValue;
@@ -483,7 +466,7 @@ namespace RegistryHelper
         {
             try
             {
-                var result = helper.WriteValue(_hives[hive], key, regvalue, data, valtype);
+                bool result = helper.WriteValue(_hives[hive], key, regvalue, data, valtype);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -513,14 +496,12 @@ namespace RegistryHelper
 
             try
             {
-                String[] subkeys;
-                var didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out subkeys);
-                String[] subvalues;
-                var didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out subvalues);
+                bool didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out string[] subkeys);
+                bool didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out string[] subvalues);
 
                 if (subkeys != null)
                 {
-                    foreach (var subkey in subkeys)
+                    foreach (string subkey in subkeys)
                     {
                         list.Add(new REG_ITEM_CUSTOM { Name = subkey, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
                     }
@@ -528,16 +509,15 @@ namespace RegistryHelper
 
                 if (subvalues != null)
                 {
-                    foreach (var subval in subvalues)
+                    foreach (string subval in subvalues)
                     {
-                        var type = helper.GetValueInfo2(_hives[(REG_HIVES)hive], key, subval, 0);
-                        
-                        uint valtype;
-                        String data = "";
+                        uint type = helper.GetValueInfo2(_hives[(REG_HIVES)hive], key, subval, 0);
+
+                        string data = "";
                         try
                         {
                             CRegistryHelper helper = new CRegistryHelper();
-                            helper.RegQueryValue((REG_HIVES)hive, key, subval, type, out valtype, out data);
+                            helper.RegQueryValue((REG_HIVES)hive, key, subval, type, out uint valtype, out data);
                         }
                         catch
                         {
@@ -567,7 +547,7 @@ namespace RegistryHelper
         {
             try
             {
-                var result = helper.LoadHive(FilePath, mountpoint, inUser);
+                bool result = helper.LoadHive(FilePath, mountpoint, inUser);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -580,7 +560,7 @@ namespace RegistryHelper
         {
             try
             {
-                var result = helper.UnloadHive(mountpoint, inUser);
+                bool result = helper.UnloadHive(mountpoint, inUser);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch

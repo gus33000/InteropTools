@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InteropTools.Providers
+﻿namespace InteropTools.Providers
 {
     public sealed class REG_ITEM
     {
@@ -15,7 +9,7 @@ namespace InteropTools.Providers
         public uint? ValueType { get; internal set; }
         public byte[] Data { get; internal set; }
     }
-    
+
     public enum REG_STATUS
     {
         SUCCESS,
@@ -44,7 +38,7 @@ namespace InteropTools.Providers
         HKEY_CURRENT_USER_LOCAL_SETTINGS
     }
 
-    public enum REG_VALUE_TYPE 
+    public enum REG_VALUE_TYPE
     {
         REG_NONE,
         REG_SZ,

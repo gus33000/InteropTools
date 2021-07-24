@@ -1,16 +1,9 @@
 ﻿using AppPlugin.PluginList;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 
 namespace AppPlugin
@@ -48,7 +41,7 @@ namespace AppPlugin
         /// <returns>The <see cref="AppPlugin.PluginList<,,,>"/></returns>
         public static async Task<PluginList<TIn, TOut, TProgress>> ListAsync(string pluginName)
         {
-            var pluginList = new PluginList<TIn, TOut, TProgress>(pluginName);
+            PluginList<TIn, TOut, TProgress> pluginList = new PluginList<TIn, TOut, TProgress>(pluginName);
             await pluginList.InitAsync();
             return pluginList;
         }
@@ -65,20 +58,22 @@ namespace AppPlugin
 
         internal override async Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource)
         {
-            var inputString = args.Request.Message[START_KEY] as String;
+            string inputString = args.Request.Message[START_KEY] as string;
 
-            var input = Helper.DeSerilize<TIn>(inputString);
+            TIn input = Helper.DeSerilize<TIn>(inputString);
 
-            var progress = new Progress<TProgress>(async r =>
+            Progress<TProgress> progress = new Progress<TProgress>(async r =>
             {
-                var data = Helper.Serilize(r);
-                var dataSet = new ValueSet();
-                dataSet.Add(PROGRESS_KEY, data);
-                dataSet.Add(ID_KEY, id);
+                string data = Helper.Serilize(r);
+                ValueSet dataSet = new ValueSet
+                {
+                    { PROGRESS_KEY, data },
+                    { ID_KEY, id }
+                };
                 await sender.SendMessageAsync(dataSet);
             });
 
-            var output = await Execute(sender, input, progress, cancellationTokenSource.Token);
+            TOut output = await Execute(sender, input, progress, cancellationTokenSource.Token);
             return output;
         }
     }

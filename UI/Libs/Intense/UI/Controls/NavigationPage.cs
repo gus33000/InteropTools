@@ -1,8 +1,6 @@
 ﻿using Intense.Presentation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,7 +42,7 @@ namespace Intense.UI.Controls
 
         private static void OnNavigationItemChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
         {
-            var page = (NavigationPage)o;
+            NavigationPage page = (NavigationPage)o;
 
             // delay invoke changed handler to ensure any dependent bindings are finalized
 
@@ -55,8 +53,9 @@ namespace Intense.UI.Controls
             //  4) ListView.ItemsSource binding is not finalized, Items is still empty
             //  5) two way SelectedItem binding result in SelectedItem to be result to null
 
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            Task.Delay(10).ContinueWith(t => {
+            TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.Delay(10).ContinueWith(t =>
+            {
                 page.OnNavigationItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue);
             }, scheduler);
         }
@@ -69,14 +68,15 @@ namespace Intense.UI.Controls
         protected virtual void OnNavigationItemChanged(NavigationItem oldValue, NavigationItem newValue)
         {
             // update rootitem
-            this.RootItem = newValue?.GetAncestorsAndSelf().LastOrDefault();
+            RootItem = newValue?.GetAncestorsAndSelf().LastOrDefault();
         }
 
         private static void OnSelectedItemChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
         {
             // ignore if navigation item is null (two-way binding is invoked when NavigationItem is nullified when navigating away)
-            var page = (NavigationPage)o;
-            if (page.NavigationItem != null) {
+            NavigationPage page = (NavigationPage)o;
+            if (page.NavigationItem != null)
+            {
                 page.OnSelectedItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue);
             }
         }
@@ -88,14 +88,16 @@ namespace Intense.UI.Controls
         /// <param name="newValue"></param>
         protected virtual void OnSelectedItemChanged(NavigationItem oldValue, NavigationItem newValue)
         {
-            if (newValue != null) {
+            if (newValue != null)
+            {
                 // navigate to selected item
-                var pageType = typeof(MasterNavigationPage);
-                if (IsMasterDetailCandidate(newValue)) {
+                Type pageType = typeof(MasterNavigationPage);
+                if (IsMasterDetailCandidate(newValue))
+                {
                     pageType = typeof(MasterDetailNavigationPage);
                 }
 
-                this.Frame?.Navigate(pageType, newValue);
+                Frame?.Navigate(pageType, newValue);
             }
         }
 
@@ -120,7 +122,7 @@ namespace Intense.UI.Controls
         /// <returns></returns>
         protected bool IsMasterDetailCandidate(NavigationItem item)
         {
-            return !item.IsRoot() && (item.IsLeaf() || (!item.HasGrandchildren() && this.WindowState == WindowStateWide));
+            return !item.IsRoot() && (item.IsLeaf() || (!item.HasGrandchildren() && WindowState == WindowStateWide));
         }
 
         /// <summary>
@@ -131,7 +133,7 @@ namespace Intense.UI.Controls
         {
             base.OnNavigatedTo(e);
 
-            this.NavigationItem = e.Parameter as NavigationItem;
+            NavigationItem = e.Parameter as NavigationItem;
         }
 
         /// <summary>
@@ -142,7 +144,7 @@ namespace Intense.UI.Controls
         {
             base.OnNavigatedFrom(e);
 
-            this.NavigationItem = null;
+            NavigationItem = null;
         }
 
         /// <summary>
@@ -150,8 +152,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public NavigationItem NavigationItem
         {
-            get { return (NavigationItem)GetValue(NavigationItemProperty); }
-            set { SetValue(NavigationItemProperty, value); }
+            get => (NavigationItem)GetValue(NavigationItemProperty);
+            set => SetValue(NavigationItemProperty, value);
         }
 
         /// <summary>
@@ -159,8 +161,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public NavigationItem RootItem
         {
-            get { return (NavigationItem)GetValue(RootItemProperty); }
-            private set { SetValue(RootItemProperty, value); }
+            get => (NavigationItem)GetValue(RootItemProperty);
+            private set => SetValue(RootItemProperty, value);
         }
 
         /// <summary>
@@ -168,8 +170,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public NavigationItem SelectedItem
         {
-            get { return (NavigationItem)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => (NavigationItem)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         /// <summary>
@@ -177,8 +179,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public string WindowState
         {
-            get { return (string)GetValue(WindowStateProperty); }
-            set { SetValue(WindowStateProperty, value); }
+            get => (string)GetValue(WindowStateProperty);
+            set => SetValue(WindowStateProperty, value);
         }
     }
 }

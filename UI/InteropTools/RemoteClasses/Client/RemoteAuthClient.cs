@@ -1,155 +1,155 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
-using Newtonsoft.Json;
 
 namespace InteropTools.RemoteClasses.Client
 {
-	internal class RemoteAuthClient
-	{
-		public delegate void Authentificated();
+    internal class RemoteAuthClient
+    {
+        public delegate void Authentificated();
 
-		public delegate void Connected();
+        public delegate void Connected();
 
-		public delegate void Error(string message);
+        public delegate void Error(string message);
 
-		private DataReader _reader;
-		private StreamSocket _socket;
-		private DataWriter _writer;
+        private DataReader _reader;
+        private StreamSocket _socket;
+        private DataWriter _writer;
 
-		public RemoteAuthClient(string ip, int port)
-		{
-			Ip = ip;
-			Port = port;
-		}
+        public RemoteAuthClient(string ip, int port)
+        {
+            Ip = ip;
+            Port = port;
+        }
 
-		private string Ip { get; }
-		private int Port { get; }
-		public event Error OnError;
-		public event Connected OnConnected;
-		public event Authentificated OnAuthentificated;
-		public event Authentificated OnNotAuthentificated;
+        private string Ip { get; }
+        private int Port { get; }
+        public event Error OnError;
+        public event Connected OnConnected;
+        public event Authentificated OnAuthentificated;
+        public event Authentificated OnNotAuthentificated;
 
-		public async void Connect()
-		{
-			try
-			{
-				var hostName = new HostName(Ip);
-				_socket = new StreamSocket();
-				await _socket.ConnectAsync(hostName, Port.ToString());
-				OnConnected?.Invoke();
-				_writer = new DataWriter(_socket.OutputStream);
-				Read();
-				var jsonObject = new RootObject
-				{
-					SessionID = App.SessionId,
-					Operation = "Authentificate"
-				};
-				var json = JsonConvert.SerializeObject(jsonObject);
-				Send(json);
-			}
+        public async void Connect()
+        {
+            try
+            {
+                HostName hostName = new HostName(Ip);
+                _socket = new StreamSocket();
+                await _socket.ConnectAsync(hostName, Port.ToString());
+                OnConnected?.Invoke();
+                _writer = new DataWriter(_socket.OutputStream);
+                Read();
+                RootObject jsonObject = new RootObject
+                {
+                    SessionID = App.SessionId,
+                    Operation = "Authentificate"
+                };
+                string json = JsonConvert.SerializeObject(jsonObject);
+                Send(json);
+            }
 
-			catch (Exception ex)
-			{
-				OnError?.Invoke(ex.Message);
-			}
-		}
+            catch (Exception ex)
+            {
+                OnError?.Invoke(ex.Message);
+            }
+        }
 
-		private async void Send(string message)
-		{
-			_writer.WriteUInt32(_writer.MeasureString(message));
-			_writer.WriteString(message);
+        private async void Send(string message)
+        {
+            _writer.WriteUInt32(_writer.MeasureString(message));
+            _writer.WriteString(message);
 
-			try
-			{
-				await _writer.StoreAsync();
-				await _writer.FlushAsync();
-			}
+            try
+            {
+                await _writer.StoreAsync();
+                await _writer.FlushAsync();
+            }
 
-			catch (Exception ex)
-			{
-				OnError?.Invoke(ex.Message);
-			}
-		}
+            catch (Exception ex)
+            {
+                OnError?.Invoke(ex.Message);
+            }
+        }
 
-		private async void Read()
-		{
-			_reader = new DataReader(_socket.InputStream);
+        private async void Read()
+        {
+            _reader = new DataReader(_socket.InputStream);
 
-			try
-			{
-				while (true)
-				{
-					var sizeFieldCount = await _reader.LoadAsync(sizeof(uint));
+            try
+            {
+                while (true)
+                {
+                    uint sizeFieldCount = await _reader.LoadAsync(sizeof(uint));
 
-					if (sizeFieldCount != sizeof(uint))
-					{
-						return;
-					}
+                    if (sizeFieldCount != sizeof(uint))
+                    {
+                        return;
+                    }
 
-					var stringLength = _reader.ReadUInt32();
+                    uint stringLength = _reader.ReadUInt32();
 
-					if (stringLength == 0)
-					{
-						return;
-					}
+                    if (stringLength == 0)
+                    {
+                        return;
+                    }
 
-					var actualStringLength = await _reader.LoadAsync(stringLength);
+                    uint actualStringLength = await _reader.LoadAsync(stringLength);
 
-					if (stringLength != actualStringLength)
-					{
-						return;
-					}
+                    if (stringLength != actualStringLength)
+                    {
+                        return;
+                    }
 
-					var reply = _reader.ReadString(actualStringLength);
-					var obj = JsonConvert.DeserializeObject<RootObject>(reply);
+                    string reply = _reader.ReadString(actualStringLength);
+                    RootObject obj = JsonConvert.DeserializeObject<RootObject>(reply);
 
-					if (obj.Result.Status == "SUCCESS")
-					{
-						OnAuthentificated?.Invoke();
-					}
+                    if (obj.Result.Status == "SUCCESS")
+                    {
+                        OnAuthentificated?.Invoke();
+                    }
 
-					else
-					{
-						OnNotAuthentificated?.Invoke();
-					}
-				}
-			}
+                    else
+                    {
+                        OnNotAuthentificated?.Invoke();
+                    }
+                }
+            }
 
-			catch (Exception ex)
-			{
-				OnError?.Invoke(ex.Message);
-			}
-		}
+            catch (Exception ex)
+            {
+                OnError?.Invoke(ex.Message);
+            }
+        }
 
-		private class Item
-		{
-			public string Name { get; set; }
-			public string Type { get; set; }
-			public string Hive { get; set; }
-			public string Key { get; set; }
-			public string Value { get; set; }
-			public string ValueType { get; set; }
-			public uint ValueType2 { get; set; }
-		}
+        private class Item
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+            public string Hive { get; set; }
+            public string Key { get; set; }
+            public string Value { get; set; }
+            public string ValueType { get; set; }
+            public uint ValueType2 { get; set; }
+        }
 
-		private class Result
-		{
-			public string Error { get; set; }
-			public bool Exists { get; set; }
-			public string ValueData { get; set; }
-			public string ValueType { get; set; }
-			public uint ValueType2 { get; set; }
-			public string Status { get; set; }
+        private class Result
+        {
+            public string Error { get; set; }
+            public bool Exists { get; set; }
+            public string ValueData { get; set; }
+            public string ValueType { get; set; }
+            public uint ValueType2 { get; set; }
+            public string Status { get; set; }
 
-			public List<Item> Items { get; set; }
+            public List<Item> Items { get; set; }
 
-			public string AppInstallationPath { get; set; }
+            public string AppInstallationPath { get; set; }
 
-			public DateTime LastModifiedTime { get; set; }
-		}
+            public DateTime LastModifiedTime { get; set; }
+        }
 
 
         private class RootObject

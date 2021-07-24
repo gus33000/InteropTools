@@ -23,17 +23,17 @@ Revision History:
 
 --*/
 
+using ndtklib;
 using System;
 using System.Collections.Generic;
-using ndtklib;
 
 namespace InteropTools.Providers.Registry.NDTKProvider
 {
     internal class NDTKRegProvider : IRegProvider
     {
         private NRPC _nrpc;
-        
-        private static Dictionary<REG_HIVES, uint> _ndtkhives = new Dictionary<REG_HIVES, uint>
+
+        private static readonly Dictionary<REG_HIVES, uint> _ndtkhives = new Dictionary<REG_HIVES, uint>
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, 0 },
             { REG_HIVES.HKEY_CURRENT_USER, 2 },
@@ -45,7 +45,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7 }
         };
 
-        private static Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new Dictionary<REG_VALUE_TYPE, uint>
+        private static readonly Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new Dictionary<REG_VALUE_TYPE, uint>
         {
             { REG_VALUE_TYPE.REG_NONE , 0 },
             { REG_VALUE_TYPE.REG_SZ , 1 },
@@ -60,7 +60,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             { REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST , 10 },
             { REG_VALUE_TYPE.REG_QWORD , 11 }
         };
-        
+
         public bool IsSupported(REG_OPERATION operation)
         {
             if (_nrpc == null)
@@ -68,7 +68,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                 try
                 {
                     _nrpc = new NRPC();
-                    var ret = _nrpc.Initialize();
+                    uint ret = _nrpc.Initialize();
                 }
                 catch
                 {
@@ -95,7 +95,10 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
         public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
         {
-            if (!IsSupported(REG_OPERATION.RegQueryValue)) throw new NotImplementedException();
+            if (!IsSupported(REG_OPERATION.RegQueryValue))
+            {
+                throw new NotImplementedException();
+            }
 
             try
             {
@@ -147,14 +150,20 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
         public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data)
         {
-            if (!IsSupported(REG_OPERATION.RegSetValue)) throw new NotImplementedException();
+            if (!IsSupported(REG_OPERATION.RegSetValue))
+            {
+                throw new NotImplementedException();
+            }
 
             try
             {
                 try
                 {
                     uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, valtype, data);
-                    if (returncode != 0) return REG_STATUS.FAILED;
+                    if (returncode != 0)
+                    {
+                        return REG_STATUS.FAILED;
+                    }
                 }
                 catch
                 {

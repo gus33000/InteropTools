@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Intense.UI
@@ -35,32 +32,37 @@ namespace Intense.UI
         {
             get
             {
-                var root = GetRoot();
-                if (root.RequestedTheme == ElementTheme.Default) {
+                FrameworkElement root = GetRoot();
+                if (root.RequestedTheme == ElementTheme.Default)
+                {
                     return Application.Current.RequestedTheme;
                 }
-                if (root.RequestedTheme == ElementTheme.Dark) {
+                if (root.RequestedTheme == ElementTheme.Dark)
+                {
                     return ApplicationTheme.Dark;
                 }
                 return ApplicationTheme.Light;
             }
             set
             {
-                var oldTheme = Theme;
-                var elementTheme = ElementTheme.Default;
+                ApplicationTheme oldTheme = Theme;
+                ElementTheme elementTheme = ElementTheme.Default;
 
-                if (Application.Current.RequestedTheme != value) {
+                if (Application.Current.RequestedTheme != value)
+                {
                     elementTheme = ElementTheme.Light;
-                    if (value == ApplicationTheme.Dark) {
+                    if (value == ApplicationTheme.Dark)
+                    {
                         elementTheme = ElementTheme.Dark;
                     }
                 }
-                var root = GetRoot();
+                FrameworkElement root = GetRoot();
                 root.RequestedTheme = elementTheme;
 
-                var newTheme = Theme;
+                ApplicationTheme newTheme = Theme;
 
-                if (oldTheme != newTheme) {
+                if (oldTheme != newTheme)
+                {
                     // raise Theme changed event
                     OnThemeChanged();
                 }

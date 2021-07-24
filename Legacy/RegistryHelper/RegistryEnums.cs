@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RegistryHelper
+﻿namespace RegistryHelper
 {
     public sealed class REG_ITEM
     {

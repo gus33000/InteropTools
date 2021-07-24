@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intense
 {
@@ -22,8 +19,10 @@ namespace Intense
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
         {
             HashSet<TKey> keys = new HashSet<TKey>();
-            foreach (T element in source) {
-                if (keys.Add(keySelector(element))) {
+            foreach (T element in source)
+            {
+                if (keys.Add(keySelector(element)))
+                {
                     yield return element;
                 }
             }

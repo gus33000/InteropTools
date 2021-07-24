@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intense
 {
@@ -13,10 +11,12 @@ namespace Intense
     {
         private static void ThrowIfInvalidArgs<T>(IHierarchyService<T> service, T o)
         {
-            if (service == null) {
+            if (service == null)
+            {
                 throw new ArgumentNullException(nameof(service));
             }
-            if (o == null) {
+            if (o == null)
+            {
                 throw new ArgumentNullException(nameof(o));
             }
         }
@@ -31,12 +31,15 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            while (true) {
+            while (true)
+            {
                 o = service.GetParent(o);
-                if (o != null) {
+                if (o != null)
+                {
                     yield return o;
                 }
-                else {
+                else
+                {
                     break;
                 }
             }
@@ -52,11 +55,14 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            while (true) {
-                if (o != null) {
+            while (true)
+            {
+                if (o != null)
+                {
                     yield return o;
                 }
-                else {
+                else
+                {
                     break;
                 }
 
@@ -74,7 +80,7 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            var stack = new Stack<T>(service.GetChildren(o).Reverse());
+            Stack<T> stack = new Stack<T>(service.GetChildren(o).Reverse());
             return GetDescendantsAndSelf(service, stack);
         }
 
@@ -88,18 +94,20 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            var stack = new Stack<T>();
+            Stack<T> stack = new Stack<T>();
             stack.Push(o);
             return GetDescendantsAndSelf(service, stack);
         }
 
         private static IEnumerable<T> GetDescendantsAndSelf<T>(this IHierarchyService<T> service, Stack<T> stack)
         {
-            while (stack.Count > 0) {
-                var o = stack.Pop();
+            while (stack.Count > 0)
+            {
+                T o = stack.Pop();
                 yield return o;
 
-                foreach (var child in service.GetChildren(o).Reverse()) {
+                foreach (T child in service.GetChildren(o).Reverse())
+                {
                     stack.Push(child);
                 }
             }
@@ -115,8 +123,9 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            var parent = service.GetParent(o);
-            if (parent != null) {
+            T parent = service.GetParent(o);
+            if (parent != null)
+            {
                 return service.GetChildren(parent).TakeWhile(c => c != o);
             }
             return Enumerable.Empty<T>();
@@ -132,8 +141,9 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            var parent = service.GetParent(o);
-            if (parent != null) {
+            T parent = service.GetParent(o);
+            if (parent != null)
+            {
                 return service.GetChildren(parent).SkipWhile(c => c != o).Skip(1);
             }
             return Enumerable.Empty<T>();

@@ -23,19 +23,16 @@ Revision History:
 
 --*/
 
-using System;
-using System.Collections.Generic;
 using RegistryRT;
-using System.Text;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
     internal class WinRTRegProvider : IRegProvider
     {
-        RegistryRT.Registry helper = new RegistryRT.Registry();
+        private readonly RegistryRT.Registry helper = new RegistryRT.Registry();
 
-        private static Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
+        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT },
             { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER },
@@ -47,7 +44,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
+        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
         {
             { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
             { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
@@ -77,7 +74,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             return true;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
             try
             {
@@ -89,7 +86,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
             try
             {
@@ -106,7 +103,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
             try
             {
@@ -118,7 +115,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new List<REG_ITEM>();
 
@@ -139,14 +136,12 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
             try
             {
-                String[] subkeys;
-                var didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out subkeys);
-                String[] subvalues;
-                var didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out subvalues);
+                bool didSucceed = helper.GetSubKeyList(_hives[(REG_HIVES)hive], key, out string[] subkeys);
+                bool didSucceed2 = helper.GetValueList(_hives[(REG_HIVES)hive], key, out string[] subvalues);
 
                 if (subkeys != null)
                 {
-                    foreach (var subkey in subkeys)
+                    foreach (string subkey in subkeys)
                     {
                         list.Add(new REG_ITEM { Name = subkey, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
                     }
@@ -154,16 +149,15 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
                 if (subvalues != null)
                 {
-                    foreach (var subval in subvalues)
+                    foreach (string subval in subvalues)
                     {
-                        var type = helper.GetValueInfo2(_hives[(REG_HIVES)hive], key, subval, 0);
-                        
+                        uint type = helper.GetValueInfo2(_hives[(REG_HIVES)hive], key, subval, 0);
+
                         uint valtype = 0;
 
                         try
                         {
-                            byte[] data;
-                            RegQueryValue((REG_HIVES)hive, key, subval, type, out valtype, out data);
+                            RegQueryValue((REG_HIVES)hive, key, subval, type, out valtype, out byte[] data);
                             list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, Data = data, ValueType = valtype });
                         }
                         catch
@@ -189,11 +183,11 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             return REG_STATUS.FAILED;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
             try
             {
-                var ret = helper.GetKeyStatus(_hives[hive], key);
+                uint ret = helper.GetKeyStatus(_hives[hive], key);
 
                 if (ret == 0)
                 {
@@ -212,7 +206,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             return REG_KEY_STATUS.NOT_FOUND;
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
             try
             {
@@ -223,12 +217,12 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                 return REG_STATUS.FAILED;
             }
         }
-        
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             try
             {
-                var result = helper.GetKeyLastWriteTime(_hives[hive], key, out lastmodified);
+                bool result = helper.GetKeyLastWriteTime(_hives[hive], key, out lastmodified);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -242,8 +236,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
         {
             try
             {
-                uint valtypetmp;
-                if (!helper.QueryValue(_hives[hive], key, regvalue, out valtypetmp, out data))
+                if (!helper.QueryValue(_hives[hive], key, regvalue, out uint valtypetmp, out data))
                 {
                     data = new byte[0];
                     outvaltype = uint.MinValue;
@@ -264,7 +257,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
         {
             try
             {
-                var result = helper.WriteValue(_hives[hive], key, regvalue, data, valtype);
+                bool result = helper.WriteValue(_hives[hive], key, regvalue, data, valtype);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -277,7 +270,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
         {
             try
             {
-                var result = helper.LoadHive(hivepath, mountedname, InUser);
+                bool result = helper.LoadHive(hivepath, mountedname, InUser);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch
@@ -290,7 +283,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
         {
             try
             {
-                var result = helper.UnloadHive(mountedname, InUser);
+                bool result = helper.UnloadHive(mountedname, InUser);
                 return result ? REG_STATUS.SUCCESS : REG_STATUS.FAILED;
             }
             catch

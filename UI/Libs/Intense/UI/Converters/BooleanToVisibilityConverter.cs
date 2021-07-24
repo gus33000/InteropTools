@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
+﻿using Windows.UI.Xaml;
 
 namespace Intense.UI.Converters
 {
@@ -12,7 +6,7 @@ namespace Intense.UI.Converters
     /// Converts a boolean to and from a visibility value.
     /// </summary>
     public class BooleanToVisibilityConverter
-        : ValueConverter<Boolean, Visibility>
+        : ValueConverter<bool, Visibility>
     {
         /// <summary>
         /// Determines whether an inverse conversion should take place.
@@ -29,7 +23,8 @@ namespace Intense.UI.Converters
         /// <returns></returns>
         protected override Visibility Convert(bool value, object parameter, string language)
         {
-            if (this.Inverse) {
+            if (Inverse)
+            {
                 value = !value;
             }
             return value ? Visibility.Visible : Visibility.Collapsed;
@@ -44,8 +39,9 @@ namespace Intense.UI.Converters
         /// <returns></returns>
         protected override bool ConvertBack(Visibility value, object parameter, string language)
         {
-            var result = value == Visibility.Visible;
-            if (this.Inverse) {
+            bool result = value == Visibility.Visible;
+            if (Inverse)
+            {
                 result = !result;
             }
             return result;

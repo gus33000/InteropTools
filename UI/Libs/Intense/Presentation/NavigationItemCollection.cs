@@ -1,10 +1,7 @@
 ﻿using Intense.Resources;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intense.Presentation
 {
@@ -14,7 +11,7 @@ namespace Intense.Presentation
     public class NavigationItemCollection
         : ObservableCollection<NavigationItem>
     {
-        private NavigationItem parent;
+        private readonly NavigationItem parent;
 
         /// <summary>
         /// Initializes a default instance of the <see cref="NavigationItemCollection"/>.
@@ -33,11 +30,12 @@ namespace Intense.Presentation
         /// </summary>
         protected override void ClearItems()
         {
-            var items = this.Items.ToArray();
+            NavigationItem[] items = Items.ToArray();
             base.ClearItems();
 
             // clear parent from items
-            foreach (var item in items) {
+            foreach (NavigationItem item in items)
+            {
                 item.Parent = null;
             }
         }
@@ -53,7 +51,7 @@ namespace Intense.Presentation
 
             base.InsertItem(index, item);
 
-            item.Parent = this.parent;
+            item.Parent = parent;
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace Intense.Presentation
         /// <param name="index">The zero-based index of the element to remove.</param>
         protected override void RemoveItem(int index)
         {
-            var oldItem = this.Items[index];
+            NavigationItem oldItem = Items[index];
 
             base.RemoveItem(index);
 
@@ -77,20 +75,22 @@ namespace Intense.Presentation
         protected override void SetItem(int index, NavigationItem item)
         {
             VerifyNewItem(item);
-            var oldItem = this.Items[index];
+            NavigationItem oldItem = Items[index];
 
             base.SetItem(index, item);
             oldItem.Parent = null;
-            item.Parent = this.parent;
+            item.Parent = parent;
         }
 
         private void VerifyNewItem(NavigationItem item)
         {
-            if (item == null) {
+            if (item == null)
+            {
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (item.Parent != null) {
+            if (item.Parent != null)
+            {
                 throw new InvalidOperationException(ResourceHelper.GetString("ItemAlreadyInCollection"));
             }
         }

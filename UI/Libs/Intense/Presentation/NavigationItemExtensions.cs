@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Intense.Presentation
 {
@@ -11,7 +7,7 @@ namespace Intense.Presentation
     /// </summary>
     public static class NavigationItemExtensions
     {
-        private static NavigationItemHierarchyService service = new NavigationItemHierarchyService();
+        private static readonly NavigationItemHierarchyService service = new NavigationItemHierarchyService();
 
         /// <summary>
         /// Returns a collection of ancestors of specified item.

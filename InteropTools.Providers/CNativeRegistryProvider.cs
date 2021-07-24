@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources.Core;
-using InteropTools.Providers;
 
 namespace InteropTools.Providers
 {
@@ -14,7 +13,7 @@ namespace InteropTools.Providers
         private readonly CRegistryHelper helper = new CRegistryHelper();
         public bool Initialized;
 
-        private static Dictionary<RegHives, RegistryHelper.REG_HIVES> _hives = new Dictionary<RegHives, RegistryHelper.REG_HIVES>
+        private static readonly Dictionary<RegHives, RegistryHelper.REG_HIVES> _hives = new Dictionary<RegHives, RegistryHelper.REG_HIVES>
         {
             { RegHives.HKEY_CLASSES_ROOT, RegistryHelper.REG_HIVES.HKEY_CLASSES_ROOT },
             { RegHives.HKEY_CURRENT_USER, RegistryHelper.REG_HIVES.HKEY_CURRENT_USER },
@@ -26,7 +25,7 @@ namespace InteropTools.Providers
             { RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHelper.REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE> _valtypes = new Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE>
+        private static readonly Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE> _valtypes = new Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE>
         {
             { RegTypes.REG_NONE, RegistryHelper.REG_VALUE_TYPE.REG_NONE },
             { RegTypes.REG_SZ, RegistryHelper.REG_VALUE_TYPE.REG_SZ },
@@ -87,21 +86,21 @@ namespace InteropTools.Providers
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (HelperErrorCodes)(uint)helper.RegAddKey(tmphive, key);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegAddKey(tmphive, key);
             return result;
         }
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (HelperErrorCodes)(uint)helper.RegDeleteKey(tmphive, key, recursive);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegDeleteKey(tmphive, key, recursive);
             return result;
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (HelperErrorCodes)(uint)helper.RegDeleteValue(tmphive, key, keyvalue);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegDeleteValue(tmphive, key, keyvalue);
             return result;
         }
 
@@ -113,21 +112,19 @@ namespace InteropTools.Providers
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (KeyStatus)(uint)helper.RegQueryKeyStatus(tmphive, key);
+            KeyStatus result = (KeyStatus)(uint)helper.RegQueryKeyStatus(tmphive, key);
             return result;
         }
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            var ret = new GetKeyValueReturn();
+            GetKeyValueReturn ret = new GetKeyValueReturn();
 
-            RegistryHelper.REG_VALUE_TYPE tmpregtype;
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             RegistryHelper.REG_VALUE_TYPE tmptype = _valtypes[type];
-            string regvalue;
-            var result =
+            HelperErrorCodes result =
               (HelperErrorCodes)
-              (uint)helper.RegQueryValue(tmphive, key, keyvalue, tmptype, out tmpregtype, out regvalue);
+              (uint)helper.RegQueryValue(tmphive, key, keyvalue, tmptype, out RegistryHelper.REG_VALUE_TYPE tmpregtype, out string regvalue);
 
             ret.regtype = (RegTypes)(uint)tmpregtype;
             ret.regvalue = regvalue;
@@ -138,11 +135,11 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            var itemsList = new List<RegistryItem>();
-            IReadOnlyList<RegistryHelper.REG_ITEM> items = null;
-            helper.RegEnumKey(null, null, out items);
+            List<RegistryItem> itemsList = new List<RegistryItem>();
+            helper.RegEnumKey(null, null, out IReadOnlyList<RegistryHelper.REG_ITEM> items);
 
-            foreach (var item in items)
+            foreach (RegistryHelper.REG_ITEM item in items)
+            {
                 itemsList.Add(new RegistryItem
                 {
                     Hive = _hives.FirstOrDefault(x => x.Value == item.Hive).Key,
@@ -152,17 +149,19 @@ namespace InteropTools.Providers
                     Value = item.DataAsString,
                     ValueType = _valtypes.FirstOrDefault(x => x.Value == item.ValueType).Key
                 });
+            }
+
             return itemsList;
         }
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryItems(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var itemsList = new List<RegistryItem>();
-            IReadOnlyList<RegistryHelper.REG_ITEM> items;
-            helper.RegEnumKey(tmphive, key, out items);
+            List<RegistryItem> itemsList = new List<RegistryItem>();
+            helper.RegEnumKey(tmphive, key, out IReadOnlyList<RegistryHelper.REG_ITEM> items);
 
-            foreach (var item in items)
+            foreach (RegistryHelper.REG_ITEM item in items)
+            {
                 itemsList.Add(new RegistryItem
                 {
                     Hive = _hives.FirstOrDefault(x => x.Value == item.Hive).Key,
@@ -172,13 +171,15 @@ namespace InteropTools.Providers
                     Value = item.DataAsString,
                     ValueType = _valtypes.FirstOrDefault(x => x.Value == item.ValueType).Key
                 });
+            }
+
             return itemsList;
         }
-        
+
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (HelperErrorCodes)(uint)helper.RegRenameKey(tmphive, key, newname);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegRenameKey(tmphive, key, newname);
             return result;
         }
 
@@ -186,7 +187,7 @@ namespace InteropTools.Providers
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             RegistryHelper.REG_VALUE_TYPE tmptype = _valtypes[type];
-            var result = (HelperErrorCodes)(uint)helper.RegSetValue(tmphive, key, keyvalue, tmptype, data);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegSetValue(tmphive, key, keyvalue, tmptype, data);
             return result;
         }
 
@@ -194,16 +195,15 @@ namespace InteropTools.Providers
         {
             return "127.0.0.1";
         }
-        
-        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, String key)
+
+        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            var ret = new GetKeyLastModifiedTime();
+            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime();
 
             try
             {
                 RegistryHelper.REG_HIVES tmphive = _hives[hive];
-                Int64 time;
-                var result = (HelperErrorCodes)(uint)helper.RegQueryKeyLastModifiedTime(tmphive, key, out time);
+                HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegQueryKeyLastModifiedTime(tmphive, key, out long time);
                 ret.LastModified = DateTime.FromFileTime(time);
                 ret.returncode = HelperErrorCodes.SUCCESS;
             }
@@ -219,14 +219,12 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            var ret = new GetKeyValueReturn2();
+            GetKeyValueReturn2 ret = new GetKeyValueReturn2();
 
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            uint regtype;
-            string regvalue;
-            var result =
+            HelperErrorCodes result =
               (HelperErrorCodes)
-              (uint)helper.RegQueryValue(tmphive, key, keyvalue, type, out regtype, out regvalue);
+              (uint)helper.RegQueryValue(tmphive, key, keyvalue, type, out uint regtype, out string regvalue);
 
             ret.regtype = regtype;
             ret.regvalue = regvalue;
@@ -237,17 +235,17 @@ namespace InteropTools.Providers
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var result = (HelperErrorCodes)(uint)helper.RegSetValue(tmphive, key, keyvalue, type, data);
+            HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegSetValue(tmphive, key, keyvalue, type, data);
             return result;
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            var itemsList = new List<RegistryItemCustom>();
-            IReadOnlyList<REG_ITEM_CUSTOM> items = null;
-            helper.RegEnumKey(null, null, out items);
+            List<RegistryItemCustom> itemsList = new List<RegistryItemCustom>();
+            helper.RegEnumKey(null, null, out IReadOnlyList<REG_ITEM_CUSTOM> items);
 
-            foreach (var item in items)
+            foreach (REG_ITEM_CUSTOM item in items)
+            {
                 itemsList.Add(new RegistryItemCustom
                 {
                     Hive = _hives.FirstOrDefault(x => x.Value == item.Hive).Key,
@@ -257,17 +255,19 @@ namespace InteropTools.Providers
                     Value = item.DataAsString,
                     ValueType = item.ValueType == null ? 0 : (uint)item.ValueType
                 });
+            }
+
             return itemsList;
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            var itemsList = new List<RegistryItemCustom>();
-            IReadOnlyList<REG_ITEM_CUSTOM> items;
-            helper.RegEnumKey(tmphive, key, out items);
+            List<RegistryItemCustom> itemsList = new List<RegistryItemCustom>();
+            helper.RegEnumKey(tmphive, key, out IReadOnlyList<REG_ITEM_CUSTOM> items);
 
-            foreach (var item in items)
+            foreach (REG_ITEM_CUSTOM item in items)
+            {
                 itemsList.Add(new RegistryItemCustom
                 {
                     Hive = _hives.FirstOrDefault(x => x.Value == item.Hive).Key,
@@ -277,6 +277,8 @@ namespace InteropTools.Providers
                     Value = item.DataAsString,
                     ValueType = item.ValueType == null ? 0 : (uint)item.ValueType
                 });
+            }
+
             return itemsList;
         }
 

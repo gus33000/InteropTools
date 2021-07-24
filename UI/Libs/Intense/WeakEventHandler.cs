@@ -1,13 +1,4 @@
-﻿using Intense.Presentation;
-using Intense.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
+﻿using System;
 
 namespace Intense
 {
@@ -30,7 +21,7 @@ namespace Intense
         /// <param name="target"></param>
         public WeakEventHandler(TEventTarget target)
         {
-            this.reference = new WeakReference<TEventTarget>(target);
+            reference = new WeakReference<TEventTarget>(target);
         }
 
         /// <summary>
@@ -40,20 +31,22 @@ namespace Intense
         /// <param name="args"></param>
         public void OnEvent(TEventSource source, TEventArgs args)
         {
-            if (this.reference == null) {
+            if (reference == null)
+            {
                 return;
             }
 
-            TEventTarget target;
-            if (this.reference.TryGetTarget(out target)) {
+            if (reference.TryGetTarget(out TEventTarget target))
+            {
                 Handle(target, source, args);
             }
-            else {
+            else
+            {
                 Detach(this, (TEventTypedSource)source);
 
-                this.reference = null;
-                this.Handle = null;
-                this.Detach = null;
+                reference = null;
+                Handle = null;
+                Detach = null;
             }
         }
 

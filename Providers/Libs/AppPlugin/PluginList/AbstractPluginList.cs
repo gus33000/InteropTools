@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Xml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace AppPlugin.PluginList
@@ -34,24 +28,30 @@ namespace AppPlugin.PluginList
         internal AbstractPluginList(string pluginName)
         {
             if (pluginName == null)
+            {
                 throw new ArgumentNullException(nameof(pluginName));
+            }
+
             this.pluginName = pluginName;
             if (pluginName.Length > 39)
+            {
                 throw new ArgumentException($"The Plugin name is longer than 39. (was {pluginName.Length})");
-            this.workerThread = new Nito.AsyncEx.AsyncContextThread();
-            this.Plugins = new ReadOnlyObservableCollection<TPluginProvider>(this.plugins);
+            }
+
+            workerThread = new Nito.AsyncEx.AsyncContextThread();
+            Plugins = new ReadOnlyObservableCollection<TPluginProvider>(plugins);
         }
 
         public async Task InitAsync()
         {
-            this.catalog = AppExtensionCatalog.Open(this.pluginName);
+            catalog = AppExtensionCatalog.Open(pluginName);
 
             // set up extension management events
-            this.catalog.PackageInstalled += this.Catalog_PackageInstalled;
-            this.catalog.PackageUpdated += this.Catalog_PackageUpdated;
-            this.catalog.PackageUninstalling += this.Catalog_PackageUninstalling;
-            this.catalog.PackageUpdating += this.Catalog_PackageUpdating;
-            this.catalog.PackageStatusChanged += this.Catalog_PackageStatusChanged;
+            catalog.PackageInstalled += Catalog_PackageInstalled;
+            catalog.PackageUpdated += Catalog_PackageUpdated;
+            catalog.PackageUninstalling += Catalog_PackageUninstalling;
+            catalog.PackageUpdating += Catalog_PackageUpdating;
+            catalog.PackageStatusChanged += Catalog_PackageStatusChanged;
 
 
 
@@ -65,22 +65,26 @@ namespace AppPlugin.PluginList
         private async Task FindAllExtensionsAsync()
         {
             // load all the extensions currently installed
-            var extensions = await this.catalog.FindAllAsync();
+            IReadOnlyList<AppExtension> extensions = await catalog.FindAllAsync();
 
-            await this.workerThread.Factory.StartNew(async () =>
+            await workerThread.Factory.StartNew(async () =>
             {
-                foreach (var ext in extensions)
+                foreach (AppExtension ext in extensions)
+                {
                     await LoadExtensionAsync(ext);
+                }
             }).Unwrap();
         }
 
 
         private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
         {
-            await this.workerThread.Factory.StartNew(async () =>
+            await workerThread.Factory.StartNew(async () =>
             {
-                foreach (var ext in args.Extensions)
+                foreach (AppExtension ext in args.Extensions)
+                {
                     await LoadExtensionAsync(ext);
+                }
             }).Unwrap();
         }
 
@@ -89,10 +93,12 @@ namespace AppPlugin.PluginList
 
         private async void Catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
         {
-            await this.workerThread.Factory.StartNew(async () =>
+            await workerThread.Factory.StartNew(async () =>
             {
-                foreach (var ext in args.Extensions)
+                foreach (AppExtension ext in args.Extensions)
+                {
                     await LoadExtensionAsync(ext);
+                }
             }).Unwrap();
         }
 
@@ -126,7 +132,9 @@ namespace AppPlugin.PluginList
             {
                 // if it's offline unload only
                 if (args.Package.Status.PackageOffline)
+                {
                     await UnloadExtensionsAsync(args.Package);
+                }
                 // package is being serviced or deployed
                 else if (args.Package.Status.Servicing || args.Package.Status.DeploymentInProgress)
                 {                    // ignore these package status events                
@@ -134,8 +142,9 @@ namespace AppPlugin.PluginList
                 // package is tampered or invalid or some other issue
                 // glyphing the extensions would be a good user experience
                 else
+                {
                     await RemoveExtensionsAsync(args.Package);
-
+                }
             }
             // if package is now OK, attempt to load the extensions
             else
@@ -163,28 +172,28 @@ namespace AppPlugin.PluginList
             }*/
 
             // if its already existing then this is an update
-            var existingExt = this.plugins.Where(e => e.UniqueId == identifier).FirstOrDefault();
+            TPluginProvider existingExt = plugins.Where(e => e.UniqueId == identifier).FirstOrDefault();
 
             // new extension
             if (existingExt == null)
             {
                 // get extension properties
-                var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
+                PropertySet properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
 
-                var servicesProperty = properties[SERVICE_KEY] as PropertySet;
-                var serviceName = servicesProperty["#text"].ToString();
+                PropertySet servicesProperty = properties[SERVICE_KEY] as PropertySet;
+                string serviceName = servicesProperty["#text"].ToString();
 
 
                 try
                 {
                     // create new extension
-                    var nExt = CreatePluginProvider(ext, serviceName);
+                    TPluginProvider nExt = CreatePluginProvider(ext, serviceName);
 
                     // Add it to extension list
-                    this.plugins.Add(nExt);
+                    plugins.Add(nExt);
                     nExt.IsEnabled = true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                     throw;
@@ -204,32 +213,36 @@ namespace AppPlugin.PluginList
         // loads all extensions associated with a package - used for when package status comes back
         private async Task LoadExtensionsAsync(Package package)
         {
-            await this.workerThread.Factory.StartNew(() =>
+            await workerThread.Factory.StartNew(() =>
             {
-                foreach (var item in this.plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName))
+                foreach (TPluginProvider item in plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName))
+                {
                     item.IsEnabled = true;
+                }
             });
         }
 
         // unloads all extensions associated with a package - used for updating and when package status goes away
         private async Task UnloadExtensionsAsync(Package package)
         {
-            await this.workerThread.Factory.StartNew(() =>
+            await workerThread.Factory.StartNew(() =>
             {
-                foreach (var item in this.plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName))
+                foreach (TPluginProvider item in plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName))
+                {
                     item.IsEnabled = false;
+                }
             });
         }
 
         // removes all extensions associated with a package - used when removing a package or it becomes invalid
         private async Task RemoveExtensionsAsync(Package package)
         {
-            await this.workerThread.Factory.StartNew(() =>
+            await workerThread.Factory.StartNew(() =>
             {
-                foreach (var item in this.plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName).ToArray())
+                foreach (TPluginProvider item in plugins.Where(ext => ext.Extension.Package.Id.FamilyName == package.Id.FamilyName).ToArray())
                 {
                     item.IsEnabled = false;
-                    this.plugins.Remove(item);
+                    plugins.Remove(item);
                 }
             });
         }
@@ -238,31 +251,26 @@ namespace AppPlugin.PluginList
         public abstract class PluginProvider
         {
             public AppExtension Extension { get; private set; }
-            public Task<BitmapImage> Logo
-            {
-                get
-                {
+            public Task<BitmapImage> Logo =>
                     // get logo 
-                    return this.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync()
+                    Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync()
                         .AsTask()
                         .ContinueWith(filestreamTask =>
                         {
-                            var logo = new BitmapImage();
+                            BitmapImage logo = new BitmapImage();
                             logo.SetSource(filestreamTask.Result);
                             return logo;
                         });
-                }
-            }
             protected string ServiceName { get; private set; }
 
             internal PluginProvider(AppExtension ext, string serviceName)
             {
-                this.Extension = ext;
-                this.ServiceName = serviceName;
+                Extension = ext;
+                ServiceName = serviceName;
             }
 
 
-            public string UniqueId => this.Extension.AppInfo.AppUserModelId + "!" + this.Extension.Id;
+            public string UniqueId => Extension.AppInfo.AppUserModelId + "!" + Extension.Id;
 
             public bool IsEnabled { get; internal set; }
 
@@ -272,36 +280,36 @@ namespace AppPlugin.PluginList
             {
                 // ensure this is the same uid
                 string identifier = ext.AppInfo.AppUserModelId + "!" + ext.Id;
-                if (identifier != this.UniqueId)
+                if (identifier != UniqueId)
                 {
                     return;
                 }
 
                 // get extension properties
-                var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
+                PropertySet properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
 
                 // get logo 
-                var filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
-                var logo = new BitmapImage();
+                Windows.Storage.Streams.IRandomAccessStreamWithContentType filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
+                BitmapImage logo = new BitmapImage();
                 logo.SetSource(filestream);
 
                 // update the extension
-                this.Extension = ext;
+                Extension = ext;
 
 
                 #region Update Properties
                 // update app service information
-                this.ServiceName = null;
+                ServiceName = null;
                 if (properties != null)
                 {
                     if (properties.ContainsKey("Service"))
                     {
-                        var serviceProperty = properties["Service"] as PropertySet;
-                        this.ServiceName = serviceProperty["#text"].ToString();
+                        PropertySet serviceProperty = properties["Service"] as PropertySet;
+                        ServiceName = serviceProperty["#text"].ToString();
                     }
                 }
 
-                if (this.ServiceName == null)
+                if (ServiceName == null)
                 {
                     throw new Exception();
                 }
@@ -319,32 +327,38 @@ namespace AppPlugin.PluginList
             private PluginConnection(AppServiceConnection connection, CancellationToken cancelTokem = default(CancellationToken))
             {
                 this.connection = connection;
-                connection.ServiceClosed += this.Connection_ServiceClosed;
-                connection.RequestReceived += this.Connection_RequestReceived;
+                connection.ServiceClosed += Connection_ServiceClosed;
+                connection.RequestReceived += Connection_RequestReceived;
 
                 this.cancelTokem = cancelTokem;
-                cancelTokem.Register(this.Canceld);
+                cancelTokem.Register(Canceld);
             }
 
             private async void Canceld()
             {
-                var valueSet = new ValueSet();
+                ValueSet valueSet = new ValueSet
+                {
+                    { AbstractPlugin<object, object, object>.ID_KEY, id },
+                    { AbstractPlugin<object, object, object>.CANCEL_KEY, true }
+                };
 
-                valueSet.Add(AbstractPlugin<object, object, object>.ID_KEY, this.id);
-                valueSet.Add(AbstractPlugin<object, object, object>.CANCEL_KEY, true);
-
-                await this.connection.SendMessageAsync(valueSet);
+                await connection.SendMessageAsync(valueSet);
             }
 
             private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
             {
                 if (!args.Request.Message.ContainsKey(AbstractPlugin<object, object, object>.ID_KEY))
+                {
                     return;
+                }
 
-                var id = (Guid)args.Request.Message[AbstractPlugin<object, object, object>.ID_KEY];
+                Guid id = (Guid)args.Request.Message[AbstractPlugin<object, object, object>.ID_KEY];
                 if (this.id != id)
+                {
                     return;
-                var valueSet = await RequestRecived(sender, args);
+                }
+
+                ValueSet valueSet = await RequestRecived(sender, args);
                 await args.Request.SendResponseAsync(new ValueSet());
             }
 
@@ -357,10 +371,13 @@ namespace AppPlugin.PluginList
 
             public void Dispose()
             {
-                if (this.isDisposed)
+                if (isDisposed)
+                {
                     return;
-                this.connection.Dispose();
-                this.isDisposed = true;
+                }
+
+                connection.Dispose();
+                isDisposed = true;
             }
 
         }
@@ -370,15 +387,15 @@ namespace AppPlugin.PluginList
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposedValue)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
-                    this.workerThread.Dispose();
+                    workerThread.Dispose();
                 }
 
 
-                this.disposedValue = true;
+                disposedValue = true;
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Windows.Management.Deployment;
+﻿using Windows.Management.Deployment;
 
 namespace InteropTools.Providers.Applications.WinRTProvider
 {

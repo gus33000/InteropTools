@@ -15,7 +15,7 @@ namespace RegistryHelper
         private NRPC _nrpc;
 #endif
 
-        private static Dictionary<REG_HIVES, uint> _ndtkhives = new Dictionary<REG_HIVES, uint>
+        private static readonly Dictionary<REG_HIVES, uint> _ndtkhives = new Dictionary<REG_HIVES, uint>
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, 0 },
             { REG_HIVES.HKEY_CURRENT_USER, 2 },
@@ -27,7 +27,7 @@ namespace RegistryHelper
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7 }
         };
 
-        private static Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new Dictionary<REG_VALUE_TYPE, uint>
+        private static readonly Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new Dictionary<REG_VALUE_TYPE, uint>
         {
             { REG_VALUE_TYPE.REG_NONE , 0 },
             { REG_VALUE_TYPE.REG_SZ , 1 },
@@ -54,7 +54,7 @@ namespace RegistryHelper
             try
             {
                 _nrpc = new NRPC();
-                var ret = _nrpc.Initialize();
+                uint ret = _nrpc.Initialize();
                 return ret == 0;
             }
             catch
@@ -67,34 +67,32 @@ namespace RegistryHelper
 #endif
         }
 
-        public Boolean IsSupported()
+        public bool IsSupported()
         {
             return Initialize();
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             items = new List<REG_ITEM>();
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryMultiString(REG_HIVES hive, String key, String regvalue, out String[] data)
+        public REG_STATUS RegQueryMultiString(REG_HIVES hive, string key, string regvalue, out string[] data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = new string[0];
@@ -119,18 +117,16 @@ namespace RegistryHelper
             }
             catch
             {
-                data = new String[0];
+                data = new string[0];
                 return REG_STATUS.FAILED;
             }
         }
 
-        public REG_STATUS RegQueryVariableString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryVariableString(REG_HIVES hive, string key, string regvalue, out string data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
@@ -146,13 +142,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryDword(REG_HIVES hive, String key, String regvalue, out UInt32 data)
+        public REG_STATUS RegQueryDword(REG_HIVES hive, string key, string regvalue, out uint data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_DWORD, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_DWORD, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = uint.MinValue;
@@ -168,18 +162,16 @@ namespace RegistryHelper
             }
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-        public REG_STATUS RegQueryQword(REG_HIVES hive, String key, String regvalue, out UInt64 data)
+        public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = ulong.MinValue;
@@ -195,13 +187,11 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryString(REG_HIVES hive, string key, string regvalue, out string data)
         {
             try
             {
-                byte[] buffer;
-                REG_VALUE_TYPE regtype;
-                var result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_SZ, out regtype, out buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
@@ -217,7 +207,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out Byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
 #if !ARM
 			data = new byte[0];
@@ -226,7 +216,7 @@ namespace RegistryHelper
 #else
             try
             {
-                var res = Initialize();
+                bool res = Initialize();
                 if (!res)
                 {
                     data = new byte[0];
@@ -281,7 +271,7 @@ namespace RegistryHelper
 #endif
         }
 
-        public REG_STATUS RegSetDword(REG_HIVES hive, String key, String regvalue, UInt32 data)
+        public REG_STATUS RegSetDword(REG_HIVES hive, string key, string regvalue, uint data)
         {
             try
             {
@@ -293,7 +283,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetMultiString(REG_HIVES hive, String key, String regvalue, [ReadOnlyArray] String[] data)
+        public REG_STATUS RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data)
         {
             try
             {
@@ -305,7 +295,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetQword(REG_HIVES hive, String key, String regvalue, UInt64 data)
+        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data)
         {
             try
             {
@@ -317,7 +307,7 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data)
         {
             try
             {
@@ -330,20 +320,26 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] Byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
         {
 #if !ARM
 			return REG_STATUS.FAILED;
 #else
             try
             {
-                var res = Initialize();
-                if (!res) return REG_STATUS.FAILED;
+                bool res = Initialize();
+                if (!res)
+                {
+                    return REG_STATUS.FAILED;
+                }
 
                 try
                 {
                     uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, _ndtkvaltypes[valtype], data);
-                    if (returncode != 0) return REG_STATUS.FAILED;
+                    if (returncode != 0)
+                    {
+                        return REG_STATUS.FAILED;
+                    }
                 }
                 catch
                 {
@@ -358,7 +354,7 @@ namespace RegistryHelper
 #endif
         }
 
-        public REG_STATUS RegSetVariableString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data)
         {
             try
             {
@@ -371,17 +367,17 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             lastmodified = long.MinValue;
             return REG_STATUS.NOT_IMPLEMENTED;
@@ -396,7 +392,7 @@ namespace RegistryHelper
 #else
             try
             {
-                var res = Initialize();
+                bool res = Initialize();
                 if (!res)
                 {
                     data = new byte[0];
@@ -458,13 +454,19 @@ namespace RegistryHelper
 #else
             try
             {
-                var res = Initialize();
-                if (!res) return REG_STATUS.FAILED;
+                bool res = Initialize();
+                if (!res)
+                {
+                    return REG_STATUS.FAILED;
+                }
 
                 try
                 {
                     uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, valtype, data);
-                    if (returncode != 0) return REG_STATUS.FAILED;
+                    if (returncode != 0)
+                    {
+                        return REG_STATUS.FAILED;
+                    }
                 }
                 catch
                 {

@@ -23,10 +23,7 @@ Revision History:
 
 --*/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 
 namespace InteropTools.Providers.Registry.SampleProvider
 {
@@ -37,22 +34,22 @@ namespace InteropTools.Providers.Registry.SampleProvider
             return true;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new List<REG_ITEM>();
 
@@ -185,17 +182,17 @@ namespace InteropTools.Providers.Registry.SampleProvider
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
             return REG_KEY_STATUS.FOUND;
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
             return REG_STATUS.SUCCESS;
         }
-        
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             lastmodified = 0;
             return REG_STATUS.SUCCESS;

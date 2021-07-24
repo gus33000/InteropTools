@@ -3,11 +3,11 @@
 
 namespace InteropTools.Controls.Keyboards
 {
-	public sealed partial class Carret
-	{
-		public Carret()
-		{
-			InitializeComponent();
-		}
-	}
+    public sealed partial class Carret
+    {
+        public Carret()
+        {
+            InitializeComponent();
+        }
+    }
 }

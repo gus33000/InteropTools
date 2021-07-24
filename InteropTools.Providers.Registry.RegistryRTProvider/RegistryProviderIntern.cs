@@ -23,31 +23,33 @@ Revision History:
 
 --*/
 
+using InteropTools.Providers.Registry.Definition;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
-using Windows.ApplicationModel.Background;
-using InteropTools.Providers.Registry.Definition;
-using System.Text;
-using Windows.ApplicationModel.AppService;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 
 namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
 
     public sealed class RegistryProvider : IBackgroundTask
     {
-        private IBackgroundTask internalTask = new RegistryProviderIntern();
+        private readonly IBackgroundTask internalTask = new RegistryProviderIntern();
         public void Run(IBackgroundTaskInstance taskInstance)
-         => this.internalTask.Run(taskInstance);
+        {
+            internalTask.Run(taskInstance);
+        }
     }
 
     internal class RegistryProviderIntern : RegistryProvidersWithOptions
     {
         // Define your provider class here
-        IRegProvider provider = new WinRTRegProvider();
+        private readonly IRegProvider provider = new WinRTRegProvider();
 
         protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken) //, Options options
         {
@@ -55,11 +57,10 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
             Debug.WriteLine(sender.PackageFamilyName);
 
-            var arr = input.Split(new string[] { "_" }, StringSplitOptions.None);
+            string[] arr = input.Split(new string[] { "_" }, StringSplitOptions.None);
 
-            var operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr.First()));
-            REG_OPERATION operationenum;
-            Enum.TryParse(operation, true, out operationenum);
+            string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr.First()));
+            Enum.TryParse(operation, true, out REG_OPERATION operationenum);
 
             List<List<string>> returnvalue = new List<List<string>>();
             List<string> returnvalue2 = new List<string>();
@@ -70,9 +71,8 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                 {
                     case REG_OPERATION.RegAddKey:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
-                            var ret = provider.RegAddKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))));
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
+                            REG_STATUS ret = provider.RegAddKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))));
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -81,13 +81,11 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegDeleteKey:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            bool recurse;
-                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out recurse);
+                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out bool recurse);
 
-                            var ret = provider.RegDeleteKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), recurse);
+                            REG_STATUS ret = provider.RegDeleteKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), recurse);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -96,10 +94,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegDeleteValue:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            var ret = provider.RegDeleteValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))));
+                            REG_STATUS ret = provider.RegDeleteValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))));
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -108,8 +105,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegEnumKey:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
                             IReadOnlyList<REG_ITEM> items;
 
@@ -128,13 +124,17 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
                             returnvalue.Add(returnvalue2);
 
-                            foreach (var item in items)
+                            foreach (REG_ITEM item in items)
                             {
                                 List<string> itemlist = new List<string>();
                                 if (item.Data == null)
+                                {
                                     itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes("")));
+                                }
                                 else
+                                {
                                     itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(BitConverter.ToString(item.Data))));
+                                }
 
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Hive.HasValue ? item.Hive.Value.ToString() : "")));
                                 itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(item.Key == null ? "" : item.Key)));
@@ -147,11 +147,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegQueryKeyLastModifiedTime:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            long lastmodified;
-                            var ret = provider.RegQueryKeyLastModifiedTime(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out lastmodified);
+                            REG_STATUS ret = provider.RegQueryKeyLastModifiedTime(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out long lastmodified);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -162,10 +160,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegQueryKeyStatus:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            var ret = provider.RegQueryKeyStatus(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))));
+                            REG_KEY_STATUS ret = provider.RegQueryKeyStatus(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))));
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -174,16 +171,12 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegQueryValue:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            uint valuetype;
 
-                            uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out valuetype);
+                            uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out uint valuetype);
 
-                            uint outvaltype;
-                            byte[] data;
-                            var ret = provider.RegQueryValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), valuetype, out outvaltype, out data);
+                            REG_STATUS ret = provider.RegQueryValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), valuetype, out uint outvaltype, out byte[] data);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(outvaltype.ToString())));
@@ -194,10 +187,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegRenameKey:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            var ret = provider.RegRenameKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))));
+                            REG_STATUS ret = provider.RegRenameKey(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))));
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -206,20 +198,18 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegSetValue:
                         {
-                            REG_HIVES hive;
-                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out hive);
+                            Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-                            uint valuetype;
-                            uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out valuetype);
+                            uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out uint valuetype);
 
-                            String[] tempAry = Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(5))).Split('-');
+                            string[] tempAry = Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(5))).Split('-');
                             byte[] buffer = new byte[tempAry.Length];
                             for (int i = 0; i < tempAry.Length; i++)
                             {
                                 buffer[i] = Convert.ToByte(tempAry[i], 16);
                             }
 
-                            var ret = provider.RegSetValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), valuetype, buffer);
+                            REG_STATUS ret = provider.RegSetValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), valuetype, buffer);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -228,10 +218,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegLoadHive:
                         {
-                            bool inuser;
-                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), out inuser);
+                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), out bool inuser);
 
-                            var ret = provider.RegLoadHive(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), inuser);
+                            REG_STATUS ret = provider.RegLoadHive(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), inuser);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -240,10 +229,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         }
                     case REG_OPERATION.RegUnloadHive:
                         {
-                            bool inuser;
-                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out inuser);
+                            bool.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), out bool inuser);
 
-                            var ret = provider.RegUnloadHive(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), inuser);
+                            REG_STATUS ret = provider.RegUnloadHive(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), inuser);
 
                             returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(ret.ToString())));
 
@@ -259,11 +247,11 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                 returnvalue.Add(returnvalue2);
             }
 
-            var returnstr = "";
+            string returnstr = "";
 
-            foreach (var str in returnvalue)
+            foreach (List<string> str in returnvalue)
             {
-                var str2 = string.Join(" ", str);
+                string str2 = string.Join(" ", str);
                 if (string.IsNullOrEmpty(returnstr))
                 {
                     returnstr = str2;
@@ -279,9 +267,13 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
 
         protected override Task<Options> GetOptions()
-            => Task.FromResult<Options>(new RegistryProviderOptions());
+        {
+            return Task.FromResult<Options>(new RegistryProviderOptions());
+        }
 
-        protected override Guid GetOptionsGuid() => RegistryProviderOptions.ID;
-
+        protected override Guid GetOptionsGuid()
+        {
+            return RegistryProviderOptions.ID;
+        }
     }
 }

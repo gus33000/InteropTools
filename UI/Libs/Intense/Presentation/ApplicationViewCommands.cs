@@ -1,11 +1,4 @@
 ﻿using Intense.UI;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -23,10 +16,10 @@ namespace Intense.Presentation
         /// </summary>
         public ApplicationViewCommands()
         {
-            var view = ApplicationView.GetForCurrentView();
+            ApplicationView view = ApplicationView.GetForCurrentView();
 
-            this.EnterFullScreenModeCommand = new RelayCommand(o => view.TryEnterFullScreenMode(), o => !view.IsFullScreenMode);
-            this.ExitFullScreenModeCommand = new RelayCommand(o => view.ExitFullScreenMode(), o => view.IsFullScreenMode);
+            EnterFullScreenModeCommand = new RelayCommand(o => view.TryEnterFullScreenMode(), o => !view.IsFullScreenMode);
+            ExitFullScreenModeCommand = new RelayCommand(o => view.ExitFullScreenMode(), o => view.IsFullScreenMode);
 
             Window.Current.RegisterEventSink(this);
         }
@@ -41,8 +34,8 @@ namespace Intense.Presentation
 
         void IWindowEventSink.OnSizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            this.EnterFullScreenModeCommand.OnCanExecuteChanged();
-            this.ExitFullScreenModeCommand.OnCanExecuteChanged();
+            EnterFullScreenModeCommand.OnCanExecuteChanged();
+            ExitFullScreenModeCommand.OnCanExecuteChanged();
         }
 
         void IWindowEventSink.OnVisibilityChanged(object sender, VisibilityChangedEventArgs e)

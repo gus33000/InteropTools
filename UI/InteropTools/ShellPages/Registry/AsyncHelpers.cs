@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,8 +13,8 @@ namespace InteropTools.ShellPages.Registry
         /// <param name="task">Task<T> method to execute</param>
         public static void RunSync(Func<Task> task)
         {
-            var oldContext = SynchronizationContext.Current;
-            var synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext oldContext = SynchronizationContext.Current;
+            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(synch);
             synch.Post(async _ =>
             {
@@ -47,8 +45,8 @@ namespace InteropTools.ShellPages.Registry
         /// <returns></returns>
         public static T RunSync<T>(Func<Task<T>> task)
         {
-            var oldContext = SynchronizationContext.Current;
-            var synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext oldContext = SynchronizationContext.Current;
+            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(synch);
             T ret = default(T);
             synch.Post(async _ =>
@@ -76,8 +74,9 @@ namespace InteropTools.ShellPages.Registry
         {
             private bool done;
             public Exception InnerException { get; set; }
-            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-            readonly Queue<Tuple<SendOrPostCallback, object>> items =
+
+            private readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+            private readonly Queue<Tuple<SendOrPostCallback, object>> items =
                 new Queue<Tuple<SendOrPostCallback, object>>();
 
             public override void Send(SendOrPostCallback d, object state)

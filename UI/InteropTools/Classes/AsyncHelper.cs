@@ -5,137 +5,138 @@ using System.Threading.Tasks;
 
 namespace InteropTools.Classes
 {
-	public static class AsyncHelper
-	{
-		/// <summary>
-		/// Execute's an async Task<T> method which has a void return value synchronously
-		/// </summary>
-		/// <param name="task">Task<T> method to execute</param>
-		public static void RunSync(Func<Task> task)
-		{
-			var oldContext = SynchronizationContext.Current;
-			var synch = new ExclusiveSynchronizationContext();
-			SynchronizationContext.SetSynchronizationContext(synch);
-			synch.Post(async _ =>
-			{
-				try
-				{
-					await task();
-				}
+    public static class AsyncHelper
+    {
+        /// <summary>
+        /// Execute's an async Task<T> method which has a void return value synchronously
+        /// </summary>
+        /// <param name="task">Task<T> method to execute</param>
+        public static void RunSync(Func<Task> task)
+        {
+            SynchronizationContext oldContext = SynchronizationContext.Current;
+            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(synch);
+            synch.Post(async _ =>
+            {
+                try
+                {
+                    await task();
+                }
 
-				catch (Exception e)
-				{
-					synch.InnerException = e;
-					throw;
-				}
+                catch (Exception e)
+                {
+                    synch.InnerException = e;
+                    throw;
+                }
 
-				finally
-				{
-					synch.EndMessageLoop();
-				}
-			}, null);
-			synch.BeginMessageLoop();
-			SynchronizationContext.SetSynchronizationContext(oldContext);
-		}
+                finally
+                {
+                    synch.EndMessageLoop();
+                }
+            }, null);
+            synch.BeginMessageLoop();
+            SynchronizationContext.SetSynchronizationContext(oldContext);
+        }
 
-		/// <summary>
-		/// Execute's an async Task<T> method which has a T return type synchronously
-		/// </summary>
-		/// <typeparam name="T">Return Type</typeparam>
-		/// <param name="task">Task<T> method to execute</param>
-		/// <returns></returns>
-		public static T RunSync<T>(Func<Task<T>> task)
-		{
-			var oldContext = SynchronizationContext.Current;
-			var synch = new ExclusiveSynchronizationContext();
-			SynchronizationContext.SetSynchronizationContext(synch);
-			T ret = default(T);
-			synch.Post(async _ =>
-			{
-				try
-				{
-					ret = await task();
-				}
+        /// <summary>
+        /// Execute's an async Task<T> method which has a T return type synchronously
+        /// </summary>
+        /// <typeparam name="T">Return Type</typeparam>
+        /// <param name="task">Task<T> method to execute</param>
+        /// <returns></returns>
+        public static T RunSync<T>(Func<Task<T>> task)
+        {
+            SynchronizationContext oldContext = SynchronizationContext.Current;
+            ExclusiveSynchronizationContext synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(synch);
+            T ret = default(T);
+            synch.Post(async _ =>
+            {
+                try
+                {
+                    ret = await task();
+                }
 
-				catch (Exception e)
-				{
-					synch.InnerException = e;
-					throw;
-				}
+                catch (Exception e)
+                {
+                    synch.InnerException = e;
+                    throw;
+                }
 
-				finally
-				{
-					synch.EndMessageLoop();
-				}
-			}, null);
-			synch.BeginMessageLoop();
-			SynchronizationContext.SetSynchronizationContext(oldContext);
-			return ret;
-		}
+                finally
+                {
+                    synch.EndMessageLoop();
+                }
+            }, null);
+            synch.BeginMessageLoop();
+            SynchronizationContext.SetSynchronizationContext(oldContext);
+            return ret;
+        }
 
-		private class ExclusiveSynchronizationContext : SynchronizationContext
-		{
-			private bool done;
-			public Exception InnerException { get; set; }
-			readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-			readonly Queue<Tuple<SendOrPostCallback, object>> items =
-			  new Queue<Tuple<SendOrPostCallback, object>>();
+        private class ExclusiveSynchronizationContext : SynchronizationContext
+        {
+            private bool done;
+            public Exception InnerException { get; set; }
 
-			public override void Send(SendOrPostCallback d, object state)
-			{
-				throw new NotSupportedException("We cannot send to our same thread");
-			}
+            private readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+            private readonly Queue<Tuple<SendOrPostCallback, object>> items =
+              new Queue<Tuple<SendOrPostCallback, object>>();
 
-			public override void Post(SendOrPostCallback d, object state)
-			{
-				lock (items)
-				{
-					items.Enqueue(Tuple.Create(d, state));
-				}
+            public override void Send(SendOrPostCallback d, object state)
+            {
+                throw new NotSupportedException("We cannot send to our same thread");
+            }
 
-				workItemsWaiting.Set();
-			}
+            public override void Post(SendOrPostCallback d, object state)
+            {
+                lock (items)
+                {
+                    items.Enqueue(Tuple.Create(d, state));
+                }
 
-			public void EndMessageLoop()
-			{
-				Post(_ => done = true, null);
-			}
+                workItemsWaiting.Set();
+            }
 
-			public void BeginMessageLoop()
-			{
-				while (!done)
-				{
-					Tuple<SendOrPostCallback, object> task = null;
+            public void EndMessageLoop()
+            {
+                Post(_ => done = true, null);
+            }
 
-					lock (items)
-					{
-						if (items.Count > 0)
-						{
-							task = items.Dequeue();
-						}
-					}
+            public void BeginMessageLoop()
+            {
+                while (!done)
+                {
+                    Tuple<SendOrPostCallback, object> task = null;
 
-					if (task != null)
-					{
-						task.Item1(task.Item2);
+                    lock (items)
+                    {
+                        if (items.Count > 0)
+                        {
+                            task = items.Dequeue();
+                        }
+                    }
 
-						if (InnerException != null) // the method threw an exeption
-						{
-							throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
-						}
-					}
+                    if (task != null)
+                    {
+                        task.Item1(task.Item2);
 
-					else
-					{
-						workItemsWaiting.WaitOne();
-					}
-				}
-			}
+                        if (InnerException != null) // the method threw an exeption
+                        {
+                            throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
+                        }
+                    }
 
-			public override SynchronizationContext CreateCopy()
-			{
-				return this;
-			}
-		}
-	}
+                    else
+                    {
+                        workItemsWaiting.WaitOne();
+                    }
+                }
+            }
+
+            public override SynchronizationContext CreateCopy()
+            {
+                return this;
+            }
+        }
+    }
 }

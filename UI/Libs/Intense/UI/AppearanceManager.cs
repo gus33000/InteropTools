@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace Intense.UI
@@ -34,7 +29,7 @@ namespace Intense.UI
 
         private const string SystemAccentBrushKey = "__IntenseSystemAccentBrush";
 
-        private FrameworkElement root;
+        private readonly FrameworkElement root;
 
         static AppearanceManager()
         {
@@ -68,32 +63,30 @@ namespace Intense.UI
         /// <remarks>Set to null to use the system accent color.</remarks>
         public static Color? AccentColor
         {
-            get { return GetAccentColor(); }
-            set { SetAccentColor(value); }
+            get => GetAccentColor();
+            set => SetAccentColor(value);
         }
 
         /// <summary>
         /// Gets the accent color defined by the system.
         /// </summary>
-        public static Color SystemAccentColor
-        {
-            get { return GetSystemAccentBrush().Color; }
-        }
+        public static Color SystemAccentColor => GetSystemAccentBrush().Color;
 
         /// <summary>
         /// Gets or sets the theme for the current view.
         /// </summary>
         public ApplicationTheme Theme
         {
-            get { return GetTheme(); }
-            set { SetTheme(value, true); }
+            get => GetTheme();
+            set => SetTheme(value, true);
         }
-        
+
         private static Color? GetAccentColor()
         {
-            var dict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
-            if (dict != null) {
-                var brush = dict.Values.OfType<SolidColorBrush>().FirstOrDefault();
+            ResourceDictionary dict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
+            if (dict != null)
+            {
+                SolidColorBrush brush = dict.Values.OfType<SolidColorBrush>().FirstOrDefault();
                 return brush?.Color;
             }
 
@@ -102,19 +95,23 @@ namespace Intense.UI
 
         private static void SetAccentColor(Color? color)
         {
-            if (AccentColor == color) {
+            if (AccentColor == color)
+            {
                 return;
             }
 
             // clear current accent brushes dictionary
-            var currentDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
-            if (currentDict != null) {
+            ResourceDictionary currentDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
+            if (currentDict != null)
+            {
                 Application.Current.Resources.MergedDictionaries.Remove(currentDict);
             }
 
-            if (color != null) {
-                var dict = new ResourceDictionary { Source = AccentBrushesSource };
-                foreach (var brush in dict.Values.OfType<SolidColorBrush>()) {
+            if (color != null)
+            {
+                ResourceDictionary dict = new ResourceDictionary { Source = AccentBrushesSource };
+                foreach (SolidColorBrush brush in dict.Values.OfType<SolidColorBrush>())
+                {
                     brush.Color = color.Value;
                 }
                 Application.Current.Resources.MergedDictionaries.Add(dict);
@@ -128,24 +125,27 @@ namespace Intense.UI
 
         private static SolidColorBrush GetSystemAccentBrush()
         {
-            if (Application.Current.Resources.ContainsKey(SystemAccentBrushKey)) {
+            if (Application.Current.Resources.ContainsKey(SystemAccentBrushKey))
+            {
                 return (SolidColorBrush)Application.Current.Resources[SystemAccentBrushKey];
             }
 
-            var brush = XamlHelper.CreateSolidColorBrush("{ThemeResource SystemAccentColor}");
+            SolidColorBrush brush = XamlHelper.CreateSolidColorBrush("{ThemeResource SystemAccentColor}");
             brush.RegisterPropertyChangedCallback(SolidColorBrush.ColorProperty, OnSystemAccentColorChanged);
 
             Application.Current.Resources[SystemAccentBrushKey] = brush;
 
             return brush;
         }
-        
+
         private ApplicationTheme GetTheme()
         {
-            if (this.root.RequestedTheme == ElementTheme.Default) {
+            if (root.RequestedTheme == ElementTheme.Default)
+            {
                 return Application.Current.RequestedTheme;
             }
-            if (this.root.RequestedTheme == ElementTheme.Dark) {
+            if (root.RequestedTheme == ElementTheme.Dark)
+            {
                 return ApplicationTheme.Dark;
             }
             return ApplicationTheme.Light;
@@ -153,35 +153,40 @@ namespace Intense.UI
 
         private void SetTheme(ApplicationTheme theme, bool raiseEvent)
         {
-            var oldTheme = this.Theme;
-            var elementTheme = ElementTheme.Default;
+            ApplicationTheme oldTheme = Theme;
+            ElementTheme elementTheme = ElementTheme.Default;
 
-            if (Application.Current.RequestedTheme != theme) {
+            if (Application.Current.RequestedTheme != theme)
+            {
                 elementTheme = ElementTheme.Light;
-                if (theme == ApplicationTheme.Dark) {
+                if (theme == ApplicationTheme.Dark)
+                {
                     elementTheme = ElementTheme.Dark;
                 }
             }
-            this.root.RequestedTheme = elementTheme;
-            if (raiseEvent && oldTheme != this.Theme) {
+            root.RequestedTheme = elementTheme;
+            if (raiseEvent && oldTheme != Theme)
+            {
                 OnThemeChanged();
             }
         }
-        
+
         private static void ResetAllViews()
         {
             // TODO: reset for all views
-            var manager = GetForCurrentView();
+            AppearanceManager manager = GetForCurrentView();
             //manager.Reset();
         }
 
         private void Reset()
         {
-            if (this.Theme == ApplicationTheme.Dark) {
+            if (Theme == ApplicationTheme.Dark)
+            {
                 SetTheme(ApplicationTheme.Light, false);
                 SetTheme(ApplicationTheme.Dark, false);
             }
-            else {
+            else
+            {
                 SetTheme(ApplicationTheme.Dark, false);
                 SetTheme(ApplicationTheme.Light, false);
             }
@@ -193,13 +198,15 @@ namespace Intense.UI
         /// <returns></returns>
         public static AppearanceManager GetForCurrentView()
         {
-            var root = Window.Current?.Content?.GetAncestorsAndSelf().OfType<FrameworkElement>().Last();
-            if (root == null) {
+            FrameworkElement root = Window.Current?.Content?.GetAncestorsAndSelf().OfType<FrameworkElement>().Last();
+            if (root == null)
+            {
                 return null;
             }
 
-            var manager = (AppearanceManager)root.GetValue(AppearanceManagerProperty);
-            if (manager == null) {
+            AppearanceManager manager = (AppearanceManager)root.GetValue(AppearanceManagerProperty);
+            if (manager == null)
+            {
                 manager = new AppearanceManager(root);
 
                 root.SetValue(AppearanceManagerProperty, manager);

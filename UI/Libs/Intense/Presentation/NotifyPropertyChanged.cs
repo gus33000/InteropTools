@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Intense.Presentation
 {
@@ -23,7 +18,7 @@ namespace Intense.Presentation
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -36,9 +31,10 @@ namespace Intense.Presentation
         /// <param name="value">The new value</param>
         /// <param name="propertyName">The optional property name, automatically set to caller member name when not set.</param>
         /// <returns>Indicates whether the value has changed.</returns>
-        protected bool Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
+        protected bool Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            if (!object.Equals(storage, value)) {
+            if (!object.Equals(storage, value))
+            {
                 storage = value;
                 OnPropertyChanged(propertyName);
                 return true;

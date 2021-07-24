@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InteropTools.Providers.Registry.RegistryRTProvider
+﻿namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
     internal sealed class REG_ITEM
     {

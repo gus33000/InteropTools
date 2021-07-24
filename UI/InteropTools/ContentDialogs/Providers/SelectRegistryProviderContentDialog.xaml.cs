@@ -1,12 +1,9 @@
 ﻿using InteropTools.Providers;
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using static InteropTools.ContentDialogs.Providers.Viewmodel;
-using RegPlugin = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.Registry.Definition.TransfareOptions, double>.PluginProvider;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -16,14 +13,14 @@ namespace InteropTools.ContentDialogs.Providers
     {
         public SelectRegistryProviderContentDialog()
         {
-            this.InitializeComponent();
-            var dc = this.DataContext as Viewmodel;
+            InitializeComponent();
+            Viewmodel dc = DataContext as Viewmodel;
             dc.RegPlugins.CollectionChanged += RegPlugins_CollectionChanged;
         }
-        
+
         private void RegPlugins_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var dc = this.DataContext as Viewmodel;
+            Viewmodel dc = DataContext as Viewmodel;
             if (dc.RegPlugins.Count == 0)
             {
                 NoneText.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -32,7 +29,8 @@ namespace InteropTools.ContentDialogs.Providers
                 Manual.IsEnabled = false;
                 IsPrimaryButtonEnabled = false;
                 IsSecondaryButtonEnabled = false;
-            } else
+            }
+            else
             {
                 NoneText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 GetExtensions.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -53,14 +51,14 @@ namespace InteropTools.ContentDialogs.Providers
             await ShowAsync();
             return provider;
         }
-        
+
         private void extlist_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var plugin = e.ClickedItem as DisplayablePlugin;
+            DisplayablePlugin plugin = e.ClickedItem as DisplayablePlugin;
             provider = new RegistryProvider(plugin.Plugin);
             Hide();
         }
-        
+
         private void Auto_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             try
@@ -70,7 +68,7 @@ namespace InteropTools.ContentDialogs.Providers
             }
             catch
             {
-                
+
             }
         }
 

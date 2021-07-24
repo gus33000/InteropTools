@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
+﻿using Windows.UI.Xaml;
 
 namespace Intense.UI.Converters
 {
@@ -29,9 +23,10 @@ namespace Intense.UI.Converters
         /// <returns></returns>
         protected override Visibility Convert(object value, object parameter, string language)
         {
-            var isNull = value == null;
+            bool isNull = value == null;
 
-            if (this.Inverse) {
+            if (Inverse)
+            {
                 isNull = !isNull;
             }
             return isNull ? Visibility.Collapsed : Visibility.Visible;

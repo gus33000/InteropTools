@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InteropTools.Providers.Applications.Definition
 {
@@ -21,14 +19,14 @@ namespace InteropTools.Providers.Applications.Definition
         {
             get
             {
-                if (this.optionsIdentifyer == null)
-                    this.optionsIdentifyer = this.Options.OptionsIdentifier;
-                return this.optionsIdentifyer.Value;
+                if (optionsIdentifyer == null)
+                {
+                    optionsIdentifyer = Options.OptionsIdentifier;
+                }
+
+                return optionsIdentifyer.Value;
             }
-            set
-            {
-                this.optionsIdentifyer = value;
-            }
+            set => optionsIdentifyer = value;
         }
 
         private Options options;
@@ -36,14 +34,14 @@ namespace InteropTools.Providers.Applications.Definition
         {
             get
             {
-                if (this.options == null)
-                    this.options = new OptionsImpl(this.settings ?? throw new InvalidOperationException(), this.optionsIdentifyer ?? throw new InvalidOperationException());
-                return this.options;
+                if (options == null)
+                {
+                    options = new OptionsImpl(settings ?? throw new InvalidOperationException(), optionsIdentifyer ?? throw new InvalidOperationException());
+                }
+
+                return options;
             }
-            set
-            {
-                this.options = value;
-            }
+            set => options = value;
         }
 
         private AbstractOption[] settings;
@@ -52,26 +50,32 @@ namespace InteropTools.Providers.Applications.Definition
         {
             get
             {
-                if (this.settings == null)
-                    this.settings = this.options?.Settings ?? throw new InvalidOperationException();
-                return this.settings;
+                if (settings == null)
+                {
+                    settings = options?.Settings ?? throw new InvalidOperationException();
+                }
+
+                return settings;
             }
-            set
-            {
-                this.settings = value;
-            }
+            set => settings = value;
         }
 
-        public int Count => this.Options.Count;
+        public int Count => Options.Count;
 
-        public AbstractOption this[int index] => this.Options[index];
-
-
+        public AbstractOption this[int index] => Options[index];
 
 
-        public IEnumerator<AbstractOption> GetEnumerator() => this.Options.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => this.Options.GetEnumerator();
+
+        public IEnumerator<AbstractOption> GetEnumerator()
+        {
+            return Options.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Options.GetEnumerator();
+        }
 
         private class OptionsImpl : Options
         {
@@ -83,10 +87,12 @@ namespace InteropTools.Providers.Applications.Definition
                 this.guid = guid;
             }
 
-            public override Guid OptionsIdentifier => this.guid;
+            public override Guid OptionsIdentifier => guid;
 
-            protected override AbstractOption[] GetSettings() => this.settings;
-
+            protected override AbstractOption[] GetSettings()
+            {
+                return settings;
+            }
         }
     }
 
@@ -94,15 +100,9 @@ namespace InteropTools.Providers.Applications.Definition
     {
         public abstract Guid OptionsIdentifier { get; }
 
-        public AbstractOption this[int index]
-        {
-            get
-            {
-                return this.Settings[index];
-            }
-        }
+        public AbstractOption this[int index] => Settings[index];
 
-        public int Count => this.Settings.Length;
+        public int Count => Settings.Length;
 
         private AbstractOption[] settings;
 
@@ -110,8 +110,8 @@ namespace InteropTools.Providers.Applications.Definition
         {
             get
             {
-                this.settings = this.settings ?? GetSettings();
-                return this.settings;
+                settings = settings ?? GetSettings();
+                return settings;
             }
         }
 
@@ -119,12 +119,12 @@ namespace InteropTools.Providers.Applications.Definition
 
         public IEnumerator<AbstractOption> GetEnumerator()
         {
-            return this.Settings.OfType<AbstractOption>().GetEnumerator();
+            return Settings.OfType<AbstractOption>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.Settings.GetEnumerator();
+            return Settings.GetEnumerator();
         }
     }
 
@@ -133,8 +133,8 @@ namespace InteropTools.Providers.Applications.Definition
     {
         public AbstractOption(string name, string description)
         {
-            this.Name = name;
-            this.Description = description;
+            Name = name;
+            Description = description;
         }
         [DataMember]
         public string Name { get; private set; }
@@ -148,8 +148,8 @@ namespace InteropTools.Providers.Applications.Definition
     {
         public IntOption(string name, string description, int min, int max) : base(name, description)
         {
-            this.Min = min;
-            this.Max = max;
+            Min = min;
+            Max = max;
         }
         [DataMember]
         public int Min { get; private set; }

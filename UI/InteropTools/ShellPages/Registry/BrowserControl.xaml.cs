@@ -1,29 +1,26 @@
-﻿using System;
+﻿using InteropTools.ContentDialogs.Core;
+using InteropTools.ContentDialogs.Registry;
+using InteropTools.Presentation;
+using InteropTools.Providers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Storage;
 using Windows.System.Threading;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using InteropTools.ContentDialogs.Registry;
-using InteropTools.Presentation;
-using InteropTools.Providers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.ApplicationModel.Resources.Core;
-using InteropTools.Classes;
-using InteropTools.CorePages;
-using Windows.Storage;
-using InteropTools.ContentDialogs.Core;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -61,7 +58,7 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            var args = new CurrentItemChangedEventArgs(previousItem, newItem);
+            CurrentItemChangedEventArgs args = new CurrentItemChangedEventArgs(previousItem, newItem);
             OnCurrentItemChanged(this, args);
         }
 
@@ -74,7 +71,7 @@ namespace InteropTools.ShellPages.Registry
         {
             if (!SortByType)
             {
-                var itemSource = AlphaKeyGroup<Item>.CreateGroups(_itemlist, CultureInfo.InvariantCulture,
+                List<AlphaKeyGroup<Item>> itemSource = AlphaKeyGroup<Item>.CreateGroups(_itemlist, CultureInfo.InvariantCulture,
                                  s => s.DisplayName, true);
                 ZoomGrid.Style = Resources["NormalAlphaViewStyle"] as Style;
                 ((CollectionViewSource)Resources["RegistryGroups"]).Source = itemSource;
@@ -82,7 +79,7 @@ namespace InteropTools.ShellPages.Registry
 
             else
             {
-                var itemSource = _itemlist.OrderBy(x => x.DisplayName).GroupBy(x => x.Description);
+                IEnumerable<IGrouping<string, Item>> itemSource = _itemlist.OrderBy(x => x.DisplayName).GroupBy(x => x.Description);
                 ZoomGrid.Style = Resources["AltTextViewStyle"] as Style;
                 ((CollectionViewSource)Resources["RegistryGroups"]).Source = itemSource;
             }
@@ -92,7 +89,7 @@ namespace InteropTools.ShellPages.Registry
         {
             _moving = true;
             _preventclick = true;
-            var item = (Item)((SlidableListItem)sender).DataContext;
+            Item item = (Item)((SlidableListItem)sender).DataContext;
             DeleteItem(item.regitem);
         }
 
@@ -108,8 +105,8 @@ namespace InteropTools.ShellPages.Registry
                 return null;
             }
 
-            var key = item.Key;
-            var path = "";
+            string key = item.Key;
+            string path = "";
 
             if (string.IsNullOrEmpty(key))
             {
@@ -142,7 +139,7 @@ namespace InteropTools.ShellPages.Registry
 
         private async void DeleteItem(RegistryItemCustom item)
         {
-            var key = item.Key;
+            string key = item.Key;
 
             if (item.Type == RegistryItemType.KEY)
             {
@@ -169,9 +166,9 @@ namespace InteropTools.ShellPages.Registry
             }
 
             {
-                var title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_delete_that_value", ResourceContext.GetForCurrentView()).ValueAsString;
-                var content = item.Name + " will be deleted for ever and you won't be able to recover.";
-                var command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
+                string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_delete_that_value", ResourceContext.GetForCurrentView()).ValueAsString;
+                string content = item.Name + " will be deleted for ever and you won't be able to recover.";
+                bool command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
                               ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete_the_value", ResourceContext.GetForCurrentView()).ValueAsString,
                               ResourceManager.Current.MainResourceMap.GetValue("Resources/Keep_the_value", ResourceContext.GetForCurrentView()).ValueAsString);
 
@@ -179,7 +176,7 @@ namespace InteropTools.ShellPages.Registry
                 {
                     RunInThreadPool(async () =>
                     {
-                        var status = await _helper.DeleteValue(item.Hive, key, item.Name);
+                        HelperErrorCodes status = await _helper.DeleteValue(item.Hive, key, item.Name);
                         RunInUIThread(() =>
                         {
                             if (status == HelperErrorCodes.FAILED)
@@ -210,7 +207,7 @@ namespace InteropTools.ShellPages.Registry
         {
             _moving = true;
             _preventclick = true;
-            var item = (Item)((SlidableListItem)sender).DataContext;
+            Item item = (Item)((SlidableListItem)sender).DataContext;
             item.IsFavorite = (item.IsFavorite == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
         }
 
@@ -236,7 +233,7 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            var item = (Item)e.ClickedItem;
+            Item item = (Item)e.ClickedItem;
 
             if (item != null)
             {
@@ -272,7 +269,7 @@ namespace InteropTools.ShellPages.Registry
             ClearItemList();
             RunInThreadPool(async () =>
             {
-                var items = await _helper.GetRegistryHives2();
+                IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryHives2();
                 RunInUIThread(() =>
                 {
                     _itemlist.AddRange(items.Select(x => new Item(x)));
@@ -289,7 +286,7 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            var key = regitem.Key;
+            string key = regitem.Key;
 
             if (regitem.Type == RegistryItemType.KEY)
             {
@@ -312,12 +309,12 @@ namespace InteropTools.ShellPages.Registry
             ClearItemList();
             RunInThreadPool(async () =>
             {
-                var items = await _helper.GetRegistryItems2(regitem.Hive, key);
+                IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(regitem.Hive, key);
                 RunInUIThread(() =>
                 {
                     _itemlist.AddRange(items.Select(x => new Item(x)));
                     UpdateCurrentItemChanged(_currentRegItem, regitem);
-                    var oldItem = _currentRegItem;
+                    RegistryItemCustom oldItem = _currentRegItem;
                     _currentRegItem = regitem;
 
                     if (oldItem == null)
@@ -325,7 +322,7 @@ namespace InteropTools.ShellPages.Registry
                         return;
                     }
 
-                    foreach (var itm in _itemlist)
+                    foreach (Item itm in _itemlist)
                     {
                         if ((itm.regitem.Name == oldItem.Name) && (itm.regitem.Key == oldItem.Key))
                         {
@@ -346,16 +343,16 @@ namespace InteropTools.ShellPages.Registry
         {
             try
             {
-                var sndr = (StackPanel)sender;
-                var item = (Item)sndr.DataContext;
-                var flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
-                var flyoutsubitems = new MenuFlyoutSubItem
+                StackPanel sndr = (StackPanel)sender;
+                Item item = (Item)sndr.DataContext;
+                MenuFlyout flyout = new MenuFlyout { Placement = FlyoutPlacementMode.Top };
+                MenuFlyoutSubItem flyoutsubitems = new MenuFlyoutSubItem
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy",
                     ResourceContext.GetForCurrentView()).ValueAsString
                 };
-                var flyoutitem = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem = new MenuFlyoutItem
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_name",
@@ -363,11 +360,11 @@ namespace InteropTools.ShellPages.Registry
                 };
                 flyoutitem.Click += (sender_, e_) =>
                 {
-                    var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Name);
                     Clipboard.SetContent(dataPackage);
                 };
-                var flyoutitem2 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem2 = new MenuFlyoutItem
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_key_location",
@@ -386,11 +383,11 @@ namespace InteropTools.ShellPages.Registry
                         return;
                     }
 
-                    var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Key);
                     Clipboard.SetContent(dataPackage);
                 };
-                var flyoutitem3 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem3 = new MenuFlyoutItem
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_hive_name",
@@ -398,11 +395,11 @@ namespace InteropTools.ShellPages.Registry
                 };
                 flyoutitem3.Click += (sender_, e_) =>
                 {
-                    var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(item.regitem.Hive.ToString());
                     Clipboard.SetContent(dataPackage);
                 };
-                var flyoutitem4 = new MenuFlyoutItem
+                MenuFlyoutItem flyoutitem4 = new MenuFlyoutItem
                 {
                     Text =
                     ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_full_details",
@@ -410,7 +407,7 @@ namespace InteropTools.ShellPages.Registry
                 };
                 flyoutitem4.Click += (sender_, e_) =>
                 {
-                    var str = "";
+                    string str = "";
 
                     switch (item.regitem.Type)
                     {
@@ -440,7 +437,7 @@ namespace InteropTools.ShellPages.Registry
                         return;
                     }
 
-                    var dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
+                    DataPackage dataPackage = new DataPackage { RequestedOperation = DataPackageOperation.Copy };
                     dataPackage.SetText(str);
                     Clipboard.SetContent(dataPackage);
                 };
@@ -456,9 +453,9 @@ namespace InteropTools.ShellPages.Registry
                 if (flyout.Items != null)
                 {
                     flyout.Items.Add(flyoutsubitems);
-                    var flyoutitem5 = new MenuFlyoutSeparator();
+                    MenuFlyoutSeparator flyoutitem5 = new MenuFlyoutSeparator();
                     flyout.Items.Add(flyoutitem5);
-                    var flyoutitem6 = new MenuFlyoutItem
+                    MenuFlyoutItem flyoutitem6 = new MenuFlyoutItem
                     {
                         Text =
                         ResourceManager.Current.MainResourceMap.GetValue("Resources/Rename",
@@ -477,7 +474,7 @@ namespace InteropTools.ShellPages.Registry
                         {
                             case RegistryItemType.KEY:
                                 {
-                                    var key = "";
+                                    string key = "";
 
                                     if (item.regitem.Key != "")
                                     {
@@ -491,7 +488,7 @@ namespace InteropTools.ShellPages.Registry
 
                                     RunInUIThread(async () =>
                                     {
-                                        var Key = item.regitem.Key;
+                                        string Key = item.regitem.Key;
 
                                         if (item.regitem.Type == RegistryItemType.KEY)
                                         {
@@ -519,7 +516,7 @@ namespace InteropTools.ShellPages.Registry
                                 }
                         }
                     };
-                    var flyoutitem7 = new MenuFlyoutItem
+                    MenuFlyoutItem flyoutitem7 = new MenuFlyoutItem
                     {
                         Text =
                         ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete",
@@ -552,7 +549,7 @@ namespace InteropTools.ShellPages.Registry
 
                     if (_currentRegItem.Type == RegistryItemType.HIVE && (_currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || _currentRegItem.Hive == RegHives.HKEY_USERS) && item.regitem.Type == RegistryItemType.KEY)
                     {
-                        var flyoutitemm = new MenuFlyoutItem
+                        MenuFlyoutItem flyoutitemm = new MenuFlyoutItem
                         {
                             Text = "Unmount this hive"
                         };
@@ -560,16 +557,20 @@ namespace InteropTools.ShellPages.Registry
                         bool inUser = false;
 
                         if (_currentRegItem.Hive == RegHives.HKEY_USERS)
+                        {
                             inUser = true;
+                        }
 
                         flyout.Items.Add(flyoutitemm);
 
                         flyoutitemm.Click += async (sender_, e_) =>
                         {
-                            var ret = await new DualMessageDialogContentDialog().ShowDualMessageDialog("Do you really want to unmount this registry hive?", "Unmounting registry hives can potentially make your operating system not boot anymore depending on the registry hives you want to unload.");
+                            bool ret = await new DualMessageDialogContentDialog().ShowDualMessageDialog("Do you really want to unmount this registry hive?", "Unmounting registry hives can potentially make your operating system not boot anymore depending on the registry hives you want to unload.");
 
                             if (!ret)
+                            {
                                 return;
+                            }
 
                             await App.MainRegistryHelper.UnloadHive(item.regitem.Name, inUser);
 
@@ -649,15 +650,15 @@ namespace InteropTools.ShellPages.Registry
             {
                 this.regitem = regitem;
 
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
                 if ((localSettings.Values["useTimeStamps"] == null) || (localSettings.Values["useTimeStamps"].GetType() != typeof(bool)))
                 {
                     localSettings.Values["useTimeStamps"] = false;
                 }
 
-                var useTimeStamps = (bool)localSettings.Values["useTimeStamps"];
+                bool useTimeStamps = (bool)localSettings.Values["useTimeStamps"];
 
                 if (useTimeStamps)
                 {
@@ -669,7 +670,7 @@ namespace InteropTools.ShellPages.Registry
                             {
                                 case RegistryItemType.HIVE:
                                     {
-                                        var res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, null);//.ConfigureAwait(false).GetAwaiter().GetResult();
+                                        GetKeyLastModifiedTime res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, null);//.ConfigureAwait(false).GetAwaiter().GetResult();
 
                                         if (res.returncode != HelperErrorCodes.SUCCESS)
                                         {
@@ -677,7 +678,7 @@ namespace InteropTools.ShellPages.Registry
                                             return;
                                         }
 
-                                        var time = res.LastModified;
+                                        DateTime time = res.LastModified;
 
                                         LastModified = time.ToString();
                                         return;
@@ -685,7 +686,7 @@ namespace InteropTools.ShellPages.Registry
 
                                 case RegistryItemType.KEY:
                                     {
-                                        var res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, this.regitem.Key + @"\" + this.regitem.Name);//.ConfigureAwait(false).GetAwaiter().GetResult();
+                                        GetKeyLastModifiedTime res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, this.regitem.Key + @"\" + this.regitem.Name);//.ConfigureAwait(false).GetAwaiter().GetResult();
 
                                         if (res.returncode != HelperErrorCodes.SUCCESS)
                                         {
@@ -693,7 +694,7 @@ namespace InteropTools.ShellPages.Registry
                                             return;
                                         }
 
-                                        var time = res.LastModified;
+                                        DateTime time = res.LastModified;
 
                                         LastModified = time.ToString();
                                         return;
@@ -727,11 +728,11 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        var id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
                                  (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
-                        var applicationData = ApplicationData.Current;
-                        var localSettings = applicationData.LocalSettings;
-                        var value = localSettings.Values["browserfav_" + id];
+                        ApplicationData applicationData = ApplicationData.Current;
+                        ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                        object value = localSettings.Values["browserfav_" + id];
 
                         if (value == null)
                         {
@@ -744,7 +745,7 @@ namespace InteropTools.ShellPages.Registry
                         }
                     }
 
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Get" + e.Message + e.HResult);
                     }
@@ -756,13 +757,13 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        var id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
                                  (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
-                        var applicationData = ApplicationData.Current;
-                        var localSettings = applicationData.LocalSettings;
+                        ApplicationData applicationData = ApplicationData.Current;
+                        ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
                         Debug.WriteLine("browserfav_" + id);
-                        var strlist = localSettings.Values["browserfavlist"];
+                        object strlist = localSettings.Values["browserfavlist"];
 
                         if ((strlist == null) || (strlist.GetType() != typeof(string)))
                         {
@@ -770,7 +771,7 @@ namespace InteropTools.ShellPages.Registry
                             strlist = localSettings.Values["browserfavlist"];
                         }
 
-                        var list = ((string)strlist).Split('\n').ToList();
+                        List<string> list = ((string)strlist).Split('\n').ToList();
 
                         if (value == Visibility.Collapsed)
                         {
@@ -783,11 +784,11 @@ namespace InteropTools.ShellPages.Registry
                             list.Add("browserfav_" + id);
                         }
 
-                        localSettings.Values["browserfavlist"] = String.Join("\n", list);
+                        localSettings.Values["browserfavlist"] = string.Join("\n", list);
                         OnPropertyChanged("IsFavorite");
                     }
 
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Set" + e.Message + e.HResult);
                     }

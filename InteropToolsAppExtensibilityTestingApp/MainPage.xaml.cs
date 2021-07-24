@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -27,23 +17,27 @@ namespace InteropToolsAppExtensibilityTestingApp
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var ret = await LaunchAppForResults();
+            string ret = await LaunchAppForResults();
             await new MessageDialog(ret).ShowAsync();
         }
 
-        async Task<string> LaunchAppForResults()
+        private async Task<string> LaunchAppForResults()
         {
-            var testAppUri = new Uri("interoptools-appextensionregistrar:"); // The protocol handled by the launched app
-            var options = new LauncherOptions();
-            options.TargetApplicationPackageFamilyName = "52346ITDevTeam.InteropToolsPreview_feeqnmc1868va";
+            Uri testAppUri = new Uri("interoptools-appextensionregistrar:"); // The protocol handled by the launched app
+            LauncherOptions options = new LauncherOptions
+            {
+                TargetApplicationPackageFamilyName = "52346ITDevTeam.InteropToolsPreview_feeqnmc1868va"
+            };
 
-            var inputData = new ValueSet();
-            inputData["TestData"] = "Test data";
+            ValueSet inputData = new ValueSet
+            {
+                ["TestData"] = "Test data"
+            };
 
             string theResult = "";
             LaunchUriResult result = await Windows.System.Launcher.LaunchUriForResultsAsync(testAppUri, options, inputData);

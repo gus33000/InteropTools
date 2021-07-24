@@ -1,31 +1,24 @@
-﻿using System;
-using System.Linq;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
-using Windows.System.Threading;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using InteropTools.ContentDialogs.Registry;
+﻿using InteropTools.ContentDialogs.Registry;
+using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.ShellPages.Core;
-using Windows.ApplicationModel.Resources.Core;
-using Shell = InteropTools.CorePages.Shell;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using InteropTools.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using Windows.UI;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.Storage;
 using System.Diagnostics;
-using InteropTools.CorePages;
+using System.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Foundation.Metadata;
+using Windows.Phone.UI.Input;
+using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
+using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools.ShellPages.Registry
 {
@@ -45,8 +38,10 @@ namespace InteropTools.ShellPages.Registry
             Unloaded += RegistryBrowserPage_Unloaded;
 
             Breadcrumbbar.OnItemClick += Breadcrumbbar_OnItemClick;
-            var BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>();
-            BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
+            ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>
+            {
+                new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
+            };
             Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
             SystemNavigationManager.GetForCurrentView().BackRequested += RegistryBrowserPage_BackRequested;
 
@@ -61,7 +56,7 @@ namespace InteropTools.ShellPages.Registry
 
         public RegistryItemCustom GetItemFromId(string id)
         {
-            var hiveconv = RegHives.HKEY_LOCAL_MACHINE;
+            RegHives hiveconv = RegHives.HKEY_LOCAL_MACHINE;
 
             try
             {
@@ -72,7 +67,7 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            var typeconv = RegistryItemType.HIVE;
+            RegistryItemType typeconv = RegistryItemType.HIVE;
 
             try
             {
@@ -83,7 +78,7 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            var regtypeconv = 0u;
+            uint regtypeconv = 0u;
 
             try
             {
@@ -110,9 +105,9 @@ namespace InteropTools.ShellPages.Registry
             List<BrowserControl.Item> itemlist = new List<BrowserControl.Item>();
             //try
             //{
-            var applicationData = ApplicationData.Current;
-            var localSettings = applicationData.LocalSettings;
-            var strlist = localSettings.Values["browserfavlist"];
+            ApplicationData applicationData = ApplicationData.Current;
+            ApplicationDataContainer localSettings = applicationData.LocalSettings;
+            object strlist = localSettings.Values["browserfavlist"];
 
             if ((strlist == null) || (strlist.GetType() != typeof(string)))
             {
@@ -123,9 +118,9 @@ namespace InteropTools.ShellPages.Registry
 
             if ((string)strlist != "")
             {
-                var list = ((string)strlist).Split('\n').ToList();
+                List<string> list = ((string)strlist).Split('\n').ToList();
 
-                foreach (var item in list)
+                foreach (string item in list)
                 {
                     try
                     {
@@ -227,7 +222,7 @@ namespace InteropTools.ShellPages.Registry
             if (!refresh)
             {
                 ValEditCtrl.Visibility = Visibility.Visible;
-                Storyboard sb = this.Resources["PlayAnimation"] as Storyboard;
+                Storyboard sb = Resources["PlayAnimation"] as Storyboard;
                 sb.Begin();
                 BrowserCtrl.Visibility = Visibility.Collapsed;
                 MainCommandBar.Visibility = Visibility.Collapsed;
@@ -280,7 +275,7 @@ namespace InteropTools.ShellPages.Registry
 
             uint regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn2 ret = await _helper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
 
             switch (regtype)
             {
@@ -371,7 +366,7 @@ namespace InteropTools.ShellPages.Registry
         private void HideEditValueDialog()
         {
             BrowserCtrl.Visibility = Visibility.Visible;
-            Storyboard sb = this.Resources["RevertAnimation"] as Storyboard;
+            Storyboard sb = Resources["RevertAnimation"] as Storyboard;
             sb.Completed += Sb_Completed;
             sb.Begin();
         }
@@ -382,7 +377,7 @@ namespace InteropTools.ShellPages.Registry
             MainCommandBar.Visibility = Visibility.Visible;
         }
 
-        private void Breadcrumbbar_OnItemClick(Object sender, BreadCrumbControl.ItemClickEventArgs e)
+        private void Breadcrumbbar_OnItemClick(object sender, BreadCrumbControl.ItemClickEventArgs e)
         {
             if (e.ClickedItem == null)
             {
@@ -431,7 +426,7 @@ namespace InteropTools.ShellPages.Registry
                     HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 }
 
-                var shell = (Shell)App.AppContent;
+                Shell shell = (Shell)App.AppContent;
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 shell.RootFrame.BackStack.Clear();
             }
@@ -464,7 +459,7 @@ namespace InteropTools.ShellPages.Registry
                     HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 }
 
-                var shell = (Shell)App.AppContent;
+                Shell shell = (Shell)App.AppContent;
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 shell.RootFrame.BackStack.Clear();
             }
@@ -473,16 +468,17 @@ namespace InteropTools.ShellPages.Registry
 
         private async void AddKey(RegHives hive, string keypath)
         {
-            var title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView()).ValueAsString;
-            var content = "We will add " + keypath + " to the phone registry.";
-            var command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
+            string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView()).ValueAsString;
+            string content = "We will add " + keypath + " to the phone registry.";
+            bool command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
                           ResourceManager.Current.MainResourceMap.GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
                           ResourceManager.Current.MainResourceMap.GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
 
             if (command)
+            {
                 RunInThreadPool(async () =>
             {
-                var status = await _helper.AddKey(hive, keypath);
+                HelperErrorCodes status = await _helper.AddKey(hive, keypath);
                 RunInUiThread(() =>
                 {
                     if (status == HelperErrorCodes.FAILED)
@@ -492,14 +488,14 @@ namespace InteropTools.ShellPages.Registry
 
                     else
                     {
-                        var path = "";
+                        string path = "";
 
                         if (!(keypath.Split('\\').Count() - 1 < 0))
                         {
                             path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Count() - 1));
                         }
 
-                        var item = new RegistryItemCustom
+                        RegistryItemCustom item = new RegistryItemCustom
                         {
                             Name = keypath.Split('\\').First(),
                             Hive = hive,
@@ -515,6 +511,7 @@ namespace InteropTools.ShellPages.Registry
                     }
                 });
             });
+            }
         }
 
         private static string GetRegistryHiveName(RegHives hive)
@@ -595,7 +592,6 @@ namespace InteropTools.ShellPages.Registry
         {
             string hivename;
             string keypath;
-            RegHives hive;
 
             if (PathInput.Text.Contains("\\"))
             {
@@ -609,13 +605,13 @@ namespace InteropTools.ShellPages.Registry
                 keypath = "";
             }
 
-            var result = GetHiveFromName(hivename, out hive);
+            bool result = GetHiveFromName(hivename, out RegHives hive);
 
             if (result)
             {
                 RunInThreadPool(async () =>
                 {
-                    var status = await _helper.GetKeyStatus(hive, keypath);
+                    KeyStatus status = await _helper.GetKeyStatus(hive, keypath);
                     RunInUiThread(() =>
                     {
                         switch (status)
@@ -657,7 +653,6 @@ namespace InteropTools.ShellPages.Registry
         {
             string hivename;
             string keypath;
-            RegHives hive;
 
             if (PathInput.Text.Contains("\\"))
             {
@@ -671,13 +666,13 @@ namespace InteropTools.ShellPages.Registry
                 keypath = "";
             }
 
-            var result = GetHiveFromName(hivename, out hive);
+            bool result = GetHiveFromName(hivename, out RegHives hive);
 
             if (result)
             {
                 RunInThreadPool(async () =>
                 {
-                    var status = await _helper.GetKeyStatus(hive, keypath);
+                    KeyStatus status = await _helper.GetKeyStatus(hive, keypath);
                     RunInUiThread(() =>
                     {
                         switch (status)
@@ -686,13 +681,15 @@ namespace InteropTools.ShellPages.Registry
                                 {
                                     if (keypath != "")
                                     {
-                                        var path = "";
+                                        string path = "";
 
                                         if (!(keypath.Split('\\').Length - 1 < 0))
+                                        {
                                             path = string.Join(@"\",
                                                                keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
+                                        }
 
-                                        var item = new RegistryItemCustom
+                                        RegistryItemCustom item = new RegistryItemCustom
                                         {
                                             Name = keypath.Split('\\').First(),
                                             Hive = hive,
@@ -706,7 +703,7 @@ namespace InteropTools.ShellPages.Registry
 
                                     else
                                     {
-                                        var item = new RegistryItemCustom
+                                        RegistryItemCustom item = new RegistryItemCustom
                                         {
                                             Name = hive.ToString(),
                                             Hive = hive,
@@ -742,8 +739,8 @@ namespace InteropTools.ShellPages.Registry
                 JumpToGrid.Visibility = Visibility.Visible;
                 JumpToButton.IsChecked = true;
                 PathInput.Focus(FocusState.Pointer);
-                var currentitem = BrowserCtrl._currentRegItem;
-                var pathinput = "";
+                RegistryItemCustom currentitem = BrowserCtrl._currentRegItem;
+                string pathinput = "";
 
                 if (currentitem != null)
                 {
@@ -830,7 +827,7 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            var keypath = BrowserCtrl._currentRegItem.Key;
+            string keypath = BrowserCtrl._currentRegItem.Key;
 
             if (string.IsNullOrEmpty(keypath))
             {
@@ -847,7 +844,7 @@ namespace InteropTools.ShellPages.Registry
                 keypath = "";
             }
 
-            var hive = BrowserCtrl._currentRegItem.Hive;
+            RegHives hive = BrowserCtrl._currentRegItem.Hive;
             await new AddKeyContentDialog(hive, keypath, "").ShowAsync();
 
             if (BrowserCtrl._currentRegItem == null)
@@ -944,7 +941,7 @@ namespace InteropTools.ShellPages.Registry
                     MountHive.Visibility = Visibility.Collapsed;
                 }
 
-                var BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>();
+                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>();
 
                 if (e.newItem.Type != RegistryItemType.VALUE)
                 {
@@ -971,9 +968,9 @@ namespace InteropTools.ShellPages.Registry
                         BreadCrumbBarIcon.Text = "";
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.HIVE, Value = null, ValueType = 0 } });
-                        var current = "";
+                        string current = "";
 
-                        foreach (var item in e.newItem.Key.Split('\\'))
+                        foreach (string item in e.newItem.Key.Split('\\'))
                         {
                             BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = item, ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = current, Name = item, Type = RegistryItemType.KEY, Value = null, ValueType = 0 } });
 
@@ -995,7 +992,7 @@ namespace InteropTools.ShellPages.Registry
 
                 else
                 {
-                    var key = e.newItem.Key ?? "";
+                    string key = e.newItem.Key ?? "";
                     ShowEditValueDialog(e.newItem, false);
                     //await
                     //new EditRegValueContentDialog(e.newItem.Hive, key, e.newItem.Name, e.newItem.ValueType, true)
@@ -1005,8 +1002,10 @@ namespace InteropTools.ShellPages.Registry
 
             else
             {
-                var BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>();
-                BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
+                ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new ObservableCollection<BreadCrumbControl.BreadCrumbItem>
+                {
+                    new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
+                };
                 Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
             }
         }
@@ -1140,7 +1139,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         try
                         {
-                            UInt32.Parse(str);
+                            uint.Parse(str);
                             return true;
                         }
 
@@ -1154,7 +1153,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         try
                         {
-                            UInt64.Parse(str);
+                            ulong.Parse(str);
                             return true;
                         }
 
@@ -1183,7 +1182,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         try
                         {
-                            var buffer = StringToByteArrayFastest(str);
+                            byte[] buffer = StringToByteArrayFastest(str);
 
                             return true;
                         }
@@ -1200,7 +1199,9 @@ namespace InteropTools.ShellPages.Registry
         private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
+            {
                 throw new Exception("The binary key cannot have an odd number of digits");
+            }
 
             byte[] arr = new byte[hex.Length >> 1];
 
@@ -1214,7 +1215,7 @@ namespace InteropTools.ShellPages.Registry
 
         private static int GetHexVal(char hex)
         {
-            int val = (int)hex;
+            int val = hex;
             //For uppercase A-F letters:
             //return val - (val < 58 ? 48 : 55);
             //For lowercase a-f letters:
@@ -1270,7 +1271,7 @@ namespace InteropTools.ShellPages.Registry
 
         private void ValCreateAccept_Click(object sender, RoutedEventArgs e)
         {
-            var keypath = BrowserCtrl._currentRegItem.Key;
+            string keypath = BrowserCtrl._currentRegItem.Key;
 
             if (string.IsNullOrEmpty(keypath))
             {
@@ -1287,7 +1288,7 @@ namespace InteropTools.ShellPages.Registry
                 keypath = "";
             }
 
-            var hive = BrowserCtrl._currentRegItem.Hive;
+            RegHives hive = BrowserCtrl._currentRegItem.Hive;
             _helper.SetKeyValue(hive, keypath, ValueNameInput.Text, GetSelectedTypeCreate(), CreateValueDataInput.Text);
 
             if (BrowserCtrl._currentRegItem == null)
@@ -1350,7 +1351,7 @@ namespace InteropTools.ShellPages.Registry
         private void ShowCreateValueDialog()
         {
             ValCreateCtrl.Visibility = Visibility.Visible;
-            Storyboard sb = this.Resources["PlayAnimationCreate"] as Storyboard;
+            Storyboard sb = Resources["PlayAnimationCreate"] as Storyboard;
             sb.Begin();
             BrowserCtrl.Visibility = Visibility.Collapsed;
             MainCommandBar.Visibility = Visibility.Collapsed;
@@ -1363,7 +1364,7 @@ namespace InteropTools.ShellPages.Registry
         private void HideCreateValueDialog()
         {
             BrowserCtrl.Visibility = Visibility.Visible;
-            Storyboard sb = this.Resources["RevertAnimationCreate"] as Storyboard;
+            Storyboard sb = Resources["RevertAnimationCreate"] as Storyboard;
             sb.Completed += Sb_Completed2;
             sb.Begin();
         }
@@ -1494,7 +1495,7 @@ namespace InteropTools.ShellPages.Registry
         private void ShowFavoriteDialog()
         {
             FavListCtrl.Visibility = Visibility.Visible;
-            Storyboard sb = this.Resources["PlayAnimationFavorite"] as Storyboard;
+            Storyboard sb = Resources["PlayAnimationFavorite"] as Storyboard;
             sb.Begin();
             BrowserCtrl.Visibility = Visibility.Collapsed;
             MainCommandBar.Visibility = Visibility.Collapsed;
@@ -1504,7 +1505,7 @@ namespace InteropTools.ShellPages.Registry
         private void HideFavoriteDialog()
         {
             BrowserCtrl.Visibility = Visibility.Visible;
-            Storyboard sb = this.Resources["RevertAnimationFavorite"] as Storyboard;
+            Storyboard sb = Resources["RevertAnimationFavorite"] as Storyboard;
             sb.Completed += Sb_Completed3;
             sb.Begin();
         }
@@ -1535,11 +1536,15 @@ namespace InteropTools.ShellPages.Registry
                 bool inUser = false;
 
                 if (BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_USERS)
+                {
                     inUser = true;
+                }
 
-                var picker = new Windows.Storage.Pickers.FileOpenPicker();
-                picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.List;
-                picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
+                Windows.Storage.Pickers.FileOpenPicker picker = new Windows.Storage.Pickers.FileOpenPicker
+                {
+                    ViewMode = Windows.Storage.Pickers.PickerViewMode.List,
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+                };
 
                 picker.FileTypeFilter.Add("*");
 

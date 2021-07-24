@@ -27,7 +27,7 @@ namespace Intense.UI.Controls
         /// </summary>
         public MasterDetailNavigationPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -39,12 +39,13 @@ namespace Intense.UI.Controls
             base.OnNavigatingFrom(e);
 
             // make sure the content frame is cleared
-            if (this.ContentFrame.SourcePageType != null && this.ContentFrame.SourcePageType != typeof(Page)) {
-                this.ContentFrame.SourcePageType = typeof(Page);
+            if (ContentFrame.SourcePageType != null && ContentFrame.SourcePageType != typeof(Page))
+            {
+                ContentFrame.SourcePageType = typeof(Page);
             }
-            this.ContentFrame.BackStack.Clear();
-            this.ContentFrame.ForwardStack.Clear();
-            this.lastSelectedItem = null;
+            ContentFrame.BackStack.Clear();
+            ContentFrame.ForwardStack.Clear();
+            lastSelectedItem = null;
         }
 
         /// <summary>
@@ -54,20 +55,24 @@ namespace Intense.UI.Controls
         /// <param name="newValue"></param>
         protected override void OnSelectedItemChanged(NavigationItem oldValue, NavigationItem newValue)
         {
-            if (newValue == null || this.lastSelectedItem == newValue) {
+            if (newValue == null || lastSelectedItem == newValue)
+            {
                 return;
             }
-            this.lastSelectedItem = newValue;
+            lastSelectedItem = newValue;
 
-            if (this.NavigationItem != newValue && ((!newValue.IsLeaf() || this.WindowState == WindowStateNarrow))) {
+            if (NavigationItem != newValue && ((!newValue.IsLeaf() || WindowState == WindowStateNarrow)))
+            {
                 // navigate to selected item
                 base.OnSelectedItemChanged(oldValue, newValue);
             }
-            else {
+            else
+            {
                 // navigate to content and supply the PageParameter
-                var pageType = newValue.PageType ?? typeof(Page);
-                if (pageType != typeof(Page) || this.ContentFrame.SourcePageType != pageType) {
-                    this.ContentFrame.Navigate(pageType, newValue.PageParameter);
+                System.Type pageType = newValue.PageType ?? typeof(Page);
+                if (pageType != typeof(Page) || ContentFrame.SourcePageType != pageType)
+                {
+                    ContentFrame.Navigate(pageType, newValue.PageParameter);
                 }
             }
         }
@@ -81,22 +86,25 @@ namespace Intense.UI.Controls
         {
             base.OnNavigationItemChanged(oldValue, newValue);
 
-            if (this.Frame == null || newValue == null) {
-                this.SelectedItem = null;
+            if (Frame == null || newValue == null)
+            {
+                SelectedItem = null;
                 return;
             }
 
             string layoutStateName = LayoutStateMasterDetail;
 
-            if (newValue.IsLeaf()) {
+            if (newValue.IsLeaf())
+            {
                 // select navigation item itself
-                this.SelectedItem = newValue;
+                SelectedItem = newValue;
 
                 layoutStateName = LayoutStateDetail;
             }
-            else if (this.SelectedItem == null) {
+            else if (SelectedItem == null)
+            {
                 // auto-select first child (if not set)
-                this.SelectedItem = newValue.Items.FirstOrDefault();
+                SelectedItem = newValue.Items.FirstOrDefault();
             }
 
             VisualStateManager.GoToState(this, layoutStateName, false);
@@ -109,25 +117,30 @@ namespace Intense.UI.Controls
         /// <param name="newValue"></param>
         protected override void OnWindowStateChanged(string oldValue, string newValue)
         {
-            if (this.Frame == null || this.NavigationItem == null) {
+            if (Frame == null || NavigationItem == null)
+            {
                 return;
             }
 
             string layoutStateName = null;
-            if (newValue == WindowStateWide) {
+            if (newValue == WindowStateWide)
+            {
                 layoutStateName = LayoutStateMasterDetail;
 
-                if (this.NavigationItem.IsLeaf()) {
-                    if (oldValue == WindowStateNarrow && IsMasterDetailCandidate(this.NavigationItem.Parent)) {
+                if (NavigationItem.IsLeaf())
+                {
+                    if (oldValue == WindowStateNarrow && IsMasterDetailCandidate(NavigationItem.Parent))
+                    {
                         // if from narrow and leaf, auto-select parent
-                        var navItem = this.NavigationItem;
-                        this.NavigationItem = this.NavigationItem.Parent;
-                        this.SelectedItem = navItem;
+                        NavigationItem navItem = NavigationItem;
+                        NavigationItem = NavigationItem.Parent;
+                        SelectedItem = navItem;
 
                         // remove narrow master from backstack
-                        var entry = this.Frame.BackStack.FirstOrDefault(e => e.Parameter == navItem.Parent);
-                        if (entry != null) {
-                            this.Frame.BackStack.Remove(entry);
+                        PageStackEntry entry = Frame.BackStack.FirstOrDefault(e => e.Parameter == navItem.Parent);
+                        if (entry != null)
+                        {
+                            Frame.BackStack.Remove(entry);
                         }
 
                         return;
@@ -137,23 +150,26 @@ namespace Intense.UI.Controls
                     layoutStateName = LayoutStateDetail;
                 }
             }
-            else if (newValue == WindowStateNarrow) {
+            else if (newValue == WindowStateNarrow)
+            {
                 layoutStateName = LayoutStateDetail;
 
                 // if from wide, auto-select to selected child
-                if (oldValue == WindowStateWide && this.NavigationItem != this.SelectedItem && (this.SelectedItem?.IsLeaf() ?? false)) {
+                if (oldValue == WindowStateWide && NavigationItem != SelectedItem && (SelectedItem?.IsLeaf() ?? false))
+                {
                     // auto-select child
-                    var parent = this.NavigationItem;
-                    this.NavigationItem = this.SelectedItem;
+                    NavigationItem parent = NavigationItem;
+                    NavigationItem = SelectedItem;
 
                     // add narrow master to backstack
-                    this.Frame.BackStack.Add(new PageStackEntry(typeof(MasterNavigationPage), parent, null));
+                    Frame.BackStack.Add(new PageStackEntry(typeof(MasterNavigationPage), parent, null));
 
                     return;
                 }
             }
 
-            if (layoutStateName != null) {
+            if (layoutStateName != null)
+            {
                 VisualStateManager.GoToState(this, layoutStateName, false);
             }
         }
@@ -161,9 +177,10 @@ namespace Intense.UI.Controls
         private void OnContentFrameNavigated(object sender, NavigationEventArgs e)
         {
             // try sync selected item
-            var item = this.NavigationItem.Items.FirstOrDefault(i => i.PageType == e.SourcePageType && i.PageParameter == e.Parameter);
-            if (item != null) {
-                this.SelectedItem = item;
+            NavigationItem item = NavigationItem.Items.FirstOrDefault(i => i.PageType == e.SourcePageType && i.PageParameter == e.Parameter);
+            if (item != null)
+            {
+                SelectedItem = item;
             }
         }
     }

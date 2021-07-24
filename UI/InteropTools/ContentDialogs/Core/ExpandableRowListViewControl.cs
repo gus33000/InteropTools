@@ -12,22 +12,22 @@ namespace InteropTools.ContentDialogs.Core
         public ExpandableRowListViewControl()
             : base()
         {
-            this.DefaultStyleKey = typeof(ExpandableRowListViewControl);
+            DefaultStyleKey = typeof(ExpandableRowListViewControl);
         }
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            var listviewRows = (ListView)GetTemplateChild("listviewRows");
+            ListView listviewRows = (ListView)GetTemplateChild("listviewRows");
             if (listviewRows != null && ItemsSource == null)
-            {                
+            {
                 while (Items.Count > 0)
                 {
-                    var item = Items[0];
+                    object item = Items[0];
                     Items.RemoveAt(0);  // This item cannot be in two different 'ItemCollection's
                     listviewRows.Items.Add(item);
-                } 
+                }
             }
         }
     }
@@ -36,13 +36,13 @@ namespace InteropTools.ContentDialogs.Core
     [ContentProperty(Name = "Content")]
     public sealed class ExpandableRowListViewControlItem : ContentControl
     {
-        private static string VISUALSTATES_EXPANDED = "Expanded";
-        private static string VISUALSTATES_COLLAPSED = "Collapsed";
+        private static readonly string VISUALSTATES_EXPANDED = "Expanded";
+        private static readonly string VISUALSTATES_COLLAPSED = "Collapsed";
 
         public ExpandableRowListViewControlItem()
             : base()
         {
-            this.DefaultStyleKey = typeof(ExpandableRowListViewControlItem);
+            DefaultStyleKey = typeof(ExpandableRowListViewControlItem);
         }
 
         protected override void OnApplyTemplate()
@@ -50,11 +50,15 @@ namespace InteropTools.ContentDialogs.Core
             base.OnApplyTemplate();
 
             if (IsExpanded)
+            {
                 VisualStateManager.GoToState(this, VISUALSTATES_EXPANDED, false);
+            }
             else
+            {
                 VisualStateManager.GoToState(this, VISUALSTATES_COLLAPSED, false);
+            }
 
-            var gridRowHeader = (Grid)GetTemplateChild("gridRowHeader");
+            Grid gridRowHeader = (Grid)GetTemplateChild("gridRowHeader");
             if (gridRowHeader != null)
             {
                 gridRowHeader.Tapped += (sender, e) =>
@@ -62,36 +66,42 @@ namespace InteropTools.ContentDialogs.Core
                     // Toggle expanded state
                     IsExpanded = !IsExpanded;
                 };
-            }            
+            }
         }
 
         public static readonly DependencyProperty RowHeaderProperty = DependencyProperty.Register(nameof(RowHeader), typeof(object), typeof(ExpandableRowListViewControlItem), null);
         public object RowHeader
         {
-            get { return (object)GetValue(RowHeaderProperty); }
-            set { SetValue(RowHeaderProperty, value); }
+            get => GetValue(RowHeaderProperty);
+            set => SetValue(RowHeaderProperty, value);
         }
 
         public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(ExpandableRowListViewControlItem), new PropertyMetadata(false, IsExpanded_OnChanged));
         public bool IsExpanded
         {
-            get { return (bool)GetValue(IsExpandedProperty); }
-            set { SetValue(IsExpandedProperty, value); }
+            get => (bool)GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
         }
 
         private static void IsExpanded_OnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var item = (ExpandableRowListViewControlItem)d;
-            var oldValue = (bool)e.OldValue;
-            var newValue = (bool)e.NewValue;
+            ExpandableRowListViewControlItem item = (ExpandableRowListViewControlItem)d;
+            bool oldValue = (bool)e.OldValue;
+            bool newValue = (bool)e.NewValue;
 
             if (oldValue == newValue)
+            {
                 return;
+            }
 
             if (newValue)
+            {
                 VisualStateManager.GoToState(item, VISUALSTATES_EXPANDED, true);
+            }
             else
+            {
                 VisualStateManager.GoToState(item, VISUALSTATES_COLLAPSED, true);
+            }
         }
     }
 }

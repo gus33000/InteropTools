@@ -1,229 +1,223 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using TreeViewControl;
-using System.Diagnostics;
+﻿using InteropTools.CorePages;
 using InteropTools.Providers;
-using Windows.ApplicationModel.Core;
-using System.Threading.Tasks;
-using Windows.System.Threading;
-using Windows.UI.Core;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using TreeViewControl;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
-using System.Numerics;
+using Windows.System.Threading;
 using Windows.UI.Composition;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Popups;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using InteropTools.CorePages;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace InteropTools.ShellPages.Registry
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public sealed partial class BrowservNextPage
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class BrowservNextPage
     {
         public string PageName => "Registry Browser vNext";
         public PageGroup PageGroup => PageGroup.Registry;
 
-        private Compositor _compositor;
+        private readonly Compositor _compositor;
 
-		public BrowservNextPage()
-		{
-			this.InitializeComponent();
-			// Get the current compositor
-			_compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-			sampleTreeView.AllowDrop = false;
-			sampleTreeView.CanDrag = false;
-			sampleTreeView.CanDragItems = false;
-			sampleTreeView.CanReorderItems = false;
-			TreeNode rootNode = CreateFolderNode("This device", null);
-			sampleTreeView.RootNode.Add(rootNode);
-			sampleTreeView.ItemClick += SampleTreeView_ItemClick;
-			ListBrowser.ItemsSource = _itemlist;
-		}
+        public BrowservNextPage()
+        {
+            InitializeComponent();
+            // Get the current compositor
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            sampleTreeView.AllowDrop = false;
+            sampleTreeView.CanDrag = false;
+            sampleTreeView.CanDragItems = false;
+            sampleTreeView.CanReorderItems = false;
+            TreeNode rootNode = CreateFolderNode("This device", null);
+            sampleTreeView.RootNode.Add(rootNode);
+            sampleTreeView.ItemClick += SampleTreeView_ItemClick;
+            ListBrowser.ItemsSource = _itemlist;
+        }
 
-		private readonly ObservableRangeCollection<Item> _itemlist = new ObservableRangeCollection<Item>();
+        private readonly ObservableRangeCollection<Item> _itemlist = new ObservableRangeCollection<Item>();
 
-		private async Task RunInUIThread(Action function)
-		{
-			await
-			CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-			() => { function(); });
-		}
+        private async Task RunInUIThread(Action function)
+        {
+            await
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () => { function(); });
+        }
 
-		private async void RunInThreadPool(Action function)
-		{
-			await ThreadPool.RunAsync(x => { function(); });
-		}
+        private async void RunInThreadPool(Action function)
+        {
+            await ThreadPool.RunAsync(x => { function(); });
+        }
 
 
-		private void SampleTreeView_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			_itemlist.ClearList();
-			var node = e.ClickedItem as TreeNode;
-			RunInThreadPool(async () =>
-			{
-				if (node != null)
-				{
-					var data = node.Data as FileSystemData;
+        private void SampleTreeView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            _itemlist.ClearList();
+            var node = e.ClickedItem as TreeNode;
+            RunInThreadPool(async () =>
+            {
+                if (node != null)
+                {
+                    FileSystemData data = node.Data as FileSystemData;
 
-					if (data != null)
-					{
-						if (node.IsExpanded && data.IsFolder)
-						{
-							var key = data.RegItem.Key;
+                    if (data != null)
+                    {
+                        if (node.IsExpanded && data.IsFolder)
+                        {
+                            string key = data.RegItem.Key;
 
-							if (data.RegItem.Type == RegistryItemType.KEY)
-							{
-								if ((key == "") || (key == null))
-								{
-									key = data.RegItem.Name;
-								}
+                            if (data.RegItem.Type == RegistryItemType.KEY)
+                            {
+                                if ((key == "") || (key == null))
+                                {
+                                    key = data.RegItem.Name;
+                                }
 
-								else
-								{
-									key += @"\" + data.RegItem.Name;
-								}
-							}
+                                else
+                                {
+                                    key += @"\" + data.RegItem.Name;
+                                }
+                            }
 
-							if (key == null)
-							{
-								key = "";
-							}
+                            if (key == null)
+                            {
+                                key = "";
+                            }
 
-							var items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                            IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
-							foreach (var item in items)
-								if (item.Type == RegistryItemType.VALUE)
-								{ await RunInUIThread(() => _itemlist.Add(new Item(item))); }
+                            foreach (RegistryItemCustom item in items)
+                            {
+                                if (item.Type == RegistryItemType.VALUE)
+                                { await RunInUIThread(() => _itemlist.Add(new Item(item))); }
+                            }
 
-							await RunInUIThread(() => ListBrowser.ItemsSource = _itemlist);
-						}
+                            await RunInUIThread(() => ListBrowser.ItemsSource = _itemlist);
+                        }
 
-						if (!node.HasItems)
-						{
-							if (data.RegItem == null)
-							{
-								var hives = await App.MainRegistryHelper.GetRegistryHives2();
+                        if (!node.HasItems)
+                        {
+                            if (data.RegItem == null)
+                            {
+                                IReadOnlyList<RegistryItemCustom> hives = await App.MainRegistryHelper.GetRegistryHives2();
 
-								foreach (var hive in hives)
-								{
-									await RunInUIThread(() => node.Add(CreateFolderNode(hive.Name, hive)));
-								}
-							}
+                                foreach (RegistryItemCustom hive in hives)
+                                {
+                                    await RunInUIThread(() => node.Add(CreateFolderNode(hive.Name, hive)));
+                                }
+                            }
 
-							else
-							{
-								var key = data.RegItem.Key;
+                            else
+                            {
+                                string key = data.RegItem.Key;
 
-								if (data.RegItem.Type == RegistryItemType.KEY)
-								{
-									if ((key == "") || (key == null))
-									{
-										key = data.RegItem.Name;
-									}
+                                if (data.RegItem.Type == RegistryItemType.KEY)
+                                {
+                                    if ((key == "") || (key == null))
+                                    {
+                                        key = data.RegItem.Name;
+                                    }
 
-									else
-									{
-										key += @"\" + data.RegItem.Name;
-									}
-								}
+                                    else
+                                    {
+                                        key += @"\" + data.RegItem.Name;
+                                    }
+                                }
 
-								if (key == null)
-								{
-									key = "";
-								}
+                                if (key == null)
+                                {
+                                    key = "";
+                                }
 
-								var items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                                IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
-								foreach (var item in items)
-									if (item.Type != RegistryItemType.VALUE)
-									{ await RunInUIThread(() => node.Add(CreateFolderNode(item.Name, item))); }
-							}
-						}
-					}
-				}
-			});
-		}
+                                foreach (RegistryItemCustom item in items)
+                                {
+                                    if (item.Type != RegistryItemType.VALUE)
+                                    { await RunInUIThread(() => node.Add(CreateFolderNode(item.Name, item))); }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
-		private async void SampleTreeView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-		{
-			var node = args.Item as TreeNode;
+        private async void SampleTreeView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var node = args.Item as TreeNode;
 
-			if (node != null)
-			{
-				var data = node.Data as FileSystemData;
+            if (node != null)
+            {
+                FileSystemData data = node.Data as FileSystemData;
 
-				if (data != null)
-				{
-					if (node.IsExpanded)
-					{
-						node.Clear();
+                if (data != null)
+                {
+                    if (node.IsExpanded)
+                    {
+                        node.Clear();
 
-						if (data.RegItem == null)
-						{
-							var hives = await App.MainRegistryHelper.GetRegistryHives2();
+                        if (data.RegItem == null)
+                        {
+                            IReadOnlyList<RegistryItemCustom> hives = await App.MainRegistryHelper.GetRegistryHives2();
 
-							foreach (var hive in hives)
-							{
-								TreeNode newnode = CreateFolderNode(hive.Name, hive);
-								node.Add(newnode);
-							}
-						}
+                            foreach (RegistryItemCustom hive in hives)
+                            {
+                                TreeNode newnode = CreateFolderNode(hive.Name, hive);
+                                node.Add(newnode);
+                            }
+                        }
 
-						else
-						{
-							var key = data.RegItem.Key;
+                        else
+                        {
+                            string key = data.RegItem.Key;
 
-							if (data.RegItem.Type == RegistryItemType.KEY)
-							{
-								if ((key == "") || (key == null))
-								{
-									key = data.RegItem.Name;
-								}
+                            if (data.RegItem.Type == RegistryItemType.KEY)
+                            {
+                                if ((key == "") || (key == null))
+                                {
+                                    key = data.RegItem.Name;
+                                }
 
-								else
-								{
-									key += @"\" + data.RegItem.Name;
-								}
-							}
+                                else
+                                {
+                                    key += @"\" + data.RegItem.Name;
+                                }
+                            }
 
-							if (key == null)
-							{
-								key = "";
-							}
+                            if (key == null)
+                            {
+                                key = "";
+                            }
 
-							var items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                            IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
-							foreach (var item in items)
-								if (item.Type != RegistryItemType.VALUE)
-								{ node.Add(CreateFolderNode(item.Name, item)); }
-						}
-					}
-				}
-			}
-		}
+                            foreach (RegistryItemCustom item in items)
+                            {
+                                if (item.Type != RegistryItemType.VALUE)
+                                { node.Add(CreateFolderNode(item.Name, item)); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		private static TreeNode CreateFolderNode(string name, RegistryItemCustom item)
-		{
-			return new TreeNode() { Data = new FileSystemData(name) { RegItem = item } };
-		}
+        private static TreeNode CreateFolderNode(string name, RegistryItemCustom item)
+        {
+            return new TreeNode() { Data = new FileSystemData(name) { RegItem = item } };
+        }
 
 
         private List<BrowserControl.Item> GetFavoriteItemList()
@@ -231,9 +225,9 @@ namespace InteropTools.ShellPages.Registry
             List<BrowserControl.Item> itemlist = new List<BrowserControl.Item>();
             //try
             //{
-            var applicationData = ApplicationData.Current;
-            var localSettings = applicationData.LocalSettings;
-            var strlist = localSettings.Values["browserfavlist"];
+            ApplicationData applicationData = ApplicationData.Current;
+            ApplicationDataContainer localSettings = applicationData.LocalSettings;
+            object strlist = localSettings.Values["browserfavlist"];
 
             if ((strlist == null) || (strlist.GetType() != typeof(string)))
             {
@@ -244,9 +238,9 @@ namespace InteropTools.ShellPages.Registry
 
             if ((string)strlist != "")
             {
-                var list = ((string)strlist).Split('\n').ToList();
+                List<string> list = ((string)strlist).Split('\n').ToList();
 
-                foreach (var item in list)
+                foreach (string item in list)
                 {
                     try
                     {
@@ -342,10 +336,10 @@ namespace InteropTools.ShellPages.Registry
         }
 
         private async void ListBrowser_ItemClick(object sender, ItemClickEventArgs e)
-		{
-            var currentEditItem = (e.ClickedItem as Item).regitem;
+        {
+            RegistryItemCustom currentEditItem = (e.ClickedItem as Item).regitem;
 
-			ValEditCtrl.Visibility = Visibility.Visible;
+            ValEditCtrl.Visibility = Visibility.Visible;
 
             ValueTypeInput.Visibility = Visibility.Collapsed;
             ValueTypeInput.Text = "";
@@ -394,7 +388,7 @@ namespace InteropTools.ShellPages.Registry
 
             uint regtype;
             string regvalue;
-            var ret = await App.MainRegistryHelper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn2 ret = await App.MainRegistryHelper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
 
             switch (regtype)
             {
@@ -482,145 +476,145 @@ namespace InteropTools.ShellPages.Registry
             ValueDataInput.Text = regvalue;
         }
 
-		public class Item : INotifyPropertyChanged
-		{
-			public Item(RegistryItemCustom regitem)
-			{
-				this.regitem = regitem;
-			}
+        public class Item : INotifyPropertyChanged
+        {
+            public Item(RegistryItemCustom regitem)
+            {
+                this.regitem = regitem;
+            }
 
-			public Visibility IsFavorite
-			{
-				get
-				{
-					try
-					{
-						var id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-						         (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
-						var applicationData = ApplicationData.Current;
-						var localSettings = applicationData.LocalSettings;
-						var value = localSettings.Values["browserfav_" + id];
+            public Visibility IsFavorite
+            {
+                get
+                {
+                    try
+                    {
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        ApplicationData applicationData = ApplicationData.Current;
+                        ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                        object value = localSettings.Values["browserfav_" + id];
 
-						if (value == null)
-						{
-							return Visibility.Collapsed;
-						}
+                        if (value == null)
+                        {
+                            return Visibility.Collapsed;
+                        }
 
-						if (value.GetType() == typeof(bool))
-						{
-							return (bool)value ? Visibility.Visible : Visibility.Collapsed;
-						}
-					}
+                        if (value.GetType() == typeof(bool))
+                        {
+                            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+                        }
+                    }
 
-					catch (Exception e)
-					{
-						//new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Get" + e.Message + e.HResult);
-					}
+                    catch (Exception)
+                    {
+                        //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Get" + e.Message + e.HResult);
+                    }
 
-					return Visibility.Collapsed;
-				}
+                    return Visibility.Collapsed;
+                }
 
-				set
-				{
-					try
-					{
-						var id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
-						         (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
-						var applicationData = ApplicationData.Current;
-						var localSettings = applicationData.LocalSettings;
-						localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
-						Debug.WriteLine("browserfav_" + id);
-						var strlist = localSettings.Values["browserfavlist"];
+                set
+                {
+                    try
+                    {
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key == null ? "" : regitem.Key) + "%" + (regitem.Name == null ? "" : regitem.Name) + "%" + regitem.Type.ToString() + "%" +
+                                 (regitem.Value == null ? "" : regitem.Value) + "%" + regitem.ValueType.ToString();
+                        ApplicationData applicationData = ApplicationData.Current;
+                        ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                        localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
+                        Debug.WriteLine("browserfav_" + id);
+                        object strlist = localSettings.Values["browserfavlist"];
 
-						if ((strlist == null) || (strlist.GetType() != typeof(string)))
-						{
-							localSettings.Values["browserfavlist"] = "";
-							strlist = localSettings.Values["browserfavlist"];
-						}
+                        if ((strlist == null) || (strlist.GetType() != typeof(string)))
+                        {
+                            localSettings.Values["browserfavlist"] = "";
+                            strlist = localSettings.Values["browserfavlist"];
+                        }
 
-						var list = ((string)strlist).Split('\n').ToList();
+                        List<string> list = ((string)strlist).Split('\n').ToList();
 
-						if (value == Visibility.Collapsed)
-						{
-							localSettings.Values.Remove("browserfav_" + id);
-							list.Remove("browserfav_" + id);
-						}
+                        if (value == Visibility.Collapsed)
+                        {
+                            localSettings.Values.Remove("browserfav_" + id);
+                            list.Remove("browserfav_" + id);
+                        }
 
-						else
-						{
-							list.Add("browserfav_" + id);
-						}
+                        else
+                        {
+                            list.Add("browserfav_" + id);
+                        }
 
-						localSettings.Values["browserfavlist"] = String.Join("\n", list);
-						OnPropertyChanged("IsFavorite");
-					}
+                        localSettings.Values["browserfavlist"] = string.Join("\n", list);
+                        OnPropertyChanged("IsFavorite");
+                    }
 
-					catch (Exception e)
-					{
-						//new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Set" + e.Message + e.HResult);
-					}
-				}
-			}
+                    catch (Exception)
+                    {
+                        //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Set" + e.Message + e.HResult);
+                    }
+                }
+            }
 
-			// Create the OnPropertyChanged method to raise the event
-			protected void OnPropertyChanged(string name)
-			{
-				PropertyChangedEventHandler handler = PropertyChanged;
+            // Create the OnPropertyChanged method to raise the event
+            protected void OnPropertyChanged(string name)
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
 
-				if (handler != null)
-				{
-					handler(this, new PropertyChangedEventArgs(name));
-				}
-			}
+                if (handler != null)
+                {
+                    handler(this, new PropertyChangedEventArgs(name));
+                }
+            }
 
-			public string Symbol
-			{
-				get
-				{
-					switch (regitem.Type)
-					{
-						case RegistryItemType.HIVE:
-							{
-								return "";
-							}
+            public string Symbol
+            {
+                get
+                {
+                    switch (regitem.Type)
+                    {
+                        case RegistryItemType.HIVE:
+                            {
+                                return "";
+                            }
 
-						case RegistryItemType.KEY:
-							{
-								return "";
-							}
+                        case RegistryItemType.KEY:
+                            {
+                                return "";
+                            }
 
-						case RegistryItemType.VALUE:
-							{
-								return "";
-							}
+                        case RegistryItemType.VALUE:
+                            {
+                                return "";
+                            }
 
-						default:
-							{
-								return "";
-							}
-					}
-				}
-			}
+                        default:
+                            {
+                                return "";
+                            }
+                    }
+                }
+            }
 
-			public string DisplayName
-			{
-				get
-				{
-					if (regitem.Name == "")
-					{
-						return "(Default)";
-					}
+            public string DisplayName
+            {
+                get
+                {
+                    if (regitem.Name == "")
+                    {
+                        return "(Default)";
+                    }
 
-					return regitem.Name;
-				}
-			}
+                    return regitem.Name;
+                }
+            }
 
-			public string LastModified
-			{
-				get
-				{
-					switch (regitem.Type)
-					{
+            public string LastModified
+            {
+                get
+                {
+                    switch (regitem.Type)
+                    {
                         case RegistryItemType.HIVE:
                             {
                                 //DateTime time;
@@ -648,208 +642,208 @@ namespace InteropTools.ShellPages.Registry
                             }
 
                         case RegistryItemType.VALUE:
-							{
-								return "";
-							}
+                            {
+                                return "";
+                            }
 
-						default:
-							{
-								return "";
-							}
-					}
-				}
-			}
+                        default:
+                            {
+                                return "";
+                            }
+                    }
+                }
+            }
 
-			public string Description
-			{
-				get
-				{
-					switch (regitem.Type)
-					{
-						case RegistryItemType.HIVE:
-							{
-								return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
-							}
+            public string Description
+            {
+                get
+                {
+                    switch (regitem.Type)
+                    {
+                        case RegistryItemType.HIVE:
+                            {
+                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
+                            }
 
-						case RegistryItemType.KEY:
-							{
-								return ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
-							}
+                        case RegistryItemType.KEY:
+                            {
+                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
+                            }
 
-						case RegistryItemType.VALUE:
-							{
-								if (regitem.ValueType < 12)
-								{
-									return GetValueTypeName((RegTypes)regitem.ValueType);
-								}
+                        case RegistryItemType.VALUE:
+                            {
+                                if (regitem.ValueType < 12)
+                                {
+                                    return GetValueTypeName((RegTypes)regitem.ValueType);
+                                }
 
-								return "Custom: " + regitem.ValueType;
-							}
+                                return "Custom: " + regitem.ValueType;
+                            }
 
-						default:
-							{
-								return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
-							}
-					}
-				}
-			}
+                        default:
+                            {
+                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                            }
+                    }
+                }
+            }
 
-			public RegistryItemCustom regitem { get; }
+            public RegistryItemCustom regitem { get; }
 
-			public event PropertyChangedEventHandler PropertyChanged;
+            public event PropertyChangedEventHandler PropertyChanged;
 
-			private string GetValueTypeName(RegTypes type)
-			{
-				switch (type)
-				{
-					case RegTypes.REG_BINARY:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+            private string GetValueTypeName(RegTypes type)
+            {
+                switch (type)
+                {
+                    case RegTypes.REG_BINARY:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_FULL_RESOURCE_DESCRIPTOR:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_FULL_RESOURCE_DESCRIPTOR:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_DWORD:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_DWORD:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_DWORD_BIG_ENDIAN:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_DWORD_BIG_ENDIAN:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_QWORD:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_QWORD:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_MULTI_SZ:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_MULTI_SZ:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_NONE:
-						{
-							return "None";
-						}
+                    case RegTypes.REG_NONE:
+                        {
+                            return "None";
+                        }
 
-					case RegTypes.REG_RESOURCE_LIST:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_RESOURCE_LIST:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_RESOURCE_REQUIREMENTS_LIST:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_RESOURCE_REQUIREMENTS_LIST:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_SZ:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_SZ:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_LINK:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
+                    case RegTypes.REG_LINK:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
 
-					case RegTypes.REG_EXPAND_SZ:
-						{
-							return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
-						}
-				}
+                    case RegTypes.REG_EXPAND_SZ:
+                        {
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        }
+                }
 
-				return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
-			}
-		}
+                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+            }
+        }
 
-		private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-		}
+        private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
 
-		private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-		{
-		}
+        private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+        }
 
-		private void ValEditRefresh_Click(object sender, RoutedEventArgs e)
-		{
-		}
+        private void ValEditRefresh_Click(object sender, RoutedEventArgs e)
+        {
+        }
 
-		private void ValEditCancel_Click(object sender, RoutedEventArgs e)
-		{
-			ValEditCtrl.Visibility = Visibility.Collapsed;
-		}
+        private void ValEditCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ValEditCtrl.Visibility = Visibility.Collapsed;
+        }
 
-		private void ValEditAccept_Click(object sender, RoutedEventArgs e)
-		{
-		}
+        private void ValEditAccept_Click(object sender, RoutedEventArgs e)
+        {
+        }
 
-		public RegistryItemCustom GetItemFromId(string id)
-		{
-			var hiveconv = RegHives.HKEY_LOCAL_MACHINE;
+        public RegistryItemCustom GetItemFromId(string id)
+        {
+            RegHives hiveconv = RegHives.HKEY_LOCAL_MACHINE;
 
-			try
-			{
-				hiveconv = (RegHives)Enum.Parse(typeof(RegHives), id.Split('%')[0]);
-			}
+            try
+            {
+                hiveconv = (RegHives)Enum.Parse(typeof(RegHives), id.Split('%')[0]);
+            }
 
-			catch
-			{
-			}
+            catch
+            {
+            }
 
-			var typeconv = RegistryItemType.HIVE;
+            RegistryItemType typeconv = RegistryItemType.HIVE;
 
-			try
-			{
-				typeconv = (RegistryItemType)Enum.Parse(typeof(RegistryItemType), id.Split('%')[3]);
-			}
+            try
+            {
+                typeconv = (RegistryItemType)Enum.Parse(typeof(RegistryItemType), id.Split('%')[3]);
+            }
 
-			catch
-			{
-			}
+            catch
+            {
+            }
 
-			var regtypeconv = 0u;
+            uint regtypeconv = 0u;
 
-			try
-			{
-				regtypeconv = uint.Parse(id.Split('%')[5]);
-			}
+            try
+            {
+                regtypeconv = uint.Parse(id.Split('%')[5]);
+            }
 
-			catch
-			{
-			}
+            catch
+            {
+            }
 
-			return new RegistryItemCustom()
-			{
-				Hive = hiveconv,
-				Key = id.Split('%')[1],
-				Name = id.Split('%')[2],
-				Type = typeconv,
-				Value = id.Split('%')[4],
-				ValueType = regtypeconv
-			};
-		}
+            return new RegistryItemCustom()
+            {
+                Hive = hiveconv,
+                Key = id.Split('%')[1],
+                Name = id.Split('%')[2],
+                Type = typeconv,
+                Value = id.Split('%')[4],
+                ValueType = regtypeconv
+            };
+        }
 
-		private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			//BrowserCtrl.ChangeCurrentItem((e.ClickedItem as BrowserControl.Item).regitem);
-			//HideFavoriteDialog();
-		}
-		private void RefreshFavoriteDialog()
-		{
-			FavoriteListView.ItemsSource = GetFavoriteItemList();
-		}
+        private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //BrowserCtrl.ChangeCurrentItem((e.ClickedItem as BrowserControl.Item).regitem);
+            //HideFavoriteDialog();
+        }
+        private void RefreshFavoriteDialog()
+        {
+            FavoriteListView.ItemsSource = GetFavoriteItemList();
+        }
 
-		private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			RefreshFavoriteDialog();
-		}
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshFavoriteDialog();
+        }
 
-		/*private void HideFavoriteDialog()
+        /*private void HideFavoriteDialog()
 		{
 		    BrowserCtrl.Visibility = Visibility.Visible;
 
@@ -858,11 +852,11 @@ namespace InteropTools.ShellPages.Registry
 		    sb.Begin();
 		}*/
 
-		/*private void Sb_Completed3(object sender, object e)
+        /*private void Sb_Completed3(object sender, object e)
 		{
 		    FavListCtrl.Visibility = Visibility.Collapsed;
 		    MainCommandBar.Visibility = Visibility.Visible;
 		}*/
 
-	}
+    }
 }

@@ -1,45 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
-using Windows.System.Display;
-using Windows.UI.Notifications;
-using Windows.UI.StartScreen;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using InteropTools.RemoteClasses.Server;
-using Shell = InteropTools.CorePages.Shell;
-using Windows.Foundation;
-using Windows.Graphics.Display;
-using Renci.SshNet;
-using InteropTools.Providers;
-using System.Threading.Tasks;
-using System.IO;
-using Windows.ApplicationModel.ExtendedExecution;
-using Windows.System.Profile;
-using InteropTools.Resources;
-using Microsoft.HockeyApp;
-//using Microsoft.Services.Store.Engagement;
+﻿//using Microsoft.Services.Store.Engagement;
 //using RegPluginList = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.Registry.Definition.TransfareOptions, double>;
 //using PowerPluginList = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.OSReboot.Definition.TransfareOptions, double>;
 using InteropTools.CorePages;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Markup;
-using Microsoft.Toolkit.Uwp.Notifications;
-using System.Diagnostics;
-using Windows.UI.Xaml.Controls;
-using InteropTools.ContentDialogs.Core;
+using InteropTools.Providers;
+using InteropTools.RemoteClasses.Server;
+using InteropTools.Resources;
+using Microsoft.HockeyApp;
 using Microsoft.Services.Store.Engagement;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Renci.SshNet;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.ExtendedExecution;
+using Windows.ApplicationModel.Resources.Core;
+using Windows.Foundation;
+using Windows.Foundation.Metadata;
+using Windows.Graphics.Display;
+using Windows.Storage;
+using Windows.System.Display;
+using Windows.System.Profile;
+using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
+using Windows.UI.StartScreen;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools
 {
-    sealed partial class App
+    public sealed partial class App
     {
         //public static RegPluginList regpluginlist;
         //public static PowerPluginList powerpluginlist;
@@ -60,10 +57,7 @@ namespace InteropTools
 
         public static IRegistryProvider RegistryHelper
         {
-            get
-            {
-                return CurrentSession != null ? Sessions[(int)CurrentSession].Helper : null;
-            }
+            get => CurrentSession != null ? Sessions[(int)CurrentSession].Helper : null;
 
             set
             {
@@ -112,7 +106,8 @@ namespace InteropTools
             try
             {
                 //MobileCenter.Start("af6e74dc-17ac-469e-876c-6acb9c214a4a", typeof(Analytics));
-            } catch
+            }
+            catch
             {
 
             }
@@ -149,12 +144,12 @@ namespace InteropTools
                 frame.FrameContent = value;
             }
         }
-        public async static Task<bool> IsCMDSupported()
+        public static async Task<bool> IsCMDSupported()
         {
-            var helper = MainRegistryHelper;
+            IRegistryProvider helper = MainRegistryHelper;
             RegTypes regtype;
-            String regvalue;
-            var ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            string regvalue;
+            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
             //if (regvalue != "2") return false;
 
@@ -176,16 +171,16 @@ namespace InteropTools
                                    RegTypes.REG_SZ, "Sirepuser");
             }
 
-            var add
+            bool add
                   = true;
 
-            var username = "InteropTools";
+            string username = "InteropTools";
             ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue.Contains(";"))
             {
-                foreach (var user in regvalue.Split(';'))
+                foreach (string user in regvalue.Split(';'))
                 {
                     if (user.ToLower() == username.ToLower())
                     {
@@ -243,29 +238,33 @@ namespace InteropTools
 
             try
             {
-                var Server = helper.GetHostName();
-                var Username = "InteropTools";
-                var Password = regvalue;
-                var coninfo = new PasswordConnectionInfo(Server, Username, Password);
-                coninfo.Timeout = new TimeSpan(0, 0, 5);
-                coninfo.RetryAttempts = 1;
-                var sclient = new SftpClient(coninfo);
-                sclient.OperationTimeout = new TimeSpan(0, 0, 5);
+                string Server = helper.GetHostName();
+                string Username = "InteropTools";
+                string Password = regvalue;
+                PasswordConnectionInfo coninfo = new PasswordConnectionInfo(Server, Username, Password)
+                {
+                    Timeout = new TimeSpan(0, 0, 5),
+                    RetryAttempts = 1
+                };
+                SftpClient sclient = new SftpClient(coninfo)
+                {
+                    OperationTimeout = new TimeSpan(0, 0, 5)
+                };
                 sclient.Connect();
                 sclient.BufferSize = 4 * 1024;
-                var op = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//cmd.exe", UriKind.Absolute));
+                IAsyncOperation<StorageFile> op = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//cmd.exe", UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
                 }
 
-                var op2 = op.GetResults().OpenStreamForReadAsync();
+                Task<Stream> op2 = op.GetResults().OpenStreamForReadAsync();
 
                 while (op2.Status == TaskStatus.Running)
                 {
                 }
 
-                var cmd = op2.Result;
+                Stream cmd = op2.Result;
                 op =
                   StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//cmd.exe.mui",
                       UriKind.Absolute));
@@ -280,7 +279,7 @@ namespace InteropTools
                 {
                 }
 
-                var cmdmui = op2.Result;
+                Stream cmdmui = op2.Result;
                 op = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//reg.exe", UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
@@ -293,7 +292,7 @@ namespace InteropTools
                 {
                 }
 
-                var reg = op2.Result;
+                Stream reg = op2.Result;
                 op =
                   StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//reg.exe.mui",
                       UriKind.Absolute));
@@ -308,7 +307,7 @@ namespace InteropTools
                 {
                 }
 
-                var regmui = op2.Result;
+                Stream regmui = op2.Result;
                 op =
                   StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//CheckNetIsolation.exe",
                       UriKind.Absolute));
@@ -323,7 +322,7 @@ namespace InteropTools
                 {
                 }
 
-                var netisol = op2.Result;
+                Stream netisol = op2.Result;
                 op =
                   StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//CheckNetIsolation.exe.mui",
                       UriKind.Absolute));
@@ -338,7 +337,7 @@ namespace InteropTools
                 {
                 }
 
-                var netisolmui = op2.Result;
+                Stream netisolmui = op2.Result;
                 sclient.UploadFile(cmd, "/C/Windows/System32/cmd.exe");
                 sclient.UploadFile(cmdmui, "/C/Windows/System32/en-US/cmd.exe.mui");
                 sclient.UploadFile(reg, "/C/Windows/System32/reg.exe");
@@ -361,7 +360,7 @@ namespace InteropTools
 
         public static void AddNewSession(object args)
         {
-            var session = new Session
+            Session session = new Session
             {
                 Helper = null,
                 WindowContent = new Shell(args),//new SelectProviderPage(args),
@@ -371,7 +370,7 @@ namespace InteropTools
             SwitchSession(session);
         }
 
-        public async static void SwitchSession(Session session)
+        public static async void SwitchSession(Session session)
         {
             if (CurrentSession != null)
             {
@@ -383,8 +382,8 @@ namespace InteropTools
 
             if (session.WindowContent is Shell)
             {
-                var shell = (Shell)session.WindowContent;
-                var visibility = AppViewBackButtonVisibility.Collapsed;
+                Shell shell = (Shell)session.WindowContent;
+                AppViewBackButtonVisibility visibility = AppViewBackButtonVisibility.Collapsed;
 
                 if (shell.RootFrame.CanGoBack)
                 {
@@ -409,7 +408,7 @@ namespace InteropTools
 
             if (App.AppContent is Shell)
             {
-                var shell = (Shell)session.WindowContent;
+                Shell shell = (Shell)session.WindowContent;
                 shell.ReSetupTitlebar();
             }
         }
@@ -425,7 +424,7 @@ namespace InteropTools
             // TODO: Handle file activation
             // The number of files received is args.Files.Size
             // The name of the first file is args.Files[0].Name
-            var file = args.Files[0] as StorageFile;
+            StorageFile file = args.Files[0] as StorageFile;
             RefreshTile();
 
             if (CurrentSession == null)
@@ -464,12 +463,12 @@ namespace InteropTools
 
             else
             {
-                var currentContent = App.AppContent as Shell;
+                Shell currentContent = App.AppContent as Shell;
                 await currentContent.HandleFileActivatedEvent(file);
             }
         }
 
-        protected async override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
             if (args.Kind == ActivationKind.Protocol)
             {
@@ -479,7 +478,7 @@ namespace InteropTools
                 {
                     if (args is ToastNotificationActivatedEventArgs)
                     {
-                        var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+                        ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
 
                         StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
                         string originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(
@@ -524,7 +523,7 @@ namespace InteropTools
                     (
                             new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_themeresources.xaml") }
                     );*/
-                    this.Resources.MergedDictionaries.Add
+                    Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs2_neon.xaml") }
                     );
@@ -547,7 +546,7 @@ namespace InteropTools
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs1_themeresources.xaml") }
                     );*/
-                    this.Resources.MergedDictionaries.Add
+                    Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs1_neon.xaml") }
                     );
@@ -568,7 +567,7 @@ namespace InteropTools
                 if (System.Diagnostics.Debugger.IsAttached)
                 {
                     // disabled, obscures the hamburger button, enable if you need it
-                    this.DebugSettings.EnableFrameRateCounter = true;
+                    DebugSettings.EnableFrameRateCounter = true;
                 }
 #endif
 
@@ -599,7 +598,7 @@ namespace InteropTools
                 // Setup temp frame, ask for provider, show dialog saying hey do you want to allow app, and close / suspend.
                 // Also save the app pfn that asked.
 
-                var protocolForResultsArgs = (ProtocolForResultsActivatedEventArgs)args;
+                ProtocolForResultsActivatedEventArgs protocolForResultsArgs = (ProtocolForResultsActivatedEventArgs)args;
 
                 // Window management
                 Frame rootFrame = Window.Current.Content as Frame;
@@ -611,7 +610,7 @@ namespace InteropTools
                     //Microsoft.UI.Xaml.Controls.DEPControlsClass.SetupRevealForFullWindowMedia(Window.Current.Content);
                     //Microsoft.UI.Xaml.Controls.DEPControlsThemeResources.EnsureRevealLights(Window.Current.Content);
                 }
-                
+
                 // Open the page that we created to handle activation for results.
                 rootFrame.Navigate(typeof(LaunchedForResultsPage), protocolForResultsArgs);
 
@@ -626,7 +625,7 @@ namespace InteropTools
                 {
                     if (args is ToastNotificationActivatedEventArgs)
                     {
-                        var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+                        ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
 
                         StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
                         string originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(
@@ -643,7 +642,7 @@ namespace InteropTools
             }
         }
 
-        protected async override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
             {
@@ -673,26 +672,26 @@ namespace InteropTools
                 (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_themeresources.xaml") }
                 );*/
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
                 if ((localSettings.Values["useMDL2"] == null) || (localSettings.Values["useMDL2"].GetType() != typeof(bool)))
                 {
                     localSettings.Values["useMDL2"] = false;
                 }
 
-                var useMDL2 = (bool)localSettings.Values["useMDL2"];
+                bool useMDL2 = (bool)localSettings.Values["useMDL2"];
 
                 if (!useMDL2)
                 {
-                    this.Resources.MergedDictionaries.Add
+                    Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs2_neon.xaml") }
                     );
                 }
                 else
                 {
-                    this.Resources.MergedDictionaries.Add
+                    Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs1_neon.xaml") }
                     );
@@ -716,7 +715,7 @@ namespace InteropTools
                 (
                     new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs1_themeresources.xaml") }
                 );*/
-                this.Resources.MergedDictionaries.Add
+                Resources.MergedDictionaries.Add
                 (
                     new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs1_neon.xaml") }
                 );
@@ -737,7 +736,7 @@ namespace InteropTools
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // disabled, obscures the hamburger button, enable if you need it
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -763,22 +762,22 @@ namespace InteropTools
                 }
             }
 
-            var args = e.Arguments;
-            var currentContent = App.AppContent as Shell;
+            string args = e.Arguments;
+            Shell currentContent = App.AppContent as Shell;
 
             if (currentContent == null)
             {
                 return;
             }
 
-            var shell = currentContent;
+            Shell shell = currentContent;
             shell.HandleLaunchedEvent(args);
         }
 
         private async void RefreshTile()
         {
-            var devicefamily = AnalyticsInfo.VersionInfo.DeviceFamily;
-            var tileimg = "generic";
+            string devicefamily = AnalyticsInfo.VersionInfo.DeviceFamily;
+            string tileimg = "generic";
 
             switch (devicefamily.ToLower())
             {
@@ -825,7 +824,7 @@ namespace InteropTools
                     }
             }
 
-            var content = new TileContent
+            TileContent content = new TileContent
             {
                 Visual = new TileVisual
                 {
@@ -878,30 +877,30 @@ namespace InteropTools
             {
                 if (JumpList.IsSupported())
                 {
-                    var jumpList = await JumpList.LoadCurrentAsync();
+                    JumpList jumpList = await JumpList.LoadCurrentAsync();
                     jumpList.Items.Clear();
-                    var item1 = JumpListItem.CreateWithArguments("RegistryEditorPage", InteropTools.Resources.TextResources.Shell_RegistryEditorTitle);
+                    JumpListItem item1 = JumpListItem.CreateWithArguments("RegistryEditorPage", InteropTools.Resources.TextResources.Shell_RegistryEditorTitle);
                     item1.Description = InteropTools.Resources.TextResources.Shell_RegistryEditorDesc;
                     item1.Logo = new Uri("ms-appx:///Assets/JumpList/registryeditor.png");
-                    var item2 = JumpListItem.CreateWithArguments("RegistryBrowserPage", InteropTools.Resources.TextResources.Shell_RegistryBrowserTitle);
+                    JumpListItem item2 = JumpListItem.CreateWithArguments("RegistryBrowserPage", InteropTools.Resources.TextResources.Shell_RegistryBrowserTitle);
                     item2.Description = InteropTools.Resources.TextResources.Shell_RegistryBrowserDesc;
                     item2.Logo = new Uri("ms-appx:///Assets/JumpList/registrybrowser.png");
-                    var item3 = JumpListItem.CreateWithArguments("RegistrySearchPage", InteropTools.Resources.TextResources.Shell_RegistrySearchTitle);
+                    JumpListItem item3 = JumpListItem.CreateWithArguments("RegistrySearchPage", InteropTools.Resources.TextResources.Shell_RegistrySearchTitle);
                     item3.Description = InteropTools.Resources.TextResources.Shell_RegistrySearchDesc;
                     item3.Logo = new Uri("ms-appx:///Assets/JumpList/registrysearch.png");
-                    var item4 = JumpListItem.CreateWithArguments("TweaksPage", InteropTools.Resources.TextResources.Shell_TweaksTitle);
+                    JumpListItem item4 = JumpListItem.CreateWithArguments("TweaksPage", InteropTools.Resources.TextResources.Shell_TweaksTitle);
                     item4.Description = InteropTools.Resources.TextResources.Shell_TweaksDesc;
                     item4.Logo = new Uri("ms-appx:///Assets/JumpList/tweaks.png");
-                    var item6 = JumpListItem.CreateWithArguments("AppManagerPage", InteropTools.Resources.TextResources.Shell_ApplicationsTitle);
+                    JumpListItem item6 = JumpListItem.CreateWithArguments("AppManagerPage", InteropTools.Resources.TextResources.Shell_ApplicationsTitle);
                     item6.Description = InteropTools.Resources.TextResources.Shell_ApplicationsDescription;
                     item6.Logo = new Uri("ms-appx:///Assets/JumpList/apps.png");
-                    var item7 = JumpListItem.CreateWithArguments("CertificatesPage", InteropTools.Resources.TextResources.Shell_CertificatesTitle);
+                    JumpListItem item7 = JumpListItem.CreateWithArguments("CertificatesPage", InteropTools.Resources.TextResources.Shell_CertificatesTitle);
                     item7.Description = InteropTools.Resources.TextResources.Shell_CertificatesDesc;
                     item7.Logo = new Uri("ms-appx:///Assets/JumpList/certs.png");
-                    var item8 = JumpListItem.CreateWithArguments("InteropUnlockPage", InteropTools.Resources.TextResources.Shell_InteropUnlockTitle);
+                    JumpListItem item8 = JumpListItem.CreateWithArguments("InteropUnlockPage", InteropTools.Resources.TextResources.Shell_InteropUnlockTitle);
                     item8.Description = InteropTools.Resources.TextResources.Shell_InteropUnlockDesc;
                     item8.Logo = new Uri("ms-appx:///Assets/JumpList/interopunlock.png");
-                    var item9 = JumpListItem.CreateWithArguments("YourDevicePage", InteropTools.Resources.TextResources.Shell_DeviceInfoTitle);
+                    JumpListItem item9 = JumpListItem.CreateWithArguments("YourDevicePage", InteropTools.Resources.TextResources.Shell_DeviceInfoTitle);
                     item9.Description = InteropTools.Resources.TextResources.Shell_DeviceInfoDesc;
                     item9.Logo = new Uri("ms-appx:///Assets/JumpList/yourdevice.png");
                     //var item10 = JumpListItem.CreateWithArguments("RemoteAccessPage", InteropTools.Resources.TextResources.Shell_RemoteAccessTitle);
@@ -924,13 +923,13 @@ namespace InteropTools
 
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
 
-            using (var session = new ExtendedExecutionSession())
+            using (ExtendedExecutionSession session = new ExtendedExecutionSession())
             {
                 session.Reason = ExtendedExecutionReason.Unspecified;
                 session.Description = TextResources.App_SuspendingDescription;
-                var result = await session.RequestExtensionAsync();
+                ExtendedExecutionResult result = await session.RequestExtensionAsync();
             }
 
             deferral.Complete();

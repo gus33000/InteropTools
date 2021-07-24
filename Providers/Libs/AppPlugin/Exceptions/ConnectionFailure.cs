@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 
 namespace AppPlugin.Exceptions
@@ -10,14 +6,14 @@ namespace AppPlugin.Exceptions
 
     public class ConnectionFailureException : Exception
     {
-        private AppServiceConnectionStatus status;
-        private AppServiceConnection connection;
+        private readonly AppServiceConnectionStatus status;
+        private readonly AppServiceConnection connection;
 
         public AppServiceResponseStatus Status { get; }
 
         internal ConnectionFailureException(AppServiceResponseStatus status) : base(GenerateMessage(status))
         {
-            this.Status = status;
+            Status = status;
         }
 
         internal ConnectionFailureException(AppServiceConnectionStatus status, AppServiceConnection connection) : base(GenerateMessage(status, connection))

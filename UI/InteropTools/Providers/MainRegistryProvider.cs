@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -153,9 +153,9 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetKeyValue", true);
 
-            var ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
+            GetKeyValueReturn ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
 
-            var itm = new HistoryItem()
+            HistoryItem itm = new HistoryItem()
             {
                 Operation = HistoryOperation.GetKeyValue,
                 Hive = hive,
@@ -176,7 +176,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("SetKeyValue", true);
 
-            var ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
+            HelperErrorCodes ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
 
             ShowStatusBarInfo(null, false);
 
@@ -187,7 +187,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetKeyValue", true);
 
-            var ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
+            GetKeyValueReturn2 ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
 
             ShowStatusBarInfo(null, false);
 
@@ -198,7 +198,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("SetKeyValue", true);
 
-            var ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
+            HelperErrorCodes ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
 
             ShowStatusBarInfo(null, false);
 
@@ -209,7 +209,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("DeleteValue", true);
 
-            var ret = await App.RegistryHelper.DeleteValue(hive, key, keyvalue);
+            HelperErrorCodes ret = await App.RegistryHelper.DeleteValue(hive, key, keyvalue);
 
             ShowStatusBarInfo(null, false);
 
@@ -220,7 +220,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetKeyStatus", true);
 
-            var ret = await App.RegistryHelper.GetKeyStatus(hive, key);
+            KeyStatus ret = await App.RegistryHelper.GetKeyStatus(hive, key);
 
             ShowStatusBarInfo(null, false);
 
@@ -231,7 +231,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("AddKey", true);
 
-            var ret = await App.RegistryHelper.AddKey(hive, key);
+            HelperErrorCodes ret = await App.RegistryHelper.AddKey(hive, key);
 
             ShowStatusBarInfo(null, false);
 
@@ -242,7 +242,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetKeyLastModifiedTime", true);
 
-            var ret = await App.RegistryHelper.GetKeyLastModifiedTime(hive, key);
+            GetKeyLastModifiedTime ret = await App.RegistryHelper.GetKeyLastModifiedTime(hive, key);
 
             ShowStatusBarInfo(null, false);
 
@@ -253,7 +253,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("DeleteKey", true);
 
-            var ret = await App.RegistryHelper.DeleteKey(hive, key, recursive);
+            HelperErrorCodes ret = await App.RegistryHelper.DeleteKey(hive, key, recursive);
 
             ShowStatusBarInfo(null, false);
 
@@ -264,7 +264,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("RenameKey", true);
 
-            var ret = await App.RegistryHelper.RenameKey(hive, key, newname);
+            HelperErrorCodes ret = await App.RegistryHelper.RenameKey(hive, key, newname);
 
             ShowStatusBarInfo(null, false);
 
@@ -275,7 +275,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetRegistryHives2", true);
 
-            var ret = await App.RegistryHelper.GetRegistryHives2();
+            IReadOnlyList<RegistryItemCustom> ret = await App.RegistryHelper.GetRegistryHives2();
 
             ShowStatusBarInfo(null, false);
 
@@ -286,7 +286,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("GetRegistryItems2", true);
 
-            var ret = await App.RegistryHelper.GetRegistryItems2(hive, key);
+            IReadOnlyList<RegistryItemCustom> ret = await App.RegistryHelper.GetRegistryItems2(hive, key);
 
             ShowStatusBarInfo(null, false);
 
@@ -307,7 +307,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("LoadHive", true);
 
-            var ret = await App.RegistryHelper.LoadHive(FileName, mountpoint, inUser);
+            HelperErrorCodes ret = await App.RegistryHelper.LoadHive(FileName, mountpoint, inUser);
 
             ShowStatusBarInfo(null, false);
 
@@ -318,7 +318,7 @@ namespace InteropTools.Providers
         {
             ShowStatusBarInfo("UnloadHive", true);
 
-            var ret = await App.RegistryHelper.UnloadHive(mountpoint, inUser);
+            HelperErrorCodes ret = await App.RegistryHelper.UnloadHive(mountpoint, inUser);
 
             ShowStatusBarInfo(null, false);
 

@@ -1,5 +1,4 @@
 ﻿using InteropTools.Providers;
-using Windows.UI.Xaml.Controls;
 
 namespace InteropTools.CorePages
 {
@@ -66,20 +65,15 @@ namespace InteropTools.CorePages
     public abstract class ShellPage
     {
         public int viewid => App.CurrentSession.Value;
-        
+
         public abstract PageGroup PageGroup { get; }
         public abstract string PageName { get; }
 
-        public IRegistryProvider RegistryProvider {
-            get
-            {
-                return App.Sessions[viewid].Helper;
-            }
+        public IRegistryProvider RegistryProvider
+        {
+            get => App.Sessions[viewid].Helper;
 
-            set
-            {
-                App.Sessions[viewid].Helper = value;
-            }
+            set => App.Sessions[viewid].Helper = value;
         }
     }
 }

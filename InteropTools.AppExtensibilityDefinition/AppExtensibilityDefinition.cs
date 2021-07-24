@@ -1,10 +1,7 @@
 ﻿using AppPlugin;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 
 namespace InteropTools.AppExtensibilityDefinition
@@ -12,7 +9,7 @@ namespace InteropTools.AppExtensibilityDefinition
     public abstract class AppExtensibilityDefinition : AbstractPlugin<string, string, double>//TransfareOptions
     {
 
-        public const String PLUGIN_NAME = "InteropTools.External.AppExtensibility";
+        public const string PLUGIN_NAME = "InteropTools.External.AppExtensibility";
 
         protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)//, TransfareOptions options
         {

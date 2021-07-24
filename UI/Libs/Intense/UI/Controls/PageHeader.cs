@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -45,7 +40,7 @@ namespace Intense.UI.Controls
         /// </summary>
         public PageHeader()
         {
-            this.DefaultStyleKey = typeof(PageHeader);
+            DefaultStyleKey = typeof(PageHeader);
         }
 
         /// <summary>
@@ -53,8 +48,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public string Icon
         {
-            get { return (string)GetValue(IconProperty); }
-            set { SetValue(IconProperty, value); }
+            get => (string)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
 
         /// <summary>
@@ -62,8 +57,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public Style IconButtonStyle
         {
-            get { return (Style)GetValue(IconButtonStyleProperty); }
-            set { SetValue(IconButtonStyleProperty, value); }
+            get => (Style)GetValue(IconButtonStyleProperty);
+            set => SetValue(IconButtonStyleProperty, value);
         }
 
         /// <summary>
@@ -71,8 +66,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public ICommand IconCommand
         {
-            get { return (ICommand)GetValue(IconCommandProperty); }
-            set { SetValue(IconCommandProperty, value); }
+            get => (ICommand)GetValue(IconCommandProperty);
+            set => SetValue(IconCommandProperty, value);
         }
 
         /// <summary>
@@ -80,8 +75,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public bool IsSearchBoxVisible
         {
-            get { return (bool)GetValue(IsSearchBoxVisibleProperty); }
-            set { SetValue(IsSearchBoxVisibleProperty, value); }
+            get => (bool)GetValue(IsSearchBoxVisibleProperty);
+            set => SetValue(IsSearchBoxVisibleProperty, value);
         }
 
         /// <summary>
@@ -89,8 +84,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public string SearchTerm
         {
-            get { return (string)GetValue(SearchTermProperty); }
-            set { SetValue(SearchTermProperty, value); }
+            get => (string)GetValue(SearchTermProperty);
+            set => SetValue(SearchTermProperty, value);
         }
 
         /// <summary>
@@ -98,8 +93,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public string Title
         {
-            get { return (string)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
     }
 }

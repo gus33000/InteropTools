@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
+﻿using Windows.ApplicationModel.Resources;
 
 namespace Intense.Resources
 {
@@ -13,12 +8,13 @@ namespace Intense.Resources
 
         private static ResourceLoader GetLoader()
         {
-            if (loader == null) {
+            if (loader == null)
+            {
                 loader = ResourceLoader.GetForCurrentView("Intense/Resources");
             }
             return loader;
         }
-        
+
         /// <summary>
         /// Retrieves the specified resource, optionally formatting it using specified arguments.
         /// </summary>
@@ -28,8 +24,9 @@ namespace Intense.Resources
 
         public static string GetString(string name, params object[] args)
         {
-            var value = GetLoader().GetString(name);
-            if (args.Length > 0) {
+            string value = GetLoader().GetString(name);
+            if (args.Length > 0)
+            {
                 value = string.Format(value, args);
             }
             return value;

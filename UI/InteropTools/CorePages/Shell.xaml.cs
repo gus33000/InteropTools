@@ -1,12 +1,6 @@
-﻿using System;
-using System.Linq;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Intense.Presentation;
+﻿using Intense.Presentation;
 using InteropTools.ContentDialogs.Core;
+using InteropTools.ContentDialogs.Registry;
 using InteropTools.Presentation;
 using InteropTools.Providers;
 using InteropTools.ShellPages.AppManager;
@@ -14,25 +8,27 @@ using InteropTools.ShellPages.Certificates;
 using InteropTools.ShellPages.Core;
 using InteropTools.ShellPages.Registry;
 using InteropTools.ShellPages.SSH;
+using System;
 using System.Collections.Generic;
-using Windows.System.Threading;
-using Windows.UI.Core;
+using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
-using InteropTools.ContentDialogs.Registry;
-using Renci.SshNet;
-using Windows.UI.Xaml.Media;
-using Windows.Foundation.Metadata;
-using Windows.Phone.UI.Input;
-using Windows.UI.Xaml.Navigation;
 using TreeViewControl;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
-using System.Diagnostics;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI;
-using System.Numerics;
-using InteropTools.ShellPages.Store;
+using Windows.Foundation.Metadata;
 using Windows.Management.Deployment;
+using Windows.Phone.UI.Input;
+using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using TreeView = TreeViewControl.TreeView;
 
 namespace InteropTools.CorePages
 {
@@ -54,7 +50,7 @@ namespace InteropTools.CorePages
                 function();
             });
         }
-        
+
         private async void RunInThreadPool(Action function)
         {
             await ThreadPool.RunAsync(x =>
@@ -62,11 +58,11 @@ namespace InteropTools.CorePages
                 function();
             });
         }
-        
+
         private void UpdateBackButtonVisibility()
         {
-            var shell = (Shell)App.AppContent;
-            var visibility = AppViewBackButtonVisibility.Collapsed;
+            Shell shell = (Shell)App.AppContent;
+            AppViewBackButtonVisibility visibility = AppViewBackButtonVisibility.Collapsed;
             BackButtonBg.Visibility = Visibility.Collapsed;
 
             if (shell.RootFrame.CanGoBack)
@@ -103,10 +99,10 @@ namespace InteropTools.CorePages
             }
 
             Loaded += Shell_Loaded;
-            var vm = new ShellViewModel();
+            ShellViewModel vm = new ShellViewModel();
 
-            this.RootFrame.Navigated += RootFrame_Navigated;
-            this.RootFrame.NavigationFailed += OnNavigationFailed;
+            RootFrame.Navigated += RootFrame_Navigated;
+            RootFrame.NavigationFailed += OnNavigationFailed;
 
             CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
             CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
@@ -133,8 +129,8 @@ namespace InteropTools.CorePages
                 PageType = typeof(SettingsPage)
             });
 
-            var groups = from c in vm.TopItems
-                         group c by new GroupItem(c, true);
+            IEnumerable<IGrouping<GroupItem, NavigationItem>> groups = from c in vm.TopItems
+                                                                       group c by new GroupItem(c, true);
             topitems.Source = groups;
 
             sampleTreeView.AllowDrop = false;
@@ -142,9 +138,9 @@ namespace InteropTools.CorePages
             sampleTreeView.CanDragItems = false;
             sampleTreeView.CanReorderItems = false;
 
-            foreach (var element in groups)
+            foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
-                var groupitem = element.Key;
+                GroupItem groupitem = element.Key;
                 var groupnode = new TreeNode()
                 {
                     Data = new NavigationItemData()
@@ -156,7 +152,7 @@ namespace InteropTools.CorePages
                 if (!sampleTreeView.RootNode.Contains(groupnode))
                 { sampleTreeView.RootNode.Add(groupnode); }
 
-                foreach (var item in element)
+                foreach (NavigationItem item in element)
                 {
                     var itemnode = new TreeNode()
                     {
@@ -170,14 +166,14 @@ namespace InteropTools.CorePages
                 }
             }
 
-            var groups2 = from c in vm.TopItems
-                          group c by new GroupItem(c, false);
+            IEnumerable<IGrouping<GroupItem, NavigationItem>> groups2 = from c in vm.TopItems
+                                                                        group c by new GroupItem(c, false);
             topitems2.Source = groups2;
             vm.SelectedItem = vm.TopItems.First();
             ViewModel = vm;
             ViewModel.SelectedTopItem.PropertyChanged += SelectedTopItem_PropertyChanged;
             ViewModel.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
-            
+
             _initialized = true;
             SetupTitleBar();
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
@@ -187,7 +183,7 @@ namespace InteropTools.CorePages
             Window.Current.SizeChanged += Current_SizeChanged;
             Window.Current.Activated += Current_Activated;
             Redraw(true);
-            var size = Window.Current.Bounds;
+            Windows.Foundation.Rect size = Window.Current.Bounds;
             if (SplitView.IsSwipeablePaneOpen)
             {
                 SearchListButton.Visibility = Visibility.Collapsed;
@@ -266,14 +262,14 @@ namespace InteropTools.CorePages
 					GroupIcon = ""
 				});*/
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = InteropTools.Resources.TextResources.Shell_TweaksTitle,
-					Description = InteropTools.Resources.TextResources.Shell_TweaksDesc,
-					PageType = typeof(TweaksPage),
-					GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
-					GroupIcon = ""
-				});
+                {
+                    Icon = "",
+                    DisplayName = InteropTools.Resources.TextResources.Shell_TweaksTitle,
+                    Description = InteropTools.Resources.TextResources.Shell_TweaksDesc,
+                    PageType = typeof(TweaksPage),
+                    GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
+                    GroupIcon = ""
+                });
                 /*vm.TopItems.Add(new NavigationItem
 				{
 					Icon = "",
@@ -288,7 +284,7 @@ namespace InteropTools.CorePages
                 {
                     try
                     {
-                        var pkgs = new PackageManager().FindPackageVolumes();
+                        IEnumerable<PackageVolume> pkgs = new PackageManager().FindPackageVolumes();
                         vm.TopItems.Add(new NavigationItem
                         {
                             Icon = "",
@@ -324,12 +320,12 @@ namespace InteropTools.CorePages
                     GroupIcon = ""
                 });
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = "Your Windows Build",
-					Description = "View information about your windows build",
-					PageType = typeof(YourWindowsBuildPage),
-					GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
+                {
+                    Icon = "",
+                    DisplayName = "Your Windows Build",
+                    Description = "View information about your windows build",
+                    PageType = typeof(YourWindowsBuildPage),
+                    GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
                     GroupIcon = ""
                 });
                 vm.TopItems.Add(new NavigationItem
@@ -365,7 +361,7 @@ namespace InteropTools.CorePages
             {
                 try
                 {
-                    var pkgs = new PackageManager().FindPackageVolumes();
+                    IEnumerable<PackageVolume> pkgs = new PackageManager().FindPackageVolumes();
                     vm.TopItems.Add(new NavigationItem
                     {
                         Icon = "",
@@ -381,14 +377,14 @@ namespace InteropTools.CorePages
 
                 }
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = InteropTools.Resources.TextResources.Shell_CertificatesTitle,
-					Description = InteropTools.Resources.TextResources.Shell_CertificatesDesc,
-					PageType = typeof(CertificatesPage),
-					GroupName = InteropTools.Resources.TextResources.Shell_GeneralGroupName,
-					GroupIcon = ""
-				});
+                {
+                    Icon = "",
+                    DisplayName = InteropTools.Resources.TextResources.Shell_CertificatesTitle,
+                    Description = InteropTools.Resources.TextResources.Shell_CertificatesDesc,
+                    PageType = typeof(CertificatesPage),
+                    GroupName = InteropTools.Resources.TextResources.Shell_GeneralGroupName,
+                    GroupIcon = ""
+                });
                 vm.TopItems.Add(new NavigationItem
                 {
                     Icon = "",
@@ -401,7 +397,7 @@ namespace InteropTools.CorePages
             }
 
             groups = from c in vm.TopItems
-                         group c by new GroupItem(c, true);
+                     group c by new GroupItem(c, true);
             topitems.Source = groups;
 
             sampleTreeView.AllowDrop = false;
@@ -411,9 +407,9 @@ namespace InteropTools.CorePages
 
             sampleTreeView.RootNode.Clear();
 
-            foreach (var element in groups)
+            foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
-                var groupitem = element.Key;
+                GroupItem groupitem = element.Key;
                 var groupnode = new TreeNode()
                 {
                     Data = new NavigationItemData()
@@ -425,7 +421,7 @@ namespace InteropTools.CorePages
                 if (!sampleTreeView.RootNode.Contains(groupnode))
                 { sampleTreeView.RootNode.Add(groupnode); }
 
-                foreach (var item in element)
+                foreach (NavigationItem item in element)
                 {
                     var itemnode = new TreeNode()
                     {
@@ -440,35 +436,35 @@ namespace InteropTools.CorePages
             }
 
             groups2 = from c in vm.TopItems
-                          group c by new GroupItem(c, false);
+                      group c by new GroupItem(c, false);
             topitems2.Source = groups2;
             vm.SelectedItem = vm.TopItems.First();
 
             if (args.GetType() == typeof(string))
             {
-                HandleLaunchedEvent(args as String);
+                HandleLaunchedEvent(args as string);
             }
             else if (args.GetType() == typeof(StorageFile))
             {
-                var file = (StorageFile)args;
+                StorageFile file = (StorageFile)args;
                 await HandleFileActivatedEvent(file);
             }
 
             try
             {
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
-                var value = localSettings.Values["recentitems_count"];
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                object value = localSettings.Values["recentitems_count"];
 
                 if (value != null)
                 {
-                    for (var i = 0; i <= (int)value; i++)
+                    for (int i = 0; i <= (int)value; i++)
                     {
                         if (localSettings.Values["recentitems_" + i + "_pagetype"] != null)
                         {
                             try
                             {
-                                var items = ViewModel.TopItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems_" + i + "_pagetype"]);
+                                IEnumerable<NavigationItem> items = ViewModel.TopItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems_" + i + "_pagetype"]);
                                 recentitems.AddRange(items);
                             }
 
@@ -478,7 +474,7 @@ namespace InteropTools.CorePages
 
                             try
                             {
-                                var items2 = ViewModel.BottomItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems_" + i + "_pagetype"]);
+                                IEnumerable<NavigationItem> items2 = ViewModel.BottomItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems_" + i + "_pagetype"]);
                                 recentitems.AddRange(items2);
                             }
 
@@ -489,17 +485,17 @@ namespace InteropTools.CorePages
                     }
                 }
 
-                var value2 = localSettings.Values["recentitems5_count"];
+                object value2 = localSettings.Values["recentitems5_count"];
 
                 if (value2 != null)
                 {
-                    for (var i = 0; i <= (int)value2; i++)
+                    for (int i = 0; i <= (int)value2; i++)
                     {
                         if (localSettings.Values["recentitems5_" + i + "_pagetype"] != null)
                         {
                             try
                             {
-                                var items = ViewModel.TopItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems5_" + i + "_pagetype"]);
+                                IEnumerable<NavigationItem> items = ViewModel.TopItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems5_" + i + "_pagetype"]);
                                 recentitems5max.AddRange(items);
                             }
 
@@ -509,7 +505,7 @@ namespace InteropTools.CorePages
 
                             try
                             {
-                                var items2 = ViewModel.BottomItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems5_" + i + "_pagetype"]);
+                                IEnumerable<NavigationItem> items2 = ViewModel.BottomItems.Where(x => x.PageType.Name == (string)localSettings.Values["recentitems5_" + i + "_pagetype"]);
                                 recentitems5max.AddRange(items2);
                             }
 
@@ -520,10 +516,10 @@ namespace InteropTools.CorePages
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
-            
+
             recentitems.CollectionChanged += Recentitems_CollectionChanged;
             recentitems5max.CollectionChanged += Recentitems5max_CollectionChanged;
 
@@ -574,13 +570,13 @@ namespace InteropTools.CorePages
             }
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
-            var transparentColor = transparentColorBrush.Color;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            var solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
             if (solidColorBrush != null)
             {
@@ -588,14 +584,14 @@ namespace InteropTools.CorePages
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            var colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
 
             if (colorBrush != null)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            var hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 32;
             titlebar.ButtonHoverBackgroundColor = hovercolor;
             titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
@@ -614,9 +610,9 @@ namespace InteropTools.CorePages
         {
             if (_initialized)
             {
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
-                var val = localSettings.Values["recentitems5_count"];
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                object val = localSettings.Values["recentitems5_count"];
 
                 if (val != null)
                 {
@@ -628,9 +624,9 @@ namespace InteropTools.CorePages
 
                 localSettings.Values["recentitems5_count"] = null;
 
-                foreach (var item in recentitems5max)
+                foreach (NavigationItem item in recentitems5max)
                 {
-                    var value = localSettings.Values["recentitems5_count"];
+                    object value = localSettings.Values["recentitems5_count"];
 
                     if (value == null)
                     {
@@ -651,7 +647,7 @@ namespace InteropTools.CorePages
         {
             try
             {
-                var shell = (Shell)App.AppContent;
+                Shell shell = (Shell)App.AppContent;
                 shell.Redraw(false);
             }
 
@@ -665,7 +661,7 @@ namespace InteropTools.CorePages
         {
             try
             {
-                var shell = (Shell)App.AppContent;
+                Shell shell = (Shell)App.AppContent;
                 shell.Redraw(false);
             }
 
@@ -679,9 +675,9 @@ namespace InteropTools.CorePages
         {
             if (_initialized)
             {
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
-                var val = localSettings.Values["recentitems_count"];
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                object val = localSettings.Values["recentitems_count"];
 
                 if (val != null)
                 {
@@ -693,9 +689,9 @@ namespace InteropTools.CorePages
 
                 localSettings.Values["recentitems_count"] = null;
 
-                foreach (var item in recentitems)
+                foreach (NavigationItem item in recentitems)
                 {
-                    var value = localSettings.Values["recentitems_count"];
+                    object value = localSettings.Values["recentitems_count"];
 
                     if (value == null)
                     {
@@ -716,7 +712,7 @@ namespace InteropTools.CorePages
         {
             GC.Collect();
             UpdateBackButtonVisibility();
-            var item = FindPageItem(e.SourcePageType);
+            NavigationItem item = FindPageItem(e.SourcePageType);
 
             if (item == null)
             {
@@ -751,7 +747,7 @@ namespace InteropTools.CorePages
 
         private NavigationItem FindPageItem(Type pagetype)
         {
-            foreach (var item in ViewModel.TopItems)
+            foreach (NavigationItem item in ViewModel.TopItems)
             {
                 if (item.PageType == pagetype)
                 {
@@ -759,7 +755,7 @@ namespace InteropTools.CorePages
                 }
             }
 
-            foreach (var item in ViewModel.BottomItems)
+            foreach (NavigationItem item in ViewModel.BottomItems)
             {
                 if (item.PageType == pagetype)
                 {
@@ -777,7 +773,7 @@ namespace InteropTools.CorePages
         {
             if (App.MainRegistryHelper.AllowsRegistryEditing())
             {
-                var useCMD = await App.IsCMDSupported();
+                bool useCMD = await App.IsCMDSupported();
 
                 if (useCMD)
                 {
@@ -849,7 +845,7 @@ namespace InteropTools.CorePages
         {
             get
             {
-                var title = ApplicationView.GetForCurrentView().Title;
+                string title = ApplicationView.GetForCurrentView().Title;
                 return title == "" ? Package.Current.DisplayName : title;
             }
         }
@@ -858,7 +854,7 @@ namespace InteropTools.CorePages
         {
             get
             {
-                var title = ApplicationView.GetForCurrentView().Title.ToUpper();
+                string title = ApplicationView.GetForCurrentView().Title.ToUpper();
                 return title == "" ? Package.Current.DisplayName.ToUpper() : title;
             }
         }
@@ -875,7 +871,7 @@ namespace InteropTools.CorePages
 
         public void Redraw(bool ignoresizecheck)
         {
-            var size = Window.Current.Bounds;
+            Windows.Foundation.Rect size = Window.Current.Bounds;
             CustomTitleBarPanel.Height = titlebarheight;
             string currentmode = "small";
 
@@ -898,7 +894,7 @@ namespace InteropTools.CorePages
             if (mode == null || mode != currentmode || ignoresizecheck)
             {
                 double tmpvalue = 0;
-                
+
                 mode = currentmode;
 
                 if (size.Width >= 1024)
@@ -911,7 +907,7 @@ namespace InteropTools.CorePages
                     NarrowHeader.Visibility = Visibility.Collapsed;
                     NarrowHeaderBg.Visibility = Visibility.Collapsed;
                     PaneHeader.Visibility = Visibility.Visible;
-                    var padding = Frame.Padding;
+                    Thickness padding = Frame.Padding;
                     padding.Left = 48;
                     padding.Top = 6;
                     padding.Right = 48;
@@ -930,7 +926,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = titlebarheight;
                         margin.Right = 0;
@@ -950,7 +946,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = 0;
                         margin.Right = 0;
@@ -974,7 +970,7 @@ namespace InteropTools.CorePages
                     NarrowHeader.Visibility = Visibility.Collapsed;
                     NarrowHeaderBg.Visibility = Visibility.Collapsed;
                     PaneHeader.Visibility = Visibility.Visible;
-                    var padding = Frame.Padding;
+                    Thickness padding = Frame.Padding;
                     padding.Left = 48;
                     padding.Top = 6;
                     padding.Right = 48;
@@ -993,7 +989,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = titlebarheight;
                         margin.Right = 0;
@@ -1013,7 +1009,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = 0;
                         margin.Right = 0;
@@ -1036,7 +1032,7 @@ namespace InteropTools.CorePages
                     NarrowHeaderBg.Visibility = Visibility.Visible;
                     PaneHeader.Visibility = Visibility.Collapsed;
                     SplitView.OpenPaneLength = 256;
-                    var padding = Frame.Padding;
+                    Thickness padding = Frame.Padding;
                     padding.Left = 12;
                     padding.Top = 12;
                     padding.Right = 12;
@@ -1055,7 +1051,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = 0;
                         margin.Right = 0;
@@ -1078,7 +1074,7 @@ namespace InteropTools.CorePages
                         padding.Right = 0;
                         padding.Bottom = 0;
                         SplitViewPaneGrid.Padding = padding;
-                        var margin = Frame.Margin;
+                        Thickness margin = Frame.Margin;
                         margin.Left = 0;
                         margin.Top = 0;
                         margin.Right = 0;
@@ -1093,7 +1089,7 @@ namespace InteropTools.CorePages
                         NarrowHeaderBg.Margin = margin;
                     }
                 }
-                
+
                 if (SplitView.IsSwipeablePaneOpen)
                 {
                     SearchListButton.Visibility = Visibility.Collapsed;
@@ -1158,7 +1154,7 @@ namespace InteropTools.CorePages
 
             public override bool Equals(object obj)
             {
-                var eqobj = obj as GroupItem;
+                GroupItem eqobj = obj as GroupItem;
 
                 if (eqobj == null)
                 {
@@ -1170,7 +1166,7 @@ namespace InteropTools.CorePages
 
             public override int GetHashCode()
             {
-                var hash = 23;
+                int hash = 23;
 
                 if (DisplayName != null)
                 {
@@ -1231,14 +1227,14 @@ namespace InteropTools.CorePages
                     }
 
                 case "TweaksPage":
-					{
-						if (App.RegistryHelper != null && App.MainRegistryHelper.AllowsRegistryEditing())
-						{
-							RootFrame.Navigate(typeof(TweaksPage));
-						}
+                    {
+                        if (App.RegistryHelper != null && App.MainRegistryHelper.AllowsRegistryEditing())
+                        {
+                            RootFrame.Navigate(typeof(TweaksPage));
+                        }
 
-						break;
-					}
+                        break;
+                    }
 
                 case "KeyboardCarretPage":
                     {
@@ -1333,11 +1329,13 @@ namespace InteropTools.CorePages
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 //Set the ItemsSource to be your filtered dataset
-                List<NoResultsItem> noresultitems = new List<NoResultsItem>();
-                noresultitems.Add(new NoResultsItem());
+                List<NoResultsItem> noresultitems = new List<NoResultsItem>
+                {
+                    new NoResultsItem()
+                };
                 List<NavigationItem> resultitems = new List<NavigationItem>();
 
-                foreach (var item in ViewModel.TopItems)
+                foreach (NavigationItem item in ViewModel.TopItems)
                 {
                     if ((item.DisplayName.ToLower().Contains(sender.Text.ToLower())) || (item.Description.ToLower().Contains(sender.Text.ToLower())))
                     {
@@ -1345,7 +1343,7 @@ namespace InteropTools.CorePages
                     }
                 }
 
-                foreach (var item in ViewModel.BottomItems)
+                foreach (NavigationItem item in ViewModel.BottomItems)
                 {
                     if ((item.DisplayName.ToLower().Contains(sender.Text.ToLower())) || (item.Description.ToLower().Contains(sender.Text.ToLower())))
                     {
@@ -1367,7 +1365,7 @@ namespace InteropTools.CorePages
         {
             try
             {
-                this.RootFrame.Navigate((args.SelectedItem as NavigationItem).PageType);
+                RootFrame.Navigate((args.SelectedItem as NavigationItem).PageType);
             }
 
             catch
@@ -1379,27 +1377,9 @@ namespace InteropTools.CorePages
 
         public class NoResultsItem
         {
-            public string Icon
-            {
-                get
-                {
-                    return "";
-                }
-            }
-            public string DisplayName
-            {
-                get
-                {
-                    return "No results";
-                }
-            }
-            public string Description
-            {
-                get
-                {
-                    return "No results have been found based on your search criteria";
-                }
-            }
+            public string Icon => "";
+            public string DisplayName => "No results";
+            public string Description => "No results have been found based on your search criteria";
         }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -1407,7 +1387,7 @@ namespace InteropTools.CorePages
             if (args.ChosenSuggestion != null)
             {
                 // User selected an item from the suggestion list, take an action on it here.
-                this.RootFrame.Navigate((args.ChosenSuggestion as NavigationItem).PageType);
+                RootFrame.Navigate((args.ChosenSuggestion as NavigationItem).PageType);
                 SearchBox.Text = "";
             }
 
@@ -1415,11 +1395,13 @@ namespace InteropTools.CorePages
             {
                 // Use args.QueryText to determine what to do.
                 //Set the ItemsSource to be your filtered dataset
-                List<NoResultsItem> noresultitems = new List<NoResultsItem>();
-                noresultitems.Add(new NoResultsItem());
+                List<NoResultsItem> noresultitems = new List<NoResultsItem>
+                {
+                    new NoResultsItem()
+                };
                 List<NavigationItem> resultitems = new List<NavigationItem>();
 
-                foreach (var item in ViewModel.TopItems)
+                foreach (NavigationItem item in ViewModel.TopItems)
                 {
                     if ((item.DisplayName.ToLower().Contains(sender.Text.ToLower())) || (item.Description.ToLower().Contains(sender.Text.ToLower())))
                     {
@@ -1427,7 +1409,7 @@ namespace InteropTools.CorePages
                     }
                 }
 
-                foreach (var item in ViewModel.BottomItems)
+                foreach (NavigationItem item in ViewModel.BottomItems)
                 {
                     if ((item.DisplayName.ToLower().Contains(sender.Text.ToLower())) || (item.Description.ToLower().Contains(sender.Text.ToLower())))
                     {
@@ -1448,10 +1430,10 @@ namespace InteropTools.CorePages
         {
             ViewModel.IsSplitViewPaneOpen = true;
         }
-        
+
         private void SplitView_PaneOpenChanged(object sender)
         {
-            var size = Window.Current.Bounds;
+            Windows.Foundation.Rect size = Window.Current.Bounds;
 
             if (SplitView.IsSwipeablePaneOpen)
             {
@@ -1478,7 +1460,7 @@ namespace InteropTools.CorePages
 
         private void OnBackPressed(object sender, BackPressedEventArgs e)
         {
-            var shell = App.AppContent as Shell;
+            Shell shell = App.AppContent as Shell;
 
             if (shell == null)
             {
@@ -1500,7 +1482,7 @@ namespace InteropTools.CorePages
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            var shell = App.AppContent as Shell;
+            Shell shell = App.AppContent as Shell;
 
             if (shell == null)
             {
@@ -1519,7 +1501,7 @@ namespace InteropTools.CorePages
 
             e.Handled = true;
         }
-        
+
         private void sampleTreeView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -1569,7 +1551,7 @@ namespace InteropTools.CorePages
 
             catch
             {
-                
+
             }
         }
 
@@ -1590,7 +1572,7 @@ namespace InteropTools.CorePages
 
             catch
             {
-                
+
             }
         }
     }

@@ -23,37 +23,38 @@ Revision History:
 
 --*/
 
+using InteropTools.Providers.OSReboot.Definition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Threading;
-using Windows.ApplicationModel.Background;
-using InteropTools.Providers.OSReboot.Definition;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 
 namespace InteropTools.Providers.OSReboot.NDTKProvider
 {
 
     public sealed class OSRebootProvider : IBackgroundTask
     {
-        private IBackgroundTask internalTask = new OSRebootProviderIntern();
+        private readonly IBackgroundTask internalTask = new OSRebootProviderIntern();
         public void Run(IBackgroundTaskInstance taskInstance)
-         => this.internalTask.Run(taskInstance);
+        {
+            internalTask.Run(taskInstance);
+        }
     }
 
     internal class OSRebootProviderIntern : OSRebootProvidersWithOptions
     {
         // Define your provider class here
-        IRebootProvider provider = new NDTKRebootProvider();
+        private readonly IRebootProvider provider = new NDTKRebootProvider();
 
         protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)
         {
-            var arr = input.Split(new string[] { "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" }, StringSplitOptions.None);
+            string[] arr = input.Split(new string[] { "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" }, StringSplitOptions.None);
 
-            var operation = arr.First();
-            REBOOT_OPERATION operationenum;
-            Enum.TryParse(operation, true, out operationenum);
+            string operation = arr.First();
+            Enum.TryParse(operation, true, out REBOOT_OPERATION operationenum);
 
             List<List<string>> returnvalue = new List<List<string>>();
             List<string> returnvalue2 = new List<string>();
@@ -64,7 +65,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
                 {
                     case REBOOT_OPERATION.SystemReboot:
                         {
-                            var ret = provider.SystemReboot();
+                            REBOOT_STATUS ret = provider.SystemReboot();
 
                             returnvalue2.Add(ret.ToString());
 
@@ -80,11 +81,11 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
                 returnvalue.Add(returnvalue2);
             }
 
-            var returnstr = "";
+            string returnstr = "";
 
-            foreach (var str in returnvalue)
+            foreach (List<string> str in returnvalue)
             {
-                var str2 = string.Join("*[Pp)8/P'=Tu(pm\"fYNh#*7w27V~>bubdt#\"AF~'\\}{jwAE2uY5,~bEVfBZ2%xx+UK?c&Xr@)C6/}j?5rjuB=8+egU\\D@\"; T3M<%", str);
+                string str2 = string.Join("*[Pp)8/P'=Tu(pm\"fYNh#*7w27V~>bubdt#\"AF~'\\}{jwAE2uY5,~bEVfBZ2%xx+UK?c&Xr@)C6/}j?5rjuB=8+egU\\D@\"; T3M<%", str);
                 if (string.IsNullOrEmpty(returnstr))
                 {
                     returnstr = str2;
@@ -100,9 +101,13 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 
 
         protected override Task<Options> GetOptions()
-            => Task.FromResult<Options>(new OSRebootProviderOptions());
+        {
+            return Task.FromResult<Options>(new OSRebootProviderOptions());
+        }
 
-        protected override Guid GetOptionsGuid() => OSRebootProviderOptions.ID;
-
+        protected override Guid GetOptionsGuid()
+        {
+            return OSRebootProviderOptions.ID;
+        }
     }
 }

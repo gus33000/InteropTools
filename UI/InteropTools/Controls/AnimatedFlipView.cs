@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -21,27 +17,29 @@ namespace InteropTools.Controls
         {
             DefaultStyleKey = typeof(AnimatedFlipView);
 
-            this.Loaded += OnLoaded;
+            Loaded += OnLoaded;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (this._scrollViewer != null)
+            if (_scrollViewer != null)
             {
-                var timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(3);
+                DispatcherTimer timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(3)
+                };
                 timer.Tick += (o, o1) =>
                 {
-                    if (!this._isRunningAnimation)
+                    if (!_isRunningAnimation)
                     {
-                        var sb = new Storyboard();
+                        Storyboard sb = new Storyboard();
 
-                        var nextItemAnimation = new DoubleAnimation
+                        DoubleAnimation nextItemAnimation = new DoubleAnimation
                         {
                             EnableDependentAnimation = true,
                             Duration = new Duration(TimeSpan.FromSeconds(10)),
-                            From = this._scrollViewer.HorizontalOffset,
-                            To = this._reverseAnimation ? this._scrollViewer.HorizontalOffset - 1 : this._scrollViewer.HorizontalOffset + 1,
+                            From = _scrollViewer.HorizontalOffset,
+                            To = _reverseAnimation ? _scrollViewer.HorizontalOffset - 1 : _scrollViewer.HorizontalOffset + 1,
                             FillBehavior = FillBehavior.HoldEnd,
                             EasingFunction = new ExponentialEase
                             {
@@ -49,44 +47,44 @@ namespace InteropTools.Controls
                             }
                         };
 
-                        Storyboard.SetTarget(nextItemAnimation, this._scrollViewer);
+                        Storyboard.SetTarget(nextItemAnimation, _scrollViewer);
                         Storyboard.SetTargetProperty(nextItemAnimation, "HorizontalOffset");
 
                         sb.Children.Add(nextItemAnimation);
 
                         sb.Completed += (sender1, o2) =>
                         {
-                            if (this._reverseAnimation)
+                            if (_reverseAnimation)
                             {
-                                if (this.SelectedIndex > 0)
+                                if (SelectedIndex > 0)
                                 {
-                                    this.SelectedIndex--;
+                                    SelectedIndex--;
                                 }
 
-                                if (this.SelectedIndex == 0)
+                                if (SelectedIndex == 0)
                                 {
-                                    this._reverseAnimation = false;
+                                    _reverseAnimation = false;
                                 }
                             }
                             else
                             {
-                                if (this.Items != null && this.SelectedIndex < this.Items.Count - 1)
+                                if (Items != null && SelectedIndex < Items.Count - 1)
                                 {
-                                    this.SelectedIndex++;
+                                    SelectedIndex++;
                                 }
 
-                                if (this.Items != null && this.SelectedIndex == this.Items.Count - 1)
+                                if (Items != null && SelectedIndex == Items.Count - 1)
                                 {
-                                    this._reverseAnimation = true;
+                                    _reverseAnimation = true;
                                 }
                             }
 
-                            this._isRunningAnimation = false;
+                            _isRunningAnimation = false;
                         };
 
                         sb.Begin();
 
-                        this._isRunningAnimation = true;
+                        _isRunningAnimation = true;
                     }
                 };
                 timer.Start();
@@ -97,20 +95,20 @@ namespace InteropTools.Controls
         {
             base.OnApplyTemplate();
 
-            this._scrollViewer = this.GetTemplateChild("ScrollingHost") as ScrollViewer;
-            if (this._scrollViewer == null)
+            _scrollViewer = GetTemplateChild("ScrollingHost") as ScrollViewer;
+            if (_scrollViewer == null)
             {
                 throw new NullReferenceException("ScrollingHost and Mediator must not be null.");
             }
 
-            this.SelectionChanged += OnSelectionChanged;
+            SelectionChanged += OnSelectionChanged;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            this._scrollViewer.ScrollToHorizontalOffset(this._reverseAnimation
-                                                                    ? (this._scrollViewer.HorizontalOffset - 1)
-                                                                    : (this._scrollViewer.HorizontalOffset + 1));
+            _scrollViewer.ScrollToHorizontalOffset(_reverseAnimation
+                                                                    ? (_scrollViewer.HorizontalOffset - 1)
+                                                                    : (_scrollViewer.HorizontalOffset + 1));
         }
     }
 
@@ -125,8 +123,8 @@ namespace InteropTools.Controls
         /// </summary>
         public ScrollViewer ScrollViewer
         {
-            get { return (ScrollViewer)GetValue(ScrollViewerProperty); }
-            set { SetValue(ScrollViewerProperty, value); }
+            get => (ScrollViewer)GetValue(ScrollViewerProperty);
+            set => SetValue(ScrollViewerProperty, value);
         }
         public static readonly DependencyProperty ScrollViewerProperty =
             DependencyProperty.Register(
@@ -136,8 +134,8 @@ namespace InteropTools.Controls
                 new PropertyMetadata(null, OnScrollViewerChanged));
         private static void OnScrollViewerChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var mediator = (ScrollViewerOffsetMediator)o;
-            var scrollViewer = (ScrollViewer)(e.NewValue);
+            ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
+            ScrollViewer scrollViewer = (ScrollViewer)(e.NewValue);
             if (null != scrollViewer)
             {
                 scrollViewer.ScrollToVerticalOffset(mediator.VerticalOffset);
@@ -149,8 +147,8 @@ namespace InteropTools.Controls
         /// </summary>
         public double VerticalOffset
         {
-            get { return (double)GetValue(VerticalOffsetProperty); }
-            set { SetValue(VerticalOffsetProperty, value); }
+            get => (double)GetValue(VerticalOffsetProperty);
+            set => SetValue(VerticalOffsetProperty, value);
         }
         public static readonly DependencyProperty VerticalOffsetProperty =
             DependencyProperty.Register(
@@ -161,7 +159,7 @@ namespace InteropTools.Controls
 
         public static void OnVerticalOffsetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var mediator = (ScrollViewerOffsetMediator)o;
+            ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
             if (null != mediator.ScrollViewer)
             {
                 mediator.ScrollViewer.ScrollToVerticalOffset((double)(e.NewValue));
@@ -175,8 +173,8 @@ namespace InteropTools.Controls
         /// </remarks>
         public double ScrollableHeightMultiplier
         {
-            get { return (double)GetValue(ScrollableHeightMultiplierProperty); }
-            set { SetValue(ScrollableHeightMultiplierProperty, value); }
+            get => (double)GetValue(ScrollableHeightMultiplierProperty);
+            set => SetValue(ScrollableHeightMultiplierProperty, value);
         }
 
         public static readonly DependencyProperty ScrollableHeightMultiplierProperty =
@@ -188,8 +186,8 @@ namespace InteropTools.Controls
 
         public static void OnScrollableHeightMultiplierChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var mediator = (ScrollViewerOffsetMediator)o;
-            var scrollViewer = mediator.ScrollViewer;
+            ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
+            ScrollViewer scrollViewer = mediator.ScrollViewer;
             if (null != scrollViewer)
             {
                 scrollViewer.ScrollToVerticalOffset((double)(e.NewValue) * scrollViewer.ScrollableHeight);
@@ -201,8 +199,8 @@ namespace InteropTools.Controls
         /// </summary>
         public double HorizontalOffset
         {
-            get { return (double)GetValue(HorizontalOffsetProperty); }
-            set { SetValue(HorizontalOffsetProperty, value); }
+            get => (double)GetValue(HorizontalOffsetProperty);
+            set => SetValue(HorizontalOffsetProperty, value);
         }
         public static readonly DependencyProperty HorizontalOffsetProperty =
             DependencyProperty.Register(
@@ -213,7 +211,7 @@ namespace InteropTools.Controls
 
         public static void OnHorizontalOffsetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var mediator = (ScrollViewerOffsetMediator)o;
+            ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
             if (null != mediator.ScrollViewer)
             {
                 mediator.ScrollViewer.ScrollToHorizontalOffset((double)(e.NewValue));
@@ -227,8 +225,8 @@ namespace InteropTools.Controls
         /// </remarks>
         public double ScrollableWidthMultiplier
         {
-            get { return (double)GetValue(ScrollableWidthMultiplierProperty); }
-            set { SetValue(ScrollableWidthMultiplierProperty, value); }
+            get => (double)GetValue(ScrollableWidthMultiplierProperty);
+            set => SetValue(ScrollableWidthMultiplierProperty, value);
         }
 
         public static readonly DependencyProperty ScrollableWidthMultiplierProperty =
@@ -240,8 +238,8 @@ namespace InteropTools.Controls
 
         public static void OnScrollableWidthMultiplierChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            var mediator = (ScrollViewerOffsetMediator)o;
-            var scrollViewer = mediator.ScrollViewer;
+            ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
+            ScrollViewer scrollViewer = mediator.ScrollViewer;
             if (null != scrollViewer)
             {
                 scrollViewer.ScrollToHorizontalOffset((double)(e.NewValue) * scrollViewer.ScrollableWidth);

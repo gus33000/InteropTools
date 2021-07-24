@@ -1,14 +1,11 @@
-﻿using System;
+﻿using InteropTools.CorePages;
+using InteropTools.Providers;
+using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using InteropTools.Providers;
-using InteropTools.CorePages;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace InteropTools.ShellPages.Registry
 {
@@ -32,7 +29,7 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
@@ -44,7 +41,7 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
@@ -56,7 +53,7 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "System\\ControlSet001\\services\\Mtp",
               "ObjectName",
@@ -397,7 +394,7 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SYSTEM\\controlset001\\Control\\CI",
               "CI_DEVELOPERMODE",
@@ -607,18 +604,18 @@ namespace InteropTools.ShellPages.Registry
                 return false;
             }
 
-            var items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
+            System.Collections.Generic.IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
                                                  @"SOFTWARE\Microsoft\SecurityManager\CapabilityClasses");
 
-            foreach (var item in items)
+            foreach (RegistryItemCustom item in items)
             {
                 if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                 {
 
-                    var add
+                    bool add
                           = true;
 
-                    foreach (var val in item.Value.Split('\n'))
+                    foreach (string val in item.Value.Split('\n'))
                     {
                         if (val.ToUpper().Contains("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS"))
                         {
@@ -641,7 +638,7 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
               "CapabilityClass",
@@ -682,17 +679,17 @@ namespace InteropTools.ShellPages.Registry
 
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(
+            GetKeyValueReturn ret = await _helper.GetKeyValue(
               RegHives.HKEY_LOCAL_MACHINE,
               "Software\\Microsoft\\MTP",
               "datastore",
               RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
             RunInUiThread(() => { MTPPathInput.Text = regvalue; });
-            var RestoreNDTKState = await CheckRestoreNDTK();
-            var RestoreNDTKx50State = await CheckRestoreNDTKx50();
-            var CheckFSAccessState = await CheckFSAccess();
-            var CheckCapUnlockState = await CheckCapUnlock();
-            var NewCapUnlockState = await CheckNewCapUnlock();
+            bool RestoreNDTKState = await CheckRestoreNDTK();
+            bool RestoreNDTKx50State = await CheckRestoreNDTKx50();
+            bool CheckFSAccessState = await CheckFSAccess();
+            bool CheckCapUnlockState = await CheckCapUnlock();
+            bool NewCapUnlockState = await CheckNewCapUnlock();
             InstallNDTKCheck();
             RunInUiThread(() =>
             {
@@ -707,7 +704,7 @@ namespace InteropTools.ShellPages.Registry
 
         private void SetMTPPathButton_Click(object sender, RoutedEventArgs e)
         {
-            var newval = MTPPathInput.Text;
+            string newval = MTPPathInput.Text;
             RunInThreadPool(async () =>
             {
                 await _helper.SetKeyValue(
@@ -1373,6 +1370,7 @@ else
             }
 
             if (CapUnlock.IsOn)
+            {
                 RunInThreadPool(async () =>
                 {
                     await _helper.SetKeyValue(
@@ -1508,18 +1506,18 @@ else
                       RegTypes.REG_DWORD,
                       "1"
                     );
-                    var items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
+                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
                                                          @"SOFTWARE\Microsoft\SecurityManager\CapabilityClasses");
 
-                    foreach (var item in items)
+                    foreach (RegistryItemCustom item in items)
                     {
                         if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                         {
 
-                            var add
+                            bool add
                                   = true;
 
-                            foreach (var val in item.Value.Split('\n'))
+                            foreach (string val in item.Value.Split('\n'))
                             {
                                 if (val.ToUpper().Contains("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS"))
                                 {
@@ -1538,6 +1536,7 @@ else
 
                     DoChecks();
                 });
+            }
             else
             {
                 RunInThreadPool(async () =>
@@ -1720,7 +1719,7 @@ else
         {
             RegTypes regtype;
             string regvalue;
-            var ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo", "PhoneManufacturer",
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo", "PhoneManufacturer",
                                 RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
             if (regvalue.ToUpper() == "NOKIA")
@@ -1789,9 +1788,10 @@ else
             }
 
             if (RestoreNDTKx50.IsOn)
+            {
                 RunInThreadPool(async () =>
                 {
-                    var fileexists = _helper.DoesFileExists("c:\\data\\users\\public\\ndtk\\ndtksvc.dll");
+                    bool fileexists = _helper.DoesFileExists("c:\\data\\users\\public\\ndtk\\ndtksvc.dll");
 
                     if (fileexists)
                     {
@@ -1817,6 +1817,7 @@ else
 
                     DoChecks();
                 });
+            }
             else
             {
                 RunInThreadPool(DoChecks);
@@ -1841,7 +1842,7 @@ else
             {
                 RegTypes regtype;
                 string regvalue;
-                var ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
+                GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                     "PhoneManufacturer", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
                 if (regvalue.ToUpper() == "NOKIA")

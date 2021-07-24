@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace RegistryHelper
 {
     public sealed class CRegistryHelper
     {
-        private List<IRegistryProvider> providers = new List<IRegistryProvider>();
+        private readonly List<IRegistryProvider> providers = new List<IRegistryProvider>();
 
         public CRegistryHelper()
         {
@@ -41,10 +39,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                IReadOnlyList<REG_ITEM> regitems;
-                var result = prov.RegEnumKey(hive, key, out regitems);
+                REG_STATUS result = prov.RegEnumKey(hive, key, out IReadOnlyList<REG_ITEM> regitems);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     items = regitems;
@@ -90,10 +87,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                IReadOnlyList<REG_ITEM_CUSTOM> regitems;
-                var result = prov.RegEnumKey(hive, key, out regitems);
+                REG_STATUS result = prov.RegEnumKey(hive, key, out IReadOnlyList<REG_ITEM_CUSTOM> regitems);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     items = regitems;
@@ -139,9 +135,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegAddKey(hive, key);
+                REG_STATUS result = prov.RegAddKey(hive, key);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -182,9 +178,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegDeleteKey(hive, key, recursive);
+                REG_STATUS result = prov.RegDeleteKey(hive, key, recursive);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -224,9 +220,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegDeleteValue(hive, key, name);
+                REG_STATUS result = prov.RegDeleteValue(hive, key, name);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -267,9 +263,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegRenameKey(hive, key, newname);
+                REG_STATUS result = prov.RegRenameKey(hive, key, newname);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -310,9 +306,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadunknown = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegQueryKeyStatus(hive, key);
+                REG_KEY_STATUS result = prov.RegQueryKeyStatus(hive, key);
                 if (result == REG_KEY_STATUS.FOUND)
                 {
                     return result;
@@ -340,7 +336,7 @@ namespace RegistryHelper
             {
                 return REG_KEY_STATUS.ACCESS_DENIED;
             }
-            
+
             if (hadunknown)
             {
                 return REG_KEY_STATUS.UNKNOWN;
@@ -354,22 +350,22 @@ namespace RegistryHelper
 
         private static uint[] CreateLookup32()
         {
-            var result = new uint[256];
+            uint[] result = new uint[256];
             for (int i = 0; i < 256; i++)
             {
                 string s = i.ToString("X2");
-                result[i] = ((uint)s[0]) + ((uint)s[1] << 16);
+                result[i] = s[0] + ((uint)s[1] << 16);
             }
             return result;
         }
 
         private static string ByteArrayToHexViaLookup32(byte[] bytes)
         {
-            var lookup32 = _lookup32;
-            var result = new char[bytes.Length * 2];
+            uint[] lookup32 = _lookup32;
+            char[] result = new char[bytes.Length * 2];
             for (int i = 0; i < bytes.Length; i++)
             {
-                var val = lookup32[bytes[i]];
+                uint val = lookup32[bytes[i]];
                 result[2 * i] = (char)val;
                 result[2 * i + 1] = (char)(val >> 16);
             }
@@ -381,21 +377,18 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                REG_VALUE_TYPE valtypetmp;
-                Byte[] datatmp;
-                var result = prov.RegQueryValue(hive, key, regvalue, valtype, out valtypetmp, out datatmp);
+                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out REG_VALUE_TYPE valtypetmp, out byte[] datatmp);
                 if ((result == REG_STATUS.SUCCESS))
                 {
                     outvaltype = valtypetmp;
-                    
+
                     switch (valtypetmp)
                     {
                         case REG_VALUE_TYPE.REG_DWORD:
                             {
-                                UInt32 datatmp2;
-                                var result2 = prov.RegQueryDword(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -406,8 +399,7 @@ namespace RegistryHelper
                             }
                         case REG_VALUE_TYPE.REG_QWORD:
                             {
-                                UInt64 datatmp2;
-                                var result2 = prov.RegQueryQword(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -418,20 +410,18 @@ namespace RegistryHelper
                             }
                         case REG_VALUE_TYPE.REG_MULTI_SZ:
                             {
-                                string[] datatmp2;
-                                var result2 = prov.RegQueryMultiString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
-                                    data = String.Join("\n", datatmp2);
+                                    data = string.Join("\n", datatmp2);
                                     return result2;
                                 }
                                 break;
                             }
                         case REG_VALUE_TYPE.REG_SZ:
                             {
-                                string datatmp2;
-                                var result2 = prov.RegQueryString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -442,8 +432,7 @@ namespace RegistryHelper
                             }
                         case REG_VALUE_TYPE.REG_EXPAND_SZ:
                             {
-                                string datatmp2;
-                                var result2 = prov.RegQueryVariableString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -475,8 +464,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            UInt32 datatmp2;
-                            var result2 = prov.RegQueryDword(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -490,8 +478,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            UInt64 datatmp2;
-                            var result2 = prov.RegQueryQword(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -505,13 +492,12 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string[] datatmp2;
-                            var result2 = prov.RegQueryMultiString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
                             {
-                                data = String.Join("\n", datatmp2);
+                                data = string.Join("\n", datatmp2);
                                 return result2;
                             }
                             break;
@@ -520,8 +506,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string datatmp2;
-                            var result2 = prov.RegQueryString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -535,8 +520,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string datatmp2;
-                            var result2 = prov.RegQueryVariableString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -607,11 +591,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                uint valtypetmp;
-                Byte[] datatmp;
-                var result = prov.RegQueryValue(hive, key, regvalue, valtype, out valtypetmp, out datatmp);
+                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out uint valtypetmp, out byte[] datatmp);
                 if ((result == REG_STATUS.SUCCESS))
                 {
                     outvaltype = valtypetmp;
@@ -620,8 +602,7 @@ namespace RegistryHelper
                     {
                         case (uint)REG_VALUE_TYPE.REG_DWORD:
                             {
-                                UInt32 datatmp2;
-                                var result2 = prov.RegQueryDword(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -632,8 +613,7 @@ namespace RegistryHelper
                             }
                         case (uint)REG_VALUE_TYPE.REG_QWORD:
                             {
-                                UInt64 datatmp2;
-                                var result2 = prov.RegQueryQword(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -644,20 +624,18 @@ namespace RegistryHelper
                             }
                         case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
                             {
-                                string[] datatmp2;
-                                var result2 = prov.RegQueryMultiString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
-                                    data = String.Join("\n", datatmp2);
+                                    data = string.Join("\n", datatmp2);
                                     return result2;
                                 }
                                 break;
                             }
                         case (uint)REG_VALUE_TYPE.REG_SZ:
                             {
-                                string datatmp2;
-                                var result2 = prov.RegQueryString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -668,8 +646,7 @@ namespace RegistryHelper
                             }
                         case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
                             {
-                                string datatmp2;
-                                var result2 = prov.RegQueryVariableString(hive, key, regvalue, out datatmp2);
+                                REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
 
                                 if (result2 == REG_STATUS.SUCCESS)
                                 {
@@ -701,8 +678,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            UInt32 datatmp2;
-                            var result2 = prov.RegQueryDword(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -716,8 +692,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            UInt64 datatmp2;
-                            var result2 = prov.RegQueryQword(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -731,13 +706,12 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string[] datatmp2;
-                            var result2 = prov.RegQueryMultiString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
                             {
-                                data = String.Join("\n", datatmp2);
+                                data = string.Join("\n", datatmp2);
                                 return result2;
                             }
                             break;
@@ -746,8 +720,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string datatmp2;
-                            var result2 = prov.RegQueryString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -761,8 +734,7 @@ namespace RegistryHelper
                         {
                             data = "";
                             outvaltype = valtype;
-                            string datatmp2;
-                            var result2 = prov.RegQueryVariableString(hive, key, regvalue, out datatmp2);
+                            REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
 
                             singleresult = result2;
                             if (result2 == REG_STATUS.SUCCESS)
@@ -834,92 +806,93 @@ namespace RegistryHelper
             bool hadfailed = false;
             try
             {
-                foreach (var prov in providers)
-            {
-                REG_STATUS? result = null;
-                switch (valtype)
+                foreach (IRegistryProvider prov in providers)
                 {
-                    case REG_VALUE_TYPE.REG_DWORD:
-                        {
-                            result = prov.RegSetDword(hive, key, regvalue, uint.Parse(data));
-                            
-                            if (result == REG_STATUS.SUCCESS)
+                    REG_STATUS? result = null;
+                    switch (valtype)
+                    {
+                        case REG_VALUE_TYPE.REG_DWORD:
                             {
-                                return (REG_STATUS)result;
-                            }
-                            break;
-                        }
-                    case REG_VALUE_TYPE.REG_QWORD:
-                        {
-                            result = prov.RegSetQword(hive, key, regvalue, UInt64.Parse(data));
-                            
-                            if (result == REG_STATUS.SUCCESS)
-                            {
-                                return (REG_STATUS)result;
-                            }
-                            break;
-                        }
-                    case REG_VALUE_TYPE.REG_MULTI_SZ:
-                        {
-                            result = prov.RegSetMultiString(hive, key, regvalue, data.Replace("\r", "\0").Split('\n'));
-                            
-                            if (result == REG_STATUS.SUCCESS)
-                            {
-                                return (REG_STATUS)result;
-                            }
-                            break;
-                        }
-                    case REG_VALUE_TYPE.REG_SZ:
-                        {
-                            result = prov.RegSetString(hive, key, regvalue, data);
-                            
-                            if (result == REG_STATUS.SUCCESS)
-                            {
-                                return (REG_STATUS)result;
-                            }
-                            break;
-                        }
-                    case REG_VALUE_TYPE.REG_EXPAND_SZ:
-                        {
-                            result = prov.RegSetVariableString(hive, key, regvalue, data);
-                            
-                            if (result == REG_STATUS.SUCCESS)
-                            {
-                                return (REG_STATUS)result;
-                            }
-                            break;
-                        }
-                    default:
-                        {
-                            var buffer = StringToByteArrayFastest(data);
+                                result = prov.RegSetDword(hive, key, regvalue, uint.Parse(data));
 
-                            result = prov.RegSetValue(hive, key, regvalue, valtype, buffer);
-                            if (result == REG_STATUS.SUCCESS)
-                            {
-                                return (REG_STATUS)result;
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
                             }
-                            break;
-                        }
-                }
+                        case REG_VALUE_TYPE.REG_QWORD:
+                            {
+                                result = prov.RegSetQword(hive, key, regvalue, ulong.Parse(data));
 
-                if (result == REG_STATUS.NOT_IMPLEMENTED)
-                {
-                    continue;
-                }
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
+                            }
+                        case REG_VALUE_TYPE.REG_MULTI_SZ:
+                            {
+                                result = prov.RegSetMultiString(hive, key, regvalue, data.Replace("\r", "\0").Split('\n'));
 
-                if (result == REG_STATUS.ACCESS_DENIED)
-                {
-                    hadaccessdenied = true;
-                    continue;
-                }
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
+                            }
+                        case REG_VALUE_TYPE.REG_SZ:
+                            {
+                                result = prov.RegSetString(hive, key, regvalue, data);
 
-                if (result == REG_STATUS.FAILED)
-                {
-                    hadfailed = true;
-                    continue;
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
+                            }
+                        case REG_VALUE_TYPE.REG_EXPAND_SZ:
+                            {
+                                result = prov.RegSetVariableString(hive, key, regvalue, data);
+
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
+                            }
+                        default:
+                            {
+                                byte[] buffer = StringToByteArrayFastest(data);
+
+                                result = prov.RegSetValue(hive, key, regvalue, valtype, buffer);
+                                if (result == REG_STATUS.SUCCESS)
+                                {
+                                    return (REG_STATUS)result;
+                                }
+                                break;
+                            }
+                    }
+
+                    if (result == REG_STATUS.NOT_IMPLEMENTED)
+                    {
+                        continue;
+                    }
+
+                    if (result == REG_STATUS.ACCESS_DENIED)
+                    {
+                        hadaccessdenied = true;
+                        continue;
+                    }
+
+                    if (result == REG_STATUS.FAILED)
+                    {
+                        hadfailed = true;
+                        continue;
+                    }
                 }
             }
-            } catch
+            catch
             {
                 hadfailed = true;
             }
@@ -933,7 +906,7 @@ namespace RegistryHelper
             {
                 return REG_STATUS.FAILED;
             }
-            
+
             return REG_STATUS.FAILED;
         }
 
@@ -941,7 +914,9 @@ namespace RegistryHelper
         private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
+            {
                 throw new Exception("The binary key cannot have an odd number of digits");
+            }
 
             byte[] arr = new byte[hex.Length >> 1];
 
@@ -955,7 +930,7 @@ namespace RegistryHelper
 
         private static int GetHexVal(char hex)
         {
-            int val = (int)hex;
+            int val = hex;
             //For uppercase A-F letters:
             //return val - (val < 58 ? 48 : 55);
             //For lowercase a-f letters:
@@ -970,7 +945,7 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
                 REG_STATUS? result = null;
                 switch (valtype)
@@ -987,7 +962,7 @@ namespace RegistryHelper
                         }
                     case (uint)REG_VALUE_TYPE.REG_QWORD:
                         {
-                            result = prov.RegSetQword(hive, key, regvalue, UInt64.Parse(data));
+                            result = prov.RegSetQword(hive, key, regvalue, ulong.Parse(data));
 
                             if (result == REG_STATUS.SUCCESS)
                             {
@@ -1027,7 +1002,7 @@ namespace RegistryHelper
                         }
                     default:
                         {
-                            var buffer = StringToByteArrayFastest(data);
+                            byte[] buffer = StringToByteArrayFastest(data);
 
                             result = prov.RegSetValue(hive, key, regvalue, valtype, buffer);
                             if (result == REG_STATUS.SUCCESS)
@@ -1088,9 +1063,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegLoadHive(FilePath, mountpoint, inUser);
+                REG_STATUS result = prov.RegLoadHive(FilePath, mountpoint, inUser);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -1123,7 +1098,7 @@ namespace RegistryHelper
             {
                 return REG_STATUS.FAILED;
             }
-            
+
             return REG_STATUS.FAILED;
         }
 
@@ -1131,9 +1106,9 @@ namespace RegistryHelper
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegUnloadHive(mountpoint, inUser);
+                REG_STATUS result = prov.RegUnloadHive(mountpoint, inUser);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;
@@ -1170,13 +1145,13 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
-            foreach (var prov in providers)
+            foreach (IRegistryProvider prov in providers)
             {
-                var result = prov.RegQueryKeyLastModifiedTime(hive, key, out lastmodified);
+                REG_STATUS result = prov.RegQueryKeyLastModifiedTime(hive, key, out lastmodified);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     return result;

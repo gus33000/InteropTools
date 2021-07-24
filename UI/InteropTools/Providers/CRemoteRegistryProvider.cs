@@ -1,12 +1,11 @@
-﻿using System;
+﻿using InteropTools.RemoteClasses.Client;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using InteropTools.RemoteClasses.Client;
-using Newtonsoft.Json;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.UI.Xaml;
 
 namespace InteropTools.Providers
 {
@@ -23,8 +22,8 @@ namespace InteropTools.Providers
 
         public CRemoteRegistryProvider(string hostname, int portnumber)
         {
-            this._hostname = hostname;
-            this._portnumber = portnumber;
+            _hostname = hostname;
+            _portnumber = portnumber;
             _client = new RemoteClient(hostname, portnumber);
         }
 
@@ -47,8 +46,8 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            var ret = new GetKeyValueReturn();
-            var jsonObject = new RootObject
+            GetKeyValueReturn ret = new GetKeyValueReturn();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyValue",
@@ -57,13 +56,13 @@ namespace InteropTools.Providers
                 ValueName = keyvalue,
                 ValueType = type.ToString()
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata != null)
             {
                 try
                 {
-                    var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                    RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                     ret.regtype = (RegTypes)Enum.Parse(typeof(RegTypes), data.Result.ValueType);
                     ret.regvalue = data.Result.ValueData;
                     ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
@@ -87,7 +86,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "SetKeyValue",
@@ -97,7 +96,7 @@ namespace InteropTools.Providers
                 ValueType = type.ToString(),
                 ValueData = data
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -106,7 +105,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
 
@@ -118,7 +117,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "DeleteValue",
@@ -126,7 +125,7 @@ namespace InteropTools.Providers
                 Key = key,
                 ValueName = keyvalue
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -135,7 +134,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
 
@@ -147,14 +146,14 @@ namespace InteropTools.Providers
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyStatus",
                 Hive = hive.ToString(),
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -163,7 +162,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (KeyStatus)Enum.Parse(typeof(KeyStatus), data.Result.Status);
             }
 
@@ -175,14 +174,14 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "AddKey",
                 Hive = hive.ToString(),
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -191,7 +190,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
 
@@ -203,7 +202,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "DeleteKey",
@@ -211,7 +210,7 @@ namespace InteropTools.Providers
                 Recursive = recursive,
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -220,7 +219,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
 
@@ -232,7 +231,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "RenameKey",
@@ -240,7 +239,7 @@ namespace InteropTools.Providers
                 Key = key,
                 NewName = newname
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -249,7 +248,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
 
@@ -261,13 +260,13 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            var itemList = new List<RegistryItem>();
-            var jsonObject = new RootObject
+            List<RegistryItem> itemList = new List<RegistryItem>();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryHives"
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -276,7 +275,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 itemList.AddRange(data.Result.Items.Select(item => new RegistryItem
                 {
                     Hive = (RegHives)Enum.Parse(typeof(RegHives), item.Hive),
@@ -306,19 +305,19 @@ namespace InteropTools.Providers
 
             if (_useCmd)
             {
-                var itemsList = await _cmdprov.GetRegistryItems(hive, key);
+                IReadOnlyList<RegistryItem> itemsList = await _cmdprov.GetRegistryItems(hive, key);
                 return itemsList;
             }
 
-            var itemList = new List<RegistryItem>();
-            var jsonObject = new RootObject
+            List<RegistryItem> itemList = new List<RegistryItem>();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryItems",
                 Hive = hive.ToString(),
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -327,7 +326,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 itemList.AddRange(data.Result.Items.Select(item => new RegistryItem
                 {
                     Hive = (RegHives)Enum.Parse(typeof(RegHives), item.Hive),
@@ -349,13 +348,13 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "DoesFileExists",
                 Path = path
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -364,7 +363,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return data.Result.Exists;
             }
 
@@ -376,12 +375,12 @@ namespace InteropTools.Providers
 
         public string GetAppInstallationPath()
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetAppInstallationPath"
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -390,7 +389,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return data.Result.AppInstallationPath;
             }
 
@@ -420,17 +419,17 @@ namespace InteropTools.Providers
             return _hostname + ":" + _portnumber;
         }
 
-        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, String key)
+        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            var ret = new GetKeyLastModifiedTime();
-            var jsonObject = new RootObject
+            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyLastModifiedTime",
                 Hive = hive.ToString(),
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -441,7 +440,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 ret.LastModified = data.Result.LastModifiedTime;
                 ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
                 return ret;
@@ -457,8 +456,8 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            var ret = new GetKeyValueReturn2();
-            var jsonObject = new RootObject
+            GetKeyValueReturn2 ret = new GetKeyValueReturn2();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetKeyValue2",
@@ -467,13 +466,13 @@ namespace InteropTools.Providers
                 ValueName = keyvalue,
                 ValueType = type.ToString()
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata != null)
             {
                 try
                 {
-                    var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                    RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                     ret.regtype = data.Result.ValueType2;
                     ret.regvalue = data.Result.ValueData;
                     ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
@@ -497,7 +496,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "SetKeyValue2",
@@ -507,7 +506,7 @@ namespace InteropTools.Providers
                 ValueType2 = type,
                 ValueData = data
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -516,7 +515,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
 
@@ -528,13 +527,13 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            var itemList = new List<RegistryItemCustom>();
-            var jsonObject = new RootObject
+            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryHives2"
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -543,7 +542,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 itemList.AddRange(data.Result.Items.Select(item => new RegistryItemCustom
                 {
                     Hive = (RegHives)Enum.Parse(typeof(RegHives), item.Hive),
@@ -573,19 +572,19 @@ namespace InteropTools.Providers
 
             if (_useCmd)
             {
-                var itemsList = await _cmdprov.GetRegistryItems2(hive, key);
+                IReadOnlyList<RegistryItemCustom> itemsList = await _cmdprov.GetRegistryItems2(hive, key);
                 return itemsList;
             }
 
-            var itemList = new List<RegistryItemCustom>();
-            var jsonObject = new RootObject
+            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>();
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "GetRegistryItems2",
                 Hive = hive.ToString(),
                 Key = key
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -594,7 +593,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 itemList.AddRange(data.Result.Items.Select(item => new RegistryItemCustom
                 {
                     Hive = (RegHives)Enum.Parse(typeof(RegHives), item.Hive),
@@ -616,7 +615,7 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "LoadHive",
@@ -624,7 +623,7 @@ namespace InteropTools.Providers
                 mountpoint = mountpoint,
                 inUser = inUser
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -633,7 +632,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
 
@@ -645,14 +644,14 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
         {
-            var jsonObject = new RootObject
+            RootObject jsonObject = new RootObject
             {
                 SessionId = App.SessionId,
                 Operation = "UnloadHive",
                 mountpoint = mountpoint,
                 inUser = inUser
             };
-            var replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
+            string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
             {
@@ -661,7 +660,7 @@ namespace InteropTools.Providers
 
             try
             {
-                var data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
+                RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Intense.UI.Converters
+﻿namespace Intense.UI.Converters
 {
     /// <summary>
     /// The base class for converting instances of type T to object and vice versa.

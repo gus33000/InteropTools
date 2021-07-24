@@ -10,7 +10,7 @@ namespace RegistryHelper
 {
     public sealed class WinPRTUtilsProvider : IRegistryProvider
     {
-        private static Dictionary<REG_VALUE_TYPE, int> _winprtvaltypes = new Dictionary<REG_VALUE_TYPE, int>
+        private static readonly Dictionary<REG_VALUE_TYPE, int> _winprtvaltypes = new Dictionary<REG_VALUE_TYPE, int>
         {
             { REG_VALUE_TYPE.REG_NONE , 0 },
             { REG_VALUE_TYPE.REG_SZ , 1 },
@@ -26,19 +26,19 @@ namespace RegistryHelper
             { REG_VALUE_TYPE.REG_QWORD , 11 }
         };
 
-        public Boolean IsSupported()
+        public bool IsSupported()
         {
             return true;
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, String key, bool recursive)
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, String key, String name)
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
         {
-            #if ARM
+#if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
             {
                 try
@@ -48,12 +48,12 @@ namespace RegistryHelper
                     {
                         if (regkeyenum.Values.Count != 0)
                         {
-                            foreach (var val in regkeyenum.Values)
+                            foreach (RegistryKeyValue val in regkeyenum.Values)
                             {
                                 if (val.Name.ToLower() == name.ToLower())
                                 {
                                     regkeyenum.Values[regkeyenum.Values.IndexOf(val)].writeDeletesValue = true;
-                                    var result = RegistryUtils.WriteRegistryKeys(regkeyenum);
+                                    int result = RegistryUtils.WriteRegistryKeys(regkeyenum);
                                     if (result == 0)
                                     {
                                         return REG_STATUS.SUCCESS;
@@ -74,7 +74,7 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, String key, out IReadOnlyList<REG_ITEM> items)
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new List<REG_ITEM>();
 
@@ -103,7 +103,7 @@ namespace RegistryHelper
                     {
                         if (keyenum.SubKeys.Count != 0)
                         {
-                            foreach (var subkey in keyenum.SubKeys)
+                            foreach (RegistryKey subkey in keyenum.SubKeys)
                             {
                                 list.Add(new REG_ITEM { Name = subkey.Name, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
                             }
@@ -113,14 +113,13 @@ namespace RegistryHelper
                     {
                         if (keyenum.Values.Count != 0)
                         {
-                            foreach (var value in keyenum.Values)
+                            foreach (RegistryKeyValue value in keyenum.Values)
                             {
-                                REG_VALUE_TYPE valtype;
-                                String data = "";
+                                string data = "";
                                 try
                                 {
                                     CRegistryHelper helper = new CRegistryHelper();
-                                    helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _winprtvaltypes.FirstOrDefault(x => x.Value == value.ValueType).Key, out valtype, out data);
+                                    helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _winprtvaltypes.FirstOrDefault(x => x.Value == value.ValueType).Key, out REG_VALUE_TYPE valtype, out data);
                                 }
                                 catch
                                 {
@@ -135,7 +134,7 @@ namespace RegistryHelper
                 }
                 catch
                 {
-                    
+
                 }
             }
 #endif
@@ -144,27 +143,27 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryMultiString(REG_HIVES hive, String key, String regvalue, out String[] data)
+        public REG_STATUS RegQueryMultiString(REG_HIVES hive, string key, string regvalue, out string[] data)
         {
             data = new string[0];
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryVariableString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryVariableString(REG_HIVES hive, string key, string regvalue, out string data)
         {
             data = "";
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryDword(REG_HIVES hive, String key, String regvalue, out UInt32 data)
+        public REG_STATUS RegQueryDword(REG_HIVES hive, string key, string regvalue, out uint data)
         {
 #if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
             {
                 try
                 {
-                    var vals = RegistryUtils.EnumRegistryKey(key).Values;
-                    foreach (var var in vals)
+                    IList<RegistryKeyValue> vals = RegistryUtils.EnumRegistryKey(key).Values;
+                    foreach (RegistryKeyValue var in vals)
                     {
                         if (var.Name.ToLower() == regvalue.ToLower())
                         {
@@ -188,14 +187,14 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, String key)
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
         {
 #if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
             {
                 try
                 {
-                    var vals = RegistryUtils.EnumRegistryKey(key).Name;
+                    string vals = RegistryUtils.EnumRegistryKey(key).Name;
                     return REG_KEY_STATUS.FOUND;
                 }
                 catch
@@ -203,26 +202,26 @@ namespace RegistryHelper
                     return REG_KEY_STATUS.NOT_FOUND;
                 }
             }
-            
+
 #endif
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-        public REG_STATUS RegQueryQword(REG_HIVES hive, String key, String regvalue, out UInt64 data)
+        public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
-            data = UInt64.MinValue;
+            data = ulong.MinValue;
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryString(REG_HIVES hive, String key, String regvalue, out String data)
+        public REG_STATUS RegQueryString(REG_HIVES hive, string key, string regvalue, out string data)
         {
 #if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
             {
                 try
                 {
-                    var vals = RegistryUtils.EnumRegistryKey(key).Values;
-                    foreach (var var in vals)
+                    IList<RegistryKeyValue> vals = RegistryUtils.EnumRegistryKey(key).Values;
+                    foreach (RegistryKeyValue var in vals)
                     {
                         if (var.Name.ToLower() == regvalue.ToLower())
                         {
@@ -246,14 +245,14 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out Byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
             outvaltype = REG_VALUE_TYPE.REG_NONE;
             data = new byte[0];
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetDword(REG_HIVES hive, String key, String regvalue, UInt32 data)
+        public REG_STATUS RegSetDword(REG_HIVES hive, string key, string regvalue, uint data)
         {
 #if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
@@ -261,15 +260,15 @@ namespace RegistryHelper
                 try
                 {
                     bool valfound = false;
-                    var Regkey = RegistryUtils.EnumRegistryKey(key);
-                    foreach (var var in Regkey.Values)
+                    RegistryKey Regkey = RegistryUtils.EnumRegistryKey(key);
+                    foreach (RegistryKeyValue var in Regkey.Values)
                     {
                         if (var.Name.ToLower() == regvalue.ToLower())
                         {
                             valfound = true;
                             if (var.ValueType == _winprtvaltypes[REG_VALUE_TYPE.REG_DWORD])
                             {
-                                Regkey.Values[Regkey.Values.IndexOf(var)].Value = "0x" + ((UInt32)data).ToString("X8").ToLower();
+                                Regkey.Values[Regkey.Values.IndexOf(var)].Value = "0x" + data.ToString("X8").ToLower();
                                 int result = RegistryUtils.WriteRegistryKeys(Regkey);
                                 if (result == 0)
                                 {
@@ -281,7 +280,7 @@ namespace RegistryHelper
                     }
                     if (!valfound)
                     {
-                        Regkey.Values.Add(new RegistryKeyValue(_winprtvaltypes[REG_VALUE_TYPE.REG_DWORD], regvalue, "0x" + ((UInt32)data).ToString("X8").ToLower()));
+                        Regkey.Values.Add(new RegistryKeyValue(_winprtvaltypes[REG_VALUE_TYPE.REG_DWORD], regvalue, "0x" + data.ToString("X8").ToLower()));
                         int result = RegistryUtils.WriteRegistryKeys(Regkey);
                         if (result == 0)
                         {
@@ -299,17 +298,17 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetMultiString(REG_HIVES hive, String key, String regvalue, [ReadOnlyArray] String[] data)
+        public REG_STATUS RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetQword(REG_HIVES hive, String key, String regvalue, UInt64 data)
+        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data)
         {
 #if ARM
             if (hive == REG_HIVES.HKEY_LOCAL_MACHINE)
@@ -317,8 +316,8 @@ namespace RegistryHelper
                 try
                 {
                     bool valfound = false;
-                    var Regkey = RegistryUtils.EnumRegistryKey(key);
-                    foreach (var var in Regkey.Values)
+                    RegistryKey Regkey = RegistryUtils.EnumRegistryKey(key);
+                    foreach (RegistryKeyValue var in Regkey.Values)
                     {
                         if (var.Name.ToLower() == regvalue.ToLower())
                         {
@@ -355,27 +354,27 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, String key, String regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] Byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetVariableString(REG_HIVES hive, String key, String regvalue, String data)
+        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, String key, String newname)
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, String key)
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, String key, out long lastmodified)
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
             lastmodified = long.MinValue;
             return REG_STATUS.NOT_IMPLEMENTED;
@@ -422,7 +421,7 @@ namespace RegistryHelper
                     {
                         if (keyenum.SubKeys.Count != 0)
                         {
-                            foreach (var subkey in keyenum.SubKeys)
+                            foreach (RegistryKey subkey in keyenum.SubKeys)
                             {
                                 list.Add(new REG_ITEM_CUSTOM { Name = subkey.Name, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
                             }
@@ -432,14 +431,13 @@ namespace RegistryHelper
                     {
                         if (keyenum.Values.Count != 0)
                         {
-                            foreach (var value in keyenum.Values)
+                            foreach (RegistryKeyValue value in keyenum.Values)
                             {
-                                REG_VALUE_TYPE valtype;
-                                String data = "";
+                                string data = "";
                                 try
                                 {
                                     CRegistryHelper helper = new CRegistryHelper();
-                                    helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _winprtvaltypes.FirstOrDefault(x => x.Value == value.ValueType).Key, out valtype, out data);
+                                    helper.RegQueryValue((REG_HIVES)hive, key, value.Name, _winprtvaltypes.FirstOrDefault(x => x.Value == value.ValueType).Key, out REG_VALUE_TYPE valtype, out data);
                                 }
                                 catch
                                 {

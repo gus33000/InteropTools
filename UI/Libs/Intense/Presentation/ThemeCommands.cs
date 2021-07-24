@@ -1,10 +1,5 @@
 ﻿using Intense.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.UI.Xaml;
 
 namespace Intense.Presentation
@@ -20,11 +15,12 @@ namespace Intense.Presentation
         /// </summary>
         public ThemeCommands()
         {
-            this.SetDarkThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Dark, o => ThemeManager.Theme == ApplicationTheme.Light);
-            this.SetLightThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Light, o => ThemeManager.Theme == ApplicationTheme.Dark);
-            this.ToggleThemeCommand = new RelayCommand(o => ThemeManager.Theme = ThemeManager.Theme == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
+            SetDarkThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Dark, o => ThemeManager.Theme == ApplicationTheme.Light);
+            SetLightThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Light, o => ThemeManager.Theme == ApplicationTheme.Dark);
+            ToggleThemeCommand = new RelayCommand(o => ThemeManager.Theme = ThemeManager.Theme == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
 
-            ThemeManager.ThemeChanged += new WeakEventHandler<ThemeCommands, object, object, EventArgs>(this) {
+            ThemeManager.ThemeChanged += new WeakEventHandler<ThemeCommands, object, object, EventArgs>(this)
+            {
                 Handle = (t, o, e) => t.OnThemeChanged(o, e),
                 Detach = (h, m) => ThemeManager.ThemeChanged -= h.OnEvent
             }.OnEvent;
@@ -32,8 +28,8 @@ namespace Intense.Presentation
 
         private void OnThemeChanged(object o, EventArgs e)
         {
-            this.SetDarkThemeCommand.OnCanExecuteChanged();
-            this.SetLightThemeCommand.OnCanExecuteChanged();
+            SetDarkThemeCommand.OnCanExecuteChanged();
+            SetLightThemeCommand.OnCanExecuteChanged();
         }
 
         /// <summary>

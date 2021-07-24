@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 
 namespace Intense.UI
@@ -13,7 +9,7 @@ namespace Intense.UI
     /// </summary>
     public static class AccentColors
     {
-        private static ImmutableList<Color> metroColors = ImmutableList.Create(
+        private static readonly ImmutableList<Color> metroColors = ImmutableList.Create(
             Color.FromArgb(0xff, 0x33, 0x99, 0xff),   // blue
             Color.FromArgb(0xff, 0x00, 0xab, 0xa9),   // teal
             Color.FromArgb(0xff, 0x33, 0x99, 0x33),   // green
@@ -24,7 +20,7 @@ namespace Intense.UI
             Color.FromArgb(0xff, 0xff, 0x00, 0x97),   // magenta
             Color.FromArgb(0xff, 0xa2, 0x00, 0xff)    // purple   
         );
-        private static ImmutableList<Color> wpColors = ImmutableList.Create(
+        private static readonly ImmutableList<Color> wpColors = ImmutableList.Create(
             Color.FromArgb(0xff, 0xa4, 0xc4, 0x00),   // lime
             Color.FromArgb(0xff, 0x60, 0xa9, 0x17),   // green
             Color.FromArgb(0xff, 0x00, 0x8a, 0x00),   // emerald
@@ -47,7 +43,7 @@ namespace Intense.UI
             Color.FromArgb(0xff, 0x87, 0x79, 0x4e)    // taupe
         );
 
-        private static ImmutableList<Color> win10Colors = ImmutableList.Create(
+        private static readonly ImmutableList<Color> win10Colors = ImmutableList.Create(
             Color.FromArgb(0xff, 0xff, 0xb9, 0x00),
             Color.FromArgb(0xff, 0xff, 0x8c, 0x00),
             Color.FromArgb(0xff, 0xf7, 0x63, 0x0c),
@@ -101,25 +97,16 @@ namespace Intense.UI
         /// <summary>
         /// Gets the original 9 colors from the Metro design principles.
         /// </summary>
-        public static IReadOnlyList<Color> Metro
-        {
-            get { return metroColors; }
-        }
+        public static IReadOnlyList<Color> Metro => metroColors;
 
         /// <summary>
         /// Gets the 20 Windows Phone accent colors.
         /// </summary>
-        public static IReadOnlyList<Color> WindowsPhone
-        {
-            get { return wpColors; }
-        }
+        public static IReadOnlyList<Color> WindowsPhone => wpColors;
 
         /// <summary>
         /// Gets the Windows 10 accent colors (48 in total).
         /// </summary>
-        public static IReadOnlyList<Color> Windows10
-        {
-            get { return win10Colors; }
-        }
+        public static IReadOnlyList<Color> Windows10 => win10Colors;
     }
 }

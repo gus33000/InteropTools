@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Documents;
 
 namespace Intense.UI
@@ -21,12 +19,14 @@ namespace Intense.UI
 
         public IEnumerable<TextElement> GetChildren(TextElement o)
         {
-            var paragraph = o as Paragraph;
-            if (paragraph != null) {
+            Paragraph paragraph = o as Paragraph;
+            if (paragraph != null)
+            {
                 return paragraph.Inlines;
             }
-            var span = o as Span;
-            if (span != null) {
+            Span span = o as Span;
+            if (span != null)
+            {
                 return span.Inlines;
             }
 

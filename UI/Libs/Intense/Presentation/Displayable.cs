@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Intense.Presentation
+﻿namespace Intense.Presentation
 {
     /// <summary>
     /// Provides a base implementation for objects that are displayed in the UI.
@@ -19,10 +13,11 @@ namespace Intense.Presentation
         /// </summary>
         public string DisplayName
         {
-            get { return this.displayName; }
+            get => displayName;
             set
             {
-                if (Set(ref this.displayName, value)) {
+                if (Set(ref displayName, value))
+                {
                     OnPropertyChanged("DisplayNameUppercase");
                 }
             }
@@ -31,10 +26,7 @@ namespace Intense.Presentation
         /// <summary>
         /// Get the uppercase variant of the display name.
         /// </summary>
-        public string DisplayNameUppercase
-        {
-            get { return this.displayName?.ToUpper(); }
-        }
+        public string DisplayNameUppercase => displayName?.ToUpper();
 
         /// <summary>
         /// Gets a string representation of this instance.
@@ -42,7 +34,7 @@ namespace Intense.Presentation
         /// <returns></returns>
         public override string ToString()
         {
-            return this.displayName;
+            return displayName;
         }
     }
 }

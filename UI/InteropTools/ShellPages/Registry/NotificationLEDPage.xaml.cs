@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -20,10 +18,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace InteropTools.ShellPages.Registry
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public sealed partial class NotificationLEDPage
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class NotificationLEDPage
     {
         public string PageName => "Notification LED";
         public PageGroup PageGroup => PageGroup.Tweaks;
@@ -33,13 +31,13 @@ namespace InteropTools.ShellPages.Registry
 
         public DeviceWatcher watcher = null;
 
-		public ObservableCollection<DeviceInformationDisplay> ResultCollection
-		{
-			get;
-			private set;
-		}
+        public ObservableCollection<DeviceInformationDisplay> ResultCollection
+        {
+            get;
+            private set;
+        }
 
-		/*public class DisplayLEDItem
+        /*public class DisplayLEDItem
 		{
 		    public Color ColorBrush { get; set; }
 		    public DevicePortal.Device Device { get; set; }
@@ -61,116 +59,116 @@ namespace InteropTools.ShellPages.Registry
 		    }
 		}*/
 
-		private readonly IRegistryProvider _helper;
+        private readonly IRegistryProvider _helper;
 
-		public NotificationLEDPage()
-		{
-			this.InitializeComponent();
-			_helper = App.MainRegistryHelper;
-			ResultCollection = new ObservableCollection<DeviceInformationDisplay>();
-			DeviceGridView.ItemsSource = ResultCollection;
-			Initialize();
-		}
+        public NotificationLEDPage()
+        {
+            InitializeComponent();
+            _helper = App.MainRegistryHelper;
+            ResultCollection = new ObservableCollection<DeviceInformationDisplay>();
+            DeviceGridView.ItemsSource = ResultCollection;
+            Initialize();
+        }
 
-		public async void Initialize()
-		{
-			Providers.RegTypes regtype;
-			string regvalue;
-			var ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+        public async void Initialize()
+        {
+            Providers.RegTypes regtype;
+            string regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
             if (string.IsNullOrEmpty(regvalue))
-			{
-				await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, "100");
-				ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
-			}
+            {
+                await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, "100");
+                ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            }
 
-			try
-			{
-				IntensitySlider.Value = int.Parse(regvalue);
-			}
+            try
+            {
+                IntensitySlider.Value = int.Parse(regvalue);
+            }
 
-			catch
-			{
-			}
+            catch
+            {
+            }
 
-			ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
-			if (string.IsNullOrEmpty(regvalue))
-			{
-				await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD, "2000");
-				ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
-			}
+            if (string.IsNullOrEmpty(regvalue))
+            {
+                await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD, "2000");
+                ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            }
 
-			try
-			{
-				PeriodTextBox.Text = regvalue;
-			}
+            try
+            {
+                PeriodTextBox.Text = regvalue;
+            }
 
-			catch
-			{
-			}
+            catch
+            {
+            }
 
-			watcher = DeviceInformation.CreateWatcher("", null, DeviceInformationKind.Device);
-			watcher.Added += Watcher_Added;
-			watcher.Removed += Watcher_Removed;
-			watcher.Updated += Watcher_Updated;
-			watcher.Start();
-		}
+            watcher = DeviceInformation.CreateWatcher("", null, DeviceInformationKind.Device);
+            watcher.Added += Watcher_Added;
+            watcher.Removed += Watcher_Removed;
+            watcher.Updated += Watcher_Updated;
+            watcher.Start();
+        }
 
-		private async void Watcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args)
-		{
-			// Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-			{
-				// Find the corresponding updated DeviceInformation in the collection and pass the update object
-				// to the Update method of the existing DeviceInformation. This automatically updates the object
-				// for us.
-				foreach (DeviceInformationDisplay deviceInfoDisp in ResultCollection)
-				{
-					if (deviceInfoDisp.Id == args.Id)
-					{
-						deviceInfoDisp.Update(args);
-						break;
-					}
-				}
-			});
-		}
+        private async void Watcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                // Find the corresponding updated DeviceInformation in the collection and pass the update object
+                // to the Update method of the existing DeviceInformation. This automatically updates the object
+                // for us.
+                foreach (DeviceInformationDisplay deviceInfoDisp in ResultCollection)
+                {
+                    if (deviceInfoDisp.Id == args.Id)
+                    {
+                        deviceInfoDisp.Update(args);
+                        break;
+                    }
+                }
+            });
+        }
 
-		private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
-		{
-			// Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-			{
-				// Find the corresponding DeviceInformation in the collection and remove it
-				foreach (DeviceInformationDisplay deviceInfoDisp in ResultCollection)
-				{
-					if (deviceInfoDisp.Id == args.Id)
-					{
-						ResultCollection.Remove(deviceInfoDisp);
-						break;
-					}
-				}
-			});
-		}
+        private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                // Find the corresponding DeviceInformation in the collection and remove it
+                foreach (DeviceInformationDisplay deviceInfoDisp in ResultCollection)
+                {
+                    if (deviceInfoDisp.Id == args.Id)
+                    {
+                        ResultCollection.Remove(deviceInfoDisp);
+                        break;
+                    }
+                }
+            });
+        }
 
-		protected override void OnNavigatedFrom(NavigationEventArgs e)
-		{
-			if (watcher != null)
-			{
-				if (DeviceWatcherStatus.Started == watcher.Status ||
-				    DeviceWatcherStatus.EnumerationCompleted == watcher.Status)
-				{
-					watcher.Stop();
-				}
-			}
-		}
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (watcher != null)
+            {
+                if (DeviceWatcherStatus.Started == watcher.Status ||
+                    DeviceWatcherStatus.EnumerationCompleted == watcher.Status)
+                {
+                    watcher.Stop();
+                }
+            }
+        }
 
-		private async void Watcher_Added(Windows.Devices.Enumeration.DeviceWatcher sender, Windows.Devices.Enumeration.DeviceInformation args)
-		{
-			// Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-			{
-				/*Debug.WriteLine("-----------------------------------------");
+        private async void Watcher_Added(Windows.Devices.Enumeration.DeviceWatcher sender, Windows.Devices.Enumeration.DeviceInformation args)
+        {
+            // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                /*Debug.WriteLine("-----------------------------------------");
 
 				Debug.WriteLine(args.Name);
 
@@ -180,145 +178,103 @@ namespace InteropTools.ShellPages.Registry
 				}
 
 				Debug.WriteLine("-----------------------------------------");*/
-				if (args.Name.ToLower().Contains("hwnled"))
-				{
-					ResultCollection.Add(new DeviceInformationDisplay(args));
-				}
-			});
-		}
+                if (args.Name.ToLower().Contains("hwnled"))
+                {
+                    ResultCollection.Add(new DeviceInformationDisplay(args));
+                }
+            });
+        }
 
-		private async Task RunInUIThread(Action function)
-		{
-			await
-			CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-			() => { function(); });
-		}
+        private async Task RunInUIThread(Action function)
+        {
+            await
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () => { function(); });
+        }
 
-		private async void RunInThreadPool(Action function)
-		{
-			await ThreadPool.RunAsync(x => { function(); });
-		}
+        private async void RunInThreadPool(Action function)
+        {
+            await ThreadPool.RunAsync(x => { function(); });
+        }
 
-		public class DeviceInformationDisplay : INotifyPropertyChanged
-		{
-			private DeviceInformation deviceInfo;
+        public class DeviceInformationDisplay : INotifyPropertyChanged
+        {
+            private DeviceInformation deviceInfo;
 
-			public DeviceInformationDisplay(DeviceInformation deviceInfoIn)
-			{
-				deviceInfo = deviceInfoIn;
-				UpdateGlyphBitmapImage();
-			}
+            public DeviceInformationDisplay(DeviceInformation deviceInfoIn)
+            {
+                deviceInfo = deviceInfoIn;
+                UpdateGlyphBitmapImage();
+            }
 
-			public DeviceInformationKind Kind
-			{
-				get
-				{
-					return deviceInfo.Kind;
-				}
-			}
+            public DeviceInformationKind Kind => deviceInfo.Kind;
 
-			public string Id
-			{
-				get
-				{
-					return deviceInfo.Id;
-				}
-			}
+            public string Id => deviceInfo.Id;
 
-			public string Name
-			{
-				get
-				{
-					return deviceInfo.Name;
-				}
-			}
+            public string Name => deviceInfo.Name;
 
-			public BitmapImage GlyphBitmapImage
-			{
-				get;
-				private set;
-			}
+            public BitmapImage GlyphBitmapImage
+            {
+                get;
+                private set;
+            }
 
-			public bool CanPair
-			{
-				get
-				{
-					return deviceInfo.Pairing.CanPair;
-				}
-			}
+            public bool CanPair => deviceInfo.Pairing.CanPair;
 
-			public bool IsPaired
-			{
-				get
-				{
-					return deviceInfo.Pairing.IsPaired;
-				}
-			}
+            public bool IsPaired => deviceInfo.Pairing.IsPaired;
 
-			public IReadOnlyDictionary<string, object> Properties
-			{
-				get
-				{
-					return deviceInfo.Properties;
-				}
-			}
+            public IReadOnlyDictionary<string, object> Properties => deviceInfo.Properties;
 
-			public DeviceInformation DeviceInformation
-			{
-				get
-				{
-					return deviceInfo;
-				}
+            public DeviceInformation DeviceInformation
+            {
+                get => deviceInfo;
 
-				private set
-				{
-					deviceInfo = value;
-				}
-			}
+                private set => deviceInfo = value;
+            }
 
-			public void Update(DeviceInformationUpdate deviceInfoUpdate)
-			{
-				deviceInfo.Update(deviceInfoUpdate);
-				OnPropertyChanged("Kind");
-				OnPropertyChanged("Id");
-				OnPropertyChanged("Name");
-				OnPropertyChanged("DeviceInformation");
-				OnPropertyChanged("CanPair");
-				OnPropertyChanged("IsPaired");
-				UpdateGlyphBitmapImage();
-			}
+            public void Update(DeviceInformationUpdate deviceInfoUpdate)
+            {
+                deviceInfo.Update(deviceInfoUpdate);
+                OnPropertyChanged("Kind");
+                OnPropertyChanged("Id");
+                OnPropertyChanged("Name");
+                OnPropertyChanged("DeviceInformation");
+                OnPropertyChanged("CanPair");
+                OnPropertyChanged("IsPaired");
+                UpdateGlyphBitmapImage();
+            }
 
-			private async void UpdateGlyphBitmapImage()
-			{
-				DeviceThumbnail deviceThumbnail = await deviceInfo.GetGlyphThumbnailAsync();
-				BitmapImage glyphBitmapImage = new BitmapImage();
-				await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
-				GlyphBitmapImage = glyphBitmapImage;
-				OnPropertyChanged("GlyphBitmapImage");
-			}
+            private async void UpdateGlyphBitmapImage()
+            {
+                DeviceThumbnail deviceThumbnail = await deviceInfo.GetGlyphThumbnailAsync();
+                BitmapImage glyphBitmapImage = new BitmapImage();
+                await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
+                GlyphBitmapImage = glyphBitmapImage;
+                OnPropertyChanged("GlyphBitmapImage");
+            }
 
-			public event PropertyChangedEventHandler PropertyChanged;
-			protected void OnPropertyChanged(string name)
-			{
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-			}
-		}
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected void OnPropertyChanged(string name)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
-		private async void DeviceGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			Id.Text = ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id;
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", Providers.RegTypes.REG_SZ, string.Join(@"\",
-			                    ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", Providers.RegTypes.REG_DWORD,
-			                    ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", Providers.RegTypes.REG_DWORD, "1");
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", Providers.RegTypes.REG_DWORD, "60");
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", Providers.RegTypes.REG_DWORD, uint.MaxValue.ToString());
-		}
+        private async void DeviceGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Id.Text = ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id;
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", Providers.RegTypes.REG_SZ, string.Join(@"\",
+                                ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", Providers.RegTypes.REG_DWORD,
+                                ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", Providers.RegTypes.REG_DWORD, "1");
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", Providers.RegTypes.REG_DWORD, "60");
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", Providers.RegTypes.REG_DWORD, uint.MaxValue.ToString());
+        }
 
-		private async void IntensitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-		{
-			await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, e.NewValue.ToString());
-		}
-	}
+        private async void IntensitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, e.NewValue.ToString());
+        }
+    }
 }

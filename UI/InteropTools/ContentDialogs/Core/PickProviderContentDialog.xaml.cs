@@ -1,10 +1,8 @@
-﻿using InteropTools.Classes;
-using InteropTools.Presentation;
+﻿using InteropTools.Presentation;
 using InteropTools.Providers;
 using InteropTools.RemoteClasses.Client;
 //using InteropToolsRegistryApp.Providers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -22,8 +20,7 @@ namespace InteropTools.ContentDialogs.Core
     public sealed partial class PickProviderContentDialog : ContentDialog
     {
         private readonly ObservableCollection<ProviderItem> _itemsList = new ObservableCollection<ProviderItem>();
-
-        bool doNotClose = true;
+        private bool doNotClose = true;
         private RemoteAuthClient _client;
 
         private class ProviderItem
@@ -36,23 +33,23 @@ namespace InteropTools.ContentDialogs.Core
             public bool IsLocal { get; set; }
         }
 
-        void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
             if (doNotClose)
             {
                 args.Cancel = true;
             }
         }
-        
+
         public PickProviderContentDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             //if (int.Parse(DeviceInfo.Instance.SystemVersion.Split('.')[2]) >= 14393)
             //    Connecting.Children.Add(new TileControl() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch, ImageSource = new Uri("ms-appx:///Assets/LoadingScreen/LoadingLogo.png"), IsAnimated = true });
 
             Loaded += DialogLoaded;
-            
+
             Closing += ContentDialog_Closing;
 
             //#if !STORE
@@ -65,12 +62,13 @@ namespace InteropTools.ContentDialogs.Core
             {
                 LegacyBridgeRegistryProvider nativeprov = new LegacyBridgeRegistryProvider();
                 _itemsList.Add(new ProviderItem { Title = nativeprov.GetTitle(), Description = nativeprov.GetDescription(), Provider = nativeprov, Symbol = nativeprov.GetSymbol(), AllowsRegistryEditing = nativeprov.AllowsRegistryEditing(), IsLocal = nativeprov.IsLocal() });
-            } else
+            }
+            else
             {
                 WarningText.Visibility = Visibility.Visible;
             }
 
-            var sampleprov = new CSampleRegistryProvider();
+            CSampleRegistryProvider sampleprov = new CSampleRegistryProvider();
             _itemsList.Add(new ProviderItem
             {
                 Title = sampleprov.GetTitle(),
@@ -95,13 +93,13 @@ namespace InteropTools.ContentDialogs.Core
             MainComboBox.ItemsSource = _itemsList;
             MainComboBox.SelectedIndex = 0;
         }
-        
+
         private bool requireAuthAtStartUp
         {
             get
             {
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
                 if ((localSettings.Values["requireAuthAtStartUp"] == null) || (localSettings.Values["requireAuthAtStartUp"].GetType() != typeof(bool)))
                 {
@@ -113,8 +111,8 @@ namespace InteropTools.ContentDialogs.Core
 
             set
             {
-                var applicationData = ApplicationData.Current;
-                var localSettings = applicationData.LocalSettings;
+                ApplicationData applicationData = ApplicationData.Current;
+                ApplicationDataContainer localSettings = applicationData.LocalSettings;
                 localSettings.Values["requireAuthAtStartUp"] = value;
             }
         }
@@ -164,7 +162,7 @@ namespace InteropTools.ContentDialogs.Core
 
             return authorized;
         }
-        
+
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             PrimaryButtonText = "Use the selected provider";
@@ -224,7 +222,7 @@ namespace InteropTools.ContentDialogs.Core
             StatusText.Text = "Connection failed:\n\n" + message;
             GoBackCreds();
         }
-        
+
         private void DialogLoaded(object sender, RoutedEventArgs e)
         {
             new SettingsViewModel();
@@ -248,14 +246,14 @@ namespace InteropTools.ContentDialogs.Core
             StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Connection_refused", ResourceContext.GetForCurrentView()).ValueAsString;
             GoBackCreds();
         }
-        
+
         private string _remoteip = "";
         private int _remoteport;
 
         private void Client_OnAuthentificated()
         {
             StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Connection_accepted", ResourceContext.GetForCurrentView()).ValueAsString;
-            var Helper = new CRemoteRegistryProvider(_remoteip, _remoteport);
+            CRemoteRegistryProvider Helper = new CRemoteRegistryProvider(_remoteip, _remoteport);
             App.RegistryHelper = Helper;
             doNotClose = false;
             Hide();
@@ -263,14 +261,14 @@ namespace InteropTools.ContentDialogs.Core
 
         private void MainComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedItem = (ProviderItem)e.AddedItems[0];
+            ProviderItem selectedItem = (ProviderItem)e.AddedItems[0];
             SelectedProviderDesc.Text = selectedItem.Description;
         }
-        
+
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var selectedItem = (ProviderItem)MainComboBox.SelectedItem;
-            var tmpHelper = selectedItem.Provider;
+            ProviderItem selectedItem = (ProviderItem)MainComboBox.SelectedItem;
+            IRegistryProvider tmpHelper = selectedItem.Provider;
 
             if (tmpHelper == null)
             {
@@ -288,7 +286,7 @@ namespace InteropTools.ContentDialogs.Core
             {
                 if (requireAuthAtStartUp)
                 {
-                    var result = await AskCreds();
+                    bool result = await AskCreds();
 
                     if (result)
                     {

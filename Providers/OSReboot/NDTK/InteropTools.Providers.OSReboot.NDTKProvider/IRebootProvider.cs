@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace InteropTools.Providers.OSReboot.NDTKProvider
+﻿namespace InteropTools.Providers.OSReboot.NDTKProvider
 {
     internal interface IRebootProvider
     {

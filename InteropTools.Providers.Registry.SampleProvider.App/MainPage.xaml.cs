@@ -12,7 +12,7 @@ namespace InteropTools.Providers.Registry.SampleProvider.App
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {

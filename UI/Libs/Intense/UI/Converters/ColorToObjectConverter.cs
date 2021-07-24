@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Markup;
+﻿using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 namespace Intense.UI.Converters
@@ -26,16 +18,19 @@ namespace Intense.UI.Converters
         /// <returns></returns>
         protected override Color? ConvertBack(object value, object parameter, string language)
         {
-            if (value == null) {
+            if (value == null)
+            {
                 return null;
             }
-            var color = value as Color?;
-            if (color != null) {
+            Color? color = value as Color?;
+            if (color != null)
+            {
                 return color;
             }
-            var str = value as string;
-            if (str != null) {
-                var brush = XamlHelper.CreateSolidColorBrush(str);
+            string str = value as string;
+            if (str != null)
+            {
+                SolidColorBrush brush = XamlHelper.CreateSolidColorBrush(str);
                 return brush.Color;
             }
             // no other conversions supported

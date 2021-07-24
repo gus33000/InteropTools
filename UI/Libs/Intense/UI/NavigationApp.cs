@@ -2,10 +2,6 @@
 using Intense.Resources;
 using Intense.UI.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -33,19 +29,22 @@ namespace Intense.UI
         {
             base.OnLaunched(args);
 
-            var frame = Window.Current.Content as Frame;
+            Frame frame = Window.Current.Content as Frame;
 
-            if (frame == null) {
-                frame = new Frame();
+            if (frame == null)
+            {
+                frame = new Frame
+                {
 
-                // assign navigation root style
-                frame.Style = (Style)this.Resources["NavigationRootFrameStyle"];
+                    // assign navigation root style
+                    Style = (Style)Resources["NavigationRootFrameStyle"]
+                };
 
                 frame.Navigated += OnFrameNavigated;
                 frame.NavigationFailed += OnFrameNavigationFailed;
 
                 // add frame commands to global resources
-                this.Resources.Add("FrameCommands", new FrameCommands { Frame = frame });
+                Resources.Add("FrameCommands", new FrameCommands { Frame = frame });
 
                 Window.Current.Content = frame;
 
@@ -54,18 +53,20 @@ namespace Intense.UI
                 UpdateBackButtonVisibility();
             }
 
-            if (frame.Content == null) {
+            if (frame.Content == null)
+            {
                 // navigate to the master page providing the navigation structure
-                frame.Navigate(typeof(MasterNavigationPage), this.NavigationStructure);
+                frame.Navigate(typeof(MasterNavigationPage), NavigationStructure);
             }
             Window.Current.Activate();
         }
 
         private void UpdateBackButtonVisibility()
         {
-            var visibility = AppViewBackButtonVisibility.Collapsed;
-            var frame = (Frame)Window.Current.Content;
-            if (frame.CanGoBack) {
+            AppViewBackButtonVisibility visibility = AppViewBackButtonVisibility.Collapsed;
+            Frame frame = (Frame)Window.Current.Content;
+            if (frame.CanGoBack)
+            {
                 visibility = AppViewBackButtonVisibility.Visible;
             }
 
@@ -74,8 +75,9 @@ namespace Intense.UI
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
-            var frame = (Frame)Window.Current.Content;
-            if (frame.CanGoBack) {
+            Frame frame = (Frame)Window.Current.Content;
+            if (frame.CanGoBack)
+            {
                 frame.GoBack();
                 e.Handled = true;
             }

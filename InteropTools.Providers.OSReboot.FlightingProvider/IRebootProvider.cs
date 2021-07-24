@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace InteropTools.Providers.OSReboot.FlightingProvider
+﻿namespace InteropTools.Providers.OSReboot.FlightingProvider
 {
     internal interface IRebootProvider
     {

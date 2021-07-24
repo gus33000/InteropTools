@@ -3,7 +3,6 @@ using InteropTools.Presentation;
 using InteropTools.RemoteClasses.Server;
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.Networking.Sockets;
@@ -29,12 +28,12 @@ namespace InteropTools.ShellPages.Core
 
         public SettingsPage()
         {
-            this.InitializeComponent();
-            this.ViewModel = new SettingsViewModel();
+            InitializeComponent();
+            ViewModel = new SettingsViewModel();
 
             try
             {
-                ColorPicker.Color = this.ViewModel.SelectedBrush.Color;
+                ColorPicker.Color = ViewModel.SelectedBrush.Color;
             }
             catch
             {
@@ -103,9 +102,9 @@ namespace InteropTools.ShellPages.Core
         private static async void Server_OnDataReceived(string data,
             StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            var reply =
+            string reply =
               await new RegistryActions().RegistryAction(data, args.Socket.Information.RemoteAddress.ToString());
-            var writer = new DataWriter(args.Socket.OutputStream);
+            DataWriter writer = new DataWriter(args.Socket.OutputStream);
             writer.WriteUInt32(writer.MeasureString(reply));
             writer.WriteString(reply);
 
@@ -137,7 +136,10 @@ namespace InteropTools.ShellPages.Core
             if (!ViewModel.Brushes.Contains(new Windows.UI.Xaml.Media.SolidColorBrush(args.NewColor)))
             {
                 if (ViewModel.Brushes.Count == 48)
+                {
                     ViewModel.Brushes.Add(new Windows.UI.Xaml.Media.SolidColorBrush(args.NewColor));
+                }
+
                 ViewModel.Brushes[48] = new Windows.UI.Xaml.Media.SolidColorBrush(args.NewColor);
             }
             ViewModel.SelectedBrush = new Windows.UI.Xaml.Media.SolidColorBrush(args.NewColor);
@@ -146,14 +148,14 @@ namespace InteropTools.ShellPages.Core
 
         private void Refresh()
         {
-            var buildString = "";
-            var assembly = GetType().GetTypeInfo().Assembly;
-            var resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
-            var builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
-            var appver = Package.Current.Id.Version;
-            var appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
+            string buildString = "";
+            Assembly assembly = GetType().GetTypeInfo().Assembly;
+            Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
+            string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
+            PackageVersion appver = Package.Current.Id.Version;
+            string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
             buildString = appverstr + " (fbl_prerelease(gustavem)";
-            var myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
+            Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
 
             if (myType != null)
             {
@@ -162,7 +164,7 @@ namespace InteropTools.ShellPages.Core
 
             buildString = buildString + "." + builddate + ")";
             VersionText.Text = buildString;
-            var title = ApplicationView.GetForCurrentView().Title;
+            string title = ApplicationView.GetForCurrentView().Title;
 
             if (title == "")
             {

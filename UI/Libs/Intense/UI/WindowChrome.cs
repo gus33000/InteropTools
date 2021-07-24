@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
-using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,22 +38,22 @@ namespace Intense.UI
 
         private void CalculateMargin()
         {
-            var appView = ApplicationView.GetForCurrentView();
-            var visibleBounds = appView.VisibleBounds;
-            var wndBounds = Window.Current.Bounds;
+            ApplicationView appView = ApplicationView.GetForCurrentView();
+            Windows.Foundation.Rect visibleBounds = appView.VisibleBounds;
+            Windows.Foundation.Rect wndBounds = Window.Current.Bounds;
 
             if (visibleBounds != wndBounds)
             {
-                var left = Math.Ceiling(visibleBounds.Left - wndBounds.Left);
-                var top = Math.Ceiling(visibleBounds.Top - wndBounds.Top);
-                var right = Math.Ceiling(wndBounds.Right - visibleBounds.Right);
-                var bottom = Math.Ceiling(wndBounds.Bottom - visibleBounds.Bottom);
+                double left = Math.Ceiling(visibleBounds.Left - wndBounds.Left);
+                double top = Math.Ceiling(visibleBounds.Top - wndBounds.Top);
+                double right = Math.Ceiling(wndBounds.Right - visibleBounds.Right);
+                double bottom = Math.Ceiling(wndBounds.Bottom - visibleBounds.Bottom);
 
-                this.Margin = new Thickness(left, top, right, bottom);
+                Margin = new Thickness(left, top, right, bottom);
             }
             else
             {
-                this.Margin = new Thickness();
+                Margin = new Thickness();
             }
         }
 
@@ -78,31 +72,31 @@ namespace Intense.UI
         {
             // assign dependency object of type FrameworkElement to the chrome instance
             // this works as long as the chrome instance is not shared among dependency objects
-            var chrome = (WindowChrome)args.NewValue;
+            WindowChrome chrome = (WindowChrome)args.NewValue;
             chrome?.SetTarget(o as FrameworkElement);
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
 
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
-            var transparentColor = transparentColorBrush.Color;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            var solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (solidColorBrush != null)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            var colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (colorBrush != null)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            var hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
@@ -123,11 +117,11 @@ namespace Intense.UI
 
         private void InitializeChrome()
         {
-            if (this.initialized)
+            if (initialized)
             {
                 return;
             }
-            this.initialized = true;
+            initialized = true;
 
             SetStatusBarBackground();
             SetStatusBarForeground();
@@ -140,48 +134,47 @@ namespace Intense.UI
 
         private void ApplyMarginToTarget()
         {
-            if (this.AutoUpdateMargin && this.target != null)
+            if (AutoUpdateMargin && target != null)
             {
-                this.target.Margin = this.Margin;
+                target.Margin = Margin;
             }
         }
 
         private void SetStatusBarBackground()
         {
-            if (!this.initialized)
+            if (!initialized)
             {
                 return;
             }
-            StatusBar statusBar;
-            if (TryGetStatusBar(out statusBar))
+            if (TryGetStatusBar(out StatusBar statusBar))
             {
                 // infer opacity from alpha channel of the color
-                statusBar.BackgroundOpacity = (double)this.StatusBarBackgroundColor.A / 255d;
-                statusBar.BackgroundColor = this.StatusBarBackgroundColor;
+                statusBar.BackgroundOpacity = StatusBarBackgroundColor.A / 255d;
+                statusBar.BackgroundColor = StatusBarBackgroundColor;
             }
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
 
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
-            var transparentColor = transparentColorBrush.Color;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            var solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (solidColorBrush != null)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            var colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (colorBrush != null)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            var hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
@@ -195,38 +188,37 @@ namespace Intense.UI
 
         private void SetStatusBarForeground()
         {
-            if (!this.initialized)
+            if (!initialized)
             {
                 return;
             }
-            StatusBar statusBar;
-            if (TryGetStatusBar(out statusBar))
+            if (TryGetStatusBar(out StatusBar statusBar))
             {
-                statusBar.ForegroundColor = this.StatusBarForegroundColor;
+                statusBar.ForegroundColor = StatusBarForegroundColor;
             }
-            
+
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
 
-            var titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            var transparentColorBrush = new SolidColorBrush { Opacity = 0 };
-            var transparentColor = transparentColorBrush.Color;
+            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
+            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
             titlebar.ButtonInactiveBackgroundColor = transparentColor;
-            var solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush solidColorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (solidColorBrush != null)
             {
                 titlebar.ButtonForegroundColor = solidColorBrush.Color;
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-            var colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
+            SolidColorBrush colorBrush = Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush;
             if (colorBrush != null)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            var hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
@@ -258,8 +250,8 @@ namespace Intense.UI
         /// </summary>
         public bool AutoUpdateMargin
         {
-            get { return (bool)GetValue(AutoUpdateMarginProperty); }
-            set { SetValue(AutoUpdateMarginProperty, value); }
+            get => (bool)GetValue(AutoUpdateMarginProperty);
+            set => SetValue(AutoUpdateMarginProperty, value);
         }
 
         /// <summary>
@@ -267,8 +259,8 @@ namespace Intense.UI
         /// </summary>
         public Thickness Margin
         {
-            get { return (Thickness)GetValue(MarginProperty); }
-            private set { SetValue(MarginProperty, value); }
+            get => (Thickness)GetValue(MarginProperty);
+            private set => SetValue(MarginProperty, value);
         }
 
         /// <summary>
@@ -276,8 +268,8 @@ namespace Intense.UI
         /// </summary>
         public Color StatusBarBackgroundColor
         {
-            get { return (Color)GetValue(StatusBarBackgroundColorProperty); }
-            set { SetValue(StatusBarBackgroundColorProperty, value); }
+            get => (Color)GetValue(StatusBarBackgroundColorProperty);
+            set => SetValue(StatusBarBackgroundColorProperty, value);
         }
 
         /// <summary>
@@ -285,8 +277,8 @@ namespace Intense.UI
         /// </summary>
         public Color StatusBarForegroundColor
         {
-            get { return (Color)GetValue(StatusBarForegroundColorProperty); }
-            set { SetValue(StatusBarForegroundColorProperty, value); }
+            get => (Color)GetValue(StatusBarForegroundColorProperty);
+            set => SetValue(StatusBarForegroundColorProperty, value);
         }
 
         /// <summary>

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace InteropTools.Controls
 {
@@ -17,7 +11,7 @@ namespace InteropTools.Controls
         /// </summary>
         public FlipViewIndicator()
         {
-            this.DefaultStyleKey = typeof(FlipViewIndicator);
+            DefaultStyleKey = typeof(FlipViewIndicator);
         }
 
         /// <summary>
@@ -25,8 +19,8 @@ namespace InteropTools.Controls
         /// </summary>
         public FlipView FlipView
         {
-            get { return (FlipView)GetValue(FlipViewProperty); }
-            set { SetValue(FlipViewProperty, value); }
+            get => (FlipView)GetValue(FlipViewProperty);
+            set => SetValue(FlipViewProperty, value);
         }
 
         /// <summary>
@@ -49,10 +43,12 @@ namespace InteropTools.Controls
                 fvi.ItemsSource = fv.Items;
 
                 // create the element binding source
-                Binding eb = new Binding();
-                eb.Mode = BindingMode.TwoWay;
-                eb.Source = fv;
-                eb.Path = new PropertyPath("SelectedItem");
+                Binding eb = new Binding
+                {
+                    Mode = BindingMode.TwoWay,
+                    Source = fv,
+                    Path = new PropertyPath("SelectedItem")
+                };
 
                 // set the element binding to change selection when the FlipView changes
                 fvi.SetBinding(FlipViewIndicator.SelectedItemProperty, eb);

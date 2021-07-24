@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using RegPlugin = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.Registry.Definition.TransfareOptions, double>.PluginProvider;
 
 namespace InteropTools.Providers
 {
@@ -57,7 +56,7 @@ namespace InteropTools.Providers
 
         string RegBufferToString(uint valtype, byte[] data);
         byte[] RegStringToBuffer(uint valtype, string val);
-        
+
         Task<REG_STATUS> RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, string data);
         Task<RegQueryValue> RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype);
 

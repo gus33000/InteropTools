@@ -37,7 +37,10 @@ namespace InteropTools.Providers.OSReboot.FlightingProvider
 
         public REBOOT_STATUS SystemReboot()
         {
-            if (!IsSupported(REBOOT_OPERATION.SystemReboot)) throw new NotImplementedException();
+            if (!IsSupported(REBOOT_OPERATION.SystemReboot))
+            {
+                throw new NotImplementedException();
+            }
 
             return Reboot() == 0 ? REBOOT_STATUS.SUCCESS : REBOOT_STATUS.FAILED;
         }

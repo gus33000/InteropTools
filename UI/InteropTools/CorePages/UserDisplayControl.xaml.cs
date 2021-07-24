@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -24,7 +16,7 @@ namespace InteropTools.CorePages
     {
         public UserDisplayControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Loaded += UserDisplayControl_Loaded;
         }
 
@@ -34,17 +26,17 @@ namespace InteropTools.CorePages
             {
                 IReadOnlyList<User> users = await User.FindAllAsync();
 
-                var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                User current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
                                             p.Type == UserType.LocalUser).FirstOrDefault();
 
                 // user may have username
-                var data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
+                object data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
                 string displayName = (string)data;
 
                 bool okay = false;
 
                 //or may be authenticated using hotmail 
-                if (String.IsNullOrEmpty(displayName))
+                if (string.IsNullOrEmpty(displayName))
                 {
                     okay = true;
                     string a = (string)await current.GetPropertyAsync(KnownUserProperties.FirstName);
@@ -54,25 +46,33 @@ namespace InteropTools.CorePages
 
                 UserName.Text = displayName;
 
-                if (UserName.Text == "") okay = false;
+                if (UserName.Text == "")
+                {
+                    okay = false;
+                }
 
                 // user may have profile pic
-                var datapic = await current.GetPictureAsync(UserPictureSize.Size64x64);
+                Windows.Storage.Streams.IRandomAccessStreamReference datapic = await current.GetPictureAsync(UserPictureSize.Size64x64);
 
                 if (datapic != null)
                 {
                     okay = true;
-                    var pic = new BitmapImage();
+                    BitmapImage pic = new BitmapImage();
                     pic.SetSource(await datapic.OpenReadAsync());
 
-                    var imgbrush = new ImageBrush();
-                    imgbrush.ImageSource = pic;
+                    ImageBrush imgbrush = new ImageBrush
+                    {
+                        ImageSource = pic
+                    };
 
                     Image.Background = imgbrush;
                     PicImage.ProfilePicture = pic;
                 }
 
-                if (datapic == null) okay = false;
+                if (datapic == null)
+                {
+                    okay = false;
+                }
 
                 if (!okay)
                 {

@@ -10,7 +10,7 @@ namespace InteropTools.AppExtensibilityClient
 
         public async Task<bool> Initialize()
         {
-            var plugins = await InteropTools.AppExtensibilityDefinition.AppExtensibilityDefinition.ListAsync(InteropTools.AppExtensibilityDefinition.AppExtensibilityDefinition.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> plugins = await InteropTools.AppExtensibilityDefinition.AppExtensibilityDefinition.ListAsync(InteropTools.AppExtensibilityDefinition.AppExtensibilityDefinition.PLUGIN_NAME);
 
             if (plugins.Plugins.Count() != 0)
             {

@@ -1,12 +1,4 @@
-﻿using Intense.Resources;
-using Intense.UI;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using Intense.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -29,9 +21,9 @@ namespace Intense.Presentation
         /// </summary>
         public FrameCommands()
         {
-            this.GoBackCommand = new RelayCommand(o => GoBack(), o => CanGoBack());
-            this.GoForwardCommand = new RelayCommand(o => GoForward(), o => CanGoForward());
-            this.GoHomeCommand = new RelayCommand(o => GoHome(), o => CanGoHome());
+            GoBackCommand = new RelayCommand(o => GoBack(), o => CanGoBack());
+            GoForwardCommand = new RelayCommand(o => GoForward(), o => CanGoForward());
+            GoHomeCommand = new RelayCommand(o => GoHome(), o => CanGoHome());
         }
 
         private static void OnFrameChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
@@ -41,7 +33,8 @@ namespace Intense.Presentation
 
         private void OnFrameChanged(Frame oldFrame, Frame newFrame)
         {
-            if (newFrame != null) {
+            if (newFrame != null)
+            {
                 newFrame.RegisterEventSink(this);
             }
 
@@ -50,9 +43,9 @@ namespace Intense.Presentation
 
         private void UpdateCommandStates()
         {
-            this.GoBackCommand.OnCanExecuteChanged();
-            this.GoForwardCommand.OnCanExecuteChanged();
-            this.GoHomeCommand.OnCanExecuteChanged();
+            GoBackCommand.OnCanExecuteChanged();
+            GoForwardCommand.OnCanExecuteChanged();
+            GoHomeCommand.OnCanExecuteChanged();
         }
 
         /// <summary>
@@ -72,31 +65,33 @@ namespace Intense.Presentation
         /// </summary>
         public Frame Frame
         {
-            get { return (Frame)GetValue(FrameProperty); }
-            set { SetValue(FrameProperty, value); }
+            get => (Frame)GetValue(FrameProperty);
+            set => SetValue(FrameProperty, value);
         }
 
         private bool CanGoBack()
         {
-            return this.Frame?.CanGoBack ?? false;
+            return Frame?.CanGoBack ?? false;
         }
 
         private void GoBack()
         {
-            if (CanGoBack()) {
-                this.Frame.GoBack();
+            if (CanGoBack())
+            {
+                Frame.GoBack();
             }
         }
 
         private bool CanGoForward()
         {
-            return this.Frame?.CanGoForward ?? false;
+            return Frame?.CanGoForward ?? false;
         }
 
         private void GoForward()
         {
-            if (CanGoForward()) {
-                this.Frame.GoForward();
+            if (CanGoForward())
+            {
+                Frame.GoForward();
             }
         }
 
@@ -107,9 +102,11 @@ namespace Intense.Presentation
 
         private void GoHome()
         {
-            if (CanGoHome()) {
-                while (this.Frame.CanGoBack) {
-                    this.Frame.GoBack();
+            if (CanGoHome())
+            {
+                while (Frame.CanGoBack)
+                {
+                    Frame.GoBack();
                 }
             }
         }

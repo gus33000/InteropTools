@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace AppPlugin
@@ -14,11 +9,14 @@ namespace AppPlugin
         internal static string Serilize<T>(T output)
         {
             string outputString;
-            var serelizerOut = new DataContractSerializer(typeof(T));
-            using (var stringWriter = new StringWriter())
+            DataContractSerializer serelizerOut = new DataContractSerializer(typeof(T));
+            using (StringWriter stringWriter = new StringWriter())
             {
-                using (var xmlWriter = XmlWriter.Create(stringWriter))
+                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter))
+                {
                     serelizerOut.WriteObject(xmlWriter, output);
+                }
+
                 outputString = stringWriter.ToString();
             }
 
@@ -28,10 +26,13 @@ namespace AppPlugin
         internal static T DeSerilize<T>(string inputString)
         {
             T input;
-            var serelizerIn = new DataContractSerializer(typeof(T));
-            using (var stringReader = new StringReader(inputString))
-            using (var xmlReader = XmlReader.Create(stringReader))
+            DataContractSerializer serelizerIn = new DataContractSerializer(typeof(T));
+            using (StringReader stringReader = new StringReader(inputString))
+            using (XmlReader xmlReader = XmlReader.Create(stringReader))
+            {
                 input = (T)serelizerIn.ReadObject(xmlReader);
+            }
+
             return input;
         }
     }

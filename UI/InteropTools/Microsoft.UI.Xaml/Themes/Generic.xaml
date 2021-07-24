@@ -244,10 +244,12 @@
                                 </Grid.RowDefinitions>
                                 <Grid.Children>
                                     <Grid x:Name="TogglePaneTopPadding" />
+                                    <!--
+                                        AutomationProperties.LandmarkType="Navigation"
+                                    -->
                                     <Button
                                         x:Name="TogglePaneButton"
                                         Grid.Row="1"
-                                        AutomationProperties.LandmarkType="Navigation"
                                         Style="{TemplateBinding PaneToggleButtonStyle}" />
                                 </Grid.Children>
                             </Grid>

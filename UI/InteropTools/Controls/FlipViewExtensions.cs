@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -75,11 +72,11 @@ namespace InteropTools.Controls
         /// <param name="args">the dependency property changed event arguments</param> 
         private static void OnIsLoopingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            var flipView = dependencyObject as FlipView;
+            FlipView flipView = dependencyObject as FlipView;
 
             if ((bool)args.NewValue)
             {
-                var enumerable = flipView.ItemsSource as IEnumerable;
+                IEnumerable enumerable = flipView.ItemsSource as IEnumerable;
 
                 if (enumerable != null)
                 {
@@ -92,13 +89,13 @@ namespace InteropTools.Controls
             }
             else
             {
-                var flipViewList = flipView.ItemsSource as FlipViewList;
+                FlipViewList flipViewList = flipView.ItemsSource as FlipViewList;
 
                 flipView.SelectionChanged -= flipView_SelectionChanged;
 
                 if (flipViewList != null)
                 {
-                    var selectedItem = flipView.SelectedItem;
+                    object selectedItem = flipView.SelectedItem;
 
                     flipViewList.RemoveAt(0);
                     flipViewList.Remove(flipViewList.Last());
@@ -120,7 +117,7 @@ namespace InteropTools.Controls
         {
             flipView.SelectionChanged -= flipView_SelectionChanged;
 
-            var collectionChanged = flipView.ItemsSource as INotifyCollectionChanged;
+            INotifyCollectionChanged collectionChanged = flipView.ItemsSource as INotifyCollectionChanged;
 
             if (collectionChanged != null)
             {
@@ -130,13 +127,13 @@ namespace InteropTools.Controls
                 };
             }
 
-            var enumerable = flipView.ItemsSource as IEnumerable;
+            IEnumerable enumerable = flipView.ItemsSource as IEnumerable;
 
             if (enumerable != null)
             {
-                var enumerableObjects = enumerable.OfType<object>();
+                IEnumerable<object> enumerableObjects = enumerable.OfType<object>();
 
-                var loopingList = new FlipViewList(enumerableObjects);
+                FlipViewList loopingList = new FlipViewList(enumerableObjects);
 
                 loopingList.Insert(0, enumerableObjects.Last());
 
@@ -161,11 +158,11 @@ namespace InteropTools.Controls
         /// <param name="enumerable">the enumerable collection</param> 
         private static void UpdateList(FlipView flipView, IEnumerable enumerable)
         {
-            var selection = flipView.SelectedItem;
+            object selection = flipView.SelectedItem;
 
-            var enumerableObjects = enumerable.OfType<object>();
+            IEnumerable<object> enumerableObjects = enumerable.OfType<object>();
 
-            var flipViewList = flipView.ItemsSource as FlipViewList;
+            FlipViewList flipViewList = flipView.ItemsSource as FlipViewList;
 
             flipViewList.Clear();
             flipViewList.Add(enumerableObjects.Last());
@@ -182,9 +179,9 @@ namespace InteropTools.Controls
         /// <param name="e">the selection changed event arguments</param> 
         private static void flipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var flipView = sender as FlipView;
+            FlipView flipView = sender as FlipView;
 
-            var list = flipView.ItemsSource as FlipViewList;
+            FlipViewList list = flipView.ItemsSource as FlipViewList;
 
             int count = 0;
 

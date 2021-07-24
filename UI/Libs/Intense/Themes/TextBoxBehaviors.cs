@@ -19,9 +19,11 @@ namespace Intense.THemes
 
         private static void OnIsUpercaseOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var textBox = d as TextBlock;
+            TextBlock textBox = d as TextBlock;
             if (textBox == null)
+            {
                 return;
+            }
 
             if ((bool)e.NewValue)
             {

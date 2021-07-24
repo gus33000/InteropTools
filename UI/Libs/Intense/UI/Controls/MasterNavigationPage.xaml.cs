@@ -32,7 +32,7 @@ namespace Intense.UI.Controls
         /// </summary>
         public MasterNavigationPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public Style NavigationListViewStyle
         {
-            get { return (Style)GetValue(NavigationListViewStyleProperty); }
-            set { SetValue(NavigationListViewStyleProperty, value); }
+            get => (Style)GetValue(NavigationListViewStyleProperty);
+            set => SetValue(NavigationListViewStyleProperty, value);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Intense.UI.Controls
         {
             base.OnNavigationItemChanged(oldValue, newValue);
 
-            this.SelectedItem = null;
+            SelectedItem = null;
 
             UpdateListViewStyle();
         }
@@ -65,19 +65,22 @@ namespace Intense.UI.Controls
         /// <param name="newValue"></param>
         protected override void OnWindowStateChanged(string oldValue, string newValue)
         {
-            if (this.Frame == null || this.NavigationItem == null) {
+            if (Frame == null || NavigationItem == null)
+            {
                 return;
             }
 
             // when state changes from narrow to wide and navigation item is a master-detail candidate, navigate to master-detail
-            if (oldValue == WindowStateNarrow && newValue == WindowStateWide && IsMasterDetailCandidate(this.NavigationItem)) {
+            if (oldValue == WindowStateNarrow && newValue == WindowStateWide && IsMasterDetailCandidate(NavigationItem))
+            {
                 // navigate without transition
-                this.Frame.Navigate(typeof(MasterDetailNavigationPage), this.NavigationItem, new SuppressNavigationTransitionInfo());
+                Frame.Navigate(typeof(MasterDetailNavigationPage), NavigationItem, new SuppressNavigationTransitionInfo());
 
                 // and clear the most recent backstack entry
-                this.Frame.BackStack.RemoveAt(this.Frame.BackStackDepth - 1);
+                Frame.BackStack.RemoveAt(Frame.BackStackDepth - 1);
             }
-            else {
+            else
+            {
                 UpdateListViewStyle();
             }
         }
@@ -85,16 +88,18 @@ namespace Intense.UI.Controls
         private void UpdateListViewStyle()
         {
             // update list view style
-            var styleKey = WideNavigationListViewStyleKey;
+            string styleKey = WideNavigationListViewStyleKey;
 
-            if (this.WindowState == WindowStateNarrow) {
+            if (WindowState == WindowStateNarrow)
+            {
                 styleKey = BasicNavigationListViewStyleKey;
-                if (this.NavigationItem != null && (this.NavigationItem.IsRoot() || this.NavigationItem.HasGrandchildren())) {
+                if (NavigationItem != null && (NavigationItem.IsRoot() || NavigationItem.HasGrandchildren()))
+                {
                     styleKey = NarrowNavigationListViewStyleKey;
                 }
             }
 
-            this.NavigationListViewStyle = (Style)Application.Current.Resources[styleKey];
+            NavigationListViewStyle = (Style)Application.Current.Resources[styleKey];
         }
     }
 }

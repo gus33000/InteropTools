@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Intense.UI.Controls
@@ -24,7 +19,7 @@ namespace Intense.UI.Controls
         /// </summary>
         public ContentFrame()
         {
-            this.DefaultStyleKey = typeof(ContentFrame);
+            DefaultStyleKey = typeof(ContentFrame);
         }
 
         /// <summary>
@@ -32,8 +27,8 @@ namespace Intense.UI.Controls
         /// </summary>
         public Visibility PageTitleVisibility
         {
-            get { return (Visibility)GetValue(PageTitleVisibilityProperty); }
-            set { SetValue(PageTitleVisibilityProperty, value); }
+            get => (Visibility)GetValue(PageTitleVisibilityProperty);
+            set => SetValue(PageTitleVisibilityProperty, value);
         }
     }
 }

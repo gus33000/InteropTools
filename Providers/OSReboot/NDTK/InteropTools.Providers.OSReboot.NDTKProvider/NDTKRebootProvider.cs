@@ -31,7 +31,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
     internal class NDTKRebootProvider : IRebootProvider
     {
         private NRPC _nrpc;
-        
+
         public bool IsSupported(REBOOT_OPERATION operation)
         {
             if (_nrpc == null)
@@ -39,7 +39,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
                 try
                 {
                     _nrpc = new NRPC();
-                    var ret = _nrpc.Initialize();
+                    uint ret = _nrpc.Initialize();
                 }
                 catch
                 {
@@ -53,7 +53,10 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 
         public REBOOT_STATUS SystemReboot()
         {
-            if (!IsSupported(REBOOT_OPERATION.SystemReboot)) throw new NotImplementedException();
+            if (!IsSupported(REBOOT_OPERATION.SystemReboot))
+            {
+                throw new NotImplementedException();
+            }
 
             return _nrpc.SystemReboot() == 0 ? REBOOT_STATUS.SUCCESS : REBOOT_STATUS.FAILED;
         }
