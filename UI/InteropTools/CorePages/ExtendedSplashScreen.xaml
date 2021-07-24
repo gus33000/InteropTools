@@ -105,7 +105,7 @@
 
                     <TextBlock
                         Margin="0,0,0,24"
-                        Text="Added an option to enable timestamps for keys in the Registry Browser if wanted. The header about various informations in the Welcome page has been 50% implemented. Re-added Tweaks page as per request. Fixed RPC communications issues with NDTK on ARM (thanks everyone and sorry for not noticing that at first) (Will require an update to the NDTK registry provider extension if you use Interop Tools S (Store)). You should now be able to edit system access values fine like before and most stuff should work again. Fixed some words being cut in the dialog for providers on th1-th2. Fixed application manager issues as reported. Fixed an issue where recently used pages wouldn't show up correctly. Fixed an issue where the switch for Interop Unlock would appear to be off after a reboot."
+                        Text="So... Apparently we're back in 2021! This new version updates pretty much all dependencies of the application and corrects a few bugs. Just as a note, make sure your itreg files have the right header, that is Windows Registry Editor Version 5.00 instead of Windows Registry Editor Version 2.00, otherwise you will get an error.."
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
 
@@ -338,7 +338,7 @@
                         <Bold>INTEROP TOOLS (PREVIEW)</Bold>
                         <LineBreak />
                         <LineBreak />
-                        <Bold>Copyright (c) 2016-2017  Interop Tools Development Team</Bold>
+                        <Bold>Copyright (c) 2016-2020  Interop Tools Development Team</Bold>
                         <LineBreak />
                         <LineBreak />
                     </Paragraph>

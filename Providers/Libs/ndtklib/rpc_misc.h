@@ -61,7 +61,7 @@ typedef struct {
 	RPC_SECURITY_QOS        *SecurityQos;
 }  RPC_BINDING_HANDLE_SECURITY;
 
-typedef struct _RPC_BINDING_HANDLE_TEMPLATE_V1_W {
+/*typedef struct _RPC_BINDING_HANDLE_TEMPLATE_V1_W {
 	unsigned long Version;
 	unsigned long Flags;
 	unsigned long ProtocolSequence;
@@ -72,20 +72,20 @@ typedef struct _RPC_BINDING_HANDLE_TEMPLATE_V1_W {
 		unsigned short *Reserved;
 	} u1;
 	UUID ObjectUuid;
-} RPC_BINDING_HANDLE_TEMPLATE_V1_W, *PRPC_BINDING_HANDLE_TEMPLATE_V1_W;
+} RPC_BINDING_HANDLE_TEMPLATE_V1_W, *PRPC_BINDING_HANDLE_TEMPLATE_V1_W;*/
 
 
 
-typedef struct _RPC_BINDING_HANDLE_SECURITY_V1_W {
+/*typedef struct _RPC_BINDING_HANDLE_SECURITY_V1_W {
 	unsigned long Version;
 	unsigned short *ServerPrincName;
 	unsigned long AuthnLevel;
 	unsigned long AuthnSvc;
 	SEC_WINNT_AUTH_IDENTITY_W *AuthIdentity;
 	RPC_SECURITY_QOS *SecurityQos;
-} RPC_BINDING_HANDLE_SECURITY_V1_W, *PRPC_BINDING_HANDLE_SECURITY_V1_W;
+} RPC_BINDING_HANDLE_SECURITY_V1_W, *PRPC_BINDING_HANDLE_SECURITY_V1_W;*/
 
-typedef struct _STARTUPINFO {
+/*typedef struct _STARTUPINFO {
 	DWORD  cb;
 	LPTSTR lpReserved;
 	LPTSTR lpDesktop;
@@ -104,28 +104,28 @@ typedef struct _STARTUPINFO {
 	HANDLE hStdInput;
 	HANDLE hStdOutput;
 	HANDLE hStdError;
-} STARTUPINFO, *LPSTARTUPINFO;
+} STARTUPINFO, *LPSTARTUPINFO;*/
 
-typedef struct _PROCESS_INFORMATION {
+/*typedef struct _PROCESS_INFORMATION {
 	HANDLE hProcess;
 	HANDLE hThread;
 	DWORD  dwProcessId;
 	DWORD  dwThreadId;
-} PROCESS_INFORMATION, *LPPROCESS_INFORMATION;
+} PROCESS_INFORMATION, *LPPROCESS_INFORMATION;*/
 
 
 
 
-typedef enum _RPC_ASYNC_EVENT {
+/*typedef enum _RPC_ASYNC_EVENT {
 	RpcCallComplete,
 	RpcSendComplete,
 	RpcReceiveComplete,
 	RpcClientDisconnect,
 	RpcClientCancel
-} RPC_ASYNC_EVENT;
+} RPC_ASYNC_EVENT;*/
 
 
-typedef struct _RPC_ASYNC_STATE {
+/*typedef struct _RPC_ASYNC_STATE {
 	unsigned int                Size;
 	unsigned long               Signature;
 	long                        Lock;
@@ -137,14 +137,14 @@ typedef struct _RPC_ASYNC_STATE {
 	void      *NotificationType;
 	void *u;
 	LONG_PTR                    Reserved[4];
-} RPC_ASYNC_STATE, *PRPC_ASYNC_STATE;
+} RPC_ASYNC_STATE, *PRPC_ASYNC_STATE;*/
 
-typedef struct _RPC_BINDING_HANDLE_OPTIONS_V1 {
+/*typedef struct _RPC_BINDING_HANDLE_OPTIONS_V1 {
 	unsigned long Version;
 	unsigned long Flags;
 	unsigned long ComTimeout;
 	unsigned long CallTimeout;
-} RPC_BINDING_HANDLE_OPTIONS_V1, RPC_BINDING_HANDLE_OPTIONS;
+} RPC_BINDING_HANDLE_OPTIONS_V1, RPC_BINDING_HANDLE_OPTIONS;*/
 
 extern handle_t hello_IfHandle;
 extern const hello_MIDL_TYPE_FORMAT_STRING hello__MIDL_TypeFormatString;

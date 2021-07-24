@@ -235,7 +235,7 @@ namespace RegistryHelper
                     buffer = new byte[length];
                     try
                     {
-                        returncode = _nrpc.RegQueryValue(_ndtkhives[hive], key, regvalue, dataType, buffer);
+                        returncode = _nrpc.RegQueryValueW(_ndtkhives[hive], key, regvalue, dataType, buffer);
                     }
                     catch (Exception e)
                     {
@@ -335,7 +335,7 @@ namespace RegistryHelper
 
                 try
                 {
-                    uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, _ndtkvaltypes[valtype], data);
+                    uint returncode = _nrpc.RegSetValueW(_ndtkhives[hive], key, regvalue, _ndtkvaltypes[valtype], data);
                     if (returncode != 0)
                     {
                         return REG_STATUS.FAILED;
@@ -411,7 +411,7 @@ namespace RegistryHelper
                     buffer = new byte[length];
                     try
                     {
-                        returncode = _nrpc.RegQueryValue(_ndtkhives[hive], key, regvalue, dataType, buffer);
+                        returncode = _nrpc.RegQueryValueW(_ndtkhives[hive], key, regvalue, dataType, buffer);
                     }
                     catch (Exception e)
                     {
@@ -462,7 +462,7 @@ namespace RegistryHelper
 
                 try
                 {
-                    uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, valtype, data);
+                    uint returncode = _nrpc.RegSetValueW(_ndtkhives[hive], key, regvalue, valtype, data);
                     if (returncode != 0)
                     {
                         return REG_STATUS.FAILED;

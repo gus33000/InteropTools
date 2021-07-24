@@ -18,7 +18,7 @@ using namespace std;
 #define RPC_S_OK 0
 
 typedef VOID(*__stdcall _QueryTransientObjectSecurityDescriptor) (ULONG, ULONG, PUCHAR);
-typedef RPC_STATUS(*__stdcall _RpcBindingCreateW)(RPC_BINDING_HANDLE_TEMPLATE *Template, RPC_BINDING_HANDLE_SECURITY *Security, RPC_BINDING_HANDLE_OPTIONS  *Options, RPC_BINDING_HANDLE *Binding);
+typedef RPC_STATUS(*__stdcall _RpcBindingCreateW)(RPC_BINDING_HANDLE_TEMPLATE *Template, RPC_BINDING_HANDLE_SECURITY *Security, RPC_BINDING_HANDLE_OPTIONS_V1 *Options, RPC_BINDING_HANDLE *Binding);
 typedef RPC_STATUS(*__stdcall _RpcBindingBind)(PRPC_ASYNC_STATE   pAsync, RPC_BINDING_HANDLE Binding, RPC_IF_HANDLE IfSpec);
 typedef CLIENT_CALL_RETURN(*__cdecl _NdrClientCall2)(PMIDL_STUB_DESC pStubDescriptor, PFORMAT_STRING  pFormat, ...);
 
