@@ -29,7 +29,7 @@ using System.Diagnostics;
 
 namespace InteropTools.ShellPages.IO
 {
-    public sealed partial class BrowserControl
+    public sealed partial class BrowserControl : UserControl
     {
         public delegate void CurrentItemChangedEvent(object sender, CurrentItemChangedEventArgs e);
 

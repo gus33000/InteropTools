@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace InteropTools.ShellPages.SSH
 {
-    public sealed partial class SSHAccountManagerPage
+    public sealed partial class SSHAccountManagerPage : Page
     {
         public string PageName => "SSH Account Manager";
         public PageGroup PageGroup => PageGroup.SSH;

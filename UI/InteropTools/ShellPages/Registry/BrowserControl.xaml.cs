@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Input;
 
 namespace InteropTools.ShellPages.Registry
 {
-    public sealed partial class BrowserControl
+    public sealed partial class BrowserControl : UserControl
     {
         public delegate void CurrentItemChangedEvent(object sender, CurrentItemChangedEventArgs e);
 

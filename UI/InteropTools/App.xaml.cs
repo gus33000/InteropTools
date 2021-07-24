@@ -36,7 +36,7 @@ using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools
 {
-    public sealed partial class App
+    public sealed partial class App : Application
     {
         //public static RegPluginList regpluginlist;
         //public static PowerPluginList powerpluginlist;

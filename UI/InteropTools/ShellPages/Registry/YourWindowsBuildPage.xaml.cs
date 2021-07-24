@@ -3,11 +3,12 @@ using System;
 using Windows.ApplicationModel.Core;
 using Windows.System.Threading;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace InteropTools.ShellPages.Registry
 {
-    public sealed partial class YourWindowsBuildPage
+    public sealed partial class YourWindowsBuildPage : Page
     {
         private readonly IRegistryProvider helper;
 

@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace InteropTools.ShellPages.Registry
 {
-    public sealed partial class RegistryEditorPage
+    public sealed partial class RegistryEditorPage : Page
     {
         public string PageName => "Registry Editor";
         public PageGroup PageGroup => PageGroup.Registry;

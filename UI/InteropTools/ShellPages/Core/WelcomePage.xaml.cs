@@ -12,7 +12,7 @@ using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools.ShellPages.Core
 {
-    public sealed partial class WelcomePage
+    public sealed partial class WelcomePage : Page
     {
         public string PageName => "Welcome";
         public PageGroup PageGroup => PageGroup.Core;

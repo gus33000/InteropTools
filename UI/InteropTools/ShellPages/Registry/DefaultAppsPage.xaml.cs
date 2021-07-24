@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace InteropTools.ShellPages.Registry
 {
-    public sealed partial class DefaultAppsPage
+    public sealed partial class DefaultAppsPage : Page
     {
         public string PageName => "Default Apps";
         public PageGroup PageGroup => PageGroup.General;

@@ -1,9 +1,10 @@
 ﻿using InteropTools.Classes;
 using InteropTools.CorePages;
+using Windows.UI.Xaml.Controls;
 
 namespace InteropTools.ShellPages.Core
 {
-    public sealed partial class YourDevicePage
+    public sealed partial class YourDevicePage : Page
     {
         public string PageName => "Your Device";
         public PageGroup PageGroup => PageGroup.General;

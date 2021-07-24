@@ -24,7 +24,7 @@ namespace InteropTools.ShellPages.Registry
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BrowservNextPage
+    public sealed partial class BrowservNextPage : Page
     {
         public string PageName => "Registry Browser vNext";
         public PageGroup PageGroup => PageGroup.Registry;

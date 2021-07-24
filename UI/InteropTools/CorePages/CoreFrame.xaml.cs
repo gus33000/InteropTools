@@ -1,5 +1,6 @@
 ﻿using InteropTools.Providers;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -8,7 +9,7 @@ namespace InteropTools.CorePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    internal sealed partial class CoreFrame
+    internal sealed partial class CoreFrame : Page
     {
         public CoreFrame()
         {

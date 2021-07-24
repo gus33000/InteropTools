@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Input;
 
 namespace InteropTools.ShellPages.Certificates
 {
-    public sealed partial class CertificatesPage
+    public sealed partial class CertificatesPage : Page
     {
         public string PageName => "Certificates";
         public PageGroup PageGroup => PageGroup.General;

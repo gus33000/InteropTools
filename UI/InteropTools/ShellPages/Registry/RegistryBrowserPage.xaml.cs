@@ -22,7 +22,7 @@ using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools.ShellPages.Registry
 {
-    public sealed partial class RegistryBrowserPage
+    public sealed partial class RegistryBrowserPage : Page
     {
         public string PageName => "Registry Browser";
         public PageGroup PageGroup => PageGroup.Registry;

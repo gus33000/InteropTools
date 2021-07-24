@@ -3,6 +3,7 @@ using InteropTools.CorePages;
 using System;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Shell = InteropTools.CorePages.Shell;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -12,7 +13,7 @@ namespace InteropTools.ShellPages.Registry
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ImportRegFilePage
+    public sealed partial class ImportRegFilePage : Page
     {
         public string PageName => "Import Registry File";
         public PageGroup PageGroup => PageGroup.Registry;

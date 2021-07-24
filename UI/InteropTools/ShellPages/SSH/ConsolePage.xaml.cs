@@ -19,7 +19,7 @@ using Shell = InteropTools.CorePages.Shell;
 
 namespace InteropTools.ShellPages.SSH
 {
-    public sealed partial class ConsolePage
+    public sealed partial class ConsolePage : Page
     {
         public string PageName => "System Console";
         public PageGroup PageGroup => PageGroup.SSH;

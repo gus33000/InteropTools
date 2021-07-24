@@ -27,7 +27,7 @@ namespace InteropTools.CorePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ExtendedSplashScreen
+    public sealed partial class ExtendedSplashScreen : Page
     {
         internal Rect splashImageRect; // Rect to store splash screen image coordinates.
         private readonly SplashScreen splash; // Variable to hold the splash screen object.
