@@ -1,5 +1,5 @@
 #pragma once
-#include "TreeNode.h"
+#include "TreeNode2.h"
 
 namespace TreeViewControl {
     /// <summary>
@@ -64,42 +64,42 @@ namespace TreeViewControl {
         /// ExpandNode adds the children and all open descendants of the targetNode 
         /// to the ViewModel in their correct flattened index.
         /// </summary>
-        void ExpandNode(TreeNode^ targetNode);
+        void ExpandNode(TreeNode2^ targetNode);
 
         /// <summary>
         /// Collapse node removes all the descendants of the targetNode from the ViewModel.
         /// </summary>
-        void CollapseNode(TreeNode^ targetNode);
+        void CollapseNode(TreeNode2^ targetNode);
 
         /// <summary>
-        /// This is the collection changed handler for individual TreeNodes. The collection changes
-        /// from the hierarchical TreeNodes need to be flattened so that we can keep our current 
+        /// This is the collection changed handler for individual TreeNode2s. The collection changes
+        /// from the hierarchical TreeNode2s need to be flattened so that we can keep our current 
         /// flat list in sync.
         /// </summary>
-        /// <param name="sender">TreeNode that has already been changed</param>
-        void TreeNodeVectorChanged(Windows::UI::Xaml::Interop::IBindableObservableVector^ sender, Platform::Object^ e);
+        /// <param name="sender">TreeNode2 that has already been changed</param>
+        void TreeNode2VectorChanged(Windows::UI::Xaml::Interop::IBindableObservableVector^ sender, Platform::Object^ e);
 
-        void TreeNodePropertyChanged(Object^ sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs^ e);
+        void TreeNode2PropertyChanged(Object^ sender, Windows::UI::Xaml::Data::PropertyChangedEventArgs^ e);
 
     private:
         event Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler^ ViewModelChanged;
 
-        Platform::Collections::Vector<TreeNode^>^ flatVectorRealizedItems = ref new Platform::Collections::Vector<TreeNode^>();
+        Platform::Collections::Vector<TreeNode2^>^ flatVectorRealizedItems = ref new Platform::Collections::Vector<TreeNode2^>();
 
         std::vector<Windows::Foundation::EventRegistrationToken> collectionChangedEventTokenVector;
 
         std::vector<Windows::Foundation::EventRegistrationToken> propertyChangedEventTokenVector;
 
-        void AddNodeToView(TreeNode^ targetNode, int index);
+        void AddNodeToView(TreeNode2^ targetNode, int index);
 
-        int AddNodeDescendantsToView(TreeNode^ targetNode, int start, int offset);
+        int AddNodeDescendantsToView(TreeNode2^ targetNode, int start, int offset);
 
-        void RemoveNodeAndDescendantsFromView(TreeNode^ targetNode);
+        void RemoveNodeAndDescendantsFromView(TreeNode2^ targetNode);
 
-        int CountDescendants(TreeNode^ targetNode);
+        int CountDescendants(TreeNode2^ targetNode);
 
-        int IndexOf(TreeNode^ targetNode);
+        int IndexOf(TreeNode2^ targetNode);
 
-        void UpdateTreeView(Windows::Foundation::Collections::IObservableVector<TreeNode^>^ sender, Windows::Foundation::Collections::IVectorChangedEventArgs^ e);
+        void UpdateTreeView2(Windows::Foundation::Collections::IObservableVector<TreeNode2^>^ sender, Windows::Foundation::Collections::IVectorChangedEventArgs^ e);
     };
 }

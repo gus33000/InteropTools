@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "TreeView.h"
+#include "TreeView2.h"
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Interop;
@@ -8,10 +8,10 @@ using namespace Windows::UI::Xaml::Controls;
 
 namespace TreeViewControl {
 
-    TreeView::TreeView()
+    TreeView2::TreeView2()
     {
         flatViewModel = ref new ViewModel;
-        rootNode = ref new TreeNode();
+        rootNode = ref new TreeNode2();
 
         flatViewModel->ExpandNode(rootNode);
 
@@ -19,23 +19,23 @@ namespace TreeViewControl {
         AllowDrop = true;
         CanDragItems = true;
 
-        rootNode->VectorChanged += ref new BindableVectorChangedEventHandler(flatViewModel, &ViewModel::TreeNodeVectorChanged);
-        ItemClick += ref new Windows::UI::Xaml::Controls::ItemClickEventHandler(this, &TreeView::TreeView_OnItemClick);
-        DragItemsStarting += ref new Windows::UI::Xaml::Controls::DragItemsStartingEventHandler(this, &TreeView::TreeView_DragItemsStarting);
-        DragItemsCompleted += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::ListViewBase ^, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs ^>(this, &TreeView::TreeView_DragItemsCompleted);
+        rootNode->VectorChanged += ref new BindableVectorChangedEventHandler(flatViewModel, &ViewModel::TreeNode2VectorChanged);
+        ItemClick += ref new Windows::UI::Xaml::Controls::ItemClickEventHandler(this, &TreeView2::TreeView2_OnItemClick);
+        DragItemsStarting += ref new Windows::UI::Xaml::Controls::DragItemsStartingEventHandler(this, &TreeView2::TreeView2_DragItemsStarting);
+        DragItemsCompleted += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::ListViewBase ^, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs ^>(this, &TreeView2::TreeView2_DragItemsCompleted);
         ItemsSource = flatViewModel;
     }
 
-    void TreeView::TreeView_OnItemClick(Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ args)
+    void TreeView2::TreeView2_OnItemClick(Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ args)
     {
-        TreeViewItemClickEventArgs^ treeViewArgs = ref new TreeViewItemClickEventArgs();
+        TreeView2ItemClickEventArgs^ treeViewArgs = ref new TreeView2ItemClickEventArgs();
         treeViewArgs->ClickedItem = args->ClickedItem;
 
-        TreeViewItemClick(this, treeViewArgs);
+        TreeView2ItemClick(this, treeViewArgs);
 
         if (!treeViewArgs->IsHandled)
         {
-            TreeNode^ targetNode = (TreeNode^)args->ClickedItem;
+            TreeNode2^ targetNode = (TreeNode2^)args->ClickedItem;
             if (targetNode->IsExpanded)
             {
                 flatViewModel->CollapseNode(targetNode);
@@ -47,17 +47,17 @@ namespace TreeViewControl {
         }
     }
 
-    void TreeView::TreeView_DragItemsStarting(Platform::Object^ sender, Windows::UI::Xaml::Controls::DragItemsStartingEventArgs^ e)
+    void TreeView2::TreeView2_DragItemsStarting(Platform::Object^ sender, Windows::UI::Xaml::Controls::DragItemsStartingEventArgs^ e)
     {
-        draggedTreeViewItem = (TreeViewItem^)this->ContainerFromItem(e->Items->GetAt(0));
+        draggedTreeView2Item = (TreeView2Item^)this->ContainerFromItem(e->Items->GetAt(0));
     }
 
-    void TreeView::TreeView_DragItemsCompleted(Windows::UI::Xaml::Controls::ListViewBase^ sender, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs^ args)
+    void TreeView2::TreeView2_DragItemsCompleted(Windows::UI::Xaml::Controls::ListViewBase^ sender, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs^ args)
     {
-        draggedTreeViewItem = nullptr;
+        draggedTreeView2Item = nullptr;
     }
 
-    void TreeView::OnDrop(Windows::UI::Xaml::DragEventArgs^ e)
+    void TreeView2::OnDrop(Windows::UI::Xaml::DragEventArgs^ e)
     {
         if (e->AcceptedOperation == Windows::ApplicationModel::DataTransfer::DataPackageOperation::Move)
         {
@@ -74,9 +74,9 @@ namespace TreeViewControl {
             {
                 insertionPanel->GetInsertionIndexes(point, &aboveIndex, &belowIndex);
 
-                TreeNode^ aboveNode = (TreeNode^)flatViewModel->GetAt(aboveIndex);
-                TreeNode^ belowNode = (TreeNode^)flatViewModel->GetAt(belowIndex);
-                TreeNode^ targetNode = (TreeNode^)this->ItemFromContainer(draggedTreeViewItem);
+                TreeNode2^ aboveNode = (TreeNode2^)flatViewModel->GetAt(aboveIndex);
+                TreeNode2^ belowNode = (TreeNode2^)flatViewModel->GetAt(belowIndex);
+                TreeNode2^ targetNode = (TreeNode2^)this->ItemFromContainer(draggedTreeView2Item);
 
                 //Between two items
                 if (aboveNode && belowNode)
@@ -118,7 +118,7 @@ namespace TreeViewControl {
         ListViewBase::OnDrop(e);
     }
 
-    void TreeView::OnDragOver(Windows::UI::Xaml::DragEventArgs^ e)
+    void TreeView2::OnDragOver(Windows::UI::Xaml::DragEventArgs^ e)
     {
         Windows::ApplicationModel::DataTransfer::DataPackageOperation savedOperation = Windows::ApplicationModel::DataTransfer::DataPackageOperation::None;
 
@@ -138,10 +138,10 @@ namespace TreeViewControl {
 
             if (aboveIndex > -1)
             {
-                TreeNode^ aboveNode = (TreeNode^)flatViewModel->GetAt(aboveIndex);
-                TreeNode^ targetNode = (TreeNode^)this->ItemFromContainer(draggedTreeViewItem);
+                TreeNode2^ aboveNode = (TreeNode2^)flatViewModel->GetAt(aboveIndex);
+                TreeNode2^ targetNode = (TreeNode2^)this->ItemFromContainer(draggedTreeView2Item);
 
-                TreeNode^ ancestorNode = aboveNode;
+                TreeNode2^ ancestorNode = aboveNode;
                 while (ancestorNode != nullptr && ancestorNode != targetNode)
                 {
                     ancestorNode = ancestorNode->ParentNode;
@@ -164,26 +164,26 @@ namespace TreeViewControl {
         e->AcceptedOperation = savedOperation;
     }
 
-    void TreeView::ExpandNode(TreeNode^ targetNode)
+    void TreeView2::ExpandNode(TreeNode2^ targetNode)
     {
         flatViewModel->ExpandNode(targetNode);
     }
 
-    void TreeView::CollapseNode(TreeNode^ targetNode)
+    void TreeView2::CollapseNode(TreeNode2^ targetNode)
     {
         flatViewModel->CollapseNode(targetNode);
     }
 
-    void TreeView::PrepareContainerForItemOverride(DependencyObject^ element, Object^ item)
+    void TreeView2::PrepareContainerForItemOverride(DependencyObject^ element, Object^ item)
     {
         ((UIElement^)element)->AllowDrop = true;
 
         ListView::PrepareContainerForItemOverride(element, item);
     }
 
-    DependencyObject^ TreeView::GetContainerForItemOverride()
+    DependencyObject^ TreeView2::GetContainerForItemOverride()
     {
-        TreeViewItem^ targetItem = ref new TreeViewItem();
+        TreeView2Item^ targetItem = ref new TreeView2Item();
         return (DependencyObject^)targetItem;
     }
 }

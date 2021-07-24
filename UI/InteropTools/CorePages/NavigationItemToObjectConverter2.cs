@@ -12,12 +12,12 @@ namespace InteropTools.CorePages
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return new TreeNode() { Data = new NavigationItemData() { NavigationItem = value as NavigationItem } };
+            return new TreeNode2() { Data = new NavigationItemData() { NavigationItem = value as NavigationItem } };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return (value as TreeNode)?.Data as NavigationItem;
+            return (value as TreeNode2)?.Data as NavigationItem;
         }
     }
 }

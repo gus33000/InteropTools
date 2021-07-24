@@ -3,9 +3,9 @@
 #include <collection.h>
 #include <ppltasks.h>
 
-#include <TreeNode.h>
+#include <TreeNode2.h>
 #include <ViewModel.h>
-#include <TreeViewItem.h>
-#include <TreeView.h>
-#include <TreeViewItemAutomationPeer.h>
+#include <TreeView2Item.h>
+#include <TreeView2.h>
+#include <TreeView2ItemAutomationPeer.h>
 #include <IntegerToIndentationConverter.h>

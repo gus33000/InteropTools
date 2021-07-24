@@ -2,15 +2,15 @@
 
 namespace TreeViewControl {
     /// <summary>
-    /// The TreeNode class implements the hierarchical layout for the TreeView.
+    /// The TreeNode2 class implements the hierarchical layout for the TreeView2.
     /// It also holds the data that will be bound to in the item template.
     /// </summary>
     [Windows::UI::Xaml::Data::Bindable]
     [Windows::Foundation::Metadata::WebHostHidden]
-    public ref class TreeNode sealed : Windows::UI::Xaml::Interop::IBindableObservableVector, Windows::UI::Xaml::Data::INotifyPropertyChanged
+    public ref class TreeNode2 sealed : Windows::UI::Xaml::Interop::IBindableObservableVector, Windows::UI::Xaml::Data::INotifyPropertyChanged
     {
     public:
-        TreeNode();
+        TreeNode2();
 
         virtual void Append(Object^ value);
 
@@ -36,17 +36,17 @@ namespace TreeViewControl {
         {
             virtual Windows::Foundation::EventRegistrationToken add(Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler^ e)
             {
-                return TreeNodeChanged += e;
+                return TreeNode2Changed += e;
             }
 
             virtual void remove(Windows::Foundation::EventRegistrationToken t)
             {
-                TreeNodeChanged -= t;
+                TreeNode2Changed -= t;
             }
 
             internal: virtual void raise(Windows::UI::Xaml::Interop::IBindableObservableVector^ vector, Platform::Object^ e)
             {
-                TreeNodeChanged(vector, e);
+                TreeNode2Changed(vector, e);
             }
         }
 
@@ -63,10 +63,10 @@ namespace TreeViewControl {
             void set(Object^ value);
         }
 
-        property TreeNode^ ParentNode
+        property TreeNode2^ ParentNode
         {
-            TreeNode^ get();
-            void set(TreeNode^ value);
+            TreeNode2^ get();
+            void set(TreeNode2^ value);
         }
 
         property bool IsExpanded
@@ -80,21 +80,21 @@ namespace TreeViewControl {
             bool get();
         }
 
-        //A lone TreeNode will have a depth of -1, this is to show that it is not appended
-        //under the TreeView's invisible root node. Once added into the TreeView via
+        //A lone TreeNode2 will have a depth of -1, this is to show that it is not appended
+        //under the TreeView2's invisible root node. Once added into the TreeView2 via
         //that method, the depth of the node will be calculated appropriately.
         property int Depth
         {
             int get();
         }
 
-        event Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler^ TreeNodeChanged;
+        event Windows::UI::Xaml::Interop::BindableVectorChangedEventHandler^ TreeNode2Changed;
 
     private:
-        TreeNode^ parentNode = nullptr;
+        TreeNode2^ parentNode = nullptr;
         Object^ data = nullptr;
         bool isExpanded = false;
-        Platform::Collections::Vector<TreeNode^>^ childrenVector = ref new Platform::Collections::Vector<TreeNode^>();
-        void ChildrenVectorChanged(Windows::Foundation::Collections::IObservableVector<TreeNode^>^ sender, Windows::Foundation::Collections::IVectorChangedEventArgs^ e);
+        Platform::Collections::Vector<TreeNode2^>^ childrenVector = ref new Platform::Collections::Vector<TreeNode2^>();
+        void ChildrenVectorChanged(Windows::Foundation::Collections::IObservableVector<TreeNode2^>^ sender, Windows::Foundation::Collections::IVectorChangedEventArgs^ e);
     };
 }

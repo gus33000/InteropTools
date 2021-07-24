@@ -8,19 +8,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="TreeNode.cpp" />
-    <ClCompile Include="TreeView.cpp" />
-    <ClCompile Include="TreeViewItem.cpp" />
-    <ClCompile Include="TreeViewItemAutomationPeer.cpp" />
+    <ClCompile Include="TreeNode2.cpp" />
+    <ClCompile Include="TreeView2.cpp" />
+    <ClCompile Include="TreeView2Item.cpp" />
+    <ClCompile Include="TreeView2ItemAutomationPeer.cpp" />
     <ClCompile Include="ViewModel.cpp" />
     <ClCompile Include="IntegerToIndentationConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="TreeNode.h" />
-    <ClInclude Include="TreeView.h" />
-    <ClInclude Include="TreeViewItem.h" />
-    <ClInclude Include="TreeViewItemAutomationPeer.h" />
+    <ClInclude Include="TreeNode2.h" />
+    <ClInclude Include="TreeView2.h" />
+    <ClInclude Include="TreeView2Item.h" />
+    <ClInclude Include="TreeView2ItemAutomationPeer.h" />
     <ClInclude Include="ViewModel.h" />
     <ClInclude Include="IntegerToIndentationConverter.h" />
   </ItemGroup>

@@ -3,15 +3,15 @@
 namespace TreeViewControl {
     [Windows::Foundation::Metadata::WebHostHidden]
     [Windows::UI::Xaml::Data::Bindable]
-    public ref class TreeViewItem sealed : Windows::UI::Xaml::Controls::ListViewItem
+    public ref class TreeView2Item sealed : Windows::UI::Xaml::Controls::ListViewItem
     {
     public:
-        TreeViewItem();
+        TreeView2Item();
 
-        virtual ~TreeViewItem();
+        virtual ~TreeView2Item();
 
     private:
-        Windows::UI::Xaml::Controls::ListView^ GetAncestorListView(TreeViewItem^ targetItem);
+        Windows::UI::Xaml::Controls::ListView^ GetAncestorListView(TreeView2Item^ targetItem);
 
     protected:
         void OnDrop(Windows::UI::Xaml::DragEventArgs^ e) override;

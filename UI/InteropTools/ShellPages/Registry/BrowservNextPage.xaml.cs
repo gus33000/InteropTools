@@ -36,13 +36,13 @@ namespace InteropTools.ShellPages.Registry
             InitializeComponent();
             // Get the current compositor
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            sampleTreeView.AllowDrop = false;
-            sampleTreeView.CanDrag = false;
-            sampleTreeView.CanDragItems = false;
-            sampleTreeView.CanReorderItems = false;
-            TreeNode rootNode = CreateFolderNode("This device", null);
-            sampleTreeView.RootNode.Add(rootNode);
-            sampleTreeView.ItemClick += SampleTreeView_ItemClick;
+            sampleTreeView2.AllowDrop = false;
+            sampleTreeView2.CanDrag = false;
+            sampleTreeView2.CanDragItems = false;
+            sampleTreeView2.CanReorderItems = false;
+            TreeNode2 rootNode = CreateFolderNode("This device", null);
+            sampleTreeView2.RootNode.Add(rootNode);
+            sampleTreeView2.ItemClick += SampleTreeView2_ItemClick;
             ListBrowser.ItemsSource = _itemlist;
         }
 
@@ -61,10 +61,10 @@ namespace InteropTools.ShellPages.Registry
         }
 
 
-        private void SampleTreeView_ItemClick(object sender, ItemClickEventArgs e)
+        private void SampleTreeView2_ItemClick(object sender, ItemClickEventArgs e)
         {
             _itemlist.ClearList();
-            var node = e.ClickedItem as TreeNode;
+            var node = e.ClickedItem as TreeNode2;
             RunInThreadPool(async () =>
             {
                 if (node != null)
@@ -154,9 +154,9 @@ namespace InteropTools.ShellPages.Registry
             });
         }
 
-        private async void SampleTreeView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private async void SampleTreeView2_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var node = args.Item as TreeNode;
+            var node = args.Item as TreeNode2;
 
             if (node != null)
             {
@@ -174,7 +174,7 @@ namespace InteropTools.ShellPages.Registry
 
                             foreach (RegistryItemCustom hive in hives)
                             {
-                                TreeNode newnode = CreateFolderNode(hive.Name, hive);
+                                TreeNode2 newnode = CreateFolderNode(hive.Name, hive);
                                 node.Add(newnode);
                             }
                         }
@@ -214,9 +214,9 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private static TreeNode CreateFolderNode(string name, RegistryItemCustom item)
+        private static TreeNode2 CreateFolderNode(string name, RegistryItemCustom item)
         {
-            return new TreeNode() { Data = new FileSystemData(name) { RegItem = item } };
+            return new TreeNode2() { Data = new FileSystemData(name) { RegItem = item } };
         }
 
 

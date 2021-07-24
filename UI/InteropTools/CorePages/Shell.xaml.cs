@@ -8,6 +8,7 @@ using InteropTools.ShellPages.Certificates;
 using InteropTools.ShellPages.Core;
 using InteropTools.ShellPages.Registry;
 using InteropTools.ShellPages.SSH;
+using InteropTools.ShellPages.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using TreeView = TreeViewControl.TreeView;
 
 namespace InteropTools.CorePages
 {
@@ -90,7 +90,6 @@ namespace InteropTools.CorePages
 
         public async void Load(object args)
         {
-            InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
@@ -119,7 +118,7 @@ namespace InteropTools.CorePages
 
             vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Extensions", Description = "View and manage extensions", PageType = typeof(ExtensionsPage), GroupName = "Core", GroupIcon = "" });
 
-            //vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Store", Description = "Store", PageType = typeof(StorePage), GroupName = "Core", GroupIcon = "" });
+            vm.TopItems.Add(new NavigationItem { Icon = "", DisplayName = "Store", Description = "Store", PageType = typeof(StorePage), GroupName = "Core", GroupIcon = "" });
 
             vm.BottomItems.Add(new NavigationItem
             {
@@ -133,15 +132,15 @@ namespace InteropTools.CorePages
                                                                        group c by new GroupItem(c, true);
             topitems.Source = groups;
 
-            sampleTreeView.AllowDrop = false;
-            sampleTreeView.CanDrag = false;
-            sampleTreeView.CanDragItems = false;
-            sampleTreeView.CanReorderItems = false;
+            sampleTreeView2.AllowDrop = false;
+            sampleTreeView2.CanDrag = false;
+            sampleTreeView2.CanDragItems = false;
+            sampleTreeView2.CanReorderItems = false;
 
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                var groupnode = new TreeNode()
+                var groupnode = new TreeNode2()
                 {
                     Data = new NavigationItemData()
                     {
@@ -149,12 +148,12 @@ namespace InteropTools.CorePages
                     }
                 };
 
-                if (!sampleTreeView.RootNode.Contains(groupnode))
-                { sampleTreeView.RootNode.Add(groupnode); }
+                if (!sampleTreeView2.RootNode.Contains(groupnode))
+                { sampleTreeView2.RootNode.Add(groupnode); }
 
                 foreach (NavigationItem item in element)
                 {
-                    var itemnode = new TreeNode()
+                    var itemnode = new TreeNode2()
                     {
                         Data = new NavigationItemData()
                         {
@@ -189,7 +188,7 @@ namespace InteropTools.CorePages
                 SearchListButton.Visibility = Visibility.Collapsed;
                 SearchBox.Visibility = Visibility.Visible;
 
-                sampleTreeView.Visibility = Visibility.Visible;
+                sampleTreeView2.Visibility = Visibility.Visible;
                 TopList2.Visibility = Visibility.Collapsed;
             }
             else
@@ -199,7 +198,7 @@ namespace InteropTools.CorePages
 
                 if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
                 {
-                    sampleTreeView.Visibility = Visibility.Collapsed;
+                    sampleTreeView2.Visibility = Visibility.Collapsed;
                     TopList2.Visibility = Visibility.Visible;
                 }
             }
@@ -252,7 +251,7 @@ namespace InteropTools.CorePages
                     GroupName = InteropTools.Resources.TextResources.Shell_UnlockGroupName,
                     GroupIcon = ""
                 });
-                /*vm.TopItems.Add(new NavigationItem
+                vm.TopItems.Add(new NavigationItem
 				{
 					Icon = "",
 					DisplayName = "Lumia x50 System Access Unlocker",
@@ -260,7 +259,7 @@ namespace InteropTools.CorePages
 					PageType = typeof(x50PlusDevicesNDTKUnlock),
 					GroupName = InteropTools.Resources.TextResources.Shell_UnlockGroupName,
 					GroupIcon = ""
-				});*/
+				});
                 vm.TopItems.Add(new NavigationItem
                 {
                     Icon = "",
@@ -270,7 +269,7 @@ namespace InteropTools.CorePages
                     GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
                     GroupIcon = ""
                 });
-                /*vm.TopItems.Add(new NavigationItem
+                vm.TopItems.Add(new NavigationItem
 				{
 					Icon = "",
 					DisplayName = InteropTools.Resources.TextResources.Shell_KeyboardOptionsTitle,
@@ -278,7 +277,7 @@ namespace InteropTools.CorePages
 					PageType = typeof(KeyboardCarretPage),
 					GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
 					GroupIcon = ""
-				});*/
+				});
 
                 if (App.MainRegistryHelper.IsLocal())
                 {
@@ -337,7 +336,7 @@ namespace InteropTools.CorePages
                     GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
                     GroupIcon = ""
                 });
-                /*vm.TopItems.Add(new NavigationItem
+                vm.TopItems.Add(new NavigationItem
 				{
 					Icon = "",
 					DisplayName = "Registry Browser vNext",
@@ -354,7 +353,7 @@ namespace InteropTools.CorePages
 					PageType = typeof(RegistryHistory),
 					GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
 					GroupIcon = ""
-				});*/
+				});
             }
 
             if (App.MainRegistryHelper.IsLocal())
@@ -400,17 +399,17 @@ namespace InteropTools.CorePages
                      group c by new GroupItem(c, true);
             topitems.Source = groups;
 
-            sampleTreeView.AllowDrop = false;
-            sampleTreeView.CanDrag = false;
-            sampleTreeView.CanDragItems = false;
-            sampleTreeView.CanReorderItems = false;
+            sampleTreeView2.AllowDrop = false;
+            sampleTreeView2.CanDrag = false;
+            sampleTreeView2.CanDragItems = false;
+            sampleTreeView2.CanReorderItems = false;
 
-            sampleTreeView.RootNode.Clear();
+            sampleTreeView2.RootNode.Clear();
 
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                var groupnode = new TreeNode()
+                var groupnode = new TreeNode2()
                 {
                     Data = new NavigationItemData()
                     {
@@ -418,12 +417,12 @@ namespace InteropTools.CorePages
                     }
                 };
 
-                if (!sampleTreeView.RootNode.Contains(groupnode))
-                { sampleTreeView.RootNode.Add(groupnode); }
+                if (!sampleTreeView2.RootNode.Contains(groupnode))
+                { sampleTreeView2.RootNode.Add(groupnode); }
 
                 foreach (NavigationItem item in element)
                 {
-                    var itemnode = new TreeNode()
+                    var itemnode = new TreeNode2()
                     {
                         Data = new NavigationItemData()
                         {
@@ -528,6 +527,7 @@ namespace InteropTools.CorePages
 
         public Shell(object args)
         {
+            InitializeComponent();
             //Microsoft.UI.Xaml.Controls.DEPControlsClass.SetupRevealForFullWindowMedia(Window.Current.Content);
             //Microsoft.UI.Xaml.Controls.DEPControlsThemeResources.EnsureRevealLights(Window.Current.Content);
             Load(args);
@@ -537,22 +537,22 @@ namespace InteropTools.CorePages
         {
             if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
             {
-                sampleTreeView.SelectedItem = null;
+                sampleTreeView2.SelectedItem = null;
             }
         }
 
-        public ObservableRangeCollection<TreeNode> treeviewnodes = new ObservableRangeCollection<TreeNode>();
+        public ObservableRangeCollection<TreeNode2> treeviewnodes = new ObservableRangeCollection<TreeNode2>();
 
         private void SelectedTopItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
             {
-                sampleTreeView.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
+                sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
             }
 
             else
             {
-                sampleTreeView.SelectedItem = null;
+                sampleTreeView2.SelectedItem = null;
             }
         }
 
@@ -1095,7 +1095,7 @@ namespace InteropTools.CorePages
                     SearchListButton.Visibility = Visibility.Collapsed;
                     SearchBox.Visibility = Visibility.Visible;
 
-                    sampleTreeView.Visibility = Visibility.Visible;
+                    sampleTreeView2.Visibility = Visibility.Visible;
                     TopList2.Visibility = Visibility.Collapsed;
                 }
 
@@ -1106,7 +1106,7 @@ namespace InteropTools.CorePages
 
                     if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
                     {
-                        sampleTreeView.Visibility = Visibility.Collapsed;
+                        sampleTreeView2.Visibility = Visibility.Collapsed;
                         TopList2.Visibility = Visibility.Visible;
                     }
                 }
@@ -1440,7 +1440,7 @@ namespace InteropTools.CorePages
                 SearchListButton.Visibility = Visibility.Collapsed;
                 SearchBox.Visibility = Visibility.Visible;
 
-                sampleTreeView.Visibility = Visibility.Visible;
+                sampleTreeView2.Visibility = Visibility.Visible;
                 TopList2.Visibility = Visibility.Collapsed;
             }
 
@@ -1451,7 +1451,7 @@ namespace InteropTools.CorePages
 
                 if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
                 {
-                    sampleTreeView.Visibility = Visibility.Collapsed;
+                    sampleTreeView2.Visibility = Visibility.Collapsed;
                     TopList2.Visibility = Visibility.Visible;
                 }
             }
@@ -1502,35 +1502,35 @@ namespace InteropTools.CorePages
             e.Handled = true;
         }
 
-        private void sampleTreeView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void sampleTreeView2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                if (e.AddedItems.Count > 0 && !((e.AddedItems.First() as TreeNode).Data as NavigationItemData).IsGroup)
+                if (e.AddedItems.Count > 0 && !((e.AddedItems.First() as TreeNode2).Data as NavigationItemData).IsGroup)
                 {
-                    ViewModel.SelectedTopItem = ((e.AddedItems.First() as TreeNode).Data as NavigationItemData).NavigationItem;
+                    ViewModel.SelectedTopItem = ((e.AddedItems.First() as TreeNode2).Data as NavigationItemData).NavigationItem;
                 }
 
                 else
                     if (ViewModel.SelectedTopItem == ViewModel.SelectedItem)
                 {
-                    (sender as TreeView).SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
+                    (sender as TreeView2).SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
 
-                    if ((sender as TreeView).SelectedItem != treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem))
+                    if ((sender as TreeView2).SelectedItem != treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem))
                     {
-                        (sender as TreeView).SelectedItem = null;
+                        (sender as TreeView2).SelectedItem = null;
                     }
                 }
 
                 else
                 {
-                    (sender as TreeView).SelectedItem = null;
+                    (sender as TreeView2).SelectedItem = null;
                 }
             }
 
             catch
             {
-                (sender as TreeView).SelectedItem = null;
+                (sender as TreeView2).SelectedItem = null;
             }
         }
 
@@ -1540,12 +1540,12 @@ namespace InteropTools.CorePages
             {
                 if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
                 {
-                    sampleTreeView.SelectedItem = null;
+                    sampleTreeView2.SelectedItem = null;
                 }
 
                 if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
                 {
-                    sampleTreeView.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
+                    sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
                 }
             }
 
@@ -1559,14 +1559,17 @@ namespace InteropTools.CorePages
         {
             try
             {
-                if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
+                if (ViewModel != null)
                 {
-                    sampleTreeView.SelectedItem = null;
-                }
+                    if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
+                    {
+                        sampleTreeView2.SelectedItem = null;
+                    }
 
-                if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
-                {
-                    sampleTreeView.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
+                    if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
+                    {
+                        sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData).NavigationItem == ViewModel.SelectedTopItem);
+                    }
                 }
             }
 

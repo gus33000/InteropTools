@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
-#include "TreeViewItemAutomationPeer.h"
-#include "TreeNode.h"
+#include "TreeView2ItemAutomationPeer.h"
+#include "TreeNode2.h"
 
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Automation;
@@ -11,18 +11,18 @@ using namespace Windows::UI::Xaml::Data;
 
 namespace TreeViewControl {
     //IExpandCollapseProvider
-    Windows::UI::Xaml::Automation::ExpandCollapseState TreeViewItemAutomationPeer::ExpandCollapseState::get()
+    Windows::UI::Xaml::Automation::ExpandCollapseState TreeView2ItemAutomationPeer::ExpandCollapseState::get()
     {
         Windows::UI::Xaml::Automation::ExpandCollapseState currentState = Windows::UI::Xaml::Automation::ExpandCollapseState::Collapsed;
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
-        TreeNode^ targetNode;
-        TreeNode^ targetParentNode;
+        TreeNode2^ targetNode;
+        TreeNode2^ targetParentNode;
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
 
             if (Owner->AllowDrop)
             {
@@ -44,33 +44,33 @@ namespace TreeViewControl {
         return currentState;
     }
 
-    void TreeViewItemAutomationPeer::Collapse()
+    void TreeView2ItemAutomationPeer::Collapse()
     {
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            TreeNode^ targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
-            ancestorTreeView->CollapseNode(targetNode);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            TreeNode2^ targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
+            ancestorTreeView2->CollapseNode(targetNode);
             RaiseExpandCollapseAutomationEvent(Windows::UI::Xaml::Automation::ExpandCollapseState::Collapsed);
         }
     }
 
-    void TreeViewItemAutomationPeer::Expand()
+    void TreeView2ItemAutomationPeer::Expand()
     {
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            TreeNode^ targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
-            ancestorTreeView->ExpandNode(targetNode);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            TreeNode2^ targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
+            ancestorTreeView2->ExpandNode(targetNode);
             RaiseExpandCollapseAutomationEvent(Windows::UI::Xaml::Automation::ExpandCollapseState::Expanded);
         }
     }
 
-    void TreeViewItemAutomationPeer::RaiseExpandCollapseAutomationEvent(Windows::UI::Xaml::Automation::ExpandCollapseState newState)
+    void TreeView2ItemAutomationPeer::RaiseExpandCollapseAutomationEvent(Windows::UI::Xaml::Automation::ExpandCollapseState newState)
     {
         Windows::UI::Xaml::Automation::ExpandCollapseState oldState;
 
@@ -88,23 +88,23 @@ namespace TreeViewControl {
 
     //Position override
 
-    //These methods are being overridden so that the TreeView under narrator reads out
+    //These methods are being overridden so that the TreeView2 under narrator reads out
     //the position of an item as compared to it's children, not it's overall position
     //in the listview. I've included an override for level as well, to give context on
     //how deep in the tree an item is.
-    int TreeViewItemAutomationPeer::GetSizeOfSetCore()
+    int TreeView2ItemAutomationPeer::GetSizeOfSetCore()
     {
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
-        TreeNode^ targetNode;
-        TreeNode^ targetParentNode;
+        TreeNode2^ targetNode;
+        TreeNode2^ targetParentNode;
 
         int setSize = 0;
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
             targetParentNode = targetNode->ParentNode;
             setSize = targetParentNode->Size;
         }
@@ -112,19 +112,19 @@ namespace TreeViewControl {
         return setSize;
     }
 
-    int TreeViewItemAutomationPeer::GetPositionInSetCore()
+    int TreeView2ItemAutomationPeer::GetPositionInSetCore()
     {
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
-        TreeNode^ targetNode;
-        TreeNode^ targetParentNode;
+        TreeNode2^ targetNode;
+        TreeNode2^ targetParentNode;
 
         int positionInSet = 0;
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
             unsigned int positionInt;
             targetParentNode = targetNode->ParentNode;
             targetParentNode->IndexOf(targetNode, &positionInt);
@@ -134,26 +134,26 @@ namespace TreeViewControl {
         return positionInSet;
     }
 
-    int TreeViewItemAutomationPeer::GetLevelCore()
+    int TreeView2ItemAutomationPeer::GetLevelCore()
     {
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetParentListView((DependencyObject^)Owner);
 
-        TreeNode^ targetNode;
-        TreeNode^ targetParentNode;
+        TreeNode2^ targetNode;
+        TreeNode2^ targetParentNode;
 
         int levelValue = 0;
         
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            targetNode = (TreeNode^)ancestorTreeView->ItemFromContainer((TreeViewItem^)Owner);
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            targetNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer((TreeView2Item^)Owner);
             levelValue = targetNode->Depth + 1;
         }
 
         return levelValue;
     }
 
-    Platform::Object^ TreeViewItemAutomationPeer::GetPatternCore(Windows::UI::Xaml::Automation::Peers::PatternInterface patternInterface)
+    Platform::Object^ TreeView2ItemAutomationPeer::GetPatternCore(Windows::UI::Xaml::Automation::Peers::PatternInterface patternInterface)
     {
         if (patternInterface == Windows::UI::Xaml::Automation::Peers::PatternInterface::ExpandCollapse)
         {
@@ -163,7 +163,7 @@ namespace TreeViewControl {
         return ListViewItemAutomationPeer::GetPatternCore(patternInterface);
     }
 
-    Windows::UI::Xaml::Controls::ListView^ TreeViewItemAutomationPeer::GetParentListView(DependencyObject^ Owner)
+    Windows::UI::Xaml::Controls::ListView^ TreeView2ItemAutomationPeer::GetParentListView(DependencyObject^ Owner)
     {
         DependencyObject^ treeViewItemAncestor = Owner;
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = nullptr;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace InteropTools.Converters.TreeView
+namespace InteropTools.Converters.TreeView2
 {
     public sealed class GlyphConverter : IValueConverter
     {

@@ -1,46 +1,46 @@
 #pragma once
 #include "pch.h"
-#include "TreeViewItem.h"
-#include "TreeViewItemAutomationPeer.h"
+#include "TreeView2Item.h"
+#include "TreeView2ItemAutomationPeer.h"
 
 using namespace Windows::UI::Xaml;
 using namespace Platform;
 
 namespace TreeViewControl {
-    TreeViewItem::TreeViewItem()
+    TreeView2Item::TreeView2Item()
     {
     }
 
-    TreeViewItem::~TreeViewItem()
+    TreeView2Item::~TreeView2Item()
     {
     }
 
-    Windows::UI::Xaml::Controls::ListView^ TreeViewItem::GetAncestorListView(TreeViewItem^ targetItem)
+    Windows::UI::Xaml::Controls::ListView^ TreeView2Item::GetAncestorListView(TreeView2Item^ targetItem)
     {
-        DependencyObject^ TreeViewItemAncestor = (DependencyObject^)this;
+        DependencyObject^ TreeView2ItemAncestor = (DependencyObject^)this;
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = nullptr;
-        while (TreeViewItemAncestor != nullptr && ancestorListView == nullptr)
+        while (TreeView2ItemAncestor != nullptr && ancestorListView == nullptr)
         {
-            TreeViewItemAncestor = Windows::UI::Xaml::Media::VisualTreeHelper::GetParent(TreeViewItemAncestor);
-            ancestorListView = dynamic_cast<Windows::UI::Xaml::Controls::ListView^>(TreeViewItemAncestor);
+            TreeView2ItemAncestor = Windows::UI::Xaml::Media::VisualTreeHelper::GetParent(TreeView2ItemAncestor);
+            ancestorListView = dynamic_cast<Windows::UI::Xaml::Controls::ListView^>(TreeView2ItemAncestor);
         }
         return ancestorListView;
     }
 
-    void TreeViewItem::OnDrop(Windows::UI::Xaml::DragEventArgs^ e)
+    void TreeView2Item::OnDrop(Windows::UI::Xaml::DragEventArgs^ e)
     {
         if (e->AcceptedOperation == Windows::ApplicationModel::DataTransfer::DataPackageOperation::Move)
         {
-            TreeViewItem^ droppedOnItem = (TreeViewItem^)this;
+            TreeView2Item^ droppedOnItem = (TreeView2Item^)this;
 
             Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetAncestorListView(droppedOnItem);
 
             if (ancestorListView)
             {
-                TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-                TreeViewItem^ droppedItem = ancestorTreeView->draggedTreeViewItem;
-                TreeNode^ droppedNode = (TreeNode^)ancestorTreeView->ItemFromContainer(droppedItem);
-                TreeNode^ droppedOnNode = (TreeNode^)ancestorTreeView->ItemFromContainer(droppedOnItem);
+                TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+                TreeView2Item^ droppedItem = ancestorTreeView2->draggedTreeView2Item;
+                TreeNode2^ droppedNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(droppedItem);
+                TreeNode2^ droppedOnNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(droppedOnItem);
 
                 //Remove the item that was dragged
                 unsigned int removeIndex;
@@ -64,9 +64,9 @@ namespace TreeViewControl {
         }
     }
 
-    void TreeViewItem::OnDragEnter(Windows::UI::Xaml::DragEventArgs^ e)
+    void TreeView2Item::OnDragEnter(Windows::UI::Xaml::DragEventArgs^ e)
     {
-        TreeViewItem^ draggedOverItem = (TreeViewItem^)this;
+        TreeView2Item^ draggedOverItem = (TreeView2Item^)this;
 
         e->AcceptedOperation = Windows::ApplicationModel::DataTransfer::DataPackageOperation::None;
 
@@ -74,11 +74,11 @@ namespace TreeViewControl {
 
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            TreeViewItem^ draggedTreeViewItem = ancestorTreeView->draggedTreeViewItem;
-            TreeNode^ draggedNode = (TreeNode^)ancestorTreeView->ItemFromContainer(draggedTreeViewItem);
-            TreeNode^ draggedOverNode = (TreeNode^)ancestorTreeView->ItemFromContainer(draggedOverItem);
-            TreeNode^ walkNode = draggedOverNode->ParentNode;
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            TreeView2Item^ draggedTreeView2Item = ancestorTreeView2->draggedTreeView2Item;
+            TreeNode2^ draggedNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(draggedTreeView2Item);
+            TreeNode2^ draggedOverNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(draggedOverItem);
+            TreeNode2^ walkNode = draggedOverNode->ParentNode;
 
             while (walkNode != nullptr && walkNode != draggedNode)
             {
@@ -92,21 +92,21 @@ namespace TreeViewControl {
         }
     }
 
-    void TreeViewItem::OnDragOver(Windows::UI::Xaml::DragEventArgs^ e)
+    void TreeView2Item::OnDragOver(Windows::UI::Xaml::DragEventArgs^ e)
     {
         e->DragUIOverride->IsGlyphVisible = true;
         e->AcceptedOperation = Windows::ApplicationModel::DataTransfer::DataPackageOperation::None;
 
-        TreeViewItem^ draggedOverItem = (TreeViewItem^)this;
+        TreeView2Item^ draggedOverItem = (TreeView2Item^)this;
 
         Windows::UI::Xaml::Controls::ListView^ ancestorListView = GetAncestorListView(draggedOverItem);
         if (ancestorListView)
         {
-            TreeView^ ancestorTreeView = (TreeView^)ancestorListView;
-            TreeViewItem^ draggedTreeViewItem = ancestorTreeView->draggedTreeViewItem;
-            TreeNode^ draggedNode = (TreeNode^)ancestorTreeView->ItemFromContainer(draggedTreeViewItem);
-            TreeNode^ draggedOverNode = (TreeNode^)ancestorTreeView->ItemFromContainer(draggedOverItem);
-            TreeNode^ walkNode = draggedOverNode->ParentNode;
+            TreeView2^ ancestorTreeView2 = (TreeView2^)ancestorListView;
+            TreeView2Item^ draggedTreeView2Item = ancestorTreeView2->draggedTreeView2Item;
+            TreeNode2^ draggedNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(draggedTreeView2Item);
+            TreeNode2^ draggedOverNode = (TreeNode2^)ancestorTreeView2->ItemFromContainer(draggedOverItem);
+            TreeNode2^ walkNode = draggedOverNode->ParentNode;
 
             while (walkNode != nullptr && walkNode != draggedNode)
             {
@@ -120,8 +120,8 @@ namespace TreeViewControl {
         }
     }
 
-    Windows::UI::Xaml::Automation::Peers::AutomationPeer^ TreeViewItem::OnCreateAutomationPeer()
+    Windows::UI::Xaml::Automation::Peers::AutomationPeer^ TreeView2Item::OnCreateAutomationPeer()
     {
-        return ref new TreeViewItemAutomationPeer(this);
+        return ref new TreeView2ItemAutomationPeer(this);
     }
 }

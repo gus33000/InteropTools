@@ -360,7 +360,10 @@ namespace InteropTools.ShellPages.Registry
                     }
             }
 
-            ValueDataInput.Text = regvalue;
+            if (ValueDataInput != null)
+            {
+                ValueDataInput.Text = regvalue;
+            }
         }
 
         private void HideEditValueDialog()
@@ -1014,7 +1017,10 @@ namespace InteropTools.ShellPages.Registry
         {
             if (TypeSelector.SelectedIndex != 12)
             {
-                ValueTypeInput.Visibility = Visibility.Collapsed;
+                if (ValueTypeInput != null)
+                {
+                    ValueTypeInput.Visibility = Visibility.Collapsed;
+                }
 
                 switch (TypeSelector.SelectedIndex)
                 {
@@ -1086,9 +1092,12 @@ namespace InteropTools.ShellPages.Registry
 
             try
             {
-                ValueTypeInput.Visibility = Visibility.Visible;
-                val = uint.Parse(ValueTypeInput.Text);
-                return val;
+                if (ValueTypeInput != null)
+                {
+                    ValueTypeInput.Visibility = Visibility.Visible;
+                    val = uint.Parse(ValueTypeInput.Text);
+                    return val;
+                }
             }
 
             catch
@@ -1111,19 +1120,22 @@ namespace InteropTools.ShellPages.Registry
 
         private void ValEditAccept_Click(object sender, RoutedEventArgs e)
         {
-            _helper.SetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, GetSelectedType(), ValueDataInput.Text);
-
-            if (BrowserCtrl._currentRegItem == null)
+            if (ValueDataInput != null)
             {
-                BrowserCtrl.ChangeCurrentItem();
-            }
+                _helper.SetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, GetSelectedType(), ValueDataInput.Text);
 
-            else
-            {
-                BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
-            }
+                if (BrowserCtrl._currentRegItem == null)
+                {
+                    BrowserCtrl.ChangeCurrentItem();
+                }
 
-            HideEditValueDialog();
+                else
+                {
+                    BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
+                }
+
+                HideEditValueDialog();
+            }
         }
 
         private void ValEditCancel_Click(object sender, RoutedEventArgs e)
@@ -1227,22 +1239,7 @@ namespace InteropTools.ShellPages.Registry
 
         private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
-            if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
-            {
-                ValEditAccept.IsEnabled = true;
-                ValueDataBorder.BorderThickness = new Thickness(0);
-            }
-
-            else
-            {
-                ValEditAccept.IsEnabled = false;
-                ValueDataBorder.BorderThickness = new Thickness(2);
-            }
-        }
-
-        private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
+            if (ValueDataInput != null)
             {
                 if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
                 {
@@ -1254,6 +1251,27 @@ namespace InteropTools.ShellPages.Registry
                 {
                     ValEditAccept.IsEnabled = false;
                     ValueDataBorder.BorderThickness = new Thickness(2);
+                }
+            }
+        }
+
+        private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (ValueDataInput != null)
+                {
+                    if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
+                    {
+                        ValEditAccept.IsEnabled = true;
+                        ValueDataBorder.BorderThickness = new Thickness(0);
+                    }
+
+                    else
+                    {
+                        ValEditAccept.IsEnabled = false;
+                        ValueDataBorder.BorderThickness = new Thickness(2);
+                    }
                 }
             }
 
@@ -1308,16 +1326,18 @@ namespace InteropTools.ShellPages.Registry
         {
             try
             {
-                if (ValidateValue(GetSelectedTypeCreate(), CreateValueDataInput.Text))
+                if (CreateValueDataInput != null)
                 {
-                    ValCreateAccept.IsEnabled = true;
-                    CreateValueDataBorder.BorderThickness = new Thickness(0);
-                }
-
-                else
-                {
-                    ValCreateAccept.IsEnabled = false;
-                    CreateValueDataBorder.BorderThickness = new Thickness(2);
+                    if (ValidateValue(GetSelectedTypeCreate(), CreateValueDataInput.Text))
+                    {
+                        ValCreateAccept.IsEnabled = true;
+                        CreateValueDataBorder.BorderThickness = new Thickness(0);
+                    }
+                    else
+                    {
+                        ValCreateAccept.IsEnabled = false;
+                        CreateValueDataBorder.BorderThickness = new Thickness(2);
+                    }
                 }
             }
 
@@ -1330,16 +1350,18 @@ namespace InteropTools.ShellPages.Registry
         {
             try
             {
-                if (ValidateValue(GetSelectedTypeCreate(), CreateValueDataInput.Text))
+                if (CreateValueDataInput != null)
                 {
-                    ValCreateAccept.IsEnabled = true;
-                    CreateValueDataBorder.BorderThickness = new Thickness(0);
-                }
-
-                else
-                {
-                    ValCreateAccept.IsEnabled = false;
-                    CreateValueDataBorder.BorderThickness = new Thickness(2);
+                    if (ValidateValue(GetSelectedTypeCreate(), CreateValueDataInput.Text))
+                    {
+                        ValCreateAccept.IsEnabled = true;
+                        CreateValueDataBorder.BorderThickness = new Thickness(0);
+                    }
+                    else
+                    {
+                        ValCreateAccept.IsEnabled = false;
+                        CreateValueDataBorder.BorderThickness = new Thickness(2);
+                    }
                 }
             }
 
@@ -1355,9 +1377,15 @@ namespace InteropTools.ShellPages.Registry
             sb.Begin();
             BrowserCtrl.Visibility = Visibility.Collapsed;
             MainCommandBar.Visibility = Visibility.Collapsed;
-            CreateValueTypeInput.Visibility = Visibility.Collapsed;
-            CreateValueTypeInput.Text = "";
-            CreateValueDataInput.Text = "";
+            if (CreateValueTypeInput != null)
+            {
+                CreateValueTypeInput.Visibility = Visibility.Collapsed;
+                CreateValueTypeInput.Text = "";
+            }
+            if (CreateValueTypeInput != null)
+            {
+                CreateValueDataInput.Text = "";
+            }
             CreateTypeSelector.SelectedIndex = 9;
         }
 
@@ -1379,16 +1407,18 @@ namespace InteropTools.ShellPages.Registry
         {
             try
             {
-                if (ValueNameSelector.SelectedIndex == 1)
+                if (ValueNameInput != null)
                 {
-                    ValueNameInput.Text = "";
-                    ValueNameInput.IsEnabled = false;
-                }
-
-                else
-                {
-                    ValueNameInput.Text = "";
-                    ValueNameInput.IsEnabled = true;
+                    if (ValueNameSelector.SelectedIndex == 1)
+                    {
+                        ValueNameInput.Text = "";
+                        ValueNameInput.IsEnabled = false;
+                    }
+                    else
+                    {
+                        ValueNameInput.Text = "";
+                        ValueNameInput.IsEnabled = true;
+                    }
                 }
             }
 
@@ -1401,7 +1431,10 @@ namespace InteropTools.ShellPages.Registry
         {
             if (CreateTypeSelector.SelectedIndex != 12)
             {
-                CreateValueTypeInput.Visibility = Visibility.Collapsed;
+                if (CreateValueTypeInput != null)
+                {
+                    CreateValueTypeInput.Visibility = Visibility.Collapsed;
+                }
 
                 switch (CreateTypeSelector.SelectedIndex)
                 {
@@ -1473,9 +1506,12 @@ namespace InteropTools.ShellPages.Registry
 
             try
             {
-                CreateValueTypeInput.Visibility = Visibility.Visible;
-                val = uint.Parse(CreateValueTypeInput.Text);
-                return val;
+                if (CreateValueTypeInput != null)
+                {
+                    CreateValueTypeInput.Visibility = Visibility.Visible;
+                    val = uint.Parse(CreateValueTypeInput.Text);
+                    return val;
+                }
             }
 
             catch

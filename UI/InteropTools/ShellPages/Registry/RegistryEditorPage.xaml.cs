@@ -162,8 +162,11 @@ namespace InteropTools.ShellPages.Registry
                 HelperErrorCodes result = ret.returncode;
                 RunInUiThread(async () =>
                 {
-                    ValueTypeInput.Visibility = Visibility.Collapsed;
-                    ValueTypeInput.Text = "";
+                    if (ValueTypeInput != null)
+                    {
+                        ValueTypeInput.Visibility = Visibility.Collapsed;
+                        ValueTypeInput.Text = "";
+                    }
 
                     if ((await _helper.GetKeyStatus(selectedhive, key)) == KeyStatus.FOUND)
                     {
@@ -246,8 +249,12 @@ namespace InteropTools.ShellPages.Registry
                                 default:
                                     {
                                         TypeSelector.SelectedIndex = 12;
-                                        ValueTypeInput.Visibility = Visibility.Visible;
-                                        ValueTypeInput.Text = type.ToString();
+
+                                        if (ValueTypeInput != null)
+                                        {
+                                            ValueTypeInput.Visibility = Visibility.Visible;
+                                            ValueTypeInput.Text = type.ToString();
+                                        }
                                         break;
                                     }
                             }
@@ -259,7 +266,10 @@ namespace InteropTools.ShellPages.Registry
                         case HelperErrorCodes.SUCCESS:
                             {
                                 AddHistoryItem(GetRegistryHiveName(selectedhive), key, value, data, "Read");
-                                ValueDataInput.Text = data;
+                                if (ValueDataInput != null)
+                                {
+                                    ValueDataInput.Text = data;
+                                }
                                 break;
                             }
 
@@ -463,7 +473,10 @@ namespace InteropTools.ShellPages.Registry
             }
 
             PathInput.Text = selectedRegistryHistoryItem.Key;
-            ValueDataInput.Text = selectedRegistryHistoryItem.ValueData;
+            if (ValueDataInput != null)
+            {
+                ValueDataInput.Text = selectedRegistryHistoryItem.ValueData;
+            }
             ValueNameInput.Text = selectedRegistryHistoryItem.ValueName;
         }
 
@@ -628,7 +641,10 @@ namespace InteropTools.ShellPages.Registry
         {
             if (TypeSelector.SelectedIndex != 12)
             {
-                ValueTypeInput.Visibility = Visibility.Collapsed;
+                if (ValueTypeInput != null)
+                {
+                    ValueTypeInput.Visibility = Visibility.Collapsed;
+                }
 
                 switch (TypeSelector.SelectedIndex)
                 {
@@ -700,9 +716,12 @@ namespace InteropTools.ShellPages.Registry
 
             try
             {
-                ValueTypeInput.Visibility = Visibility.Visible;
-                val = uint.Parse(ValueTypeInput.Text);
-                return val;
+                if (ValueTypeInput != null)
+                {
+                    ValueTypeInput.Visibility = Visibility.Visible;
+                    val = uint.Parse(ValueTypeInput.Text);
+                    return val;
+                }
             }
 
             catch
@@ -1049,22 +1068,7 @@ namespace InteropTools.ShellPages.Registry
 
         private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
-            if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
-            {
-                WriteButton.IsEnabled = true;
-                ValueDataBorder.BorderThickness = new Thickness(0);
-            }
-
-            else
-            {
-                WriteButton.IsEnabled = false;
-                ValueDataBorder.BorderThickness = new Thickness(2);
-            }
-        }
-
-        private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
+            if (ValueDataInput != null)
             {
                 if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
                 {
@@ -1076,6 +1080,26 @@ namespace InteropTools.ShellPages.Registry
                 {
                     WriteButton.IsEnabled = false;
                     ValueDataBorder.BorderThickness = new Thickness(2);
+                }
+            }
+        }
+
+        private void TypeSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (ValueDataInput != null)
+                {
+                    if (ValidateValue(GetSelectedType(), ValueDataInput.Text))
+                    {
+                        WriteButton.IsEnabled = true;
+                        ValueDataBorder.BorderThickness = new Thickness(0);
+                    }
+                    else
+                    {
+                        WriteButton.IsEnabled = false;
+                        ValueDataBorder.BorderThickness = new Thickness(2);
+                    }
                 }
             }
 

@@ -1,13 +1,13 @@
 #pragma once
-#include "TreeViewItem.h"
-#include "TreeView.h"
+#include "TreeView2Item.h"
+#include "TreeView2.h"
 
 namespace TreeViewControl {
     [Windows::Foundation::Metadata::WebHostHidden]
-    public ref class TreeViewItemAutomationPeer : Windows::UI::Xaml::Automation::Peers::ListViewItemAutomationPeer, Windows::UI::Xaml::Automation::Provider::IExpandCollapseProvider
+    public ref class TreeView2ItemAutomationPeer : Windows::UI::Xaml::Automation::Peers::ListViewItemAutomationPeer, Windows::UI::Xaml::Automation::Provider::IExpandCollapseProvider
     {
     internal:
-        TreeViewItemAutomationPeer(TreeViewItem^ owner) :Windows::UI::Xaml::Automation::Peers::ListViewItemAutomationPeer(owner) {};
+        TreeView2ItemAutomationPeer(TreeView2Item^ owner) :Windows::UI::Xaml::Automation::Peers::ListViewItemAutomationPeer(owner) {};
 
     public:
         //IExpandCollapseProvider

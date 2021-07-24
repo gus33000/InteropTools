@@ -1,13 +1,13 @@
 #pragma once
-#include "TreeNode.h"
+#include "TreeNode2.h"
 #include "ViewModel.h"
-#include "TreeViewItem.h"
+#include "TreeView2Item.h"
 
 namespace TreeViewControl {
-    public ref class TreeViewItemClickEventArgs sealed
+    public ref class TreeView2ItemClickEventArgs sealed
     {
     public:
-        TreeViewItemClickEventArgs() {}
+        TreeView2ItemClickEventArgs() {}
 
         property Object^ ClickedItem
         {
@@ -25,37 +25,37 @@ namespace TreeViewControl {
         bool isHandled = false;
     };
 
-    ref class TreeView;
+    ref class TreeView2;
     [Windows::Foundation::Metadata::WebHostHidden]
-    public delegate void TreeViewItemClickHandler(TreeView^ sender, TreeViewItemClickEventArgs^ args);
+    public delegate void TreeView2ItemClickHandler(TreeView2^ sender, TreeView2ItemClickEventArgs^ args);
 
     [Windows::Foundation::Metadata::WebHostHidden]
-    public ref class TreeView sealed : Windows::UI::Xaml::Controls::ListView
+    public ref class TreeView2 sealed : Windows::UI::Xaml::Controls::ListView
     {
     public:
-        TreeView();
+        TreeView2();
 
         //This event is used to expose an alternative to itemclick to developers.
-        event TreeViewItemClickHandler^ TreeViewItemClick;
+        event TreeView2ItemClickHandler^ TreeView2ItemClick;
 
-        //This RootNode property is used by the TreeView to handle additions into the TreeView and
+        //This RootNode property is used by the TreeView2 to handle additions into the TreeView2 and
         //accurate VectorChange with multiple 'root level nodes'. This node will not be placed
         //in the flatViewModel, but has it's vectorchanged event hooked up to flatViewModel's
         //handler.
-        property TreeNode^ RootNode
+        property TreeNode2^ RootNode
         {
-            TreeNode^ get() { return rootNode; };
+            TreeNode2^ get() { return rootNode; };
         }
 
-        void TreeView_OnItemClick(Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ args);
+        void TreeView2_OnItemClick(Platform::Object^ sender, Windows::UI::Xaml::Controls::ItemClickEventArgs^ args);
 
-        void TreeView_DragItemsStarting(Platform::Object^ sender, Windows::UI::Xaml::Controls::DragItemsStartingEventArgs^ e);
+        void TreeView2_DragItemsStarting(Platform::Object^ sender, Windows::UI::Xaml::Controls::DragItemsStartingEventArgs^ e);
 
-        void TreeView_DragItemsCompleted(Windows::UI::Xaml::Controls::ListViewBase^ sender, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs^ args);
+        void TreeView2_DragItemsCompleted(Windows::UI::Xaml::Controls::ListViewBase^ sender, Windows::UI::Xaml::Controls::DragItemsCompletedEventArgs^ args);
 
-        void ExpandNode(TreeNode^ targetNode);
+        void ExpandNode(TreeNode2^ targetNode);
 
-        void CollapseNode(TreeNode^ targetNode);
+        void CollapseNode(TreeNode2^ targetNode);
 
     protected:
         void PrepareContainerForItemOverride(DependencyObject^ element, Object^ item) override;
@@ -65,11 +65,11 @@ namespace TreeViewControl {
         void OnDragOver(Windows::UI::Xaml::DragEventArgs^ e) override;
 
     private:
-        TreeNode^ rootNode;
+        TreeNode2^ rootNode;
         ViewModel^ flatViewModel;
 
     internal:
-        TreeViewItem^ draggedTreeViewItem;
+        TreeView2Item^ draggedTreeView2Item;
     };
 }
 
