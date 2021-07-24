@@ -140,7 +140,7 @@ namespace InteropTools.CorePages
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                var groupnode = new TreeNode2()
+                TreeNode2 groupnode = new TreeNode2()
                 {
                     Data = new NavigationItemData()
                     {
@@ -153,7 +153,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in element)
                 {
-                    var itemnode = new TreeNode2()
+                    TreeNode2 itemnode = new TreeNode2()
                     {
                         Data = new NavigationItemData()
                         {
@@ -252,14 +252,14 @@ namespace InteropTools.CorePages
                     GroupIcon = ""
                 });
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = "Lumia x50 System Access Unlocker",
-					Description = "Lumia x50 System Access Unlocker",
-					PageType = typeof(x50PlusDevicesNDTKUnlock),
-					GroupName = InteropTools.Resources.TextResources.Shell_UnlockGroupName,
-					GroupIcon = ""
-				});
+                {
+                    Icon = "",
+                    DisplayName = "Lumia x50 System Access Unlocker",
+                    Description = "Lumia x50 System Access Unlocker",
+                    PageType = typeof(x50PlusDevicesNDTKUnlock),
+                    GroupName = InteropTools.Resources.TextResources.Shell_UnlockGroupName,
+                    GroupIcon = ""
+                });
                 vm.TopItems.Add(new NavigationItem
                 {
                     Icon = "",
@@ -270,14 +270,14 @@ namespace InteropTools.CorePages
                     GroupIcon = ""
                 });
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = InteropTools.Resources.TextResources.Shell_KeyboardOptionsTitle,
-					Description = InteropTools.Resources.TextResources.Shell_KeyboardOptionsDesc,
-					PageType = typeof(KeyboardCarretPage),
-					GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
-					GroupIcon = ""
-				});
+                {
+                    Icon = "",
+                    DisplayName = InteropTools.Resources.TextResources.Shell_KeyboardOptionsTitle,
+                    Description = InteropTools.Resources.TextResources.Shell_KeyboardOptionsDesc,
+                    PageType = typeof(KeyboardCarretPage),
+                    GroupName = InteropTools.Resources.TextResources.Shell_TweakGroupName,
+                    GroupIcon = ""
+                });
 
                 if (App.MainRegistryHelper.IsLocal())
                 {
@@ -337,23 +337,23 @@ namespace InteropTools.CorePages
                     GroupIcon = ""
                 });
                 vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = "Registry Browser vNext",
-					Description = "WIP",
-					PageType = typeof(BrowservNextPage),
-					GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
-					GroupIcon = ""
-				});
-				vm.TopItems.Add(new NavigationItem
-				{
-					Icon = "",
-					DisplayName = "Registry History",
-					Description = "WIP",
-					PageType = typeof(RegistryHistory),
-					GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
-					GroupIcon = ""
-				});
+                {
+                    Icon = "",
+                    DisplayName = "Registry Browser vNext",
+                    Description = "WIP",
+                    PageType = typeof(BrowservNextPage),
+                    GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
+                    GroupIcon = ""
+                });
+                vm.TopItems.Add(new NavigationItem
+                {
+                    Icon = "",
+                    DisplayName = "Registry History",
+                    Description = "WIP",
+                    PageType = typeof(RegistryHistory),
+                    GroupName = InteropTools.Resources.TextResources.Shell_RegistryGroupName,
+                    GroupIcon = ""
+                });
             }
 
             if (App.MainRegistryHelper.IsLocal())
@@ -409,7 +409,7 @@ namespace InteropTools.CorePages
             foreach (IGrouping<GroupItem, NavigationItem> element in groups)
             {
                 GroupItem groupitem = element.Key;
-                var groupnode = new TreeNode2()
+                TreeNode2 groupnode = new TreeNode2()
                 {
                     Data = new NavigationItemData()
                     {
@@ -422,7 +422,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in element)
                 {
-                    var itemnode = new TreeNode2()
+                    TreeNode2 itemnode = new TreeNode2()
                     {
                         Data = new NavigationItemData()
                         {

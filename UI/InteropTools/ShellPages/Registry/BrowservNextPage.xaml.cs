@@ -64,7 +64,7 @@ namespace InteropTools.ShellPages.Registry
         private void SampleTreeView2_ItemClick(object sender, ItemClickEventArgs e)
         {
             _itemlist.ClearList();
-            var node = e.ClickedItem as TreeNode2;
+            TreeNode2 node = e.ClickedItem as TreeNode2;
             RunInThreadPool(async () =>
             {
                 if (node != null)
@@ -156,7 +156,7 @@ namespace InteropTools.ShellPages.Registry
 
         private async void SampleTreeView2_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            var node = args.Item as TreeNode2;
+            TreeNode2 node = args.Item as TreeNode2;
 
             if (node != null)
             {
