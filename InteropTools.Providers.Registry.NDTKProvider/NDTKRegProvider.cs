@@ -113,7 +113,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                     buffer = new byte[length];
                     try
                     {
-                        returncode = _nrpc.RegQueryValue(_ndtkhives[hive], key, regvalue, dataType, buffer);
+                        returncode = _nrpc.RegQueryValueW(_ndtkhives[hive], key, regvalue, dataType, buffer);
                     }
                     catch (Exception e)
                     {
@@ -159,7 +159,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             {
                 try
                 {
-                    uint returncode = _nrpc.RegSetValue(_ndtkhives[hive], key, regvalue, valtype, data);
+                    uint returncode = _nrpc.RegSetValueW(_ndtkhives[hive], key, regvalue, valtype, data);
                     if (returncode != 0)
                     {
                         return REG_STATUS.FAILED;

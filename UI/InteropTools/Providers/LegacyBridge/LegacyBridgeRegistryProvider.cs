@@ -1,5 +1,5 @@
 ﻿using InteropTools.ContentDialogs.Providers;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
