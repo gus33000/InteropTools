@@ -254,7 +254,6 @@
                 <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
                     <TextBlock
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         Text=""
                         TextAlignment="Center" />
                 </Grid>
@@ -333,7 +332,6 @@
                 <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
                     <TextBlock
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         Text=""
                         TextAlignment="Center" />
                 </Grid>
@@ -368,7 +366,6 @@
                 Background="{ThemeResource SystemChromeHighColor}">
                 <TextBlock
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="20"
                     Text=""
                     TextAlignment="Center" />
@@ -409,7 +406,6 @@
                 <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
                     <TextBlock
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         Text=""
                         TextAlignment="Center" />
                 </Grid>

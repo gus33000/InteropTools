@@ -656,7 +656,6 @@
                                                 Grid.Column="1"
                                                 Margin="8"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 Text="{Binding typeicon}" />
                                         </Grid>
                                     </Grid>
@@ -694,7 +693,6 @@
                         x:Name="JumpGridView"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         ItemsSource="{Binding Source={StaticResource AppsGroups}, Path=CollectionGroups}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollMode="Auto">

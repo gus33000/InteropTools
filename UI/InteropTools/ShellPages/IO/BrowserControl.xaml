@@ -55,7 +55,6 @@
                         x:Name="JumpGridView"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollMode="Auto">
@@ -107,7 +106,6 @@
                         x:Name="JumpGridView2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollMode="Auto">
@@ -217,7 +215,6 @@
                                     <TextBlock
                                         Width="21"
                                         Height="21"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="21"
                                         Text="">
                                         <TextBlock.RenderTransform>
@@ -232,7 +229,7 @@
                         </Grid>
                     </controls:PullToRefreshListView.RefreshIndicatorContent>
                     <controls:PullToRefreshListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="Margin" Value="0" />
                             <Setter Property="BorderThickness" Value="0" />
@@ -351,7 +348,6 @@
                                             <TextBlock
                                                 Margin="0,4,0,0"
                                                 VerticalAlignment="Top"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="32"
                                                 Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                 Text="{Binding Symbol}" />

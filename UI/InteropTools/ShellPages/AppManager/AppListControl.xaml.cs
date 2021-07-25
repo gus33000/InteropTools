@@ -643,22 +643,16 @@ namespace InteropTools.ShellPages.AppManager
 
             public PackageTypes type { get; set; }
 
-            public string typeicon
+            public string typeicon => type.ToString() switch
             {
-                get
-                {
-                    return type.ToString() switch
-                    {
-                        "Bundle" => "",
-                        "Framework" => "",
-                        "Main" => "",
-                        "Optional" => "",
-                        "Resource" => "",
-                        "Xap" => "",
-                        _ => "",
-                    };
-                }
-            }
+                "Bundle" => "",
+                "Framework" => "",
+                "Main" => "",
+                "Optional" => "",
+                "Resource" => "",
+                "Xap" => "",
+                _ => "",
+            };
         }
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)

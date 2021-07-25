@@ -21,7 +21,6 @@
                     <TextBlock
                         Margin="0,4,0,0"
                         VerticalAlignment="Top"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="32"
                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                         Text="" />
@@ -135,10 +134,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Pivot
-        x:Name="MainPivot"
-        Margin="{x:Bind Frame.Padding, Mode=OneWay}"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Pivot x:Name="MainPivot" Margin="{x:Bind Frame.Padding, Mode=OneWay}">
         <Pivot.HeaderTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding}" />

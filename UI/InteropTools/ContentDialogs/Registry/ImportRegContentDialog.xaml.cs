@@ -1074,7 +1074,7 @@ namespace InteropTools.ContentDialogs.Registry
                                         if (curstr.Last() == '\\')
                                         {
                                             isStillParsingValue = true;
-                                            curdatasecondpart +=                                                                 string.Join("", curstr.Reverse().Skip(1).Reverse());
+                                            curdatasecondpart += string.Join("", curstr.Reverse().Skip(1).Reverse());
 
                                             if (curstr.StartsWith("-"))
                                             {

@@ -122,12 +122,13 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <controlsacrylic:AcrylicLow
+            <Rectangle
                 x:Name="HistoryBackground"
                 Grid.Column="0"
                 Margin="0,-33,0,0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" />
+                VerticalAlignment="Stretch"
+                Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
         </Grid>
 
         <ScrollViewer
@@ -156,7 +157,7 @@
                             Style="{StaticResource TitleTextBlockStyle}"
                             Text="Registry Editor"
                             Visibility="{Binding PageTitleVisibility}" />
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY HIVE" />
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REGISTRY HIVE" />
                         <ComboBox
                             x:Name="HiveSelector"
                             Margin="0,0,0,24"
@@ -171,7 +172,7 @@
                             <ComboBoxItem Content="HKEY_PERFORMANCE_DATA (HKPD)" />
                             <ComboBoxItem Content="HKEY_USERS (HKU)" />
                         </ComboBox>
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY KEY PATH" />
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REGISTRY KEY PATH" />
                         <Grid Margin="0,0,0,24" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -194,7 +195,6 @@
                                 Height="32"
                                 Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                 Click="KeyActionButton_Click"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 FontSize="11"
                                 IsEnabled="False">
                                 <SymbolIcon
@@ -203,7 +203,7 @@
                                     Symbol="Cancel" />
                             </Button>
                         </Grid>
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY VALUE NAME" />
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REGISTRY VALUE NAME" />
                         <ComboBox
                             x:Name="ValueNameSelector"
                             HorizontalAlignment="Stretch"
@@ -221,7 +221,7 @@
                             LostFocus="ValueNameInput_LostFocus"
                             PlaceholderText="Example: CurrentBuild"
                             TextChanging="ValueNameInput_TextChanging" />
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY VALUE TYPE" />
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REGISTRY VALUE TYPE" />
                         <StackPanel Margin="0,0,0,24">
                             <ComboBox
                                 x:Name="TypeSelector"
@@ -252,7 +252,7 @@
                                 PlaceholderText="Example: 1"
                                 Visibility="Collapsed" />
                         </StackPanel>
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY VALUE DATA" />
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REGISTRY VALUE DATA" />
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -312,7 +312,7 @@
                                 Grid.Column="0"
                                 Margin="0"
                                 VerticalAlignment="Center"
-                                Style="{StaticResource TitleTextBlockStyle3}"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="HISTORY" />
                             <HyperlinkButton
                                 x:Name="ClearHistoryLink"
@@ -341,7 +341,6 @@
                                 <TextBlock
                                     Grid.Row="0"
                                     Margin="0,0,0,18"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="48"
                                     Opacity="0.5"
                                     Text=""
@@ -477,7 +476,7 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                 <Setter Property="IsTabStop" Value="False" />
                             </Style>
                         </ListView.ItemContainerStyle>
@@ -487,7 +486,6 @@
                                     <TextBlock
                                         Margin="8,8,4,8"
                                         VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="22"
                                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                         Text="{Binding Symbol}" />
@@ -521,7 +519,7 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                 <Setter Property="IsTabStop" Value="False" />
                             </Style>
                         </ListView.ItemContainerStyle>
@@ -531,7 +529,6 @@
                                     <TextBlock
                                         Margin="8,8,4,8"
                                         VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="22"
                                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                         Text="{Binding Symbol}" />

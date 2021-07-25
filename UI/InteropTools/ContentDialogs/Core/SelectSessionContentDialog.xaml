@@ -8,7 +8,7 @@
     x:Uid="Select_Session"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ScrollViewer
@@ -33,7 +33,6 @@
                         <TextBlock
                             Margin="0,4,0,0"
                             VerticalAlignment="Top"
-                            FontFamily="{StaticResource FullMDL2FontFamily}"
                             FontSize="32"
                             Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                             Text="{Binding Symbol}" />
@@ -52,7 +51,6 @@
                                 Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text=""
                                 Visibility="{Binding SelectedVisibility}" />
                             <TextBlock

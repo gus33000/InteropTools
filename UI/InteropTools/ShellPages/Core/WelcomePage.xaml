@@ -27,9 +27,10 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <controlsacrylic:AcrylicLow
+                <Rectangle
                     x:Name="HeaderGridBg"
                     Grid.Row="0"
+                    Fill="{ThemeResource CardBackgroundFillColorSecondary}"
                     Visibility="Collapsed" />
                 <Grid x:Name="HeaderGrid" Grid.Row="0">
                     <StackPanel x:Name="HeaderPanel">
@@ -54,7 +55,7 @@
                                     Label="Send Feedback"
                                     ToolTipService.ToolTip="If you find any bug or crash or odd behavior or just want to suggest something new, please file a feedback in the Feedback Hub via this button or post it on the xda thread.">
                                     <AppBarButton.Icon>
-                                        <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
+                                        <FontIcon Glyph="" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
@@ -64,7 +65,7 @@
                                         Label="Visit the XDA Thread"
                                         ToolTipService.ToolTip="Feel free to ask for support in this thread, or just check for updates.">
                                         <AppBarButton.Icon>
-                                            <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
+                                            <FontIcon Glyph="" />
                                         </AppBarButton.Icon>
                                     </AppBarButton>
                                 </CommandBar.SecondaryCommands>
@@ -73,10 +74,7 @@
 
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
 
-                            <controls:AnimatedFlipView
-                                x:Name="MyFlipView"
-                                Height="400"
-                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <controls:AnimatedFlipView x:Name="MyFlipView" Height="400">
                                 <FlipViewItem>
                                     <Grid Background="Teal" Tapped="Grid_Tapped">
                                         <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.5" />
@@ -145,7 +143,7 @@
                                     Label="Send Feedback"
                                     ToolTipService.ToolTip="If you find any bug or crash or odd behavior or just want to suggest something new, please file a feedback in the Feedback Hub via this button or post it on the xda thread.">
                                     <AppBarButton.Icon>
-                                        <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
+                                        <FontIcon Glyph="" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
@@ -155,7 +153,7 @@
                                         Label="Visit the XDA Thread"
                                         ToolTipService.ToolTip="Feel free to ask for support in this thread, or just check for updates.">
                                         <AppBarButton.Icon>
-                                            <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
+                                            <FontIcon Glyph="" />
                                         </AppBarButton.Icon>
                                     </AppBarButton>
                                 </CommandBar.SecondaryCommands>
@@ -169,7 +167,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <controlsacrylic:AcrylicLow Grid.Row="0" />
+                    <Rectangle Grid.Row="0" Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
                     <Grid
                         x:Name="MainInfogrid"
                         Grid.Row="0"
@@ -195,7 +193,6 @@
                                 Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text=""
                                 TextWrapping="Wrap" />
                             <TextBlock
@@ -214,7 +211,6 @@
                                 Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text=""
                                 TextWrapping="Wrap" />
                             <TextBlock
@@ -233,7 +229,6 @@
                                 Grid.Column="0"
                                 Margin="0,0,4,0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text=""
                                 TextWrapping="Wrap" />
                             <TextBlock
@@ -335,7 +330,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock
                                 Grid.Row="0"
-                                Style="{StaticResource TitleTextBlockStyle3}"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="RECENTLY USED" />
                             <GridView
                                 x:Name="GridView2"
@@ -365,7 +360,6 @@
                                                 Margin="0,0,12,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="24"
                                                 Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                 Text="{Binding Icon}" />
@@ -414,7 +408,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock
                                 Grid.Row="0"
-                                Style="{StaticResource TitleTextBlockStyle3}"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="REGISTRY HISTORY" />
                         </Grid>
 
@@ -429,7 +423,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock
                                 Grid.Row="0"
-                                Style="{StaticResource TitleTextBlockStyle3}"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
                                 Text="FAVORITES" />
                         </Grid>
                     </Grid>

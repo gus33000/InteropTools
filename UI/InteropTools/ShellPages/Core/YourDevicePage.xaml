@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock
@@ -21,7 +21,7 @@
 
                 <TextBlock
                     DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="DEVICE NAME"
                     TextWrapping="Wrap" />
                 <TextBlock
@@ -30,7 +30,7 @@
                     TextWrapping="Wrap" />
                 <TextBlock
                     DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="DEVICE INFORMATION"
                     TextWrapping="Wrap" />
 

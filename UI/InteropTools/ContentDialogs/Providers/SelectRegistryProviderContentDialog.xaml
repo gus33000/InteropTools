@@ -11,6 +11,7 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Ok"
     SecondaryButtonText="Cancel"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
 

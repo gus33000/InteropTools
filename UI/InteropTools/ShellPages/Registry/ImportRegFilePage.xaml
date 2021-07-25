@@ -9,5 +9,5 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Padding="{x:Bind Frame.Padding, Mode=OneWay}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+    <Grid Padding="{x:Bind Frame.Padding, Mode=OneWay}" />
 </Page>

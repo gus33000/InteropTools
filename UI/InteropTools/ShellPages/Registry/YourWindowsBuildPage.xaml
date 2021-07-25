@@ -8,7 +8,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid x:Name="MainGrid" Margin="0,-33,0,0">
             <Grid.Background>
                 <ImageBrush
@@ -31,7 +31,7 @@
                         Visibility="{Binding PageTitleVisibility}" />
 
                     <TextBlock
-                        Style="{StaticResource TitleTextBlockStyle3}"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="CURRENT BUILD VERSION"
                         TextWrapping="Wrap" />
 
@@ -149,7 +149,7 @@
 
 
                     <TextBlock
-                        Style="{StaticResource TitleTextBlockStyle3}"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="BUILD DETAILS"
                         TextWrapping="Wrap" />
                     <Grid Margin="0,8,0,0">
@@ -243,7 +243,7 @@
 
 
                     <TextBlock
-                        Style="{StaticResource TitleTextBlockStyle3}"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="OS SKU DETAILS"
                         TextWrapping="Wrap" />
 
@@ -330,7 +330,7 @@
                     </Grid>
 
                     <TextBlock
-                        Style="{StaticResource TitleTextBlockStyle3}"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="SETUP DETAILS"
                         TextWrapping="Wrap" />
                     <Grid Margin="0,8,0,0">

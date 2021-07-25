@@ -57,7 +57,6 @@
                         x:Name="expandCollapseFolder"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="16"
                         Glyph="{Binding Data.Icon}"
                         Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -78,7 +77,6 @@
                     Grid.Column="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="12"
                     Glyph="{Binding IsExpanded, Converter={StaticResource expandCollapseGlyphConverter}}"
                     Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -87,7 +85,6 @@
                     Grid.Column="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="12"
                     Glyph="&#xE2AC;"
                     Opacity="0"
@@ -1383,7 +1380,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="0,-1,0,-1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Margin="0,-1,0,-1">
         <Grid x:Name="MainContent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -1405,10 +1402,11 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <controlsacrylic:AcrylicMedium
+                        <Rectangle
                             x:Name="Acrylic"
                             Grid.RowSpan="3"
-                            Margin="0,-33,0,0" />
+                            Margin="0,-33,0,0"
+                            Fill="{ThemeResource CardBackgroundFillColorDefault}" />
 
                         <controlsbackdrop:BackDropMedium
                             x:Name="BackDrop"
@@ -1441,13 +1439,12 @@
                             </Grid>
 
                             <Grid Margin="0,18,0,0">
-                                <controlsacrylic:AcrylicLow Margin="0,0,0,0" />
+                                <Rectangle Margin="0,0,0,0" Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
 
                                 <ListView
                                     x:Name="SearchListButton"
                                     IsItemClickEnabled="True"
                                     ItemClick="ListView_ItemClick"
-                                    ItemContainerStyle="{StaticResource SearchButtonListViewItemStyle}"
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     SelectionMode="None">
                                     <ListViewItem>
@@ -1464,7 +1461,6 @@
                                                 Width="16"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="16"
                                                 Text="" />
                                             <TextBlock
@@ -1483,7 +1479,6 @@
                                         Width="16"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="16"
                                         Text=""
                                         Visibility="{x:Bind SearchBox.Visibility, Mode=OneWay}" />
@@ -1511,7 +1506,6 @@
                                                 <TextBlock
                                                     Margin="4"
                                                     VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                     Text="{Binding Icon}" />
                                                 <TextBlock
@@ -1553,7 +1547,6 @@
                                                         Width="16"
                                                         Margin="16,0,0,0"
                                                         VerticalAlignment="Center"
-                                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                                         FontSize="15"
                                                         Text="{Binding Key.Icon}" />
                                                     <TextBlock
@@ -1601,7 +1594,6 @@
                             <ListView
                                 Margin="-48,0,0,0"
                                 Padding="0,0,0,0"
-                                ItemContainerStyle="{StaticResource ListViewItemStyle2}"
                                 ItemsSource="{x:Bind ViewModel.BottomItems}"
                                 ScrollViewer.VerticalScrollMode="Auto"
                                 SelectedItem="{x:Bind ViewModel.SelectedBottomItem, Mode=TwoWay, Converter={StaticResource NavigationItemToObjectConverter}}"
@@ -1618,7 +1610,7 @@
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     SelectionMode="None">
                                     <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
+                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                             <Setter Property="Margin" Value="0" />
                                             <Setter Property="Padding" Value="0" />
                                         </Style>
@@ -1637,7 +1629,6 @@
                                     VerticalAlignment="Bottom"
                                     IsItemClickEnabled="True"
                                     ItemClick="ListView_ItemClick_1"
-                                    ItemContainerStyle="{StaticResource ListViewItemStyle1}"
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     SelectionMode="None">
                                     <ListViewItem
@@ -1658,7 +1649,6 @@
                                                 Grid.Column="0"
                                                 Width="16"
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="15"
                                                 Text=""
                                                 TextAlignment="Center" />
@@ -1688,10 +1678,11 @@
                 </SplitView.Content>
             </controlssplitview:SwipeableSplitView>
 
-            <controlsacrylic:AcrylicMedium
+            <Rectangle
                 x:Name="NarrowHeaderBg"
                 Grid.Row="0"
-                Margin="0,33,0,0" />
+                Margin="0,33,0,0"
+                Fill="{ThemeResource CardBackgroundFillColorDefault}" />
 
             <intense:PageHeader
                 x:Name="NarrowHeader"
@@ -1724,7 +1715,7 @@
                         x:Name="TitlebarBackground"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
-                        <controlsacrylic:AcrylicMedium />
+                        <Rectangle Fill="{ThemeResource CardBackgroundFillColorDefault}" />
                     </Grid>
                     <Grid
                         Width="48"
@@ -1739,7 +1730,6 @@
                             Margin="-1,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontFamily="{StaticResource FullMDL2FontFamily}"
                             FontSize="16"
                             FontStretch="ExtraCondensed"
                             Text="" />

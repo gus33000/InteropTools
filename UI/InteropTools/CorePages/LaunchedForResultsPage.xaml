@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -36,7 +36,6 @@
                 <Grid Margin="0,32,0,0">
                     <TextBlock
                         HorizontalAlignment="Stretch"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="42"
                         Text=""
                         TextAlignment="Center" />

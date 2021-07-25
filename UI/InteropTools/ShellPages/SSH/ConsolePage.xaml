@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,11 +19,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Canvas Grid.RowSpan="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-            <Canvas
-                Grid.RowSpan="2"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                Visibility="{Binding PageTitleVisibility}" />
+            <Canvas Grid.RowSpan="2" />
+            <Canvas Grid.RowSpan="2" Visibility="{Binding PageTitleVisibility}" />
             <TextBlock
                 x:Uid="CMD_Title"
                 Grid.Column="0"

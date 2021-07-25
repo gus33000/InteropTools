@@ -10,6 +10,7 @@
     PrimaryButtonText="Yes"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     SecondaryButtonText="No"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>

@@ -16,7 +16,6 @@
         <ScrollViewer
             x:Name="MainViewer"
             Margin="0,33,0,0"
-            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollMode="Auto">
             <Grid>
@@ -93,7 +92,6 @@
                                     x:Name="OpenStore"
                                     Grid.Column="1"
                                     Margin="5,0,0,0"
-                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                     Click="Button_Click">
                                     <TextBlock Text="Open in the Store" TextWrapping="Wrap" />
                                 </Button>
@@ -302,7 +300,6 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
                                                 VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="32"
                                                 Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                 Text="" />

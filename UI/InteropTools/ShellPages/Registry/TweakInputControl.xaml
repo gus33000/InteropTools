@@ -34,7 +34,6 @@
                 Height="32"
                 Background="{ThemeResource SystemControlForegroundAccentBrush}"
                 Click="SetValueButton_Click"
-                FontFamily="{StaticResource FullMDL2FontFamily}"
                 FontSize="11">
                 <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
             </Button>

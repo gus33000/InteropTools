@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="Package_Info"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">
@@ -57,7 +57,6 @@
                             <TextBlock
                                 Grid.Column="0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text="" />
                             <TextBlock
                                 x:Uid="Open_in_Store"
@@ -77,7 +76,6 @@
                             <TextBlock
                                 Grid.Column="0"
                                 VerticalAlignment="Center"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 Text="" />
                             <TextBlock
                                 x:Uid="Open_Application"
@@ -287,7 +285,6 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="32"
                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                     Text="" />

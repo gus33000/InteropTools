@@ -187,8 +187,8 @@
     </Page.Resources>
 
     <Grid x:Name="MainGrid">
-        <controlsacrylic:AcrylicLow />
-        <Grid x:Name="MainViewer" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Rectangle Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
+        <Grid x:Name="MainViewer">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
@@ -208,11 +208,15 @@
                         <PlaneProjection RotationX="0" />
                     </local:BrowserControl.Projection>
                 </local:BrowserControl>
-                <controlsacrylic:AcrylicLow
+                <Rectangle
                     Grid.Row="0"
                     DataContext="{x:Bind Frame}"
+                    Fill="{ThemeResource CardBackgroundFillColorSecondary}"
                     Visibility="{Binding PageTitleVisibility}" />
-                <controlsacrylic:AcrylicMedium x:Name="MediumAcrylic" Grid.Row="0" />
+                <Rectangle
+                    x:Name="MediumAcrylic"
+                    Grid.Row="0"
+                    Fill="{ThemeResource CardBackgroundFillColorDefault}" />
                 <StackPanel Grid.Row="0">
                     <Grid>
                         <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
@@ -245,7 +249,6 @@
                                     Height="32"
                                     Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                     Click="KeyActionButton_Click"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="11"
                                     IsEnabled="False">
                                     <SymbolIcon
@@ -265,7 +268,6 @@
                                     Margin="0,0,4,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="24"
                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
                                 <local:BreadCrumbControl
@@ -293,7 +295,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid x:Name="MainContent" HorizontalAlignment="Stretch">
-                        <controlsacrylic:AcrylicLow Margin="-48,0" />
+                        <Rectangle Margin="-48,0" Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
                         <Grid Margin="12,12" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -302,7 +304,6 @@
                             <TextBlock
                                 Margin="0,4,0,0"
                                 VerticalAlignment="Top"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 FontSize="32"
                                 Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                 Text="" />
@@ -328,7 +329,7 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Pivot Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="1">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>
@@ -427,7 +428,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="0">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>
@@ -540,7 +541,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="0">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>
@@ -556,7 +557,7 @@
                                     ScrollViewer.VerticalScrollMode="Auto"
                                     SelectionMode="None">
                                     <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
+                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                             <Setter Property="Padding" Value="0" />
                                             <Setter Property="Margin" Value="0" />
                                             <Setter Property="BorderThickness" Value="0" />
@@ -645,7 +646,6 @@
                                                 <TextBlock
                                                     Margin="0,4,0,0"
                                                     VerticalAlignment="Top"
-                                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                                     FontSize="32"
                                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                     Text="{Binding Symbol}" />

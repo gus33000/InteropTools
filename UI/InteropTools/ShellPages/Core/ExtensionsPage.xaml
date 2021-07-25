@@ -65,7 +65,6 @@
                             Margin="-14,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontFamily="{StaticResource FullMDL2FontFamily}"
                             FontSize="118"
                             Foreground="White"
                             Opacity="0.10"
@@ -140,7 +139,6 @@
                                     Margin="-14,0,0,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="118"
                                     Foreground="White"
                                     Opacity="0.10"
@@ -194,13 +192,10 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid x:Name="MainGrid" Margin="0,-33,0,0">
-            <controlsacrylic:AcrylicLow />
-            <Grid
-                x:Name="MainViewer"
-                Margin="0,33,0,0"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Rectangle Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
+            <Grid x:Name="MainViewer" Margin="0,33,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -233,7 +228,7 @@
                             SelectionChanged="ListView_SelectionChanged"
                             SelectionMode="None">
                             <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
+                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="Margin" Value="-12,0,-12,0" />
                                 </Style>
@@ -257,7 +252,7 @@
                             SelectionChanged="ListView_SelectionChanged"
                             SelectionMode="None">
                             <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
+                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="Margin" Value="-12,0,-12,0" />
                                 </Style>
@@ -281,7 +276,7 @@
                             SelectionChanged="ListView_SelectionChanged"
                             SelectionMode="None">
                             <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
+                                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="Margin" Value="-12,0,-12,0" />
                                 </Style>

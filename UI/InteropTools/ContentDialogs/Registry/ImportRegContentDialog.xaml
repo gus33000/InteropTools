@@ -8,7 +8,7 @@
     x:Uid="Import_Reg"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <Grid>
@@ -38,7 +38,6 @@
                         <TextBlock
                             Margin="0,4,0,0"
                             VerticalAlignment="Top"
-                            FontFamily="{StaticResource FullMDL2FontFamily}"
                             FontSize="32"
                             Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                             Text="{Binding Symbol}" />

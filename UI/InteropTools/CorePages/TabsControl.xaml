@@ -25,8 +25,7 @@
             Background="Transparent"
             BorderThickness="0"
             Click="ViewPreviews_Click"
-            Content=""
-            FontFamily="{StaticResource FullMDL2FontFamily}" />
+            Content="" />
 
         <ListView
             x:Name="TabsListView"
@@ -52,7 +51,7 @@
             </ListView.ItemsPanel>
 
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0" />
                     <Setter Property="Margin" Value="0" />
                     <Setter Property="BorderThickness" Value="0" />
@@ -84,7 +83,6 @@
                                 <TextBlock
                                     Margin="0,0,4,0"
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     Text="{Binding Symbol}" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -100,7 +98,6 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     FontSize="100"
                                     Opacity="0.25"
                                     Text=""
@@ -133,7 +130,6 @@
             Background="Transparent"
             BorderThickness="0"
             Click="CreateNewTab_Click"
-            Content=""
-            FontFamily="{StaticResource FullMDL2FontFamily}" />
+            Content="" />
     </Grid>
 </UserControl>

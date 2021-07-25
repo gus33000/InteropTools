@@ -9,14 +9,5 @@
     RequestedTheme="Dark"
     mc:Ignorable="d">
 
-    <!--<Grid>
-        <controlsbackdrop:BackDrop/>
-
-        <Grid x:Name="MainGrid">
-            <Rectangle Fill="{ThemeResource SystemControlForegroundAccentBrush}" Opacity="0.75"/>
-        </Grid>
-
-        <Rectangle Fill="{ThemeResource SystemControlForegroundAccentBrush}" Opacity="0.0390625"/>
-    </Grid>-->
     <Rectangle Fill="{ThemeResource SystemAcrylicWindowAccentBrush}" />
 </UserControl>

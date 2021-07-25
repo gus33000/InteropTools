@@ -11,14 +11,11 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid x:Name="MainGrid" Margin="0,-33,0,0">
-            <controlsacrylic:AcrylicLow />
-            <Grid
-                x:Name="MainViewer"
-                Margin="0,33,0,0"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Pivot x:Name="MainPivot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Rectangle Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
+            <Grid x:Name="MainViewer" Margin="0,33,0,0">
+                <Pivot x:Name="MainPivot">
 
                     <Pivot.Style>
                         <StaticResource ResourceKey="PivotStyleTabHeader" />
@@ -55,7 +52,6 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                                     FontSize="32"
                                                     Text="" />
                                                 <TextBlock
@@ -83,7 +79,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             Grid.Column="1"
@@ -117,7 +112,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             Grid.Column="1"
@@ -148,7 +142,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             Grid.Column="1"
@@ -179,7 +172,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             Grid.Column="1"
@@ -205,7 +197,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             Grid.Column="1"
@@ -264,7 +255,6 @@
                                         Height="32"
                                         Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                         Click="Button_Click_5"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="11">
                                         <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                     </Button>
@@ -284,7 +274,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_4"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -310,7 +299,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_6"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -329,7 +317,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_7"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -355,7 +342,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_8"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -375,7 +361,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_9"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -394,7 +379,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_10"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -413,7 +397,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_11"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -433,7 +416,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_15"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -452,7 +434,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_12"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -471,7 +452,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_13"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>
@@ -491,7 +471,6 @@
                                             Height="32"
                                             Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Click="Button_Click_14"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="11">
                                             <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                                         </Button>

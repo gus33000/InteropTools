@@ -10,7 +10,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock
@@ -42,7 +42,7 @@
                 </ToggleSwitch>
 
                 <StackPanel Margin="0,0,0,24">
-                    <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REMOTE ACCESS" />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="REMOTE ACCESS" />
                     <TextBox
                         x:Name="PortNumber"
                         x:Uid="Port"
@@ -71,7 +71,7 @@
                     </Grid>
                 </StackPanel>
 
-                <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="PERSONALIZATION" />
+                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="PERSONALIZATION" />
 
                 <ComboBox
                     Margin="0,0,0,24"
@@ -154,7 +154,7 @@
 
                 <StackPanel Margin="0,0,0,24">
                     <TextBlock
-                        Style="{StaticResource TitleTextBlockStyle3}"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="ABOUT"
                         TextWrapping="Wrap" />
 
@@ -207,7 +207,6 @@
                                     <TextBlock
                                         Margin="0,0,8,0"
                                         VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         Text="" />
                                     <TextBlock
                                         Grid.Column="1"
@@ -231,7 +230,6 @@
                                     <TextBlock
                                         Margin="0,0,8,0"
                                         VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         Text="" />
                                     <TextBlock
                                         Grid.Column="1"
@@ -244,7 +242,7 @@
                     </HyperlinkButton>
 
 
-                    <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="CREDITS" />
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="CREDITS" />
                     <TextBlock
                         HorizontalAlignment="Stretch"
                         Opacity="0.75"

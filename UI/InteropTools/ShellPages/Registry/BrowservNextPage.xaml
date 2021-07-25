@@ -487,7 +487,6 @@
                     x:Name="expandCollapseChevron"
                     Margin="12,0,12,0"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="12"
                     Glyph="{Binding IsExpanded, Converter={StaticResource expandCollapseGlyphConverter}}"
                     Visibility="{Binding Data.HasMore, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -495,7 +494,6 @@
                     x:Name="expandCollapseChevron2"
                     Margin="12,0,12,0"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="12"
                     Glyph="&#xE2AC;"
                     Opacity="0"
@@ -505,7 +503,6 @@
                         x:Name="expandCollapseFolder"
                         Margin="0,0,12,0"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="16"
                         Foreground="#FFFFE793"
                         Glyph="{Binding IsExpanded, Converter={StaticResource folderGlyphConverter}}"
@@ -515,7 +512,6 @@
                         x:Name="computerIcon"
                         Margin="0,0,12,0"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="16"
                         Foreground="#4ac9f6"
                         Glyph="&#xE703;"
@@ -525,7 +521,6 @@
                         x:Name="registryHiveIcon"
                         Margin="0,0,12,0"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="16"
                         Foreground="#4ac9f6"
                         Glyph="&#xE2AC;"
@@ -535,7 +530,6 @@
                         x:Name="expandCollapseFolderOutline"
                         Margin="0,0,12,0"
                         VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
                         FontSize="16"
                         Foreground="#FFECC849"
                         Glyph="{Binding IsExpanded, Converter={StaticResource folderOutlineGlyphConverter}}"
@@ -862,7 +856,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid x:Name="MainPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="MainPanel">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -874,12 +868,13 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <controlsacrylic:AcrylicLow
+            <Rectangle
                 x:Name="HistoryBackground"
                 Grid.Column="0"
                 Margin="0,-33,0,0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" />
+                VerticalAlignment="Stretch"
+                Fill="{ThemeResource CardBackgroundFillColorSecondary}" />
         </Grid>
 
         <ScrollViewer x:Name="MainScrollViewer" Grid.Row="0">
@@ -948,7 +943,7 @@
                                 </ListView.ItemContainerTransitions>
 
                                 <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                         <Setter Property="Padding" Value="0" />
                                         <Setter Property="Margin" Value="0" />
                                         <Setter Property="BorderThickness" Value="0" />
@@ -1048,7 +1043,6 @@
                                                         <TextBlock
                                                             Margin="0,4,0,0"
                                                             VerticalAlignment="Top"
-                                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                                             FontSize="32"
                                                             Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                             Text="{Binding Symbol}" />
@@ -1128,7 +1122,6 @@
                                         <TextBlock
                                             Margin="0,4,0,0"
                                             VerticalAlignment="Top"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             FontSize="32"
                                             Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                             Text="" />
@@ -1351,7 +1344,7 @@
                                     ScrollViewer.VerticalScrollMode="Auto"
                                     SelectionMode="None">
                                     <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
+                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                             <Setter Property="Padding" Value="0" />
                                             <Setter Property="Margin" Value="0" />
                                             <Setter Property="BorderThickness" Value="0" />
@@ -1440,7 +1433,6 @@
                                                 <TextBlock
                                                     Margin="0,4,0,0"
                                                     VerticalAlignment="Top"
-                                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                                     FontSize="32"
                                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                     Text="{Binding Symbol}" />

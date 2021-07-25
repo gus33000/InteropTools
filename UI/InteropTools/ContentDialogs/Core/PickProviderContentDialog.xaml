@@ -9,7 +9,7 @@
     Title="Select a provider for this application session"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Use this provider"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>
@@ -70,7 +70,6 @@
                                     Margin="0,0,4,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FullMDL2FontFamily}"
                                     Glyph="{Binding Symbol}" />
                                 <TextBlock
                                     Grid.Column="1"
@@ -155,7 +154,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             x:Uid="Go_back"
@@ -181,7 +179,6 @@
                                             Grid.Column="0"
                                             Margin="0,0,4,0"
                                             VerticalAlignment="Center"
-                                            FontFamily="{StaticResource FullMDL2FontFamily}"
                                             Text="" />
                                         <TextBlock
                                             x:Uid="Connect"

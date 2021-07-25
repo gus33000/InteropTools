@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock
@@ -106,7 +106,6 @@
                                 Height="32"
                                 Background="{ThemeResource SystemControlForegroundAccentBrush}"
                                 Click="SetMTPPathButton_Click"
-                                FontFamily="{StaticResource FullMDL2FontFamily}"
                                 FontSize="11">
                                 <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
                             </Button>
@@ -170,7 +169,7 @@
                 <TextBlock
                     Margin="0,24,0,12"
                     DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="TROUBLESHOOT" />
                 <StackPanel Margin="0,0,0,12">
                     <TextBlock Text="Q: My values keep reverting to off and 'Restore NDTKSvc' was never enabled" TextWrapping="Wrap" />

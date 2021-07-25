@@ -8,7 +8,7 @@
     x:Uid="Certificate_Details"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">
@@ -22,7 +22,6 @@
                 <TextBlock
                     Margin="0,4,0,0"
                     VerticalAlignment="Top"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
                     FontSize="32"
                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                     Text="" />
@@ -178,7 +177,7 @@
                 ScrollViewer.VerticalScrollMode="Disabled"
                 SelectionMode="None">
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -200,7 +199,6 @@
                                     <TextBlock
                                         Margin="0,4,0,0"
                                         VerticalAlignment="Top"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
                                         FontSize="32"
                                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                         Text="" />

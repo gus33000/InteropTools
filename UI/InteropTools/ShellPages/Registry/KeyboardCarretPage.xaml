@@ -10,7 +10,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <!--
             Padding="{x:Bind Frame.Padding, Mode=OneWay}"
             Height="300"  Margin="20"

@@ -30,7 +30,7 @@
 
         <ListView.ItemContainerStyle>
             <!--  Style for Windows.UI.Xaml.Controls.ListViewItem  -->
-            <Style TargetType="ListViewItem">
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
                 <Setter Property="Background" Value="Transparent" />

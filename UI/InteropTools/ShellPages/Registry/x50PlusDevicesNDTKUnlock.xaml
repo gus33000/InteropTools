@@ -9,7 +9,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock
@@ -17,7 +17,7 @@
                     Style="{StaticResource TitleTextBlockStyle}"
                     Text="Lumia x50 System Access Unlocker"
                     Visibility="{Binding PageTitleVisibility}" />
-                <TextBlock Style="{StaticResource ParagraphTextBlockStyle}">
+                <TextBlock Style="{StaticResource BodyTextBlockStyle}">
                     <Run Text="This page should only be used to get fully working registry system access on Lumia x50+ devices. Lumia x50+ devices have a newer version of the Nokia Development toolkit service installed that actually doesn't allow registry editing in some locations. This page will help you getting an older version of that service installed. This operation requires:" />
                     <LineBreak />
                     <LineBreak />
