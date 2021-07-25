@@ -51,7 +51,7 @@ namespace InteropTools.Controls
                 };
 
                 // set the element binding to change selection when the FlipView changes
-                fvi.SetBinding(FlipViewIndicator.SelectedItemProperty, eb);
+                fvi.SetBinding(SelectedItemProperty, eb);
             }));
     }
 }

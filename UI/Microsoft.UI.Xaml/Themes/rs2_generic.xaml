@@ -1,9 +1,9 @@
-<ResourceDictionary
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
     xmlns:preview="using:Microsoft.UI.Preview"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="RefreshContainerForegroundBrush" Color="#FFFFFFFF" />
@@ -34,7 +34,7 @@
 
         <Grid Height="44">
             <Grid.Margin>
-                <Binding Path="Depth" Converter="{StaticResource IntToIndConverter}" />
+                <Binding Converter="{StaticResource IntToIndConverter}" Path="Depth" />
             </Grid.Margin>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="36" />
@@ -43,34 +43,45 @@
             <Grid.Children>
                 <Grid Margin="12,0">
                     <Grid.Visibility>
-                        <Binding Path="HasItems" Converter="{StaticResource XamlBooleanToVisibilityConverter}" />
+                        <Binding Converter="{StaticResource XamlBooleanToVisibilityConverter}" Path="HasItems" />
                     </Grid.Visibility>
                     <Grid.Children>
                         <TextBlock
-                                Text=""
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontFamily="Segoe MDL2 Assets"
-                                Style="{ThemeResource BodyTextBlockStyle}">
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="12"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="">
                             <TextBlock.Visibility>
-                                <Binding Path="IsExpanded" Mode="OneWay" Converter="{StaticResource XamlBooleanToVisibilityConverter}" />
+                                <Binding
+                                    Converter="{StaticResource XamlBooleanToVisibilityConverter}"
+                                    Mode="OneWay"
+                                    Path="IsExpanded" />
                             </TextBlock.Visibility>
                         </TextBlock>
                         <TextBlock
-                                Text=""
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                FontFamily="Segoe MDL2 Assets"
-                                Style="{ThemeResource BodyTextBlockStyle}">
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="12"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="">
                             <TextBlock.Visibility>
-                                <Binding Path="IsExpanded" Mode="OneWay" Converter="{StaticResource XamlBooleanToVisibilityConverter}" ConverterParameter="Invert" />
+                                <Binding
+                                    Converter="{StaticResource XamlBooleanToVisibilityConverter}"
+                                    ConverterParameter="Invert"
+                                    Mode="OneWay"
+                                    Path="IsExpanded" />
                             </TextBlock.Visibility>
                         </TextBlock>
                     </Grid.Children>
                 </Grid>
-                <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}">
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource BodyTextBlockStyle}">
                     <TextBlock.Text>
                         <Binding Path="Data" />
                     </TextBlock.Text>
@@ -108,6 +119,47 @@
                 <ControlTemplate TargetType="controls:RatingControl">
 
                     <Grid x:Name="LayoutRoot">
+                        <Grid.Children>
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="-20"
+                                Orientation="Horizontal">
+                                <StackPanel.Children>
+                                    <StackPanel
+                                        x:Name="RatingBackgroundStackPanel"
+                                        Margin="20,20,0,20"
+                                        Background="#00FFFFFF"
+                                        Orientation="Horizontal" />
+                                    <TextBlock
+                                        x:Name="Caption"
+                                        Height="32"
+                                        Margin="4,9,20,0"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AccessibilityView="Raw"
+                                        AutomationProperties.Name="RatingCaption"
+                                        IsHitTestVisible="False"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{TemplateBinding Caption}"
+                                        TextLineBounds="TrimToBaseline" />
+                                </StackPanel.Children>
+                            </StackPanel>
+                            <ContentPresenter
+                                x:Name="ForegroundContentPresenter"
+                                Grid.Row="0"
+                                IsHitTestVisible="False">
+                                <ContentPresenter.Content>
+                                    <StackPanel Margin="-40" Orientation="Horizontal">
+                                        <StackPanel.Children>
+                                            <StackPanel
+                                                x:Name="RatingForegroundStackPanel"
+                                                Margin="40"
+                                                IsHitTestVisible="False"
+                                                Orientation="Horizontal" />
+                                        </StackPanel.Children>
+                                    </StackPanel>
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Grid.Children>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.States>
@@ -144,32 +196,6 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.Children>
-                            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="-20">
-                                <StackPanel.Children>
-                                    <StackPanel x:Name="RatingBackgroundStackPanel" Orientation="Horizontal" Background="#00FFFFFF" Margin="20,20,0,20" />
-                                    <TextBlock x:Name="Caption"
-                                            Height="32"
-                                            Margin="4,9,20,0"
-                                            TextLineBounds="TrimToBaseline"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            VerticalAlignment="Center"
-                                            AutomationProperties.AccessibilityView="Raw"
-                                            AutomationProperties.Name="RatingCaption"
-                                            IsHitTestVisible="False"
-                                            Text="{TemplateBinding Caption}"/>
-                                </StackPanel.Children>
-                            </StackPanel>
-                            <ContentPresenter x:Name="ForegroundContentPresenter" IsHitTestVisible="False" Grid.Row="0">
-                                <ContentPresenter.Content>
-                                    <StackPanel Orientation="Horizontal" Margin="-40">
-                                        <StackPanel.Children>
-                                            <StackPanel x:Name="RatingForegroundStackPanel" Orientation="Horizontal" IsHitTestVisible="False" Margin="40" />
-                                        </StackPanel.Children>
-                                    </StackPanel>
-                                </ContentPresenter.Content>
-                            </ContentPresenter>
-                        </Grid.Children>
                     </Grid>
 
                 </ControlTemplate>
@@ -185,7 +211,11 @@
 
                     <Grid Margin="12,5,0,11" VerticalAlignment="Stretch">
                         <Grid.Children>
-                            <TextBlock x:Name="Header" VerticalAlignment="Bottom" Style="{StaticResource TitleTextBlockStyle}" TextWrapping="NoWrap">
+                            <TextBlock
+                                x:Name="Header"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                TextWrapping="NoWrap">
                                 <TextBlock.Text>
                                     <Binding />
                                 </TextBlock.Text>
@@ -201,6 +231,114 @@
                 <ControlTemplate TargetType="controls:NavigationView">
 
                     <Grid x:Name="RootGrid">
+                        <Grid.Children>
+                            <Grid
+                                Width="{StaticResource PaneToggleButtonSize}"
+                                Margin="0,0,0,8"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Canvas.ZIndex="100">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.Children>
+                                    <Grid x:Name="TogglePaneTopPadding" />
+                                    <Button
+                                        x:Name="TogglePaneButton"
+                                        Grid.Row="1"
+                                        AutomationProperties.LandmarkType="Navigation"
+                                        Style="{TemplateBinding PaneToggleButtonStyle}" />
+                                </Grid.Children>
+                            </Grid>
+                            <SplitView
+                                x:Name="RootSplitView"
+                                Background="{TemplateBinding Background}"
+                                CompactPaneLength="{TemplateBinding CompactPaneLength}"
+                                DisplayMode="Inline"
+                                IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                IsTabStop="False"
+                                OpenPaneLength="{TemplateBinding OpenPaneLength}"
+                                PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}">
+                                <SplitView.Pane>
+                                    <Grid x:Name="PaneContentGrid">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition x:Name="PaneContentGridToggleButtonRow" Height="56" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="8" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.Children>
+                                            <Grid x:Name="ContentPaneTopPadding" />
+                                            <Grid
+                                                x:Name="AutoSuggestArea"
+                                                Grid.Row="2"
+                                                Height="40"
+                                                VerticalAlignment="Center">
+                                                <Grid.Children>
+                                                    <ContentControl
+                                                        x:Name="PaneAutoSuggestBoxPresenter"
+                                                        Margin="12,0"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        VerticalContentAlignment="Center"
+                                                        Content="{TemplateBinding AutoSuggestBox}"
+                                                        IsTabStop="False" />
+                                                    <Button
+                                                        x:Name="PaneAutoSuggestButton"
+                                                        Width="{TemplateBinding CompactPaneLength}"
+                                                        MinHeight="40"
+                                                        Content=""
+                                                        Style="{TemplateBinding PaneToggleButtonStyle}"
+                                                        Visibility="Collapsed" />
+                                                </Grid.Children>
+                                            </Grid>
+                                            <controls:NavigationViewList
+                                                x:Name="MenuItemsHost"
+                                                Grid.Row="3"
+                                                Margin="0,0,0,20"
+                                                IsItemClickEnabled="True"
+                                                ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}"
+                                                ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}"
+                                                ItemTemplate="{TemplateBinding MenuItemTemplate}"
+                                                ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}"
+                                                ItemsSource="{TemplateBinding MenuItemsSource}"
+                                                SelectedItem="{TemplateBinding SelectedItem}"
+                                                SelectionMode="Single" />
+                                            <Border
+                                                x:Name="FooterContentBorder"
+                                                Grid.Row="4"
+                                                Child="{TemplateBinding PaneFooter}" />
+                                            <controls:NavigationViewItem
+                                                x:Name="SettingsNavPaneItem"
+                                                Grid.Row="5"
+                                                Icon="Setting" />
+                                        </Grid.Children>
+                                    </Grid>
+                                </SplitView.Pane>
+                                <SplitView.Content>
+                                    <Grid x:Name="ContentGrid">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.Children>
+                                            <ContentControl
+                                                x:Name="HeaderContent"
+                                                MinHeight="48"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch"
+                                                Content="{TemplateBinding Header}"
+                                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                IsTabStop="False" />
+                                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
+                                        </Grid.Children>
+                                    </Grid>
+                                </SplitView.Content>
+                            </SplitView>
+                        </Grid.Children>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="DisplayModeGroup">
                                 <VisualStateGroup.States>
@@ -281,62 +419,6 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.Children>
-                            <Grid
-                                    Width="{StaticResource PaneToggleButtonSize}"
-                                    Margin="0,0,0,8"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Canvas.ZIndex="100">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.Children>
-                                    <Grid x:Name="TogglePaneTopPadding" />
-                                    <Button x:Name="TogglePaneButton" Grid.Row="1" AutomationProperties.LandmarkType="Navigation" Style="{TemplateBinding PaneToggleButtonStyle}"/>
-                                </Grid.Children>
-                            </Grid>
-                            <SplitView x:Name="RootSplitView" Background="{TemplateBinding Background}" DisplayMode="Inline" IsTabStop="False" PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}" CompactPaneLength="{TemplateBinding CompactPaneLength}" IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" OpenPaneLength="{TemplateBinding OpenPaneLength}">
-                                <SplitView.Pane>
-                                    <Grid x:Name="PaneContentGrid">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition x:Name="PaneContentGridToggleButtonRow" Height="56" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="8" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.Children>
-                                            <Grid x:Name="ContentPaneTopPadding" />
-                                            <Grid x:Name="AutoSuggestArea" Grid.Row="2" Height="40" VerticalAlignment="Center">
-                                                <Grid.Children>
-                                                    <ContentControl x:Name="PaneAutoSuggestBoxPresenter" Margin="12,0" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Content="{TemplateBinding AutoSuggestBox}"/>
-                                                    <Button x:Name="PaneAutoSuggestButton" Visibility="Collapsed" MinHeight="40" Content="" Style="{TemplateBinding PaneToggleButtonStyle}" Width="{TemplateBinding CompactPaneLength}"/>
-                                                </Grid.Children>
-                                            </Grid>
-                                            <controls:NavigationViewList x:Name="MenuItemsHost" Grid.Row="3" Margin="0,0,0,20" SelectionMode="Single" IsItemClickEnabled="True" ItemsSource="{TemplateBinding MenuItemsSource}" SelectedItem="{TemplateBinding SelectedItem}" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}"/>
-                                            <Border x:Name="FooterContentBorder" Grid.Row="4" Child="{TemplateBinding PaneFooter}"/>
-                                            <controls:NavigationViewItem x:Name="SettingsNavPaneItem" Grid.Row="5" Icon="Setting" />
-                                        </Grid.Children>
-                                    </Grid>
-                                </SplitView.Pane>
-                                <SplitView.Content>
-                                    <Grid x:Name="ContentGrid">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.Children>
-                                            <ContentControl x:Name="HeaderContent" MinHeight="48" IsTabStop="False" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"/>
-                                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
-                                        </Grid.Children>
-                                    </Grid>
-                                </SplitView.Content>
-                            </SplitView>
-                        </Grid.Children>
                     </Grid>
 
                 </ControlTemplate>
@@ -351,6 +433,72 @@
                 <ControlTemplate TargetType="primitives:ColorSpectrum">
 
                     <Grid x:Name="LayoutRoot">
+                        <Grid.Children>
+                            <Grid
+                                x:Name="SizingGrid"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Grid.Children>
+                                    <Rectangle
+                                        x:Name="SpectrumRectangle"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False" />
+                                    <Rectangle
+                                        x:Name="SpectrumOverlayRectangle"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False" />
+                                    <Ellipse
+                                        x:Name="SpectrumEllipse"
+                                        Margin="0,0,-1,-1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False"
+                                        Visibility="Collapsed" />
+                                    <Ellipse
+                                        x:Name="SpectrumOverlayEllipse"
+                                        Margin="0,0,-1,-1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False"
+                                        Visibility="Collapsed" />
+                                    <Canvas
+                                        x:Name="InputTarget"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Background="#00FFFFFF"
+                                        Control.IsTemplateFocusTarget="True">
+                                        <Canvas.Children>
+                                            <Ellipse
+                                                x:Name="SelectionEllipse"
+                                                Width="16"
+                                                Height="16"
+                                                IsHitTestVisible="False"
+                                                Stroke="#FFFFFFFF">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip x:Name="ColorNameToolTip" VerticalOffset="20" />
+                                                </ToolTipService.ToolTip>
+                                            </Ellipse>
+                                        </Canvas.Children>
+                                    </Canvas>
+                                    <Rectangle
+                                        x:Name="RectangleBorder"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False"
+                                        Style="{StaticResource ColorPickerBorderStyle}" />
+                                    <Ellipse
+                                        x:Name="EllipseBorder"
+                                        Margin="-0.5,-0.5,-1.5,-1.5"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        IsHitTestVisible="False"
+                                        Style="{StaticResource ColorPickerBorderStyle}"
+                                        Visibility="Collapsed" />
+                                </Grid.Children>
+                            </Grid>
+                        </Grid.Children>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionEllipseColor">
                                 <VisualStateGroup.States>
@@ -388,43 +536,6 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.Children>
-                            <Grid x:Name="SizingGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid.Children>
-                                    <Rectangle x:Name="SpectrumRectangle" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                    <Rectangle x:Name="SpectrumOverlayRectangle" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                    <Ellipse x:Name="SpectrumEllipse"
-                                            IsHitTestVisible="False"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            Visibility="Collapsed"
-                                            Margin="0,0,-1,-1" />
-                                    <Ellipse x:Name="SpectrumOverlayEllipse"
-                                            IsHitTestVisible="False"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            Visibility="Collapsed"
-                                            Margin="0,0,-1,-1" />
-                                    <Canvas x:Name="InputTarget" Background="#00FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Control.IsTemplateFocusTarget="True">
-                                        <Canvas.Children>
-                                            <Ellipse x:Name="SelectionEllipse" Stroke="#FFFFFFFF" Width="16" Height="16" IsHitTestVisible="False">
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip x:Name="ColorNameToolTip" VerticalOffset="20" />
-                                                </ToolTipService.ToolTip>
-                                            </Ellipse>
-                                        </Canvas.Children>
-                                    </Canvas>
-                                    <Rectangle x:Name="RectangleBorder" Style="{StaticResource ColorPickerBorderStyle}" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                    <Ellipse x:Name="EllipseBorder"
-                                            Style="{StaticResource ColorPickerBorderStyle}"
-                                            IsHitTestVisible="False"
-                                            Visibility="Collapsed"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            Margin="-0.5,-0.5,-1.5,-1.5" />
-                                </Grid.Children>
-                            </Grid>
-                        </Grid.Children>
                     </Grid>
 
                 </ControlTemplate>
@@ -455,7 +566,11 @@
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="Thumb">
 
-                                                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="4" />
+                                                                    <Border
+                                                                        Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                                        CornerRadius="4" />
 
                                                                 </ControlTemplate>
                                                             </Setter.Value>
@@ -466,6 +581,67 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="*" />
                                                 </Grid.RowDefinitions>
+                                                <Grid.Children>
+
+                                                    <ContentPresenter
+                                                        x:Name="HeaderContentPresenter"
+                                                        Margin="{ThemeResource SliderHeaderThemeMargin}"
+                                                        Content="{TemplateBinding Header}"
+                                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                        FontWeight="{ThemeResource SliderHeaderThemeFontWeight}"
+                                                        Foreground="{ThemeResource SliderHeaderForeground}"
+                                                        TextWrapping="Wrap"
+                                                        Visibility="Collapsed" />
+
+                                                    <Grid
+                                                        x:Name="SliderContainer"
+                                                        Grid.Row="1"
+                                                        Background="#00FFFFFF"
+                                                        Control.IsTemplateFocusTarget="True">
+                                                        <Grid.Children>
+                                                            <Grid x:Name="HorizontalTemplate" MinHeight="44">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="18" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="18" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.Children>
+                                                                    <Rectangle
+                                                                        x:Name="HorizontalTrackRect"
+                                                                        Grid.Row="1"
+                                                                        Grid.ColumnSpan="3"
+                                                                        Height="{ThemeResource SliderTrackThemeHeight}"
+                                                                        Fill="#00FFFFFF"
+                                                                        Opacity="0" />
+                                                                    <Rectangle
+                                                                        x:Name="HorizontalDecreaseRect"
+                                                                        Grid.Row="1"
+                                                                        Fill="#00FFFFFF"
+                                                                        Opacity="0" />
+                                                                    <Thumb
+                                                                        x:Name="HorizontalThumb"
+                                                                        Grid.Row="0"
+                                                                        Grid.RowSpan="3"
+                                                                        Grid.Column="1"
+                                                                        Width="8"
+                                                                        Height="24"
+                                                                        AutomationProperties.AccessibilityView="Raw"
+                                                                        DataContext="{TemplateBinding Value}"
+                                                                        Style="{StaticResource SliderThumbStyle}">
+                                                                        <ToolTipService.ToolTip>
+                                                                            <ToolTip x:Name="ToolTip" VerticalOffset="20" />
+                                                                        </ToolTipService.ToolTip>
+                                                                    </Thumb>
+                                                                </Grid.Children>
+                                                            </Grid>
+                                                        </Grid.Children>
+                                                    </Grid>
+                                                </Grid.Children>
                                                 <VisualStateManager.VisualStateGroups>
                                                     <VisualStateGroup x:Name="CommonStates">
                                                         <VisualStateGroup.States>
@@ -506,56 +682,6 @@
                                                         </VisualStateGroup.States>
                                                     </VisualStateGroup>
                                                 </VisualStateManager.VisualStateGroups>
-                                                <Grid.Children>
-
-                                                    <ContentPresenter x:Name="HeaderContentPresenter"
-                                                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                                                    Content="{TemplateBinding Header}"
-                                                                    Foreground="{ThemeResource SliderHeaderForeground}"
-                                                                    FontWeight="{ThemeResource SliderHeaderThemeFontWeight}"
-                                                                    Margin="{ThemeResource SliderHeaderThemeMargin}"
-                                                                    TextWrapping="Wrap"
-                                                                    Visibility="Collapsed" />
-
-                                                    <Grid x:Name="SliderContainer" Background="#00FFFFFF" Control.IsTemplateFocusTarget="True" Grid.Row="1">
-                                                        <Grid.Children>
-                                                            <Grid x:Name="HorizontalTemplate" MinHeight="44">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="18" />
-                                                                    <RowDefinition Height="Auto" />
-                                                                    <RowDefinition Height="18" />
-                                                                </Grid.RowDefinitions>
-                                                                <Grid.Children>
-                                                                    <Rectangle x:Name="HorizontalTrackRect"
-                                                                                Grid.ColumnSpan="3"
-                                                                                Fill="#00FFFFFF"
-                                                                                Height="{ThemeResource SliderTrackThemeHeight}"
-                                                                                Grid.Row="1"
-                                                                                Opacity="0" />
-                                                                    <Rectangle x:Name="HorizontalDecreaseRect" Fill="#00FFFFFF" Grid.Row="1" Opacity="0" />
-                                                                    <Thumb x:Name="HorizontalThumb"
-                                                                                AutomationProperties.AccessibilityView="Raw"
-                                                                                Grid.Column="1"
-                                                                                DataContext="{TemplateBinding Value}"
-                                                                                Height="24"
-                                                                                Grid.Row="0"
-                                                                                Grid.RowSpan="3"
-                                                                                Style="{StaticResource SliderThumbStyle}"
-                                                                                Width="8">
-                                                                        <ToolTipService.ToolTip>
-                                                                            <ToolTip x:Name="ToolTip" VerticalOffset="20" />
-                                                                        </ToolTipService.ToolTip>
-                                                                    </Thumb>
-                                                                </Grid.Children>
-                                                            </Grid>
-                                                        </Grid.Children>
-                                                    </Grid>
-                                                </Grid.Children>
                                             </Grid>
 
                                         </ControlTemplate>
@@ -563,6 +689,309 @@
                                 </Setter>
                             </Style>
                         </Grid.Resources>
+                        <Grid.Children>
+                            <StackPanel>
+                                <StackPanel.Children>
+                                    <Grid x:Name="ColorSpectrumGrid">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.Children>
+                                            <primitives:ColorSpectrum
+                                                x:Name="ColorSpectrum"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                MinWidth="256"
+                                                MinHeight="256"
+                                                MaxWidth="336"
+                                                MaxHeight="336"
+                                                Components="{TemplateBinding ColorSpectrumComponents}"
+                                                MaxHue="{TemplateBinding MaxHue}"
+                                                MaxSaturation="{TemplateBinding MaxSaturation}"
+                                                MaxValue="{TemplateBinding MaxValue}"
+                                                MinHue="{TemplateBinding MinHue}"
+                                                MinSaturation="{TemplateBinding MinSaturation}"
+                                                MinValue="{TemplateBinding MinValue}"
+                                                Shape="{TemplateBinding ColorSpectrumShape}" />
+                                            <Grid
+                                                x:Name="ColorPreviewRectangleGrid"
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Width="44"
+                                                Margin="12,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.Children>
+                                                    <Rectangle
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        VerticalAlignment="Stretch">
+                                                        <Rectangle.Fill>
+                                                            <ImageBrush x:Name="ColorPreviewRectangleCheckeredBackgroundImageBrush" />
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+                                                    <Rectangle
+                                                        x:Name="ColorPreviewRectangle"
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        VerticalAlignment="Stretch" />
+                                                    <Rectangle
+                                                        x:Name="PreviousColorRectangle"
+                                                        Grid.Row="1"
+                                                        Grid.ColumnSpan="2"
+                                                        VerticalAlignment="Stretch"
+                                                        Visibility="Collapsed" />
+                                                    <Rectangle
+                                                        x:Name="BorderRectangle"
+                                                        Grid.RowSpan="2"
+                                                        Grid.ColumnSpan="2"
+                                                        Style="{StaticResource ColorPickerBorderStyle}" />
+                                                </Grid.Children>
+                                            </Grid>
+                                        </Grid.Children>
+                                    </Grid>
+                                    <Grid x:Name="ThirdDimensionSliderGrid" Margin="0,12,0,0">
+                                        <Grid.Children>
+                                            <Rectangle Height="11" VerticalAlignment="Center">
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush x:Name="ThirdDimensionSliderGradientBrush" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <primitives:ColorPickerSlider
+                                                x:Name="ThirdDimensionSlider"
+                                                ColorChannel="Value"
+                                                IsThumbToolTipEnabled="False"
+                                                Maximum="100"
+                                                Minimum="0"
+                                                Style="{StaticResource ColorPickerSliderStyle}" />
+                                        </Grid.Children>
+                                    </Grid>
+                                    <Grid x:Name="AlphaSliderGrid" Margin="0,12,0,0">
+                                        <Grid.Children>
+                                            <Rectangle Height="11" VerticalAlignment="Center">
+                                                <Rectangle.Fill>
+                                                    <ImageBrush x:Name="AlphaSliderCheckeredBackgroundImageBrush" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <Rectangle
+                                                x:Name="AlphaSliderBackgroundRectangle"
+                                                Height="11"
+                                                VerticalAlignment="Center">
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush x:Name="AlphaSliderGradientBrush" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <primitives:ColorPickerSlider
+                                                x:Name="AlphaSlider"
+                                                ColorChannel="Alpha"
+                                                IsThumbToolTipEnabled="False"
+                                                Maximum="100"
+                                                Minimum="0"
+                                                Style="{StaticResource ColorPickerSliderStyle}" />
+                                        </Grid.Children>
+                                    </Grid>
+                                    <Button
+                                        x:Name="MoreButton"
+                                        Height="32"
+                                        MinWidth="120"
+                                        Margin="0,12,0,0"
+                                        Padding="0"
+                                        HorizontalAlignment="Right"
+                                        HorizontalContentAlignment="Right"
+                                        Background="#00FFFFFF"
+                                        Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}">
+                                        <Button.Content>
+                                            <StackPanel
+                                                Margin="0,5,0,7"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+                                                <StackPanel.Children>
+                                                    <TextBlock x:Name="MoreButtonLabel" VerticalAlignment="Center" />
+                                                    <FontIcon
+                                                        x:Name="MoreGlyph"
+                                                        Margin="8,0,0,0"
+                                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                        FontSize="12"
+                                                        Glyph="" />
+                                                </StackPanel.Children>
+                                            </StackPanel>
+                                        </Button.Content>
+                                        <Button.Resources>
+                                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource SystemBaseMediumLowColor}" />
+                                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemBaseMediumColor}" />
+                                            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#00FFFFFF" />
+                                            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource SystemBaseMediumLowColor}" />
+                                        </Button.Resources>
+                                    </Button>
+                                    <Grid x:Name="TextEntryGrid" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.Children>
+                                            <ComboBox
+                                                x:Name="ColorRepresentationComboBox"
+                                                Grid.Row="0"
+                                                Width="132"
+                                                Margin="0,12,0,0">
+                                                <ComboBox.Items>
+                                                    <ComboBoxItem
+                                                        x:Name="RGBComboBoxItem"
+                                                        Content="RGB"
+                                                        IsSelected="True" />
+                                                    <ComboBoxItem x:Name="HSVComboBoxItem" Content="HSV" />
+                                                </ComboBox.Items>
+                                            </ComboBox>
+                                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                                                <StackPanel.Children>
+                                                    <StackPanel x:Name="ColorChannelTextInputPanel">
+                                                        <StackPanel.Children>
+                                                            <StackPanel x:Name="RgbPanel">
+                                                                <StackPanel.Children>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="RedTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="255" />
+                                                                            <TextBlock
+                                                                                x:Name="RedLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Red" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="GreenTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="255" />
+                                                                            <TextBlock
+                                                                                x:Name="GreenLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Green" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="BlueTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="255" />
+                                                                            <TextBlock
+                                                                                x:Name="BlueLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Blue" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                </StackPanel.Children>
+                                                            </StackPanel>
+                                                            <StackPanel
+                                                                x:Name="HsvPanel"
+                                                                Grid.Row="1"
+                                                                Visibility="Collapsed">
+                                                                <StackPanel.Children>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="HueTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="0" />
+                                                                            <TextBlock
+                                                                                x:Name="HueLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Hue" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="SaturationTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="0" />
+                                                                            <TextBlock
+                                                                                x:Name="SaturationLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Saturation" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                        <StackPanel.Children>
+                                                                            <TextBox
+                                                                                x:Name="ValueTextBox"
+                                                                                Width="100"
+                                                                                MaxLength="3"
+                                                                                Text="100" />
+                                                                            <TextBlock
+                                                                                x:Name="ValueLabel"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="Value" />
+                                                                        </StackPanel.Children>
+                                                                    </StackPanel>
+                                                                </StackPanel.Children>
+                                                            </StackPanel>
+                                                        </StackPanel.Children>
+                                                    </StackPanel>
+                                                    <StackPanel
+                                                        x:Name="AlphaPanel"
+                                                        Margin="0,12,0,0"
+                                                        Orientation="Horizontal">
+                                                        <StackPanel.Children>
+                                                            <TextBox
+                                                                x:Name="AlphaTextBox"
+                                                                Width="100"
+                                                                MaxLength="4"
+                                                                Text="100%" />
+                                                            <TextBlock
+                                                                x:Name="AlphaLabel"
+                                                                Margin="8,0,0,0"
+                                                                VerticalAlignment="Center"
+                                                                Text="Opacity" />
+                                                        </StackPanel.Children>
+                                                    </StackPanel>
+                                                </StackPanel.Children>
+                                            </StackPanel>
+                                            <TextBox
+                                                x:Name="HexTextBox"
+                                                Grid.Column="1"
+                                                Width="132"
+                                                Margin="0,12,0,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                MaxLength="7"
+                                                Text="#FFFFFF" />
+                                        </Grid.Children>
+                                    </Grid>
+                                </StackPanel.Children>
+                            </StackPanel>
+                        </Grid.Children>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ColorSpectrumVisibility">
                                 <VisualStateGroup.States>
@@ -714,203 +1143,6 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.Children>
-                            <StackPanel>
-                                <StackPanel.Children>
-                                    <Grid x:Name="ColorSpectrumGrid">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.Children>
-                                            <primitives:ColorSpectrum x:Name="ColorSpectrum"
-                                                    Grid.Column="0"
-                                                    Grid.Row="0"
-                                                    MaxWidth="336"
-                                                    MaxHeight="336"
-                                                    MinWidth="256"
-                                                    MinHeight="256"
-                                                    MinHue="{TemplateBinding MinHue}"
-                                                    MaxHue="{TemplateBinding MaxHue}"
-                                                    MinSaturation="{TemplateBinding MinSaturation}"
-                                                    MaxSaturation="{TemplateBinding MaxSaturation}"
-                                                    MinValue="{TemplateBinding MinValue}"
-                                                    MaxValue="{TemplateBinding MaxValue}"
-                                                    Shape="{TemplateBinding ColorSpectrumShape}"
-                                                    Components="{TemplateBinding ColorSpectrumComponents}"/>
-                                            <Grid x:Name="ColorPreviewRectangleGrid" Grid.Column="1" Grid.Row="0" Width="44" Margin="12,0,0,0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.Children>
-                                                    <Rectangle VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                                                        <Rectangle.Fill>
-                                                            <ImageBrush x:Name="ColorPreviewRectangleCheckeredBackgroundImageBrush" />
-                                                        </Rectangle.Fill>
-                                                    </Rectangle>
-                                                    <Rectangle x:Name="ColorPreviewRectangle" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-                                                    <Rectangle x:Name="PreviousColorRectangle" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed" />
-                                                    <Rectangle x:Name="BorderRectangle" Style="{StaticResource ColorPickerBorderStyle}" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-                                                </Grid.Children>
-                                            </Grid>
-                                        </Grid.Children>
-                                    </Grid>
-                                    <Grid x:Name="ThirdDimensionSliderGrid" Margin="0,12,0,0">
-                                        <Grid.Children>
-                                            <Rectangle Height="11" VerticalAlignment="Center">
-                                                <Rectangle.Fill>
-                                                    <LinearGradientBrush x:Name="ThirdDimensionSliderGradientBrush" />
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                            <primitives:ColorPickerSlider x:Name="ThirdDimensionSlider"
-                                                    Minimum="0"
-                                                    Maximum="100"
-                                                    ColorChannel="Value"
-                                                    Style="{StaticResource ColorPickerSliderStyle}"
-                                                    IsThumbToolTipEnabled="False" />
-                                        </Grid.Children>
-                                    </Grid>
-                                    <Grid x:Name="AlphaSliderGrid" Margin="0,12,0,0">
-                                        <Grid.Children>
-                                            <Rectangle Height="11" VerticalAlignment="Center">
-                                                <Rectangle.Fill>
-                                                    <ImageBrush x:Name="AlphaSliderCheckeredBackgroundImageBrush" />
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                            <Rectangle x:Name="AlphaSliderBackgroundRectangle" Height="11" VerticalAlignment="Center">
-                                                <Rectangle.Fill>
-                                                    <LinearGradientBrush x:Name="AlphaSliderGradientBrush" />
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                            <primitives:ColorPickerSlider x:Name="AlphaSlider"
-                                                    Minimum="0"
-                                                    Maximum="100"
-                                                    ColorChannel="Alpha"
-                                                    Style="{StaticResource ColorPickerSliderStyle}"
-                                                    IsThumbToolTipEnabled="False" />
-                                        </Grid.Children>
-                                    </Grid>
-                                    <Button x:Name="MoreButton"
-                                            Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                            Background="#00FFFFFF"
-                                            Height="32"
-                                            MinWidth="120"
-                                            Margin="0,12,0,0"
-                                            Padding="0"
-                                            HorizontalAlignment="Right"
-                                            HorizontalContentAlignment="Right">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,7">
-                                                <StackPanel.Children>
-                                                    <TextBlock x:Name="MoreButtonLabel" VerticalAlignment="Center" />
-                                                    <FontIcon x:Name="MoreGlyph" Margin="8,0,0,0" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="" FontSize="12" />
-                                                </StackPanel.Children>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Resources>
-                                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource SystemBaseMediumLowColor}" />
-                                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemBaseMediumColor}" />
-                                            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource SystemBaseMediumLowColor}" />
-                                        </Button.Resources>
-                                    </Button>
-                                    <Grid x:Name="TextEntryGrid" Visibility="Collapsed">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.Children>
-                                            <ComboBox x:Name="ColorRepresentationComboBox" Grid.Row="0" Width="132" Margin="0,12,0,0">
-                                                <ComboBox.Items>
-                                                    <ComboBoxItem x:Name="RGBComboBoxItem" Content="RGB" IsSelected="True" />
-                                                    <ComboBoxItem x:Name="HSVComboBoxItem" Content="HSV" />
-                                                </ComboBox.Items>
-                                            </ComboBox>
-                                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
-                                                <StackPanel.Children>
-                                                    <StackPanel x:Name="ColorChannelTextInputPanel">
-                                                        <StackPanel.Children>
-                                                            <StackPanel x:Name="RgbPanel">
-                                                                <StackPanel.Children>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="RedTextBox" Width="100" MaxLength="3" Text="255" />
-                                                                            <TextBlock x:Name="RedLabel" Text="Red" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="GreenTextBox" Width="100" MaxLength="3" Text="255" />
-                                                                            <TextBlock x:Name="GreenLabel" Text="Green" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="BlueTextBox" Width="100" MaxLength="3" Text="255" />
-                                                                            <TextBlock x:Name="BlueLabel" Text="Blue" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                </StackPanel.Children>
-                                                            </StackPanel>
-                                                            <StackPanel x:Name="HsvPanel" Grid.Row="1" Visibility="Collapsed">
-                                                                <StackPanel.Children>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="HueTextBox" Width="100" MaxLength="3" Text="0" />
-                                                                            <TextBlock x:Name="HueLabel" Text="Hue" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="SaturationTextBox" Width="100" MaxLength="3" Text="0" />
-                                                                            <TextBlock x:Name="SaturationLabel" Text="Saturation" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                                                        <StackPanel.Children>
-                                                                            <TextBox x:Name="ValueTextBox" Width="100" MaxLength="3" Text="100" />
-                                                                            <TextBlock x:Name="ValueLabel" Text="Value" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                                        </StackPanel.Children>
-                                                                    </StackPanel>
-                                                                </StackPanel.Children>
-                                                            </StackPanel>
-                                                        </StackPanel.Children>
-                                                    </StackPanel>
-                                                    <StackPanel x:Name="AlphaPanel" Orientation="Horizontal" Margin="0,12,0,0">
-                                                        <StackPanel.Children>
-                                                            <TextBox x:Name="AlphaTextBox" Width="100" MaxLength="4" Text="100%" />
-                                                            <TextBlock x:Name="AlphaLabel" Text="Opacity" VerticalAlignment="Center" Margin="8,0,0,0" />
-                                                        </StackPanel.Children>
-                                                    </StackPanel>
-                                                </StackPanel.Children>
-                                            </StackPanel>
-                                            <TextBox x:Name="HexTextBox"
-                                                    Grid.Column="1"
-                                                    MaxLength="7"
-                                                    Text="#FFFFFF"
-                                                    Margin="0,12,0,0"
-                                                    Width="132"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top" />
-                                        </Grid.Children>
-                                    </Grid>
-                                </StackPanel.Children>
-                            </StackPanel>
-                        </Grid.Children>
                     </Grid>
 
                 </ControlTemplate>
@@ -923,12 +1155,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TreeView">
 
-                    <controls:TreeViewList x:Name="ListControl"
-                            ItemTemplate="{StaticResource TreeViewItemDataTemplate}"
-                            ItemContainerStyle="{StaticResource TreeViewItemStyle}"
-                            CanDragItems="True"
-                            AllowDrop="True"
-                            CanReorderItems="True">
+                    <controls:TreeViewList
+                        x:Name="ListControl"
+                        AllowDrop="True"
+                        CanDragItems="True"
+                        CanReorderItems="True"
+                        ItemContainerStyle="{StaticResource TreeViewItemStyle}"
+                        ItemTemplate="{StaticResource TreeViewItemDataTemplate}">
                         <controls:TreeViewList.ItemContainerTransitions>
                             <TransitionCollection>
                                 <ContentThemeTransition />
@@ -955,6 +1188,76 @@
                 <ControlTemplate TargetType="controls:PersonPicture">
 
                     <Grid x:Name="RootGrid">
+                        <Grid.Children>
+                            <Ellipse
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Fill="{ThemeResource PersonPictureEllipseFillThemeBrush}"
+                                Stroke="{ThemeResource SystemColorButtonTextColor}"
+                                StrokeThickness="{ThemeResource PersonPictureEllipseStrokeThickness}" />
+                            <TextBlock
+                                x:Name="InitialsTextBlock"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="36"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}"
+                                IsTextScaleFactorEnabled="False"
+                                TextLineBounds="Tight" />
+
+                            <Ellipse
+                                x:Name="PersonPictureEllipse"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                FlowDirection="LeftToRight" />
+
+                            <Grid
+                                x:Name="BadgeGrid"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Visibility="Collapsed">
+                                <Grid.Children>
+
+                                    <Ellipse
+                                        x:Name="BadgingBackgroundEllipse"
+                                        Fill="{ThemeResource PersonPictureEllipseBadgeFillThemeBrush}"
+                                        Opacity="{ThemeResource PersonPictureEllipseBadgeStrokeOpacity}"
+                                        Stroke="{ThemeResource PersonPictureEllipseBadgeStrokeThemeBrush}"
+                                        StrokeThickness="{ThemeResource PersonPictureEllipseBadgeStrokeThickness}" />
+
+
+                                    <Ellipse
+                                        x:Name="BadgingEllipse"
+                                        FlowDirection="LeftToRight"
+                                        Opacity="0" />
+
+
+                                    <TextBlock
+                                        x:Name="BadgeNumberTextBlock"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AccessibilityView="Raw"
+                                        FontFamily="{TemplateBinding FontFamily}"
+                                        FontWeight="{TemplateBinding FontWeight}"
+                                        Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
+                                        IsTextScaleFactorEnabled="False"
+                                        TextLineBounds="Tight" />
+
+
+                                    <FontIcon
+                                        x:Name="BadgeGlyphIcon"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        AutomationProperties.AccessibilityView="Raw"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                        FontWeight="{TemplateBinding FontWeight}"
+                                        Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}" />
+
+                                </Grid.Children>
+                            </Grid>
+                        </Grid.Children>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.States>
@@ -984,57 +1287,6 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.Children>
-                            <Ellipse
-                                    Fill="{ThemeResource PersonPictureEllipseFillThemeBrush}"
-                                    Stroke="{ThemeResource SystemColorButtonTextColor}"
-                                    StrokeThickness="{ThemeResource PersonPictureEllipseStrokeThickness}"
-                                    Width="{TemplateBinding Width}"
-                                    Height="{TemplateBinding Height}" />
-                            <TextBlock x:Name="InitialsTextBlock"
-                                    AutomationProperties.AccessibilityView="Raw"
-                                    FontSize="36"
-                                    FontFamily="{TemplateBinding FontFamily}"
-                                    Foreground="{TemplateBinding Foreground}"
-                                    FontWeight="{TemplateBinding FontWeight}"
-                                    TextLineBounds="Tight"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    IsTextScaleFactorEnabled="False" />
-
-                            <Ellipse x:Name="PersonPictureEllipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" FlowDirection="LeftToRight" />
-
-                            <Grid x:Name="BadgeGrid" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                                <Grid.Children>
-
-                                    <Ellipse x:Name="BadgingBackgroundEllipse" Opacity="{ThemeResource PersonPictureEllipseBadgeStrokeOpacity}" Fill="{ThemeResource PersonPictureEllipseBadgeFillThemeBrush}" Stroke="{ThemeResource PersonPictureEllipseBadgeStrokeThemeBrush}" StrokeThickness="{ThemeResource PersonPictureEllipseBadgeStrokeThickness}" />
-
-
-                                    <Ellipse x:Name="BadgingEllipse" Opacity="0" FlowDirection="LeftToRight" />
-
-
-                                    <TextBlock x:Name="BadgeNumberTextBlock"
-                                                AutomationProperties.AccessibilityView="Raw"
-                                                Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
-                                                FontFamily="{TemplateBinding FontFamily}"
-                                                FontWeight="{TemplateBinding FontWeight}"
-                                                TextLineBounds="Tight"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
-                                                IsTextScaleFactorEnabled="False" />
-
-
-                                    <FontIcon x:Name="BadgeGlyphIcon"
-                                                AutomationProperties.AccessibilityView="Raw"
-                                                Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
-                                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                FontWeight="{TemplateBinding FontWeight}"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center" />
-
-                                </Grid.Children>
-                            </Grid>
-                        </Grid.Children>
                     </Grid>
 
                 </ControlTemplate>
@@ -1065,17 +1317,18 @@
                         <Grid.Children>
                             <Grid x:Name="ContentRoot">
                                 <Grid.Children>
-                                    <ContentPresenter x:Name="ContentPresenter"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            Padding="{TemplateBinding Padding}"
-                                            Content="{TemplateBinding Content}"
-                                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch"
-                                            AutomationProperties.AccessibilityView="Raw" />
+                                    <ContentPresenter
+                                        x:Name="ContentPresenter"
+                                        Padding="{TemplateBinding Padding}"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        AutomationProperties.AccessibilityView="Raw"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        ContentTransitions="{TemplateBinding ContentTransitions}" />
                                     <Grid x:Name="InputEater" />
                                 </Grid.Children>
                             </Grid>

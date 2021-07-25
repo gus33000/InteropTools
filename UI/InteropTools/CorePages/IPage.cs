@@ -36,11 +36,11 @@ namespace InteropTools.CorePages
             {
                 PageGroup.Bottom => "",
                 PageGroup.Core => "Core",
-                PageGroup.General => InteropTools.Resources.TextResources.Shell_GeneralGroupName,
-                PageGroup.Registry => InteropTools.Resources.TextResources.Shell_RegistryGroupName,
-                PageGroup.SSH => InteropTools.Resources.TextResources.Shell_SSHGroupName,
-                PageGroup.Tweaks => InteropTools.Resources.TextResources.Shell_TweakGroupName,
-                PageGroup.Unlock => InteropTools.Resources.TextResources.Shell_UnlockGroupName,
+                PageGroup.General => Resources.TextResources.Shell_GeneralGroupName,
+                PageGroup.Registry => Resources.TextResources.Shell_RegistryGroupName,
+                PageGroup.SSH => Resources.TextResources.Shell_SSHGroupName,
+                PageGroup.Tweaks => Resources.TextResources.Shell_TweakGroupName,
+                PageGroup.Unlock => Resources.TextResources.Shell_UnlockGroupName,
                 _ => "",
             };
         }

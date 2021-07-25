@@ -688,10 +688,8 @@ namespace InteropTools.ShellPages.AppManager
 
         private async void DependenciesList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //Hide();
             Item SelectedItem = (Item)e.ClickedItem;
             await new AppPackageContentDialog(SelectedItem.FullName).ShowAsync();
-            //await ShowAsync();
         }
 
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
@@ -700,10 +698,8 @@ namespace InteropTools.ShellPages.AppManager
             DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
-            //this.Hide();
             await
             new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Package Info");
-            // await this.ShowAsync();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

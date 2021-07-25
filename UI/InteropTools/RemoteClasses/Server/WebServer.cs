@@ -216,7 +216,7 @@ namespace InteropTools.RemoteClasses.Server
         [UriFormat("/deviceinfo/getdevicehostname")]
         public IGetResponse GetDeviceHostname()
         {
-            string hostname = InteropTools.Classes.DeviceInfo.Instance.FriendlyName;
+            string hostname = Classes.DeviceInfo.Instance.FriendlyName;
 
             return new GetResponse(
                 GetResponse.ResponseStatus.OK,
@@ -226,7 +226,7 @@ namespace InteropTools.RemoteClasses.Server
         [UriFormat("/deviceinfo/getdevicefamilly")]
         public IGetResponse GetDeviceFamilly()
         {
-            string devicefamilly = InteropTools.Classes.DeviceInfo.Instance.DeviceFamily;
+            string devicefamilly = Classes.DeviceInfo.Instance.DeviceFamily;
 
             return new GetResponse(
                 GetResponse.ResponseStatus.OK,

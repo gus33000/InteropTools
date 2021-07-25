@@ -156,7 +156,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new List<string>
@@ -202,7 +202,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new List<string>
@@ -249,7 +249,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -298,7 +298,7 @@ namespace InteropTools.Providers
             RegEnumKey ret = new RegEnumKey();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -390,7 +390,7 @@ namespace InteropTools.Providers
             RegQueryKeyLastModifiedTime ret = new RegQueryKeyLastModifiedTime();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new List<string>
@@ -443,7 +443,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -491,7 +491,7 @@ namespace InteropTools.Providers
             RegQueryValue2 ret = new RegQueryValue2();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new List<string>
@@ -563,7 +563,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new List<string>
@@ -610,7 +610,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -700,7 +700,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -748,7 +748,7 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;

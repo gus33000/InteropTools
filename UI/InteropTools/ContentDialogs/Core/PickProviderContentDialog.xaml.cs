@@ -1,7 +1,6 @@
 ﻿using InteropTools.Presentation;
 using InteropTools.Providers;
 using InteropTools.RemoteClasses.Client;
-//using InteropToolsRegistryApp.Providers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Collections.ObjectModel;
@@ -44,9 +43,6 @@ namespace InteropTools.ContentDialogs.Core
         public PickProviderContentDialog()
         {
             InitializeComponent();
-
-            //if (int.Parse(DeviceInfo.Instance.SystemVersion.Split('.')[2]) >= 14393)
-            //    Connecting.Children.Add(new TileControl() { HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Stretch, ImageSource = new Uri("ms-appx:///Assets/LoadingScreen/LoadingLogo.png"), IsAnimated = true });
 
             Loaded += DialogLoaded;
 

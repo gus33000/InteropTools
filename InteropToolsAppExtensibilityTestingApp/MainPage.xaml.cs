@@ -40,7 +40,7 @@ namespace InteropToolsAppExtensibilityTestingApp
             };
 
             string theResult = "";
-            LaunchUriResult result = await Windows.System.Launcher.LaunchUriForResultsAsync(testAppUri, options, inputData);
+            LaunchUriResult result = await Launcher.LaunchUriForResultsAsync(testAppUri, options, inputData);
             if (result.Status == LaunchUriStatus.Success &&
                 result.Result != null &&
                 result.Result.ContainsKey("ReturnedData"))

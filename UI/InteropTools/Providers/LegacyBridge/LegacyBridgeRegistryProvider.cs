@@ -142,7 +142,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -221,7 +221,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -295,7 +295,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -412,7 +412,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -498,7 +498,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -583,7 +583,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -689,7 +689,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -782,7 +782,7 @@ namespace InteropTools.Providers
             }
             else
             {
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -935,7 +935,7 @@ namespace InteropTools.Providers
             }
             else
             {
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -1000,7 +1000,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -1074,7 +1074,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -1148,7 +1148,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -1222,7 +1222,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {
@@ -1296,7 +1296,7 @@ namespace InteropTools.Providers
                 bool hadaccessdenied = false;
                 bool hadfailed = false;
 
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
                 foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
                 {

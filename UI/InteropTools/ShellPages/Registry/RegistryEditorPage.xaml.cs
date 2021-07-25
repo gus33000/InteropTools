@@ -83,7 +83,6 @@ namespace InteropTools.ShellPages.Registry
                 Grid.SetRow(HistoryUI, 0);
                 SecondaryColumn.Width = new GridLength(328);
                 OtherColumn.Width = new GridLength(1, GridUnitType.Star);
-                //MainRow.Height = new GridLength(1, GridUnitType.Star);
                 MainScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
             }
             else
@@ -93,7 +92,6 @@ namespace InteropTools.ShellPages.Registry
                 Grid.SetRow(HistoryUI, 1);
                 SecondaryColumn.Width = new GridLength(1, GridUnitType.Star);
                 OtherColumn.Width = GridLength.Auto;
-                //MainRow.Height = GridLength.Auto;
                 MainScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             }
         }

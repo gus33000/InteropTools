@@ -14,78 +14,45 @@
 
     <UserControl.Resources>
         <CollectionViewSource x:Key="FileGroups" IsSourceGrouped="True" />
-        <JumpListItemBackgroundConverter x:Key="BackgroundConverter" Enabled="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-
-        <!--  ListViewHeader matching the start menu headers, more Win10 like  -->
-        <Style TargetType="ListViewHeaderItem">
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Margin" Value="0,0,0,0" />
-            <Setter Property="Padding" Value="0,8,0,4" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Top" />
-            <Setter Property="MinHeight" Value="{ThemeResource ListViewHeaderItemMinHeight}" />
-            <Setter Property="UseSystemFocusVisuals" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewHeaderItem">
-                        <StackPanel
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter
-                                x:Name="ContentPresenter"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}" />
-                        </StackPanel>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
         <Style x:Key="NormalAlphaViewStyle" TargetType="SemanticZoom">
             <Setter Property="ZoomedOutView">
                 <Setter.Value>
                     <GridView
-                        x:Name="JumpGridView"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                        ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollMode="Auto">
+                    x:Name="JumpGridView"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Auto">
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel
-                                    Width="60"
-                                    Height="60"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
+                                Width="60"
+                                Height="60"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
                                     <TextBlock
-                                        Margin="6.5"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="34"
-                                        FontWeight="SemiLight"
-                                        Foreground="{Binding Converter={StaticResource BackgroundConverter}}"
-                                        Text="{Binding Group.Key}" />
+                                    Margin="6.5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="34"
+                                    FontWeight="SemiLight"
+                                    Foreground="{Binding Converter={StaticResource BackgroundConverter}}"
+                                    Text="{Binding Group.Key}" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapGrid
-                                    HorizontalChildrenAlignment="Center"
-                                    MaximumRowsOrColumns="5"
-                                    Orientation="Horizontal"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                    ScrollViewer.VerticalScrollMode="Auto"
-                                    VerticalChildrenAlignment="Center" />
+                                HorizontalChildrenAlignment="Center"
+                                MaximumRowsOrColumns="5"
+                                Orientation="Horizontal"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollMode="Auto"
+                                VerticalChildrenAlignment="Center" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemContainerStyle>
@@ -104,13 +71,13 @@
             <Setter Property="ZoomedOutView">
                 <Setter.Value>
                     <GridView
-                        x:Name="JumpGridView2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                        ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
-                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollMode="Auto">
+                    x:Name="JumpGridView2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Auto">
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -118,27 +85,27 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <TextBlock
-                                        Grid.Row="0"
-                                        Margin="24,0,0,0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="24"
-                                        FontWeight="SemiLight"
-                                        Foreground="{Binding Converter={StaticResource BackgroundConverter}}"
-                                        Text="{Binding Group.Key}" />
+                                    Grid.Row="0"
+                                    Margin="24,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="24"
+                                    FontWeight="SemiLight"
+                                    Foreground="{Binding Converter={StaticResource BackgroundConverter}}"
+                                    Text="{Binding Group.Key}" />
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapGrid
-                                    HorizontalChildrenAlignment="Center"
-                                    ItemHeight="60"
-                                    ItemWidth="{Binding Path=ActualWidth, ElementName=ZoomGrid, Mode=OneWay}"
-                                    Orientation="Vertical"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                    ScrollViewer.VerticalScrollMode="Auto"
-                                    VerticalChildrenAlignment="Top" />
+                                HorizontalChildrenAlignment="Center"
+                                ItemHeight="60"
+                                ItemWidth="{Binding Path=ActualWidth, ElementName=ZoomGrid, Mode=OneWay}"
+                                Orientation="Vertical"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollMode="Auto"
+                                VerticalChildrenAlignment="Top" />
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemContainerStyle>

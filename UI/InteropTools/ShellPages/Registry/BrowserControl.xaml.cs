@@ -790,7 +790,6 @@ namespace InteropTools.ShellPages.Registry
 
                     catch (Exception)
                     {
-                        //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Set" + e.Message + e.HResult);
                     }
                 }
             }

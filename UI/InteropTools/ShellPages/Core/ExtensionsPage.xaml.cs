@@ -75,21 +75,21 @@ namespace InteropTools.ShellPages.Core
             {
                 DisplayableRegPlugin ext = btn.DataContext as DisplayableRegPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
             if (btn.DataContext.GetType() == typeof(DisplayablePowerPlugin))
             {
                 DisplayablePowerPlugin ext = btn.DataContext as DisplayablePowerPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
             if (btn.DataContext.GetType() == typeof(DisplayableApplicationPlugin))
             {
                 DisplayableApplicationPlugin ext = btn.DataContext as DisplayableApplicationPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(InteropTools.Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
         }

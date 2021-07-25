@@ -528,8 +528,6 @@ namespace InteropTools.CorePages
         public Shell(object args)
         {
             InitializeComponent();
-            //Microsoft.UI.Xaml.Controls.DEPControlsClass.SetupRevealForFullWindowMedia(Window.Current.Content);
-            //Microsoft.UI.Xaml.Controls.DEPControlsThemeResources.EnsureRevealLights(Window.Current.Content);
             Load(args);
         }
 
@@ -564,12 +562,12 @@ namespace InteropTools.CorePages
 
         private void SetupTitleBar()
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0;
             }
 
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Color transparentColor = transparentColorBrush.Color;
@@ -778,55 +776,6 @@ namespace InteropTools.CorePages
                     App.RegistryHelper = new CCMDProvider();
                 }
             }
-
-            /*if (!useCMD)
-			{
-			useCMD = false;
-
-			var title = "Do you want to enable Full System Access via SSH now?";
-			var content = "If you see this prompt for the second or third time, please press yes to continue unlocking System Access.\n\nEnabling Full System Access via SSH will allow you to enable System Access for the registry browser and enable the Command Prompt to be used directly on the phone.\nThis operation may require up to 3 reboots. After each reboot please go back and re-answer yes to this prompt";
-
-			bool cmdresult = false;
-
-			cmdresult = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content, "Yes", "No");
-
-			if (cmdresult)
-			{
-			  var SSHSAHelper = new SSHSystemAccessHelper();
-
-			  var result = await SSHSAHelper.UnlockSSHSystemAccess();
-
-			  switch (result)
-			  {
-			      case UnlockStates.DONE_NEEDS_REBOOT:
-			          {
-			              await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog("Please reboot to finish unlocking. After the reboot is done you should have working system access and app deployments.", "Final reboot");
-
-			              Application.Current.Exit();
-			              break;
-			          }
-			      case UnlockStates.NOT_DONE_REBOOT_PENDING:
-			          {
-			              await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog("Please reboot to continue unlocking. After the reboot is done please come back to the enable System access prompt and continue by pressing Yes.", "Preparation reboot");
-
-			              Application.Current.Exit();
-			              break;
-			          }
-			      case UnlockStates.ALREADY_UNLOCKED:
-			          {
-			              useCMD = true;
-			              break;
-			          }
-			      case UnlockStates.FAILED:
-			          {
-			              await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog("The operation failed and changes have been attempted to be reverted. Please reboot to try undoing the changes made.", "Operation failed");
-
-			              Application.Current.Exit();
-			              break;
-			          }
-			  }
-			}
-			}*/
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -912,8 +861,6 @@ namespace InteropTools.CorePages
                     Frame.Padding = padding;
                     Frame.PageTitleVisibility = Visibility.Visible;
                     TitlebarBackground.Visibility = Visibility.Collapsed;
-                    //SideMarginBlur.Visibility = Visibility.Visible;
-                    //SplitView.IsSwipeablePaneOpen = true;
 
                     if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
                     {
@@ -975,8 +922,6 @@ namespace InteropTools.CorePages
                     Frame.Padding = padding;
                     Frame.PageTitleVisibility = Visibility.Visible;
                     TitlebarBackground.Visibility = Visibility.Collapsed;
-                    //SideMarginBlur.Visibility = Visibility.Visible;
-                    //SplitView.IsSwipeablePaneOpen = false;
 
                     if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
                     {
@@ -1037,8 +982,6 @@ namespace InteropTools.CorePages
                     Frame.Padding = padding;
                     Frame.PageTitleVisibility = Visibility.Collapsed;
                     TitlebarBackground.Visibility = Visibility.Visible;
-                    //SideMarginBlur.Visibility = Visibility.Collapsed;
-                    //SplitView.IsSwipeablePaneOpen = false;
 
                     if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
                     {

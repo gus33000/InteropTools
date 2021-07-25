@@ -75,7 +75,7 @@ namespace Intense.UI
             WindowChrome chrome = (WindowChrome)args.NewValue;
             chrome?.SetTarget(o as FrameworkElement);
 
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
@@ -151,7 +151,7 @@ namespace Intense.UI
                 statusBar.BackgroundColor = StatusBarBackgroundColor;
             }
 
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
@@ -193,7 +193,7 @@ namespace Intense.UI
                 statusBar.ForegroundColor = StatusBarForegroundColor;
             }
 
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };

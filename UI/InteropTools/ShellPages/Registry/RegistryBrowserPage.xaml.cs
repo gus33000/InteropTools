@@ -139,10 +139,6 @@ namespace InteropTools.ShellPages.Registry
                 }
             }
 
-            //} catch (Exception e)
-            //{
-            //    new MessageDialog(e.StackTrace, e.Message + e.HResult).ShowAsync();
-            //}
             return itemlist;
         }
 
@@ -868,34 +864,6 @@ namespace InteropTools.ShellPages.Registry
                 return;
             }
 
-            /*var keypath = BrowserCtrl._currentRegItem.Key;
-
-			if (string.IsNullOrEmpty(keypath))
-			{
-			    keypath = BrowserCtrl._currentRegItem.Name;
-			}
-			else
-			{
-			    keypath = keypath + @"\" + BrowserCtrl._currentRegItem.Name;
-			}
-
-			if (BrowserCtrl._currentRegItem.Type == RegistryItemType.HIVE)
-			{
-			    keypath = "";
-			}
-
-			var hive = BrowserCtrl._currentRegItem.Hive;
-
-			await new EditRegValueContentDialog(hive, keypath, "", RegTypes.REG_SZ, false).Init();
-
-			if (BrowserCtrl._currentRegItem == null)
-			{
-			    BrowserCtrl.ChangeCurrentItem();
-			}
-			else
-			{
-			    BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
-			}*/
             ShowCreateValueDialog();
         }
 

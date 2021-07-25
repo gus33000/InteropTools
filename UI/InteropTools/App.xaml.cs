@@ -1,7 +1,4 @@
-﻿//using Microsoft.Services.Store.Engagement;
-//using RegPluginList = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.Registry.Definition.TransfareOptions, double>;
-//using PowerPluginList = AppPlugin.PluginList.PluginList<string, string, InteropTools.Providers.OSReboot.Definition.TransfareOptions, double>;
-using InteropTools.CorePages;
+﻿using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.RemoteClasses.Server;
 using InteropTools.Resources;
@@ -38,9 +35,6 @@ namespace InteropTools
 {
     public sealed partial class App : Application
     {
-        //public static RegPluginList regpluginlist;
-        //public static PowerPluginList powerpluginlist;
-
         public static readonly TextResources textResources = new();
 
         public static readonly string RemoteLoc = ResourceManager.Current.MainResourceMap.GetValue(
@@ -103,19 +97,8 @@ namespace InteropTools
                 Collectors = WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,
                 EnableDiagnostics = true
             });
-            try
-            {
-                //MobileCenter.Start("af6e74dc-17ac-469e-876c-6acb9c214a4a", typeof(Analytics));
-            }
-            catch
-            {
-
-            }
 
             InitializeComponent();
-
-            //Suspending += OnSuspending;
-            //Microsoft.UI.Xaml.Controls.DEPControlsClass.Initialize();
         }
 
         public static SshClient SshClient { get; set; }
@@ -208,7 +191,7 @@ namespace InteropTools
                 await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                    "auth-method", RegTypes.REG_SZ, "password");
                 await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "user-pin", RegTypes.REG_SZ, App.SessionId);
+                                   "user-pin", RegTypes.REG_SZ, SessionId);
                 await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                    "subsystems", RegTypes.REG_SZ, "default,sftp");
                 await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
@@ -374,7 +357,7 @@ namespace InteropTools
         {
             if (CurrentSession != null)
             {
-                Sessions[(int)CurrentSession].WindowContent = App.AppContent;
+                Sessions[(int)CurrentSession].WindowContent = AppContent;
                 RenderTargetBitmap renderTargetBitmap = new();
                 await renderTargetBitmap.RenderAsync(Sessions[(int)CurrentSession].WindowContent);
                 Sessions[(int)CurrentSession].Preview = renderTargetBitmap;
@@ -400,13 +383,13 @@ namespace InteropTools
             }
 
             CurrentSession = Sessions.IndexOf(session);
-            App.AppContent = session.WindowContent;
+            AppContent = session.WindowContent;
             RenderTargetBitmap renderTargetBitmap_ = new();
             await renderTargetBitmap_.RenderAsync(Sessions[(int)CurrentSession].WindowContent);
             Sessions[(int)CurrentSession].Preview = renderTargetBitmap_;
             Window.Current.Activate();
 
-            if (App.AppContent is Shell)
+            if (AppContent is Shell)
             {
                 Shell shell = (Shell)session.WindowContent;
                 shell.ReSetupTitlebar();
@@ -434,7 +417,7 @@ namespace InteropTools
                 {
                     bool loadState = (args.PreviousExecutionState == ApplicationExecutionState.Terminated);
                     ExtendedSplashScreen extendedSplash = new(args.SplashScreen, loadState, file);
-                    App.AppContent = extendedSplash;
+                    AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
 
@@ -444,14 +427,14 @@ namespace InteropTools
                 }
             }
 
-            else if (App.AppContent as Shell == null)
+            else if (AppContent as Shell == null)
             {
                 //  Display an extended splash screen if app was not previously running.
                 if (args.PreviousExecutionState != ApplicationExecutionState.Running)
                 {
                     bool loadState = (args.PreviousExecutionState == ApplicationExecutionState.Terminated);
                     ExtendedSplashScreen extendedSplash = new(args.SplashScreen, loadState, file);
-                    App.AppContent = extendedSplash;
+                    AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
 
@@ -463,7 +446,7 @@ namespace InteropTools
 
             else
             {
-                Shell currentContent = App.AppContent as Shell;
+                Shell currentContent = AppContent as Shell;
                 await currentContent.HandleFileActivatedEvent(file);
             }
         }
@@ -497,32 +480,6 @@ namespace InteropTools
 
                 if (!ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
                 {
-                    /*this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs2_generic.xaml") }
-                    );
-                    if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ColorPicker"))
-                    {
-                        this.Resources.MergedDictionaries.Add
-                        (
-                            new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs3_themeresources.xaml") }
-                        );
-                    }
-                    else
-                    {
-                        this.Resources.MergedDictionaries.Add
-                        (
-                            new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs2_themeresources.xaml") }
-                        );
-                    }
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_generic.xaml") }
-                    );
-                    this.Resources.MergedDictionaries.Add
-                    (
-                            new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_themeresources.xaml") }
-                    );*/
                     Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs2_neon.xaml") }
@@ -530,22 +487,6 @@ namespace InteropTools
                 }
                 else
                 {
-                    /*this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/Generic.xaml") }
-                    );
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs1_themeresources.xaml") }
-                    );
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_Generic.xaml") }
-                    );
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs1_themeresources.xaml") }
-                    );*/
                     Resources.MergedDictionaries.Add
                     (
                         new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs1_neon.xaml") }
@@ -571,9 +512,6 @@ namespace InteropTools
                 }
 #endif
 
-                //regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-                //powerpluginlist = await InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
-
                 RefreshTile();
 
                 if (CurrentSession == null)
@@ -583,7 +521,7 @@ namespace InteropTools
                     {
                         bool loadState = (eventArgs.PreviousExecutionState == ApplicationExecutionState.Terminated);
                         ExtendedSplashScreen extendedSplash = new(eventArgs.SplashScreen, loadState, "");
-                        App.AppContent = extendedSplash;
+                        AppContent = extendedSplash;
                         Window.Current.Activate();
                     }
 
@@ -605,9 +543,6 @@ namespace InteropTools
                 {
                     rootFrame = new Frame();
                     Window.Current.Content = rootFrame;
-
-                    //Microsoft.UI.Xaml.Controls.DEPControlsClass.SetupRevealForFullWindowMedia(Window.Current.Content);
-                    //Microsoft.UI.Xaml.Controls.DEPControlsThemeResources.EnsureRevealLights(Window.Current.Content);
                 }
 
                 // Open the page that we created to handle activation for results.
@@ -645,32 +580,6 @@ namespace InteropTools
         {
             if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "CreateHostBackdropBrush"))
             {
-                /*this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs2_generic.xaml") }
-                );
-                if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ColorPicker"))
-                {
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs3_themeresources.xaml") }
-                    );
-                }
-                else
-                {
-                    this.Resources.MergedDictionaries.Add
-                    (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs2_themeresources.xaml") }
-                    );
-                }
-                this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_generic.xaml") }
-                );
-                this.Resources.MergedDictionaries.Add
-                (
-                        new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs2_themeresources.xaml") }
-                );*/
                 ApplicationData applicationData = ApplicationData.Current;
                 ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
@@ -698,22 +607,6 @@ namespace InteropTools
             }
             else
             {
-                /*this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/Generic.xaml") }
-                );
-                this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Themes/rs1_themeresources.xaml") }
-                );
-                this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_Generic.xaml") }
-                );
-                this.Resources.MergedDictionaries.Add
-                (
-                    new ResourceDictionary { Source = new Uri("ms-appx:///Microsoft.UI.Xaml/Package_Themes_rs1_themeresources.xaml") }
-                );*/
                 Resources.MergedDictionaries.Add
                 (
                     new ResourceDictionary { Source = new Uri("ms-appx:///Themes/rs1_neon.xaml") }
@@ -739,9 +632,6 @@ namespace InteropTools
             }
 #endif
 
-            //regpluginlist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-            //powerpluginlist = await InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
-
             RefreshTile();
 
             if (CurrentSession == null)
@@ -751,7 +641,7 @@ namespace InteropTools
                 {
                     bool loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
                     ExtendedSplashScreen extendedSplash = new(e.SplashScreen, loadState, e.Arguments);
-                    App.AppContent = extendedSplash;
+                    AppContent = extendedSplash;
                     Window.Current.Activate();
                 }
 
@@ -763,7 +653,7 @@ namespace InteropTools
 
             string args = e.Arguments;
 
-            if (App.AppContent is not Shell currentContent)
+            if (AppContent is not Shell currentContent)
             {
                 return;
             }
@@ -876,33 +766,30 @@ namespace InteropTools
                 {
                     JumpList jumpList = await JumpList.LoadCurrentAsync();
                     jumpList.Items.Clear();
-                    JumpListItem item1 = JumpListItem.CreateWithArguments("RegistryEditorPage", InteropTools.Resources.TextResources.Shell_RegistryEditorTitle);
-                    item1.Description = InteropTools.Resources.TextResources.Shell_RegistryEditorDesc;
+                    JumpListItem item1 = JumpListItem.CreateWithArguments("RegistryEditorPage", TextResources.Shell_RegistryEditorTitle);
+                    item1.Description = TextResources.Shell_RegistryEditorDesc;
                     item1.Logo = new Uri("ms-appx:///Assets/JumpList/registryeditor.png");
-                    JumpListItem item2 = JumpListItem.CreateWithArguments("RegistryBrowserPage", InteropTools.Resources.TextResources.Shell_RegistryBrowserTitle);
-                    item2.Description = InteropTools.Resources.TextResources.Shell_RegistryBrowserDesc;
+                    JumpListItem item2 = JumpListItem.CreateWithArguments("RegistryBrowserPage", TextResources.Shell_RegistryBrowserTitle);
+                    item2.Description = TextResources.Shell_RegistryBrowserDesc;
                     item2.Logo = new Uri("ms-appx:///Assets/JumpList/registrybrowser.png");
-                    JumpListItem item3 = JumpListItem.CreateWithArguments("RegistrySearchPage", InteropTools.Resources.TextResources.Shell_RegistrySearchTitle);
-                    item3.Description = InteropTools.Resources.TextResources.Shell_RegistrySearchDesc;
+                    JumpListItem item3 = JumpListItem.CreateWithArguments("RegistrySearchPage", TextResources.Shell_RegistrySearchTitle);
+                    item3.Description = TextResources.Shell_RegistrySearchDesc;
                     item3.Logo = new Uri("ms-appx:///Assets/JumpList/registrysearch.png");
-                    JumpListItem item4 = JumpListItem.CreateWithArguments("TweaksPage", InteropTools.Resources.TextResources.Shell_TweaksTitle);
-                    item4.Description = InteropTools.Resources.TextResources.Shell_TweaksDesc;
+                    JumpListItem item4 = JumpListItem.CreateWithArguments("TweaksPage", TextResources.Shell_TweaksTitle);
+                    item4.Description = TextResources.Shell_TweaksDesc;
                     item4.Logo = new Uri("ms-appx:///Assets/JumpList/tweaks.png");
-                    JumpListItem item6 = JumpListItem.CreateWithArguments("AppManagerPage", InteropTools.Resources.TextResources.Shell_ApplicationsTitle);
-                    item6.Description = InteropTools.Resources.TextResources.Shell_ApplicationsDescription;
+                    JumpListItem item6 = JumpListItem.CreateWithArguments("AppManagerPage", TextResources.Shell_ApplicationsTitle);
+                    item6.Description = TextResources.Shell_ApplicationsDescription;
                     item6.Logo = new Uri("ms-appx:///Assets/JumpList/apps.png");
-                    JumpListItem item7 = JumpListItem.CreateWithArguments("CertificatesPage", InteropTools.Resources.TextResources.Shell_CertificatesTitle);
-                    item7.Description = InteropTools.Resources.TextResources.Shell_CertificatesDesc;
+                    JumpListItem item7 = JumpListItem.CreateWithArguments("CertificatesPage", TextResources.Shell_CertificatesTitle);
+                    item7.Description = TextResources.Shell_CertificatesDesc;
                     item7.Logo = new Uri("ms-appx:///Assets/JumpList/certs.png");
-                    JumpListItem item8 = JumpListItem.CreateWithArguments("InteropUnlockPage", InteropTools.Resources.TextResources.Shell_InteropUnlockTitle);
-                    item8.Description = InteropTools.Resources.TextResources.Shell_InteropUnlockDesc;
+                    JumpListItem item8 = JumpListItem.CreateWithArguments("InteropUnlockPage", TextResources.Shell_InteropUnlockTitle);
+                    item8.Description = TextResources.Shell_InteropUnlockDesc;
                     item8.Logo = new Uri("ms-appx:///Assets/JumpList/interopunlock.png");
-                    JumpListItem item9 = JumpListItem.CreateWithArguments("YourDevicePage", InteropTools.Resources.TextResources.Shell_DeviceInfoTitle);
-                    item9.Description = InteropTools.Resources.TextResources.Shell_DeviceInfoDesc;
+                    JumpListItem item9 = JumpListItem.CreateWithArguments("YourDevicePage", TextResources.Shell_DeviceInfoTitle);
+                    item9.Description = TextResources.Shell_DeviceInfoDesc;
                     item9.Logo = new Uri("ms-appx:///Assets/JumpList/yourdevice.png");
-                    //var item10 = JumpListItem.CreateWithArguments("RemoteAccessPage", InteropTools.Resources.TextResources.Shell_RemoteAccessTitle);
-                    //item10.Description = InteropTools.Resources.TextResources.Shell_RemoteAccessDesc;
-                    //item10.Logo = new Uri("ms-appx:///Assets/JumpList/remoteaccess.png");
                     jumpList.SystemGroupKind = JumpListSystemGroupKind.None;
                     jumpList.Items.Add(item1);
                     jumpList.Items.Add(item2);
@@ -912,7 +799,6 @@ namespace InteropTools
                     jumpList.Items.Add(item7);
                     jumpList.Items.Add(item8);
                     jumpList.Items.Add(item9);
-                    //jumpList.Items.Add(item10);
                     await jumpList.SaveAsync();
                 }
             }

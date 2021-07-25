@@ -52,21 +52,6 @@ namespace InteropTools.ContentDialogs.Certificates
                 SName.Visibility = Visibility.Collapsed;
             }
 
-            /*try
-			{
-			    SubjectAlternativeName.Text = cert.SubjectAlternativeName;
-			    if (SubjectAlternativeName.Text.Trim() == "")
-			    {
-			        SubjectAlternativeNameHeader.Visibility = Visibility.Collapsed;
-			        SubjectAlternativeName.Visibility = Visibility.Collapsed;
-			    }
-			}
-			catch
-			{
-			    SubjectAlternativeNameHeader.Visibility = Visibility.Collapsed;
-			    SubjectAlternativeName.Visibility = Visibility.Collapsed;
-			}*/
-
             try
             {
                 FName.Text = cert.FriendlyName;
@@ -310,7 +295,6 @@ namespace InteropTools.ContentDialogs.Certificates
 
             CertificateChain result = await cert.BuildChainAsync(this.certlist);
             _ = result.Validate();
-            //Debug.WriteLine(validation.ToString());
             IReadOnlyList<Certificate> chain = result.GetCertificates(true);
             List<Certificate> certlist = new();
 

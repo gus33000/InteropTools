@@ -71,7 +71,7 @@ namespace InteropTools.ShellPages.Core
 
         private async Task InitAsync()
         {
-            AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> reglist = await Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in reglist.Plugins)
             {
@@ -117,7 +117,7 @@ namespace InteropTools.ShellPages.Core
                 });
             };
 
-            AppPlugin.PluginList.PluginList<string, string, double> rebootlist = await InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> rebootlist = await Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in rebootlist.Plugins)
             {
@@ -163,7 +163,7 @@ namespace InteropTools.ShellPages.Core
                 });
             };
 
-            AppPlugin.PluginList.PluginList<string, string, double> applicationlist = await InteropTools.Providers.Applications.Definition.ApplicationProvidersWithOptions.ListAsync(InteropTools.Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> applicationlist = await Providers.Applications.Definition.ApplicationProvidersWithOptions.ListAsync(Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in applicationlist.Plugins)
             {

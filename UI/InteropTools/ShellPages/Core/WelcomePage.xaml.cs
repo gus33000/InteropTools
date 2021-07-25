@@ -22,12 +22,6 @@ namespace InteropTools.ShellPages.Core
             InitializeComponent();
             Refresh();
 
-            /*if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported())
-            {
-                this.FeedbackButtonList.Visibility = Visibility.Visible;
-                this.FeedbackButtonList2.Visibility = Visibility.Visible;
-            }*/
-
             Loaded += WelcomePage_Loaded;
             SizeChanged += WelcomePage_SizeChanged;
 
@@ -69,20 +63,12 @@ namespace InteropTools.ShellPages.Core
         private async void CreateTile(NavigationItem item)
         {
             string page = item.PageType.Name;
-            /*var square150X150Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/150x150Logo.scale-400.png");
-			var wide310X150Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/310X150Logo.scale-400.png");
-			var square310X310Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/310x310Logo.scale-400.png");
-			var square30X30Logo = new Uri("ms-appx:///Assets/SecondaryTiles/" + page + "/44x44Logo.scale-400.png");*/
             string tileActivationArguments = page;
             SecondaryTile secondaryTile = new(page,
                                                   item.DisplayName,
                                                   tileActivationArguments,
                                                   null,
-                                                  //square150X150Logo,
                                                   TileSize.Square150x150);
-            /*secondaryTile.VisualElements.Wide310x150Logo = wide310X150Logo;
-			secondaryTile.VisualElements.Square310x310Logo = square310X310Logo;
-			secondaryTile.VisualElements.Square30x30Logo = square30X30Logo;*/
             secondaryTile.VisualElements.ShowNameOnSquare150x150Logo = true;
             secondaryTile.VisualElements.ShowNameOnWide310x150Logo = true;
             secondaryTile.VisualElements.ShowNameOnSquare310x310Logo = true;

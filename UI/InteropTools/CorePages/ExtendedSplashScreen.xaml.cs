@@ -44,7 +44,7 @@ namespace InteropTools.CorePages
                 StatusBar.GetForCurrentView().BackgroundOpacity = 0;
             }
 
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
             SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Windows.UI.Color transparentColor = transparentColorBrush.Color;
@@ -184,21 +184,6 @@ namespace InteropTools.CorePages
             VersionText.Text = buildString;
             await FadeInLogoSwitch.BeginAsync();
 
-            //await new UpdateAvailableContentDialog().DownloadAndInstallAllUpdatesAsync();
-
-            /*RunInThreadPool(async () => {
-                await RunInUiThread(() => {
-                    App.AddNewSession(args);
-                });
-            });*/
-
-            /*RunInThreadPool(async () => {
-			    await Task.Delay(2000);
-			    await RunInUiThread(() => {
-			        App.AddNewSession(args);
-			    });
-			});*/
-
             ApplicationData applicationData = ApplicationData.Current;
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
@@ -245,29 +230,13 @@ namespace InteropTools.CorePages
         {
             extendedSplashImage.SetValue(Canvas.LeftProperty, splashImageRect.Left);
             extendedSplashImage.SetValue(Canvas.TopProperty, splashImageRect.Top);
-            /*if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                extendedSplashImage.Height = splashImageRect.Height / ScaleFactor;
-                extendedSplashImage.Width = splashImageRect.Width / ScaleFactor;
-            }
-            else
-            {*/
             extendedSplashImage.Height = splashImageRect.Height;
             extendedSplashImage.Width = splashImageRect.Width;
-            //}
 
             extendedSplashImage2.SetValue(Canvas.LeftProperty, splashImageRect.Left);
             extendedSplashImage2.SetValue(Canvas.TopProperty, splashImageRect.Top);
-            /*if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                extendedSplashImage2.Height = splashImageRect.Height / ScaleFactor;
-                extendedSplashImage2.Width = splashImageRect.Width / ScaleFactor;
-            }
-            else
-            {*/
             extendedSplashImage2.Height = splashImageRect.Height;
             extendedSplashImage2.Width = splashImageRect.Width;
-            //}
         }
 
         private void PositionRing()
@@ -333,7 +302,7 @@ namespace InteropTools.CorePages
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            App.Current.Exit();
+            Application.Current.Exit();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)

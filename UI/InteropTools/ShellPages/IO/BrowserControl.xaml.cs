@@ -24,6 +24,7 @@ using InteropTools.ContentDialogs.Core;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -140,55 +141,6 @@ namespace InteropTools.ShellPages.IO
                 path = path,
                 type = FileItemType.FOLDER
             };
-        }
-
-        private async void DeleteItem(FileItem item)
-        {
-            /*var key = item.path;
-            if (item.type == RegistryItemType.KEY)
-            {
-                if ((key == "") || (key == null))
-                {
-                    key = item.name;
-                }
-                else
-                {
-                    key += @"\" + item.name;
-                }
-            }
-
-            if (item.Type == RegistryItemType.KEY)
-            {
-                await new DeleteRegKeyContentDialog(item.Hive, key).ShowAsync();
-                ChangeCurrentItem(_currentRegItem);
-            }
-
-            if (item.Type != RegistryItemType.VALUE)
-            {
-                return;
-            }
-
-            {
-                var title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_delete_that_value", ResourceContext.GetForCurrentView()).ValueAsString;
-                var content = item.Name + " will be deleted for ever and you won't be able to recover.";
-
-                var command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content, ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete_the_value", ResourceContext.GetForCurrentView()).ValueAsString, ResourceManager.Current.MainResourceMap.GetValue("Resources/Keep_the_value", ResourceContext.GetForCurrentView()).ValueAsString);
-
-                if (command)
-                {
-                    RunInThreadPool(() =>
-                    {
-                        var status = _helper.DeleteValue(item.Hive, key, item.Name);
-                        RunInUIThread(() =>
-                        {
-                            if (status == HelperErrorCodes.FAILED)
-                                ShowValueUnableToDeleteMessageBox();
-
-                            ChangeCurrentItem(GetPreviousItem(item));
-                        });
-                    });
-                }
-            }*/
         }
 
         private static async void ShowValueUnableToDeleteMessageBox()

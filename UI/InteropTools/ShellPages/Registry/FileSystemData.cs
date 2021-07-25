@@ -15,13 +15,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 if (IsFolder)
                 {
-                    /*var key = (string.IsNullOrEmpty(RegItem.Key)) ? RegItem.Name : (RegItem.Key + @"\" + RegItem.Name);
-					var result = App.MainRegistryHelper.GetKeyLastModifiedTime(RegItem.Hive, key, out lastModified);
 
-					if (result == HelperErrorCodes.SUCCESS)
-					{
-						return name + " (" + lastModified.ToString() + ")";
-					}*/
                 }
 
                 return name;
@@ -36,41 +30,7 @@ namespace InteropTools.ShellPages.Registry
 
         public bool IsNothing => !(IsHive || IsFolder);
 
-        public bool HasMore =>
-                    /*if (RegItem != null)
-{
-var key = RegItem.Key;
-
-if (RegItem.Type == RegistryItemType.KEY)
-{
-if ((key == "") || (key == null))
-{
-    key = RegItem.Name;
-}
-
-else
-{
-    key += @"\" + RegItem.Name;
-}
-}
-
-if (key == null)
-{
-key = "";
-}
-
-var items = App.MainRegistryHelper.GetRegistryItems2(RegItem.Hive, key);
-
-foreach (var item in items)
-if (item.Type == RegistryItemType.KEY)
-{ return true; }
-
-return false;
-}
-
-else
-{*/
-                    true;//}
+        public bool HasMore => true;
 
         public RegistryItemCustom RegItem { get; set; }
     }

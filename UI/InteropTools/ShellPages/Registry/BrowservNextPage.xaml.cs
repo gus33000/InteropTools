@@ -544,7 +544,6 @@ namespace InteropTools.ShellPages.Registry
 
                     catch (Exception)
                     {
-                        //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Set" + e.Message + e.HResult);
                     }
                 }
             }
@@ -605,28 +604,12 @@ namespace InteropTools.ShellPages.Registry
                     {
                         case RegistryItemType.HIVE:
                             {
-                                //DateTime time;
-                                //var res = App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, null, out time);
-
-                                //if (res != HelperErrorCodes.SUCCESS)
-                                //{
                                 return "";
-                                //}
-
-                                //return time.ToString();
                             }
 
                         case RegistryItemType.KEY:
                             {
-                                //DateTime time;
-                                //var res = App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, this.regitem.Key + @"\" + this.regitem.Name, out time);
-
-                                //if (res != HelperErrorCodes.SUCCESS)
-                                //{
                                 return "";
-                                //}
-
-                                //return time.ToString();
                             }
 
                         case RegistryItemType.VALUE:
@@ -818,8 +801,6 @@ namespace InteropTools.ShellPages.Registry
 
         private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //BrowserCtrl.ChangeCurrentItem((e.ClickedItem as BrowserControl.Item).regitem);
-            //HideFavoriteDialog();
         }
         private void RefreshFavoriteDialog()
         {
@@ -830,21 +811,6 @@ namespace InteropTools.ShellPages.Registry
         {
             RefreshFavoriteDialog();
         }
-
-        /*private void HideFavoriteDialog()
-		{
-		    BrowserCtrl.Visibility = Visibility.Visible;
-
-		    Storyboard sb = this.Resources["RevertAnimationFavorite"] as Storyboard;
-		    sb.Completed += Sb_Completed3;
-		    sb.Begin();
-		}*/
-
-        /*private void Sb_Completed3(object sender, object e)
-		{
-		    FavListCtrl.Visibility = Visibility.Collapsed;
-		    MainCommandBar.Visibility = Visibility.Visible;
-		}*/
 
     }
 }

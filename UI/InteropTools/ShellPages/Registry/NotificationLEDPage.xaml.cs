@@ -26,9 +26,6 @@ namespace InteropTools.ShellPages.Registry
         public string PageName => "Notification LED";
         public PageGroup PageGroup => PageGroup.Tweaks;
 
-        /*public ObservableRangeCollection<DevicePortal.Device> devicelist = new ObservableRangeCollection<DevicePortal.Device>();
-		public ObservableRangeCollection<object> devicelist2 = new ObservableRangeCollection<object>();*/
-
         public DeviceWatcher watcher = null;
 
         public ObservableCollection<DeviceInformationDisplay> ResultCollection
@@ -36,28 +33,6 @@ namespace InteropTools.ShellPages.Registry
             get;
             private set;
         }
-
-        /*public class DisplayLEDItem
-		{
-		    public Color ColorBrush { get; set; }
-		    public DevicePortal.Device Device { get; set; }
-
-		    public DisplayLEDItem(DevicePortal.Device device)
-		    {
-		        Device = device;
-
-		        var random = new Random();
-		        random.Next(0x1000000);
-		        var colorcode = String.Format("{0:X6}", random.Next(0x1000000));
-
-		        var a = byte.Parse("FF", NumberStyles.HexNumber);
-		        var r = byte.Parse(colorcode.Substring(0, 2), NumberStyles.HexNumber);
-		        var g = byte.Parse(colorcode.Substring(2, 2), NumberStyles.HexNumber);
-		        var b = byte.Parse(colorcode.Substring(4, 2), NumberStyles.HexNumber);
-
-		        ColorBrush = Color.FromArgb(a, r, g, b);
-		    }
-		}*/
 
         private readonly IRegistryProvider _helper;
 
@@ -74,12 +49,12 @@ namespace InteropTools.ShellPages.Registry
         {
             Providers.RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
             if (string.IsNullOrEmpty(regvalue))
             {
-                await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, "100");
-                ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD, "100");
+                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
             }
 
             try
@@ -91,12 +66,12 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
             if (string.IsNullOrEmpty(regvalue))
             {
-                await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD, "2000");
-                ret = await _helper.GetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", Providers.RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD, "2000");
+                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
             }
 
             try
@@ -168,16 +143,6 @@ namespace InteropTools.ShellPages.Registry
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                /*Debug.WriteLine("-----------------------------------------");
-
-				Debug.WriteLine(args.Name);
-
-				foreach (var prop in args.Properties)
-				{
-				    Debug.WriteLine(prop.Key + ": " + prop.Value);
-				}
-
-				Debug.WriteLine("-----------------------------------------");*/
                 if (args.Name.ToLower().Contains("hwnled"))
                 {
                     ResultCollection.Add(new DeviceInformationDisplay(args));
@@ -263,18 +228,18 @@ namespace InteropTools.ShellPages.Registry
         private async void DeviceGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Id.Text = ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id;
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", Providers.RegTypes.REG_SZ, string.Join(@"\",
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", RegTypes.REG_SZ, string.Join(@"\",
                                 ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", Providers.RegTypes.REG_DWORD,
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", RegTypes.REG_DWORD,
                                 ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", Providers.RegTypes.REG_DWORD, "1");
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", Providers.RegTypes.REG_DWORD, "60");
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", Providers.RegTypes.REG_DWORD, uint.MaxValue.ToString());
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", RegTypes.REG_DWORD, "1");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", RegTypes.REG_DWORD, "60");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", RegTypes.REG_DWORD, uint.MaxValue.ToString());
         }
 
         private async void IntensitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            await _helper.SetKeyValue(Providers.RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", Providers.RegTypes.REG_DWORD, e.NewValue.ToString());
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD, e.NewValue.ToString());
         }
     }
 }

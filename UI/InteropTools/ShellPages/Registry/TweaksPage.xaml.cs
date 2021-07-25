@@ -322,22 +322,6 @@ namespace InteropTools.ShellPages.Registry
                 return true;
             }, state =>
             {
-                /*if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\NsgGlance_NlpmService_4.1.12.4.dll"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\NsgGlance_NlpmServiceImpl_4.1.12.4.dll"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_720P.bin"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_720P_hi.bin"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_FHD.bin"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_WQHD_hi.bin"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_WVGA.bin"))
-				{
-				if (Helper.DoesFileExists("C:\\Data\\SharedData\\OEM\\Public\\lpmFonts_4.1.12.4\\lpmFont_WXGA.bin"))
-				{*/
                 _helper.AddKey(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\OEM\Nokia\NokiaSvcHost\Plugins\NsgGlance");
                 _helper.AddKey(RegHives.HKEY_LOCAL_MACHINE,
                                @"SOFTWARE\OEM\Nokia\NokiaSvcHost\Plugins\NsgGlance\NlpmService");
@@ -425,14 +409,6 @@ namespace InteropTools.ShellPages.Registry
                                         "ImagePath", RegTypes.REG_EXPAND_SZ, @"C:\windows\System32\OEMServiceHost.exe -k NsgExtA");
                 }
 
-                /*}
-				}
-				}
-				}
-				}
-				}
-				}
-				}*/
             }, "Enable Old Glance Screen (RS1) (Glance enabled devices only) (Reboot required)",
             "Allows you to re-enable the old glance screen with the widget and battery icon support");
             AddBoolTweak(() =>
@@ -537,8 +513,6 @@ namespace InteropTools.ShellPages.Registry
                 }
             }, "Skip System bucketing",
             "By default Data Sense will combine all system apps and services into a single bucket. Skip this will allow viewing data usage by individual system apps and services.");
-            //AddBoolTweak((() => ), ((state) => ),"TŅSTSIGNING (pre-10572) (CVE-2015-2552) (Reboot required)","DO NOT ENABLE UNLESS YOU KNOW WHAT YOU ARE DOING, WE'RE NOT RESPONSIBLE FOR ANY DAMAGE CAUSED BY THIS");
-            //AddBoolTweak((() => ), ((state) => ),"","");
             AddBoolTweak(() =>
             {
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows Phone\\LanguageCPL",
@@ -3120,49 +3094,6 @@ namespace InteropTools.ShellPages.Registry
             "Caret Disable Time",
             "Enter the amount of time (ms) after a keypress to disable caret input. Enter the amount of time (ms) for disabling the caret after a keypress. Debug menu will not check the validity of the entered number.");
         }
-
-
-        /*private void CVE_2015_2552Check()
-		{
-		    string CVE_2015_2552Value;
-		    RegTypes CVE_2015_2552Type;
-		    Helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "BCD00000001\\objects\\{7619dcc9-fafe-11d9-b411-000476eba25f}\\Elements\\12000030", "Element", RegTypes.REG_SZ, out CVE_2015_2552Type, out CVE_2015_2552Value);
-		    if (CVE_2015_2552Value.Contains("/TŅSTSIGNING"))
-		    {
-		        RunInUIThread(() =>
-		        {
-		            CVE_2015_2552Switch.IsOn = true;
-		        });
-		    }
-		    else
-		    {
-		        RunInUIThread(() =>
-		        {
-		            CVE_2015_2552Switch.IsOn = false;
-		        });
-		    }
-		}
-
-		private void CVE_2015_2552Switch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-		{
-		    if (CVE_2015_2552Switch.IsOn)
-		    {
-		        RunInThreadPool(() =>
-		        {
-		            Helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "BCD00000001\\objects\\{7619dcc9-fafe-11d9-b411-000476eba25f}\\Elements\\12000030", "Element", RegTypes.REG_SZ, "/TŅSTSIGNING");
-		            CVE_2015_2552Check();
-		        });
-		    }
-		    else
-		    {
-		        RunInThreadPool(() =>
-		        {
-		            Helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "BCD00000001\\objects\\{7619dcc9-fafe-11d9-b411-000476eba25f}\\Elements\\12000030", "Element", RegTypes.REG_SZ, "");
-		            CVE_2015_2552Check();
-		        });
-		    }
-
-		}*/
 
         private void AddBoolTweak(Func<bool> Check, Action<bool> Apply, string Title, string Description)
         {

@@ -8,7 +8,6 @@ namespace InteropTools.Controls
     public class AnimatedFlipView : FlipView
     {
         private ScrollViewer _scrollViewer;
-        //private ScrollViewerOffsetMediator _mediator;
 
         private bool _isRunningAnimation;
         private bool _reverseAnimation;

@@ -28,12 +28,12 @@ namespace InteropTools.ShellPages.AppManager
     public class VolumeDisplayitem
     {
 
-        public string _MountPoint = InteropTools.Resources.TextResources.ApplicationManager_MountPoint;
-        public string _PackageStore = InteropTools.Resources.TextResources.ApplicationManager_PackageStore;
-        public string _Name = InteropTools.Resources.TextResources.ApplicationManager_Name;
-        public string _SystemVolume = InteropTools.Resources.TextResources.ApplicationManager_SystemVolume;
-        public string _Offline = InteropTools.Resources.TextResources.ApplicationManager_Offline;
-        public string _SupportsHardLinks = InteropTools.Resources.TextResources.ApplicationManager_SupportsHardLinks;
+        public string _MountPoint = Resources.TextResources.ApplicationManager_MountPoint;
+        public string _PackageStore = Resources.TextResources.ApplicationManager_PackageStore;
+        public string _Name = Resources.TextResources.ApplicationManager_Name;
+        public string _SystemVolume = Resources.TextResources.ApplicationManager_SystemVolume;
+        public string _Offline = Resources.TextResources.ApplicationManager_Offline;
+        public string _SupportsHardLinks = Resources.TextResources.ApplicationManager_SupportsHardLinks;
 
         public Visibility AllVisibility => Volume == null ? Visibility.Visible : Visibility.Collapsed;
 
@@ -48,7 +48,7 @@ namespace InteropTools.ShellPages.AppManager
 
     public class TypeDisplayitem
     {
-        public string TypeName => Type == null ? InteropTools.Resources.TextResources.ApplicationManager_AllTypes : Type.ToString();
+        public string TypeName => Type == null ? Resources.TextResources.ApplicationManager_AllTypes : Type.ToString();
 
         public PackageTypes? Type
         {
