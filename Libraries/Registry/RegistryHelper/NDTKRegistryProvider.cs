@@ -5,6 +5,7 @@ using System.Text;
 
 #if ARM
 using ndtklib;
+using System.Linq;
 #endif
 
 namespace RegistryHelper

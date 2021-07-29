@@ -3,6 +3,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 #if ARM
 using DevProgram;
+using System.Linq;
+using System.Text;
 #endif
 
 namespace RegistryHelper

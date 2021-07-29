@@ -3,6 +3,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 #if ARM
 using LGRuntimeComponent;
+using System;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 #endif
 
 namespace RegistryHelper

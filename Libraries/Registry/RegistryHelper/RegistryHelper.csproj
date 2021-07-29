@@ -147,16 +147,16 @@
       </ItemGroup>
       <ItemGroup Condition="'$(Platform)' == 'ARM'">
         <Reference Include="DevProgram">
-          <HintPath>..\DevProgram.winmd</HintPath>
+          <HintPath>..\Prebuilt\DevProgram.winmd</HintPath>
         </Reference>
         <Reference Include="LGRuntimeComponent">
-          <HintPath>..\LGRuntimeComponent.winmd</HintPath>
+          <HintPath>..\Prebuilt\LGRuntimeComponent.winmd</HintPath>
         </Reference>
         <Reference Include="RPCComponent">
-          <HintPath>..\RPCComponent.winmd</HintPath>
+          <HintPath>..\Prebuilt\RPCComponent.winmd</HintPath>
         </Reference>
         <Reference Include="WinPRTUtils">
-          <HintPath>..\WinPRTUtils.winmd</HintPath>
+          <HintPath>..\Prebuilt\WinPRTUtils.winmd</HintPath>
         </Reference>
       </ItemGroup>
       <ItemGroup>

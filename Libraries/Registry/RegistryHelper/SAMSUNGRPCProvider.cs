@@ -3,6 +3,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 #if ARM
 using RPCComponent;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 #endif
 
 namespace RegistryHelper
