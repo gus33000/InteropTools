@@ -12,9 +12,9 @@ namespace InteropTools.Providers
 {
     public class LegacyBridgeRegistryProvider : IRegistryProvider
     {
-        public bool IsAuto = false;
+        public bool IsAuto;
         public IRegProvider provider;
-        private bool initialized = false;
+        private bool initialized;
 
         public async Task InitializeNewProviderChoice()
         {
@@ -48,7 +48,7 @@ namespace InteropTools.Providers
             }
             else
             {
-                result = await DispatcherHelper.ExecuteOnUIThreadAsync<IRegProvider>(async () => await new SelectRegistryProviderContentDialog().AskUserForProvider());
+                result = await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await new SelectRegistryProviderContentDialog().AskUserForProvider());
 
                 if (result == null)
                 {

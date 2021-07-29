@@ -60,7 +60,7 @@ namespace InteropTools.ContentDialogs.SSH
             {
                 foreach (string user in regvalue.Split(';'))
                 {
-                    if (user.ToLower() == username.ToLower())
+                    if (string.Equals(user, username, StringComparison.OrdinalIgnoreCase))
                     {
                         add
                               = false;
@@ -69,7 +69,7 @@ namespace InteropTools.ContentDialogs.SSH
             }
             else
             {
-                if (regvalue.ToLower() == username.ToLower())
+                if (string.Equals(regvalue, username, StringComparison.OrdinalIgnoreCase))
                 {
                     add
                           = false;

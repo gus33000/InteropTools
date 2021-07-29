@@ -267,17 +267,17 @@ namespace InteropTools.ShellPages.Registry
                     OSbuild.Text = $"{major}.{minor}.{currentbuildnumber}.{ubr}";
                     CompileDate.Text = compiledate;
 
-                    if (buildbranch.ToLower().Contains("th2"))
+                    if (buildbranch.IndexOf("th2", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         BackgroundHeroImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/th2.jpg"));
                     }
                     else
-                        if (buildbranch.ToLower().Contains("rs1"))
+                        if (buildbranch.IndexOf("rs1", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         BackgroundHeroImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/rs.jpg"));
                     }
                     else
-                            if (buildbranch.ToLower().Contains("rs"))
+                            if (buildbranch.IndexOf("rs", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         BackgroundHeroImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/rs2.jpg"));
                     }

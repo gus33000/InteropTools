@@ -35,7 +35,7 @@ namespace AppPlugin
         {
             if (useSyncronisationContext)
             {
-                worker = new Nito.AsyncEx.AsyncContextThread();
+                worker = new AsyncContextThread();
             }
 
             dereffal = taskInstance.GetDeferral();

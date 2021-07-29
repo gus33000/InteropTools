@@ -18,7 +18,7 @@ using Windows.ApplicationModel.Resources.Core;
 
 namespace InteropTools
 {
-    public class SessionManager
+    public static class SessionManager
     {
         public static readonly string RemoteLoc = ResourceManager.Current.MainResourceMap.GetValue(
               "Resources/The_following_Remote_device_wants_to_access_your_phone_Registry",
@@ -81,7 +81,7 @@ namespace InteropTools
             {
                 foreach (string user in regvalue.Split(';'))
                 {
-                    if (user.ToLower() == username.ToLower())
+                    if (string.Equals(user, username, StringComparison.OrdinalIgnoreCase))
                     {
                         add
                               = false;
@@ -90,7 +90,7 @@ namespace InteropTools
             }
             else
             {
-                if (regvalue.ToLower() == username.ToLower())
+                if (string.Equals(regvalue, username, StringComparison.OrdinalIgnoreCase))
                 {
                     add
                           = false;

@@ -26,7 +26,7 @@ namespace InteropTools.ShellPages.Registry
         public string PageName => "Notification LED";
         public PageGroup PageGroup => PageGroup.Tweaks;
 
-        public DeviceWatcher watcher = null;
+        public DeviceWatcher watcher;
 
         public ObservableCollection<DeviceInformationDisplay> ResultCollection
         {
@@ -47,7 +47,7 @@ namespace InteropTools.ShellPages.Registry
 
         public async void Initialize()
         {
-            Providers.RegTypes regtype;
+            RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
 
@@ -136,12 +136,12 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private async void Watcher_Added(Windows.Devices.Enumeration.DeviceWatcher sender, Windows.Devices.Enumeration.DeviceInformation args)
+        private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args)
         {
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (args.Name.ToLower().Contains("hwnled"))
+                if (args.Name.IndexOf("hwnled", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     ResultCollection.Add(new DeviceInformationDisplay(args));
                 }

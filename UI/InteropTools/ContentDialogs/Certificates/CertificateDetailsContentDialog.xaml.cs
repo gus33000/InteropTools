@@ -322,7 +322,7 @@ namespace InteropTools.ContentDialogs.Certificates
             Clipboard.SetContent(dataPackage);
             Hide();
             await
-            new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Certificate Info");
+            new Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Certificate Info");
             await ShowAsync();
         }
 

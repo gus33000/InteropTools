@@ -41,7 +41,7 @@ namespace InteropTools
 
         public static readonly TextResources textResources = new();
 
-        public static bool Fancyness = false;
+        public static bool Fancyness;
 
         private static readonly Rect bounds = ApplicationView.GetForCurrentView().VisibleBounds;
         private static readonly double scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
@@ -115,7 +115,7 @@ namespace InteropTools
                     SessionManager.AddNewSession(file);
                 }
             }
-            else if ((AppContent as Shell) == null)
+            else if (!(AppContent is Shell))
             {
                 //  Display an extended splash screen if app was not previously running.
                 if (args.PreviousExecutionState != ApplicationExecutionState.Running)

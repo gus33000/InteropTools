@@ -10,7 +10,7 @@ namespace InteropTools.Providers
     public class LegacyBridgeRegistryProviderAuto : IRegistryProvider
     {
         public IRegProvider provider;
-        private readonly bool initialized = false;
+        private readonly bool initialized;
 
         public RegHives ConvertToOldHive(REG_HIVES hive)
         {

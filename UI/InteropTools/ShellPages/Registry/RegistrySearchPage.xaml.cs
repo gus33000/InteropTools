@@ -239,7 +239,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (item.Name.ToLower() == filter.FilterText.ToLower())
+                                        if (string.Equals(item.Name, filter.FilterText, StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -250,7 +250,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Name.ToLower().Contains(filter.FilterText.ToLower()))
+                                        if (item.Name.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
                                         {
                                             result = true;
                                         }
@@ -303,7 +303,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (item.Value.ToLower() == filter.FilterText.ToLower())
+                                        if (string.Equals(item.Value, filter.FilterText, StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -314,7 +314,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Value.ToLower().Contains(filter.FilterText.ToLower()))
+                                        if (item.Value.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
                                         {
                                             result = true;
                                         }
@@ -356,7 +356,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (item.Key.ToLower() == filter.FilterText.ToLower())
+                                        if (string.Equals(item.Key, filter.FilterText, StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -367,7 +367,7 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Key.ToLower().Contains(filter.FilterText.ToLower()))
+                                        if (item.Key.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
                                         {
                                             result = true;
                                         }

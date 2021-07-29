@@ -82,7 +82,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM_CUSTOM> items)
         {
             bool hadaccessdenied = false;
@@ -583,7 +583,7 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out string data)
         {
             bool hadaccessdenied = false;
@@ -935,7 +935,7 @@ namespace RegistryHelper
             return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
 
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, string data)
         {
             bool hadaccessdenied = false;

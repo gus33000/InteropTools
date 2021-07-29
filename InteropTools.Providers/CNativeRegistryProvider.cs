@@ -8,7 +8,7 @@ using Windows.ApplicationModel.Resources.Core;
 
 namespace InteropTools.Providers
 {
-    public sealed class CNativeRegistryProvider : InteropTools.Providers.IRegistryProvider
+    public sealed class CNativeRegistryProvider : IRegistryProvider
     {
         private readonly CRegistryHelper helper = new();
         public bool Initialized;

@@ -61,7 +61,7 @@ namespace InteropTools.ContentDialogs.Registry
                 if (!result)
                 {
                     Hide();
-                    await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog("We couldn't parse the provided REG file, please provide a valid REG 5.0 compliant REG file.", "Invalid REG file");
+                    await new Core.MessageDialogContentDialog().ShowMessageDialog("We couldn't parse the provided REG file, please provide a valid REG 5.0 compliant REG file.", "Invalid REG file");
                 }
 
                 foreach (RegFileItem regoperation in regoperations)

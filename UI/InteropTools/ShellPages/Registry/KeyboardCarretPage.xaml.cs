@@ -19,7 +19,7 @@ namespace InteropTools.ShellPages.Registry
 
         private readonly IRegistryProvider _helper;
 
-        private readonly bool _initialized = false;
+        private readonly bool _initialized;
 
         private decimal _offsetXPercentage;
         private decimal _offsetYPercentage;

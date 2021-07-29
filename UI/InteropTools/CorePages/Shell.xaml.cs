@@ -34,11 +34,11 @@ namespace InteropTools.CorePages
 {
     public sealed partial class Shell : UserControl
     {
-        private double titlebarheight = 0;
+        private double titlebarheight;
 
         public string _SwitchSession = InteropTools.Resources.TextResources.Shell_SwitchSession;
 
-        private bool _initialized = false;
+        private bool _initialized;
 
         private async void RunInUIThread(Action function)
         {
@@ -685,7 +685,7 @@ namespace InteropTools.CorePages
             }
         }
 
-        private void RootFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        private void RootFrame_Navigated(object sender, NavigationEventArgs e)
         {
             GC.Collect();
             UpdateBackButtonVisibility();
@@ -1248,7 +1248,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in ViewModel.TopItems)
                 {
-                    if (item.DisplayName.ToLower().Contains(sender.Text.ToLower()) || item.Description.ToLower().Contains(sender.Text.ToLower()))
+                    if (item.DisplayName.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0 || item.Description.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         resultitems.Add(item);
                     }
@@ -1256,7 +1256,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in ViewModel.BottomItems)
                 {
-                    if (item.DisplayName.ToLower().Contains(sender.Text.ToLower()) || item.Description.ToLower().Contains(sender.Text.ToLower()))
+                    if (item.DisplayName.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0 || item.Description.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         resultitems.Add(item);
                     }
@@ -1311,7 +1311,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in ViewModel.TopItems)
                 {
-                    if (item.DisplayName.ToLower().Contains(sender.Text.ToLower()) || item.Description.ToLower().Contains(sender.Text.ToLower()))
+                    if (item.DisplayName.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0 || item.Description.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         resultitems.Add(item);
                     }
@@ -1319,7 +1319,7 @@ namespace InteropTools.CorePages
 
                 foreach (NavigationItem item in ViewModel.BottomItems)
                 {
-                    if (item.DisplayName.ToLower().Contains(sender.Text.ToLower()) || item.Description.ToLower().Contains(sender.Text.ToLower()))
+                    if (item.DisplayName.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0 || item.Description.IndexOf(sender.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         resultitems.Add(item);
                     }

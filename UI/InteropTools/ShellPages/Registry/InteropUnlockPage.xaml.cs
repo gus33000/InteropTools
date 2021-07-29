@@ -34,7 +34,7 @@ namespace InteropTools.ShellPages.Registry
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-            return regvalue.ToLower() == "c:\\windows\\system32\\ndtksvc.dll";
+            return string.Equals(regvalue, "c:\\windows\\system32\\ndtksvc.dll", StringComparison.OrdinalIgnoreCase);
         }
 
         private async Task<bool> CheckRestoreNDTKx50()
@@ -45,7 +45,7 @@ namespace InteropTools.ShellPages.Registry
               "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
               "Path",
               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-            return regvalue.ToLower() == "c:\\data\\users\\public\\ndtk\\ndtksvc.dll";
+            return string.Equals(regvalue, "c:\\data\\users\\public\\ndtk\\ndtksvc.dll", StringComparison.OrdinalIgnoreCase);
         }
 
         private async Task<bool> CheckFSAccess()
@@ -102,8 +102,8 @@ namespace InteropTools.ShellPages.Registry
               RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
-              !((regvalue.ToLower() == "7508bca3290b900c") ||
-                (regvalue.ToLower() == "7508bca3290b900c000000000000000000000000")))
+              !((string.Equals(regvalue, "7508bca3290b900c", StringComparison.OrdinalIgnoreCase)) ||
+                (string.Equals(regvalue, "7508bca3290b900c000000000000000000000000", StringComparison.OrdinalIgnoreCase))))
             {
                 return false;
             }
@@ -115,8 +115,8 @@ namespace InteropTools.ShellPages.Registry
               RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
-              !((regvalue.ToLower() == "0000000001000000") ||
-                (regvalue.ToLower() == "0000000001000000000000000000000000000000")))
+              !((string.Equals(regvalue, "0000000001000000", StringComparison.OrdinalIgnoreCase)) ||
+                (string.Equals(regvalue, "0000000001000000000000000000000000000000", StringComparison.OrdinalIgnoreCase))))
             {
                 return false;
             }
@@ -150,8 +150,8 @@ namespace InteropTools.ShellPages.Registry
               RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
 
             if (
-              !((regvalue.ToLower() == "16287a2d5e0cfc459ce7570e5ecde9c9") ||
-                (regvalue.ToLower() == "16287a2d5e0cfc459ce7570e5ecde9c900000000")))
+              !((string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c9", StringComparison.OrdinalIgnoreCase)) ||
+                (string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c900000000", StringComparison.OrdinalIgnoreCase))))
             {
                 return false;
             }
@@ -389,7 +389,7 @@ namespace InteropTools.ShellPages.Registry
 
                     foreach (string val in item.Value.Split('\n'))
                     {
-                        if (val.ToUpper().Contains("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS"))
+                        if (val.IndexOf("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS", StringComparison.OrdinalIgnoreCase) >= 0)
                         {
                             add
                                   = false;
@@ -746,7 +746,7 @@ namespace InteropTools.ShellPages.Registry
 
                             foreach (string val in item.Value.Split('\n'))
                             {
-                                if (val.ToUpper().Contains("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS"))
+                                if (val.IndexOf("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS", StringComparison.OrdinalIgnoreCase) >= 0)
                                 {
                                     add
                                           = false;
@@ -947,7 +947,7 @@ namespace InteropTools.ShellPages.Registry
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo", "PhoneManufacturer",
                                 RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
-            if (regvalue.ToUpper() == "NOKIA")
+            if (string.Equals(regvalue, "NOKIA", StringComparison.OrdinalIgnoreCase))
             {
                 ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                     "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
@@ -1030,7 +1030,7 @@ namespace InteropTools.ShellPages.Registry
                         RunInUiThread(
                           async () =>
                           {
-                              await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                              await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                             "We didn't find the ndtksvc.dll file at the following location:\nC:\\Data\\Users\\Public\\ndtk\\ndtksvc.dll\nSo we're unable to turn on that option",
                             "We didn't find the required files to turn on that option");
                           });
@@ -1066,7 +1066,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                     "PhoneManufacturer", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
-                if (regvalue.ToUpper() == "NOKIA")
+                if (string.Equals(regvalue, "NOKIA", StringComparison.OrdinalIgnoreCase))
                 {
                     ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                         "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;

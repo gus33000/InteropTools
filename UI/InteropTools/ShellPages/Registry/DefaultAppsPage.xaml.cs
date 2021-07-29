@@ -117,8 +117,7 @@ namespace InteropTools.ShellPages.Registry
                                             {
                                                 foreach (AppAssotiation listAssoItem in listasso)
                                                 {
-                                                    if (listAssoItem.Launchuri.ToLower() ==
-                                                        item3.Value.Split('!')[0].ToLower())
+                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value.Split('!')[0], StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         Debug.WriteLine("First problem");
 
@@ -129,7 +128,7 @@ namespace InteropTools.ShellPages.Registry
 
                                                 if (add)
                                                 {
-                                                    if (item3.Value.Split('!')[0].ToLower() == item.Value.ToLower())
+                                                    if (string.Equals(item3.Value.Split('!')[0], item.Value, StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         appasso.Defaultapp = listasso.Count;
                                                     }
@@ -141,7 +140,7 @@ namespace InteropTools.ShellPages.Registry
                                             {
                                                 foreach (AppAssotiation listAssoItem in listasso)
                                                 {
-                                                    if (listAssoItem.Launchuri.ToLower() == item3.Value.ToLower())
+                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value, StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         Debug.WriteLine("Second problem");
 
@@ -152,7 +151,7 @@ namespace InteropTools.ShellPages.Registry
 
                                                 if (add)
                                                 {
-                                                    if (item3.Value.ToLower() == item.Value.ToLower())
+                                                    if (string.Equals(item3.Value, item.Value, StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         appasso.Defaultapp = listasso.Count;
                                                     }

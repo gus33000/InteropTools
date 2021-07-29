@@ -113,7 +113,7 @@ namespace InteropTools.ShellPages.AppManager
 
             foreach (Item item in _itemsList)
             {
-                if (item.DisplayName.ToLower().Contains(FilterBox.Text.ToLower()))
+                if (item.DisplayName.IndexOf(FilterBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     if ((VolListView.SelectedItem as VolumeDisplayitem)?.Volume == null)
                     {
@@ -496,7 +496,7 @@ namespace InteropTools.ShellPages.AppManager
                     await RunInUiThread(async () =>
                     {
                         await
-                        new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(string.Format(InteropTools.Resources.TextResources.ApplicationManager_PackageListError,
+                        new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(string.Format(InteropTools.Resources.TextResources.ApplicationManager_PackageListError,
                             "0x" + string.Format("{0:x}", caughtEx.HResult) + " " +
                             caughtEx.Message + " " + caughtEx.StackTrace));
                     });
@@ -533,7 +533,7 @@ namespace InteropTools.ShellPages.AppManager
 
                 foreach (Item item in _itemsList)
                 {
-                    if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
+                    if (item.DisplayName.IndexOf(filtertext, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         if (selectedvol.Volume == null)
                         {
@@ -640,7 +640,7 @@ namespace InteropTools.ShellPages.AppManager
 
         private void VolListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((VolListView.SelectedItem as VolumeDisplayitem) != null)
+            if (VolListView.SelectedItem is VolumeDisplayitem)
             {
                 VolSelect.Content = (VolListView.SelectedItem as VolumeDisplayitem)?.Volume == null ? InteropTools.Resources.TextResources.ApplicationManager_AllVolumes :
                                     (VolListView.SelectedItem as VolumeDisplayitem)?.Volume.MountPoint + " (" + (VolListView.SelectedItem as VolumeDisplayitem)?.Volume.PackageStorePath.Replace((
@@ -663,7 +663,7 @@ namespace InteropTools.ShellPages.AppManager
 
                     foreach (Item item in _itemsList)
                     {
-                        if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
+                        if (item.DisplayName.IndexOf(filtertext, StringComparison.OrdinalIgnoreCase) >= 0)
                         {
                             if (selectedvol.Volume == null)
                             {
@@ -714,7 +714,7 @@ namespace InteropTools.ShellPages.AppManager
 
         private void TypeListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((TypeListView.SelectedItem as TypeDisplayitem) != null)
+            if (TypeListView.SelectedItem is TypeDisplayitem)
             {
                 TypeSelect.Content = (TypeListView.SelectedItem as TypeDisplayitem)?.TypeName;
                 VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
@@ -735,7 +735,7 @@ namespace InteropTools.ShellPages.AppManager
 
                     foreach (Item item in _itemsList)
                     {
-                        if (item.DisplayName.ToLower().Contains(filtertext.ToLower()))
+                        if (item.DisplayName.IndexOf(filtertext, StringComparison.OrdinalIgnoreCase) >= 0)
                         {
                             if (selectedvol.Volume == null)
                             {

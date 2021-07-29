@@ -38,7 +38,7 @@ namespace InteropTools.ShellPages.Registry
 
         private bool _preventclick;
 
-        public bool SortByType = false;
+        public bool SortByType;
 
         public BrowserControl()
         {
@@ -166,7 +166,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_delete_that_value", ResourceContext.GetForCurrentView()).ValueAsString;
                 string content = item.Name + " will be deleted for ever and you won't be able to recover.";
-                bool command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
+                bool command = await new DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
                               ResourceManager.Current.MainResourceMap.GetValue("Resources/Delete_the_value", ResourceContext.GetForCurrentView()).ValueAsString,
                               ResourceManager.Current.MainResourceMap.GetValue("Resources/Keep_the_value", ResourceContext.GetForCurrentView()).ValueAsString);
 
@@ -189,14 +189,14 @@ namespace InteropTools.ShellPages.Registry
 
         private static async void ShowValueUnableToDeleteMessageBox()
         {
-            await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+            await new MessageDialogContentDialog().ShowMessageDialog(
               ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_delete_the_specified_value__no_changes_to_the_phone_registry_were_made", ResourceContext.GetForCurrentView()).ValueAsString,
               ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
         }
 
         private static async void ShowKeyUnableToDeleteMessageBox()
         {
-            await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+            await new MessageDialogContentDialog().ShowMessageDialog(
               ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_delete_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
               ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
         }

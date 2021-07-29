@@ -8,7 +8,7 @@ namespace InteropTools.ContentDialogs.Core
 {
     public sealed partial class DualMessageDialogContentDialog : ContentDialog
     {
-        private bool Reply = false;
+        private bool Reply;
 
         public DualMessageDialogContentDialog()
         {

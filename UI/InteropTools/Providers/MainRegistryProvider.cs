@@ -92,7 +92,7 @@ namespace InteropTools.Providers
             return App.RegistryHelper.GetSymbol();
         }
 
-        private bool ProgressShown = false;
+        private bool ProgressShown;
 
         private async void ShowStatusBarInfo(string text, bool show)
         {

@@ -47,7 +47,7 @@ namespace InteropTools.AppExtensibilityBackgroundTask
     internal class AppExtensibilityProviderIntern : AppExtensibilityDefinition.AppExtensibilityDefinition
     {
         // Define your provider class here
-        private readonly IAppExtensibilityProvider provider = new InteropTools.AppExtensibilityBackgroundTask.AppExtensibilityRegProvider();
+        private readonly IAppExtensibilityProvider provider = new AppExtensibilityRegProvider();
 
         protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)//, Options options
         {

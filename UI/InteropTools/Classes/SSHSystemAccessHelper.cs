@@ -83,7 +83,7 @@ namespace InteropTools.Classes
                 {
                     foreach (string user in regvalue.Split(';'))
                     {
-                        if (user.ToLower() == username.ToLower())
+                        if (string.Equals(user, username, StringComparison.OrdinalIgnoreCase))
                         {
                             add
                                   = false;
@@ -92,7 +92,7 @@ namespace InteropTools.Classes
                 }
                 else
                 {
-                    if (regvalue.ToLower() == username.ToLower())
+                    if (string.Equals(regvalue, username, StringComparison.OrdinalIgnoreCase))
                     {
                         add
                               = false;
@@ -169,7 +169,7 @@ namespace InteropTools.Classes
                     SshClient.Connect();
                     SshClient.KeepAliveInterval = new TimeSpan(0, 0, 10);
                     string str = SshClient.RunCommand(@"%SystemRoot%\system32\CheckNetIsolation.exe LoopbackExempt -a -n=" + Package.Current.Id.FamilyName).Execute();
-                    await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(str);
+                    await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(str);
                     HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");
 
                     if (result2 != HelperErrorCodes.SUCCESS)

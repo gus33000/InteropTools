@@ -709,8 +709,8 @@ namespace InteropTools.Providers
             public static TResult RunSync<TResult>(Func<Task<TResult>> func)
             {
                 return MyTaskFactory
-                       .StartNew<Task<TResult>>(func)
-                       .Unwrap<TResult>()
+                       .StartNew(func)
+                       .Unwrap()
                        .GetAwaiter()
                        .GetResult();
             }

@@ -96,7 +96,7 @@ namespace InteropTools.ShellPages.SSH
             {
                 foreach (string user in regvalue.Split(';'))
                 {
-                    if (user.ToLower() == username.ToLower())
+                    if (string.Equals(user, username, StringComparison.OrdinalIgnoreCase))
                     {
                         add
                               = false;
@@ -105,7 +105,7 @@ namespace InteropTools.ShellPages.SSH
             }
             else
             {
-                if (regvalue.ToLower() == username.ToLower())
+                if (string.Equals(regvalue, username, StringComparison.OrdinalIgnoreCase))
                 {
                     add
                           = false;
@@ -232,12 +232,12 @@ namespace InteropTools.ShellPages.SSH
             {
                 foreach (string sxs in regvalue.Split(','))
                 {
-                    if (sxs.ToLower() == "default")
+                    if (string.Equals(sxs, "default", StringComparison.OrdinalIgnoreCase))
                     {
                         sxsDefault.IsChecked = true;
                     }
 
-                    if (sxs.ToLower() == "sftp")
+                    if (string.Equals(sxs, "sftp", StringComparison.OrdinalIgnoreCase))
                     {
                         sxsSFTP.IsChecked = true;
                     }
@@ -245,12 +245,12 @@ namespace InteropTools.ShellPages.SSH
             }
             else
             {
-                if (regvalue.ToLower() == "default")
+                if (string.Equals(regvalue, "default", StringComparison.OrdinalIgnoreCase))
                 {
                     sxsDefault.IsChecked = true;
                 }
 
-                if (regvalue.ToLower() == "sftp")
+                if (string.Equals(regvalue, "sftp", StringComparison.OrdinalIgnoreCase))
                 {
                     sxsSFTP.IsChecked = true;
                 }
@@ -500,7 +500,7 @@ namespace InteropTools.ShellPages.SSH
               async () =>
             {
                 await
-                new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/To_complete_this_operation__you_ll_need_to_reboot_your_device_", ResourceContext.GetForCurrentView()).ValueAsString,
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/Reboot_required", ResourceContext.GetForCurrentView()).ValueAsString);
             });

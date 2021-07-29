@@ -51,7 +51,7 @@ namespace InteropTools.RemoteClasses.Server
                         {
                             Windows.Foundation.IAsyncAction tsk = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
-                                bool result = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(SessionManager.RemoteLoc, "You can allow it to access it or deny it\n\nIP address: " + hostname,
+                                bool result = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(SessionManager.RemoteLoc, "You can allow it to access it or deny it\n\nIP address: " + hostname,
                                              SessionManager.RemoteAllowLoc, SessionManager.RemoteDenyLoc);
 
                                 if (result)

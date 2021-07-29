@@ -554,7 +554,7 @@ namespace InteropTools.ShellPages.AppManager
                 catch (Exception caughtEx)
                 {
                     await
-                    new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Exception_Thrown__",
+                    new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Exception_Thrown__",
                         ResourceContext.GetForCurrentView()).ValueAsString + caughtEx.HResult + " " + caughtEx.Message);
                 }
 
@@ -662,7 +662,7 @@ namespace InteropTools.ShellPages.AppManager
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             await
-            new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Package Info");
+            new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Package Info");
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

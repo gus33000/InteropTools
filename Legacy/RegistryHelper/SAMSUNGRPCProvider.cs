@@ -9,7 +9,7 @@ namespace RegistryHelper
 {
     public sealed class SAMSUNGRPCProvider : IRegistryProvider
     {
-        private bool _initialized = false;
+        private bool _initialized;
 
         private static readonly Dictionary<REG_HIVES, uint> _srpchives = new()
         {

@@ -290,9 +290,9 @@ namespace InteropTools.Providers
 
                 if (str != "")
                 {
-                    if (str.ToUpper().Contains(querystr.ToUpper()))
+                    if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        if (str.ToUpper() != querystr.ToUpper())
+                        if (!string.Equals(str, querystr, StringComparison.OrdinalIgnoreCase))
                         {
                             string[] temparray = str.Split('\\');
                             ItemsList.Add(new RegistryItem
@@ -365,7 +365,7 @@ namespace InteropTools.Providers
 
                         if (str != "")
                         {
-                            if (!str.ToUpper().Contains(querystr.ToUpper()))
+                            if (!(str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0))
                             {
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];
@@ -437,9 +437,9 @@ namespace InteropTools.Providers
 
                 if (str != "")
                 {
-                    if (str.ToUpper().Contains(querystr.ToUpper()))
+                    if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        if (str.ToUpper() != querystr.ToUpper())
+                        if (!string.Equals(str, querystr, StringComparison.OrdinalIgnoreCase))
                         {
                             string[] temparray = str.Split('\\');
                             ItemsList.Add(new RegistryItemCustom
@@ -511,7 +511,7 @@ namespace InteropTools.Providers
 
                         if (str != "")
                         {
-                            if (!str.ToUpper().Contains(querystr.ToUpper()))
+                            if (!(str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0))
                             {
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];

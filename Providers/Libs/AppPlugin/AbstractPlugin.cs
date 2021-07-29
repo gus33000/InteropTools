@@ -37,7 +37,7 @@ namespace AppPlugin
         /// the length of <paramref name="pluginName"/> is 40 or greater.
         /// </exception>
         /// <param name="pluginName">The Plugin name defined in the appmanifest.</param>
-        /// <returns>The <see cref="AppPlugin.PluginList<,,,>"/></returns>
+        /// <returns>The <see cref="PluginList<,,,>"/></returns>
         public static async Task<PluginList<TIn, TOut, TProgress>> ListAsync(string pluginName)
         {
             PluginList<TIn, TOut, TProgress> pluginList = new(pluginName);

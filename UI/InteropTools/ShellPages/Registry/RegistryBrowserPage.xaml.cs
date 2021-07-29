@@ -456,7 +456,7 @@ namespace InteropTools.ShellPages.Registry
         {
             string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView()).ValueAsString;
             string content = "We will add " + keypath + " to the phone registry.";
-            bool command = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
+            bool command = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
                           ResourceManager.Current.MainResourceMap.GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
                           ResourceManager.Current.MainResourceMap.GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
 
@@ -848,14 +848,14 @@ namespace InteropTools.ShellPages.Registry
 
         private static async void ShowKeyUnableToAddMessageBox()
         {
-            await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
               ResourceManager.Current.MainResourceMap.GetValue("Resources /We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
               ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
         }
 
         private static async void ShowKeyMessageBox(string s)
         {
-            await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s + "\nThe above path was copied to your clipboard",
+            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s + "\nThe above path was copied to your clipboard",
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Current_Key", ResourceContext.GetForCurrentView()).ValueAsString);
         }
 

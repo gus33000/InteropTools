@@ -89,7 +89,7 @@ namespace InteropTools.CorePages
             public Session session { get; internal set; }
         }
 
-        public bool IsOpen = false;
+        public bool IsOpen;
 
         private void ViewPreviews_Click(object sender, RoutedEventArgs e)
         {

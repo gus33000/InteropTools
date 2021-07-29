@@ -40,7 +40,7 @@ namespace InteropTools.ShellPages.SSH
 
             if (!await SessionManager.IsCMDSupported())
             {
-                await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page", ResourceContext.GetForCurrentView()).ValueAsString,
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now", ResourceContext.GetForCurrentView()).ValueAsString);
                 Shell shell = (Shell)App.AppContent;
@@ -55,7 +55,7 @@ namespace InteropTools.ShellPages.SSH
 
             if (regvalue != "1")
             {
-                await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page", ResourceContext.GetForCurrentView()).ValueAsString,
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now", ResourceContext.GetForCurrentView()).ValueAsString);
                 Shell shell = (Shell)App.AppContent;
@@ -80,7 +80,7 @@ namespace InteropTools.ShellPages.SSH
                 }
                 catch (Exception ex)
                 {
-                    RunInUiThread(async () => await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message));
+                    RunInUiThread(async () => await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message));
                 }
             });
         }

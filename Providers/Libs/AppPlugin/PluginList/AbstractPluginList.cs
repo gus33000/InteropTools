@@ -351,7 +351,7 @@ namespace AppPlugin.PluginList
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
+        private bool disposedValue; // Dient zur Erkennung redundanter Aufrufe.
 
         protected virtual void Dispose(bool disposing)
         {

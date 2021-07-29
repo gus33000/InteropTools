@@ -24,11 +24,11 @@ namespace RegistryHelper
         REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data);
 
         // Customs
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data);
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, [ReadOnlyArray] byte[] data);
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM_CUSTOM> items);
 
 

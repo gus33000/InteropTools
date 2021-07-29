@@ -537,7 +537,7 @@ namespace InteropTools.ContentDialogs.AppManager
                 catch (Exception caughtEx)
                 {
                     await
-                    new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Exception_Thrown__",
+                    new Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Exception_Thrown__",
                         ResourceContext.GetForCurrentView()).ValueAsString + caughtEx.HResult + " " + caughtEx.Message);
                 }
 
@@ -636,7 +636,7 @@ namespace InteropTools.ContentDialogs.AppManager
             Clipboard.SetContent(dataPackage);
             Hide();
             await
-            new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + ResourceManager.Current.MainResourceMap.GetValue("Resources/Value_Tapped",
+            new Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + ResourceManager.Current.MainResourceMap.GetValue("Resources/Value_Tapped",
                 ResourceContext.GetForCurrentView()).ValueAsString, ResourceManager.Current.MainResourceMap.GetValue("Resources/Package_Info.Title", ResourceContext.GetForCurrentView()).ValueAsString);
             await ShowAsync();
         }

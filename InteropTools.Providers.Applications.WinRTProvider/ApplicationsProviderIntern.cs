@@ -77,7 +77,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
             {
                 case APPLICATIONS_OPERATION.RemovePackage:
                     {
-                        Enum.TryParse<RemovalOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out RemovalOptions remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out RemovalOptions remop);
                         _ = await new PackageManager().RemovePackageAsync(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), remop);
 
                         returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
@@ -86,7 +86,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                     }
                 case APPLICATIONS_OPERATION.RegisterPackage:
                     {
-                        Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().RegisterPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
                         returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
@@ -95,7 +95,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                     }
                 case APPLICATIONS_OPERATION.AddPackage:
                     {
-                        Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().AddPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
                         returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
@@ -104,7 +104,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                     }
                 case APPLICATIONS_OPERATION.UpdatePackage:
                     {
-                        Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().UpdatePackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
                         returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));

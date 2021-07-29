@@ -19,7 +19,7 @@ namespace InteropTools.ShellPages.Core
         private readonly DataTemplate dtSmall;
         private readonly DataTemplate dtEnlarged;
 
-        private bool loaded = false;
+        private bool loaded;
 
         public ExtensionsPage()
         {

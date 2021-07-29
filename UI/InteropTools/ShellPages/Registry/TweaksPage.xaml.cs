@@ -24,7 +24,7 @@ namespace InteropTools.ShellPages.Registry
 
         private HelperErrorCodes GetKeyValue(RegHives hive, string key, string valuename, RegTypes type, out RegTypes valtype, out string value)
         {
-            GetKeyValueReturn res = AsyncHelpers.RunSync<GetKeyValueReturn>(() => _helper.GetKeyValue(hive, key, valuename, type));
+            GetKeyValueReturn res = AsyncHelpers.RunSync(() => _helper.GetKeyValue(hive, key, valuename, type));
             valtype = res.regtype;
             value = res.regvalue;
 
@@ -68,14 +68,14 @@ namespace InteropTools.ShellPages.Registry
             {
                 if (state)
                 {
-                    AsyncHelpers.RunSync<HelperErrorCodes>(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
+                    AsyncHelpers.RunSync(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
                                         "UserSettingNoBrightnessSettings", RegTypes.REG_DWORD, "0"));
                 }
                 else
                 {
-                    AsyncHelpers.RunSync<HelperErrorCodes>(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
+                    AsyncHelpers.RunSync(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
                                         "UserSettingNoBrightnessSettings", RegTypes.REG_DWORD, "1"));
-                    HelperErrorCodes result = AsyncHelpers.RunSync<HelperErrorCodes>(() => _helper.DeleteValue(RegHives.HKEY_LOCAL_MACHINE,
+                    HelperErrorCodes result = AsyncHelpers.RunSync(() => _helper.DeleteValue(RegHives.HKEY_LOCAL_MACHINE,
                                                      "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight", "UserSettingNoBrightnessSettings"));
 
                     if (result == HelperErrorCodes.FAILED)
@@ -85,7 +85,7 @@ namespace InteropTools.ShellPages.Registry
                             async () =>
                         {
                             await
-                            new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                            new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                               "In order to turn off that option, we need to delete a specific value in the registry, sometimes deleting a value doesn't work as expected. If you really wish to get back manual states for brightness, you'll sadly need to do a hard reset. This option will still appear as off here but it might not revert in settings.",
                               "Failed to turn off Brightness slider");
                         });
@@ -266,7 +266,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\NlpmService",
                                     "ImagePath", RegTypes.REG_EXPAND_SZ, out RegTypes regtype, out string regvalue);
 
-                return regvalue.ToLower().Contains(@"C:\windows\System32\OEMServiceHost.exe -k NsgGlance".ToLower());
+                return regvalue.IndexOf(@"C:\windows\System32\OEMServiceHost.exe -k NsgGlance", StringComparison.OrdinalIgnoreCase) >= 0;
             }, state =>
             {
                 _helper.AddKey(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\OEM\Nokia\NokiaSvcHost\Plugins\NsgGlance");

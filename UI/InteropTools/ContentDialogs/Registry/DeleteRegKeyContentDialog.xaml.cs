@@ -48,7 +48,7 @@ namespace InteropTools.ContentDialogs.Registry
 
         private static async void ShowKeyUnableToDeleteMessageBox()
         {
-            await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+            await new Core.MessageDialogContentDialog().ShowMessageDialog(
               ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_delete_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
               ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
         }

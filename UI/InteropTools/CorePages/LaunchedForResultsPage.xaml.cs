@@ -14,8 +14,8 @@ namespace InteropTools.CorePages
     /// </summary>
     public sealed partial class LaunchedForResultsPage : Page
     {
-        private Windows.System.ProtocolForResultsOperation _operation = null;
-        private ProtocolForResultsActivatedEventArgs protocolForResultsArgs = null;
+        private Windows.System.ProtocolForResultsOperation _operation;
+        private ProtocolForResultsActivatedEventArgs protocolForResultsArgs;
 
         public class ApplicationAccess
         {

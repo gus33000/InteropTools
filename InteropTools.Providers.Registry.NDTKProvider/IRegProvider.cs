@@ -17,11 +17,11 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
         REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key);
 
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data);
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data);
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items);
 
         REG_STATUS RegLoadHive(string hivepath, string mountedname, bool InUser);

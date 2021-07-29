@@ -49,9 +49,9 @@ namespace InteropTools.Providers
 
         Task<REG_KEY_STATUS> RegQueryKeyStatus(REG_HIVES hive, string key);
 
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         Task<REG_STATUS> RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data);
-        [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
+        [Windows.Foundation.Metadata.DefaultOverload()]
         Task<RegEnumKey> RegEnumKey(REG_HIVES? hive, string key);
 
         string RegBufferToString(uint valtype, byte[] data);
