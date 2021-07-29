@@ -23,6 +23,7 @@ namespace InteropTools.Providers.Registry.Definition
         protected abstract Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken); //, Options options
 
         protected abstract Task<Options> GetOptions();
+
         protected abstract Guid GetOptionsGuid();
     }
 }

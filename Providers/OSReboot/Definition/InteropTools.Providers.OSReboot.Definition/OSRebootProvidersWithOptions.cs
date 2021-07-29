@@ -18,6 +18,7 @@ namespace InteropTools.Providers.OSReboot.Definition
         protected abstract Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken);
 
         protected abstract Task<Options> GetOptions();
+
         protected abstract Guid GetOptionsGuid();
     }
 }

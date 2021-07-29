@@ -23,7 +23,6 @@ Revision History:
 
 --*/
 
-using ndtklib;
 using System;
 
 namespace InteropTools.Providers.OSReboot.NDTKProvider

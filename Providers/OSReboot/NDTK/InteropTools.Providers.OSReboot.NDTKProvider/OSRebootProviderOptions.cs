@@ -13,10 +13,8 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
         {
             abstractOption = new AbstractOption[]
             {
-
             };
         }
-
 
         public OSRebootProviderOptions(Options o)
         {

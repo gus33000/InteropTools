@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+         xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+         xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap uap3 uap4 uap5 rescap mp">
+  <Identity Name="52346ITDevTeam.InteropToolsLegacy" Publisher="CN=EDCB61F7-02FF-43C6-8E0B-FDE1D2E3E137" Version="2.1.22.0" />
+  <mp:PhoneIdentity PhoneProductId="a4e59667-7db7-46ec-b664-63517500e071" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>Interop Tools (Legacy)</DisplayName>
+    <PublisherDisplayName>IT Dev Team</PublisherDisplayName>
+    <Logo>Assets\Tiles\App\NewStoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="InteropTools.App">
+      <uap:VisualElements DisplayName="Interop Tools (Legacy)" Square150x150Logo="Assets\Tiles\App\Square150x150Logo.png" Square44x44Logo="Assets\Tiles\App\Square44x44Logo.png" Description="Interop Tools" BackgroundColor="#202020">
+        <uap:DefaultTile Wide310x150Logo="Assets\Tiles\App\Wide310x150Logo.png" Square310x310Logo="Assets\Tiles\App\Square310x310Logo.png" Square71x71Logo="Assets\Tiles\App\Square71x71Logo.png" ShortName="Interop Tools">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\Tiles\App\SplashScreen.png" BackgroundColor="#202020" uap5:Optional="true" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="interoptools">
+            <uap:Logo>Assets\Tiles\generic.png</uap:Logo>
+            <uap:DisplayName>Interop Tools URI Scheme</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <uap:Extension Category="windows.appService" EntryPoint="InteropTools.AppExtensibilityDefinition.AppExtensibilityProvider">
+          <uap:AppService Name="AppExtensibilityService" />
+        </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="interoptools-appextensionregistrar" ReturnResults="always">
+            <uap:DisplayName>Interop Tools App Extension Registrar</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="reg">
+            <uap:DisplayName>Registration Entries</uap:DisplayName>
+            <uap:Logo>Assets\reg.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.itreg</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap3:Extension Category="windows.appExtensionHost">
+          <uap3:AppExtensionHost>
+            <uap3:Name>InteropTools.Providers.Applications</uap3:Name>
+            <uap3:Name>InteropTools.Providers.Certificates</uap3:Name>
+            <uap3:Name>InteropTools.Providers.IO</uap3:Name>
+            <uap3:Name>InteropTools.Providers.OSReboot</uap3:Name>
+            <uap3:Name>InteropTools.Providers.Registry</uap3:Name>
+          </uap3:AppExtensionHost>
+        </uap3:Extension>
+        <!--<uap5:Extension Category="windows.appExecutionAlias" Executable="InteropTools.exe" EntryPoint="InteropTools.App">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="InteropTools.exe" />
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>-->
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="InteropTools.External.AppExtensibility" Id="AppExtensibility" DisplayName="Interop Tools (Preview)" Description="Interop Tools" PublicFolder="Assets">
+            <uap3:Properties>
+              <Service>AppExtensibilityService</Service>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
+    <uap:Capability Name="userAccountInformation" />
+    <uap:Capability Name="sharedUserCertificates" />
+    <rescap:Capability Name="id_cap_runtime_config" />
+    <rescap:Capability Name="id_cap_oem_custom" />
+    <rescap:Capability Name="deviceUnlock" />
+    <rescap:Capability Name="deviceManagementAdministrator" />
+    <rescap:Capability Name="userDataSystem" />
+    <rescap:Capability Name="packageManagement" />
+    <rescap:Capability Name="packageQuery" />
+    <rescap:Capability Name="extendedExecutionUnconstrained" />
+    <!-- TH2 and higher -->
+    <!--
+    <rescap:Capability Name="oemPublicDirectory" />
+    <rescap:Capability Name="runtimeConfig" />
+    <rescap:Capability Name="oemCustom" />
+    <rescap:Capability Name="registryRead" />
+    <rescap:Capability Name="registryWrite" />
+    -->
+  </Capabilities>
+</Package>

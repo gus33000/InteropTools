@@ -1,0 +1,418 @@
+﻿<UserControl
+    x:Class="InteropTools.Controls.Keyboards.FakeKeyboard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource SystemChromeLowColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="q"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="1"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="w"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="2"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="e"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="3"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="r"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="4"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="t"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="5"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="y"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="6"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="u"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="7"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="i"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="8"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="o"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="9"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="p"
+                    TextAlignment="Center" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="1"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="a"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="2"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="s"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="3"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="d"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="4"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="f"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="5"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="g"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="6"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="h"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="7"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="j"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="8"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="k"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="9"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="l"
+                    TextAlignment="Center" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="mainrow2" Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" MinWidth="{Binding ActualHeight, ElementName=mainrow2, Mode=OneWay}">
+                <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                        Text=""
+                        TextAlignment="Center" />
+                </Grid>
+            </Grid>
+            <Grid
+                Grid.Column="1"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="z"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="2"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="x"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="3"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="c"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="4"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="v"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="5"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="b"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="6"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="n"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="7"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="m"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid Grid.Column="8" MinWidth="{Binding ActualHeight, ElementName=mainrow2, Mode=OneWay}">
+                <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                        Text=""
+                        TextAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="3" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="mainrow" Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" MinWidth="{Binding ActualHeight, ElementName=mainrow, Mode=OneWay}">
+                <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="&amp;123"
+                        TextAlignment="Center" />
+                </Grid>
+            </Grid>
+            <Grid
+                Grid.Column="1"
+                Margin="2"
+                Background="{ThemeResource SystemChromeHighColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                    FontSize="20"
+                    Text=""
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="2"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text=","
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="3"
+                Grid.ColumnSpan="4"
+                Margin="2"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Opacity="0.5"
+                    Text="&lt; ENG (US) &gt;"
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid
+                Grid.Column="7"
+                Margin="2"
+                Background="{ThemeResource SystemChromeMediumColor}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="."
+                    TextAlignment="Center" />
+            </Grid>
+            <Grid Grid.Column="8" MinWidth="{Binding ActualHeight, ElementName=mainrow, Mode=OneWay}">
+                <Grid Margin="2" Background="{ThemeResource SystemChromeHighColor}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource FullMDL2FontFamily}"
+                        Text=""
+                        TextAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

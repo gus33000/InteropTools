@@ -1,0 +1,235 @@
+﻿<ContentDialog
+    x:Class="InteropTools.ContentDialogs.Core.PickProviderContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Select a provider for this application session"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonText="Use this provider"
+    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <Storyboard x:Name="SFadeInMainMenu">
+            <DoubleAnimation
+                x:Name="SFadeMenu1"
+                By="0.001"
+                Storyboard.TargetName="MainGridView"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="HFadeInMainMenu">
+            <DoubleAnimation
+                x:Name="HFadeMenu1"
+                By="0.001"
+                Storyboard.TargetName="MainGridView"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </ContentDialog.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+        <Grid>
+            <Grid x:Name="MainGridView">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ComboBox
+                    x:Name="MainComboBox"
+                    Margin="0,4"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    SelectionChanged="MainComboBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon
+                                    Margin="0,0,4,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{StaticResource FullMDL2FontFamily}"
+                                    Glyph="{Binding Symbol}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="4,0,0,0"
+                                    Text="{Binding Title}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock
+                    x:Name="SelectedProviderDesc"
+                    Grid.Row="1"
+                    Margin="0,4"
+                    TextWrapping="Wrap" />
+
+                <TextBlock
+                    x:Name="WarningText"
+                    Grid.Row="2"
+                    Margin="0,4,0,0"
+                    VerticalAlignment="Bottom"
+                    Text="This version of Interop Tools works with extensions, looks like extensions aren't compatible with your current Operating System version, please fall back to Interop Tools L to fully use the app on your current Operating System, learn more at insidewindows.net"
+                    TextWrapping="Wrap"
+                    Visibility="Collapsed" />
+            </Grid>
+            <ScrollViewer
+                x:Name="ConnectDetails"
+                VerticalScrollBarVisibility="Auto"
+                VerticalScrollMode="Auto"
+                Visibility="Collapsed">
+                <StackPanel
+                    Padding="24"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Height="50" Background="{ThemeResource SystemChromeMediumColor}">
+                            <TextBlock
+                                x:Uid="REMOTE_DEVICE_CONNECTION_DETAILS"
+                                Margin="15,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold" />
+                        </Grid>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Padding="12"
+                            Background="{ThemeResource SystemChromeLowColor}">
+                            <TextBox
+                                x:Name="hostname"
+                                x:Uid="Host_name"
+                                Margin="0,0,0,12"
+                                HorizontalAlignment="Stretch" />
+                            <TextBox
+                                x:Name="portnumber"
+                                x:Uid="Port"
+                                Margin="0,0,0,12"
+                                HorizontalAlignment="Stretch" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Margin="0,0,4,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Click="Button_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="0,0,4,0"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            Text="" />
+                                        <TextBlock
+                                            x:Uid="Go_back"
+                                            Grid.Column="1"
+                                            Margin="4,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            TextAlignment="Center" />
+                                    </Grid>
+                                </Button>
+                                <Button
+                                    Grid.Column="1"
+                                    Margin="4,0,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Click="Button_Click_1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Margin="0,0,4,0"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{StaticResource FullMDL2FontFamily}"
+                                            Text="" />
+                                        <TextBlock
+                                            x:Uid="Connect"
+                                            Grid.Column="1"
+                                            Margin="4,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            TextAlignment="Center" />
+                                    </Grid>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid x:Name="Connecting" Visibility="Collapsed">
+                <StackPanel
+                    Padding="24"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Height="50" Background="{ThemeResource SystemChromeMediumColor}">
+                            <TextBlock
+                                x:Uid="CONNECTING"
+                                Margin="15,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold" />
+                        </Grid>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Padding="12"
+                            Background="{ThemeResource SystemChromeLowColor}">
+                            <TextBlock
+                                x:Name="StatusText"
+                                Margin="0,0,0,12"
+                                HorizontalAlignment="Stretch"
+                                TextWrapping="Wrap" />
+                            <ProgressBar HorizontalAlignment="Stretch" IsIndeterminate="True" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</ContentDialog>

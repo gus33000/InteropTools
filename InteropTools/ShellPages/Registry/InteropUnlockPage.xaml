@@ -1,0 +1,183 @@
+﻿<Page
+    x:Class="InteropTools.ShellPages.Registry.InteropUnlockPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Interop Unlock"
+                    Visibility="{Binding PageTitleVisibility}" />
+                <TextBlock
+                    Margin="0,0,0,24"
+                    Foreground="Red"
+                    Text="WARNING: This feature only works on NDTK-enabled devices, for unlocking lumia x5x devices, please refer to the vcREG app on xda-developers.com, for everything else, use this app."
+                    TextWrapping="Wrap" />
+                <StackPanel>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Interop/Cap Unlock" />
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.75"
+                                Text="Unlocks all caps including interop services"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            x:Name="CapUnlock"
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            IsOn="false"
+                            Toggled="CapUnlock_Toggled" />
+                    </Grid>
+                    <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="New Capability Engine Unlock" />
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.75"
+                                Text="Unlocks all caps for the new capability engine"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            x:Name="NewCapUnlock"
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            IsOn="false"
+                            Toggled="NewCapUnlock_Toggled" />
+                    </Grid>
+                    <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Full Filesystem Access" />
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.75"
+                                Text="Allows accessing MainOS and Data from a Computer via MTP (Can cause problems on devices with a USB type C port)"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            x:Name="FSAccess"
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            IsOn="false"
+                            Toggled="FSAccess_Toggled" />
+                    </Grid>
+                    <StackPanel
+                        x:Name="MTPPathOption"
+                        Margin="0,24,0,0"
+                        HorizontalAlignment="Stretch">
+                        <TextBlock Text="MTP Root Path" />
+                        <Grid Margin="0,10,0,0" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="32" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                x:Name="MTPPathInput"
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                IsSpellCheckEnabled="False"
+                                PlaceholderText="Example: C:" />
+                            <Button
+                                x:Name="SetMTPPathButton"
+                                Grid.Column="1"
+                                Width="32"
+                                Height="32"
+                                Background="{ThemeResource SystemControlForegroundAccentBrush}"
+                                Click="SetMTPPathButton_Click"
+                                FontFamily="{StaticResource FullMDL2FontFamily}"
+                                FontSize="11">
+                                <SymbolIcon Margin="-16,-16,-16,-16" Symbol="Edit" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                    <Grid Margin="0,24,0,0" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Restore NDTKSvc" />
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.75"
+                                Text="Restore the original path to the NDTKSvc dll (allows editing the registry again)"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            x:Name="RestoreNDTK"
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            IsOn="false"
+                            Toggled="RestoreNDTK_Toggled" />
+                    </Grid>
+                    <Grid
+                        Margin="0,24,0,0"
+                        HorizontalAlignment="Stretch"
+                        Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="92" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Restore NDTKSvc (x50)" />
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.75"
+                                Text="Same as above's setting for for the x50 device line up"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch
+                            x:Name="RestoreNDTKx50"
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            IsOn="false"
+                            Toggled="RestoreNDTKx50_Toggled" />
+                    </Grid>
+                    <StackPanel Margin="0,24,0,0" HorizontalAlignment="Stretch">
+                        <Button
+                            x:Name="InstallNDTK"
+                            HorizontalAlignment="Stretch"
+                            Click="Button_Click">
+                            <TextBlock
+                                x:Name="InstallNDTKText"
+                                Text="Allow the installation of NDTK on any device"
+                                TextAlignment="Center" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock
+                    Margin="0,24,0,12"
+                    DataContext="{x:Bind Frame}"
+                    Style="{StaticResource TitleTextBlockStyle3}"
+                    Text="TROUBLESHOOT" />
+                <StackPanel Margin="0,0,0,12">
+                    <TextBlock Text="Q: My values keep reverting to off and 'Restore NDTKSvc' was never enabled" TextWrapping="Wrap" />
+                    <TextBlock
+                        Margin="0,6,0,0"
+                        Text="A: Make sure you are using a lumia which is not part of the 50 line up, then turn on 'Restore NDTKSvc' and reboot, now you should be able to turn on other options"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

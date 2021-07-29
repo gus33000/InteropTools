@@ -26,7 +26,6 @@ Revision History:
 using InteropTools.Providers.OSReboot.Definition;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -37,6 +36,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
     public sealed class OSRebootProvider : IBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new OSRebootProviderIntern();
+
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             internalTask.Run(taskInstance);

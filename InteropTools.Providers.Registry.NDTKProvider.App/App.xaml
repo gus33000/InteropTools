@@ -1,5 +1,0 @@
-﻿<Application
-    x:Class="InteropTools.Providers.Registry.NDTKProvider.App.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:InteropTools.Providers.Registry.NDTKProvider.App" />

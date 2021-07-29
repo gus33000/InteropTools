@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
@@ -118,7 +118,7 @@
     <Compile Include="OSRebootProvidersWithOptions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libs\AppPlugin\AppPlugin.csproj">
+    <ProjectReference Include="..\..\..\..\Libraries\AppPlugin\AppPlugin.csproj">
       <Project>{d35e5f0f-601c-43bf-82d6-89f51ac6aa8b}</Project>
       <Name>AppPlugin</Name>
     </ProjectReference>

@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Intense.UI.Converters">
+
+    <converters:BooleanToVisibilityConverter x:Key="TrueToVisibleConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="FalseToVisibleConverter" Inverse="True" />
+    <converters:ColorToObjectConverter x:Key="ColorToObjectConverter" />
+    <converters:DisplayableToObjectConverter x:Key="DisplayableToObjectConverter" />
+    <converters:NavigationItemToObjectConverter x:Key="NavigationItemToObjectConverter" />
+    <converters:NullToVisibilityConverter x:Key="NotNullToVisibleConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibleConverter" Inverse="True" />
+    <converters:SolidColorBrushToObjectConverter x:Key="SolidColorBrushToObjectConverter" />
+</ResourceDictionary>
