@@ -35,7 +35,6 @@ using Windows.ApplicationModel.Background;
 
 namespace InteropTools.AppExtensibilityBackgroundTask
 {
-
     public sealed class AppExtensibilityProvider : IBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new AppExtensibilityProviderIntern();
@@ -54,7 +53,7 @@ namespace InteropTools.AppExtensibilityBackgroundTask
         {
             string[] arr = input.Split(new string[] { "_" }, StringSplitOptions.None);
 
-            string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr.First()));
+            string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr[0]));
             Enum.TryParse(operation, true, out REG_OPERATION operationenum);
 
             List<List<string>> returnvalue = new();
@@ -166,7 +165,6 @@ namespace InteropTools.AppExtensibilityBackgroundTask
                     {
                         Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
 
-
                         uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out uint valuetype);
 
                         REG_STATUS ret = provider.RegQueryValue(hive, Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(3))), valuetype, out uint outvaltype, out byte[] data);
@@ -250,7 +248,6 @@ namespace InteropTools.AppExtensibilityBackgroundTask
 
             return returnstr;
         }
-
 
         protected override Task<Options> GetOptions()
         {

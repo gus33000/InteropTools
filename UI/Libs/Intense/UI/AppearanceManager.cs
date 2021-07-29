@@ -9,7 +9,7 @@ namespace Intense.UI
     /// <summary>
     /// Manages the appearance of the application.
     /// </summary>
-    public class AppearanceManager
+    public sealed class AppearanceManager
     {
         /// <summary>
         /// Occurs when the application accent color has changed.
@@ -25,7 +25,7 @@ namespace Intense.UI
         public event EventHandler ThemeChanged;
 
         private static readonly DependencyProperty AppearanceManagerProperty = DependencyProperty.RegisterAttached("AppearanceManager", typeof(AppearanceManager), typeof(AppearanceManager), null);
-        private static readonly Uri AccentBrushesSource = new Uri("ms-appx:///Intense/Themes/AccentBrushes.xaml");
+        private static readonly Uri AccentBrushesSource = new("ms-appx:///Intense/Themes/AccentBrushes.xaml");
 
         private const string SystemAccentBrushKey = "__IntenseSystemAccentBrush";
 
@@ -109,7 +109,7 @@ namespace Intense.UI
 
             if (color != null)
             {
-                ResourceDictionary dict = new ResourceDictionary { Source = AccentBrushesSource };
+                ResourceDictionary dict = new() { Source = AccentBrushesSource };
                 foreach (SolidColorBrush brush in dict.Values.OfType<SolidColorBrush>())
                 {
                     brush.Color = color.Value;

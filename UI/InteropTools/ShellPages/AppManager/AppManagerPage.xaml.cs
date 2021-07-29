@@ -80,29 +80,25 @@ namespace InteropTools.ShellPages.AppManager
                 InstallPackageProgress.Value = 0;
                 DeploymentOptions depOptions;
 
-                if (DevMode.IsChecked != null && DevMode.IsChecked.Value)
+                if (DevMode.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-
                 else
-                    if (ForceApplicationShutdown.IsChecked != null && ForceApplicationShutdown.IsChecked.Value)
+                    if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-
                 else
-                        if (ForceTargetApplicationShutdown.IsChecked != null && ForceTargetApplicationShutdown.IsChecked.Value)
+                        if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-
                 else
-                            if (InstallAllResources.IsChecked != null && InstallAllResources.IsChecked.Value)
+                            if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
-
                 else
                 {
                     depOptions = DeploymentOptions.None;
@@ -131,13 +127,11 @@ namespace InteropTools.ShellPages.AppManager
                         break;
                 }
             }
-
             catch (Exception caughtEx)
             {
                 InstallPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallError, "0x" + string.Format("{0:x}", caughtEx.HResult) + " " +
                                             caughtEx.Message);
             }
-
             finally
             {
                 BrowseMainPackageButton.IsEnabled = true;
@@ -174,29 +168,25 @@ namespace InteropTools.ShellPages.AppManager
                 RegisterPackageProgress.Value = 0;
                 DeploymentOptions depOptions;
 
-                if (DevMode.IsChecked != null && DevMode.IsChecked.Value)
+                if (DevMode.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-
                 else
-                    if (ForceApplicationShutdown.IsChecked != null && ForceApplicationShutdown.IsChecked.Value)
+                    if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-
                 else
-                        if (ForceTargetApplicationShutdown.IsChecked != null && ForceTargetApplicationShutdown.IsChecked.Value)
+                        if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-
                 else
-                            if (InstallAllResources.IsChecked != null && InstallAllResources.IsChecked.Value)
+                            if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
-
                 else
                 {
                     depOptions = DeploymentOptions.None;
@@ -226,13 +216,11 @@ namespace InteropTools.ShellPages.AppManager
                         break;
                 }
             }
-
             catch (Exception caughtEx)
             {
                 RegisterPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterError, "0x" + string.Format("{0:x}", caughtEx.HResult) +
                                              " " + caughtEx.Message);
             }
-
             finally
             {
                 BrowseMainUnpackedPackageButton.IsEnabled = true;
@@ -261,12 +249,12 @@ namespace InteropTools.ShellPages.AppManager
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private async void BrowseUpdatePackageButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -297,29 +285,25 @@ namespace InteropTools.ShellPages.AppManager
                 UpdatePackageProgress.Value = 0;
                 DeploymentOptions depOptions;
 
-                if (DevMode.IsChecked != null && DevMode.IsChecked.Value)
+                if (DevMode.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-
                 else
-                    if (ForceApplicationShutdown.IsChecked != null && ForceApplicationShutdown.IsChecked.Value)
+                    if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-
                 else
-                        if (ForceTargetApplicationShutdown.IsChecked != null && ForceTargetApplicationShutdown.IsChecked.Value)
+                        if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-
                 else
-                            if (InstallAllResources.IsChecked != null && InstallAllResources.IsChecked.Value)
+                            if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
-
                 else
                 {
                     depOptions = DeploymentOptions.None;
@@ -349,12 +333,10 @@ namespace InteropTools.ShellPages.AppManager
                         break;
                 }
             }
-
             catch (Exception caughtEx)
             {
                 UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateError, "0x" + string.Format("{0:x}", caughtEx.HResult) + " " + caughtEx.Message);
             }
-
             finally
             {
                 BrowseUpdatePackageButton.IsEnabled = true;

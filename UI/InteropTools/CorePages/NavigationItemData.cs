@@ -59,7 +59,7 @@ namespace InteropTools.CorePages
 
             if (Name != null)
             {
-                hash = hash * 31 + Name.GetHashCode() + Icon.GetHashCode();
+                hash = (hash * 31) + Name.GetHashCode() + Icon.GetHashCode();
             }
 
             return hash;

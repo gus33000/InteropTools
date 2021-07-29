@@ -27,7 +27,6 @@ namespace InteropTools.ShellPages.AppManager
 {
     public class VolumeDisplayitem
     {
-
         public string _MountPoint = Resources.TextResources.ApplicationManager_MountPoint;
         public string _PackageStore = Resources.TextResources.ApplicationManager_PackageStore;
         public string _Name = Resources.TextResources.ApplicationManager_Name;
@@ -75,11 +74,10 @@ namespace InteropTools.ShellPages.AppManager
             try
             {
                 Item selectedItem = (Item)e.ClickedItem;
-                (App.AppContent as Shell).RootFrame.Navigate(typeof(AppProductPage), selectedItem.FullName);
+                (App.AppContent as Shell)?.RootFrame.Navigate(typeof(AppProductPage), selectedItem.FullName);
             }
             catch
             {
-
             }
         }
 
@@ -87,12 +85,12 @@ namespace InteropTools.ShellPages.AppManager
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private ObservableRangeCollection<Item> _filteredItemsList = new();
@@ -117,30 +115,27 @@ namespace InteropTools.ShellPages.AppManager
             {
                 if (item.DisplayName.ToLower().Contains(FilterBox.Text.ToLower()))
                 {
-                    if ((VolListView.SelectedItem as VolumeDisplayitem).Volume == null)
+                    if ((VolListView.SelectedItem as VolumeDisplayitem)?.Volume == null)
                     {
-                        if ((TypeListView.SelectedItem as TypeDisplayitem).Type == null)
+                        if ((TypeListView.SelectedItem as TypeDisplayitem)?.Type == null)
                         {
                             tmplist.Add(item);
                         }
-
                         else
-                            if ((TypeListView.SelectedItem as TypeDisplayitem).Type == item.type)
+                            if ((TypeListView.SelectedItem as TypeDisplayitem)?.Type == item.type)
                         {
                             tmplist.Add(item);
                         }
                     }
-
                     else
-                        if (item.volume == (VolListView.SelectedItem as VolumeDisplayitem).Volume)
+                        if (item.volume == (VolListView.SelectedItem as VolumeDisplayitem)?.Volume)
                     {
-                        if ((TypeListView.SelectedItem as TypeDisplayitem).Type == null)
+                        if ((TypeListView.SelectedItem as TypeDisplayitem)?.Type == null)
                         {
                             tmplist.Add(item);
                         }
-
                         else
-                            if ((TypeListView.SelectedItem as TypeDisplayitem).Type == item.type)
+                            if ((TypeListView.SelectedItem as TypeDisplayitem)?.Type == item.type)
                         {
                             tmplist.Add(item);
                         }
@@ -172,10 +167,7 @@ namespace InteropTools.ShellPages.AppManager
                     });
                     List<AlphaKeyGroup<Item>> itemSource = AlphaKeyGroup<Item>.CreateGroups(_filteredItemsList, CultureInfo.InvariantCulture,
                                      s => s.DisplayName, true);
-                    await RunInUiThread(() =>
-                    {
-                        ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource;
-                    });
+                    await RunInUiThread(() => ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource);
                     List<Item> tmplist = new();
 
                     _volumelist.Add(new VolumeDisplayitem());
@@ -193,7 +185,6 @@ namespace InteropTools.ShellPages.AppManager
                     }
                     catch
                     {
-
                     }
 
                     await RunInUiThread(() =>
@@ -233,7 +224,7 @@ namespace InteropTools.ShellPages.AppManager
                             foreach (PackageTypes type in pkgtypes)
                             {
                                 IList<Package> pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
-                                numofpkgs += pkgs.Count();
+                                numofpkgs += pkgs.Count;
                             }
                         }
                     }
@@ -261,10 +252,7 @@ namespace InteropTools.ShellPages.AppManager
                                 foreach (Package package in pkgs)
                                 {
                                     count++;
-                                    await RunInUiThread(() =>
-                                    {
-                                        LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
-                                    });
+                                    await RunInUiThread(() => LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0)));
                                     string arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
 
                                     switch (package.Id.Architecture)
@@ -315,7 +303,6 @@ namespace InteropTools.ShellPages.AppManager
                                             {
                                                 displayname = appEntry.DisplayInfo.DisplayName;
                                             }
-
                                             catch
                                             {
                                                 // ignored
@@ -327,7 +314,6 @@ namespace InteropTools.ShellPages.AppManager
                                                               package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                               package.Id.Version.Build + "." + package.Id.Version.Revision;
                                             }
-
                                             catch
                                             {
                                                 // ignored
@@ -348,7 +334,6 @@ namespace InteropTools.ShellPages.AppManager
                                                     logo = bitmapImage;
                                                 });
                                             }
-
                                             catch
                                             {
                                                 // ignored
@@ -357,7 +342,6 @@ namespace InteropTools.ShellPages.AppManager
                                             break;
                                         }
                                     }
-
                                     catch
                                     {
                                         // ignored
@@ -392,10 +376,7 @@ namespace InteropTools.ShellPages.AppManager
                             foreach (Package package in pkgs)
                             {
                                 count++;
-                                await RunInUiThread(() =>
-                                {
-                                    LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0));
-                                });
+                                await RunInUiThread(() => LoadingText.Text = string.Format("Fetching information for packages... ({0}%)", Math.Round(count / numofpkgs * 100, 0)));
                                 string arch = InteropTools.Resources.TextResources.ApplicationManager_PackageListPackageArchUnknown;
 
                                 switch (package.Id.Architecture)
@@ -446,7 +427,6 @@ namespace InteropTools.ShellPages.AppManager
                                         {
                                             displayname = appEntry.DisplayInfo.DisplayName;
                                         }
-
                                         catch
                                         {
                                             // ignored
@@ -458,7 +438,6 @@ namespace InteropTools.ShellPages.AppManager
                                                           package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                           package.Id.Version.Build + "." + package.Id.Version.Revision;
                                         }
-
                                         catch
                                         {
                                             // ignored
@@ -479,7 +458,6 @@ namespace InteropTools.ShellPages.AppManager
                                                 logo = bitmapImage;
                                             });
                                         }
-
                                         catch
                                         {
                                             // ignored
@@ -488,7 +466,6 @@ namespace InteropTools.ShellPages.AppManager
                                         break;
                                     }
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -512,12 +489,8 @@ namespace InteropTools.ShellPages.AppManager
                         }
                     }
 
-                    await RunInUiThread(() =>
-                    {
-                        _itemsList.AddRange(tmplist);
-                    });
+                    await RunInUiThread(() => _itemsList.AddRange(tmplist));
                 }
-
                 catch (Exception caughtEx)
                 {
                     await RunInUiThread(async () =>
@@ -528,7 +501,6 @@ namespace InteropTools.ShellPages.AppManager
                             caughtEx.Message + " " + caughtEx.StackTrace));
                     });
                 }
-
                 finally
                 {
                     await RunInUiThread(() =>
@@ -540,7 +512,6 @@ namespace InteropTools.ShellPages.AppManager
                 }
             });
         }
-
 
         private void FilterBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -570,14 +541,12 @@ namespace InteropTools.ShellPages.AppManager
                             {
                                 _filteredItemsListtmp.Add(item);
                             }
-
                             else
                                 if (selectedtype.Type == item.type)
                             {
                                 _filteredItemsListtmp.Add(item);
                             }
                         }
-
                         else
                             if (item.volume == selectedvol.Volume)
                         {
@@ -585,7 +554,6 @@ namespace InteropTools.ShellPages.AppManager
                             {
                                 _filteredItemsListtmp.Add(item);
                             }
-
                             else
                                 if (selectedtype.Type == item.type)
                             {
@@ -620,7 +588,6 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     await new PackageManager().RemovePackageAsync(item.FullName, RemovalOptions.None);
                 }
-
                 catch
                 {
                 }
@@ -675,9 +642,9 @@ namespace InteropTools.ShellPages.AppManager
         {
             if ((VolListView.SelectedItem as VolumeDisplayitem) != null)
             {
-                VolSelect.Content = (VolListView.SelectedItem as VolumeDisplayitem).Volume == null ? InteropTools.Resources.TextResources.ApplicationManager_AllVolumes :
-                                    (VolListView.SelectedItem as VolumeDisplayitem).Volume.MountPoint + " (" + (VolListView.SelectedItem as VolumeDisplayitem).Volume.PackageStorePath.Replace((
-                                          VolListView.SelectedItem as VolumeDisplayitem).Volume.MountPoint, (VolListView.SelectedItem as VolumeDisplayitem).Volume.Name) + ")";
+                VolSelect.Content = (VolListView.SelectedItem as VolumeDisplayitem)?.Volume == null ? InteropTools.Resources.TextResources.ApplicationManager_AllVolumes :
+                                    (VolListView.SelectedItem as VolumeDisplayitem)?.Volume.MountPoint + " (" + (VolListView.SelectedItem as VolumeDisplayitem)?.Volume.PackageStorePath.Replace((
+                                          VolListView.SelectedItem as VolumeDisplayitem)?.Volume.MountPoint, (VolListView.SelectedItem as VolumeDisplayitem)?.Volume.Name) + ")";
                 VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
                 TypeDisplayitem selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
                 string filtertext = FilterBox.Text;
@@ -704,14 +671,12 @@ namespace InteropTools.ShellPages.AppManager
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
-
                                 else
                                     if (selectedtype.Type == item.type)
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
                             }
-
                             else
                                 if (item.volume == selectedvol.Volume)
                             {
@@ -719,7 +684,6 @@ namespace InteropTools.ShellPages.AppManager
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
-
                                 else
                                     if (selectedtype.Type == item.type)
                                 {
@@ -752,7 +716,7 @@ namespace InteropTools.ShellPages.AppManager
         {
             if ((TypeListView.SelectedItem as TypeDisplayitem) != null)
             {
-                TypeSelect.Content = (TypeListView.SelectedItem as TypeDisplayitem).TypeName;
+                TypeSelect.Content = (TypeListView.SelectedItem as TypeDisplayitem)?.TypeName;
                 VolumeDisplayitem selectedvol = VolListView.SelectedItem as VolumeDisplayitem;
                 TypeDisplayitem selectedtype = TypeListView.SelectedItem as TypeDisplayitem;
                 string filtertext = FilterBox.Text;
@@ -779,14 +743,12 @@ namespace InteropTools.ShellPages.AppManager
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
-
                                 else
                                     if (selectedtype.Type == item.type)
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
                             }
-
                             else
                                 if (item.volume == selectedvol.Volume)
                             {
@@ -794,7 +756,6 @@ namespace InteropTools.ShellPages.AppManager
                                 {
                                     _filteredItemsListtmp.Add(item);
                                 }
-
                                 else
                                     if (selectedtype.Type == item.type)
                                 {
@@ -812,8 +773,6 @@ namespace InteropTools.ShellPages.AppManager
                 });
             }
         }
-
-
 
         private void SelectButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -841,14 +800,10 @@ namespace InteropTools.ShellPages.AppManager
                 try
                 {
                     IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> task = new PackageManager().RemovePackageAsync(item.FullName, RemovalOptions.None);
-                    await task.AsTask(new Progress<DeploymentProgress>(progress =>
-                    {
-                        LoadingText.Text = string.Format("Uninstalling {0}... ({1}%)", item.FullName, progress.percentage);
-                    }));
+                    await task.AsTask(new Progress<DeploymentProgress>(progress => LoadingText.Text = string.Format("Uninstalling {0}... ({1}%)", item.FullName, progress.percentage)));
                 }
                 catch
                 {
-
                 }
             }
 

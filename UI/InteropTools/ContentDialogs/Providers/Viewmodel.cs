@@ -13,7 +13,6 @@ namespace InteropTools.ContentDialogs.Providers
 {
     public class Viewmodel : DependencyObject
     {
-
         public class DisplayablePlugin
         {
             public BitmapImage Logo { get; set; }
@@ -40,7 +39,7 @@ namespace InteropTools.ContentDialogs.Providers
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private async Task InitAsync()

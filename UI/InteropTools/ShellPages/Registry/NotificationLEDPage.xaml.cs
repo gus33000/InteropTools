@@ -61,7 +61,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 IntensitySlider.Value = int.Parse(regvalue);
             }
-
             catch
             {
             }
@@ -78,7 +77,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 PeriodTextBox.Text = regvalue;
             }
-
             catch
             {
             }
@@ -154,29 +152,27 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         public class DeviceInformationDisplay : INotifyPropertyChanged
         {
-            private DeviceInformation deviceInfo;
-
             public DeviceInformationDisplay(DeviceInformation deviceInfoIn)
             {
-                deviceInfo = deviceInfoIn;
+                DeviceInformation = deviceInfoIn;
                 UpdateGlyphBitmapImage();
             }
 
-            public DeviceInformationKind Kind => deviceInfo.Kind;
+            public DeviceInformationKind Kind => DeviceInformation.Kind;
 
-            public string Id => deviceInfo.Id;
+            public string Id => DeviceInformation.Id;
 
-            public string Name => deviceInfo.Name;
+            public string Name => DeviceInformation.Name;
 
             public BitmapImage GlyphBitmapImage
             {
@@ -184,22 +180,17 @@ namespace InteropTools.ShellPages.Registry
                 private set;
             }
 
-            public bool CanPair => deviceInfo.Pairing.CanPair;
+            public bool CanPair => DeviceInformation.Pairing.CanPair;
 
-            public bool IsPaired => deviceInfo.Pairing.IsPaired;
+            public bool IsPaired => DeviceInformation.Pairing.IsPaired;
 
-            public IReadOnlyDictionary<string, object> Properties => deviceInfo.Properties;
+            public IReadOnlyDictionary<string, object> Properties => DeviceInformation.Properties;
 
-            public DeviceInformation DeviceInformation
-            {
-                get => deviceInfo;
-
-                private set => deviceInfo = value;
-            }
+            public DeviceInformation DeviceInformation { get; }
 
             public void Update(DeviceInformationUpdate deviceInfoUpdate)
             {
-                deviceInfo.Update(deviceInfoUpdate);
+                DeviceInformation.Update(deviceInfoUpdate);
                 OnPropertyChanged("Kind");
                 OnPropertyChanged("Id");
                 OnPropertyChanged("Name");
@@ -211,7 +202,7 @@ namespace InteropTools.ShellPages.Registry
 
             private async void UpdateGlyphBitmapImage()
             {
-                DeviceThumbnail deviceThumbnail = await deviceInfo.GetGlyphThumbnailAsync();
+                DeviceThumbnail deviceThumbnail = await DeviceInformation.GetGlyphThumbnailAsync();
                 BitmapImage glyphBitmapImage = new();
                 await glyphBitmapImage.SetSourceAsync(deviceThumbnail);
                 GlyphBitmapImage = glyphBitmapImage;
@@ -227,11 +218,11 @@ namespace InteropTools.ShellPages.Registry
 
         private async void DeviceGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Id.Text = ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id;
+            Id.Text = ((sender as GridView)?.SelectedItem as DeviceInformationDisplay)?.Id;
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", RegTypes.REG_SZ, string.Join(@"\",
-                                ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
+                                ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", RegTypes.REG_DWORD,
-                                ((sender as GridView).SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
+                                ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", RegTypes.REG_DWORD, "1");
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", RegTypes.REG_DWORD, "60");
             await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", RegTypes.REG_DWORD, uint.MaxValue.ToString());

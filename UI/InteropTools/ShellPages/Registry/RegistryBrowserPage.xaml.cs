@@ -62,7 +62,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 hiveconv = (RegHives)Enum.Parse(typeof(RegHives), id.Split('%')[0]);
             }
-
             catch
             {
             }
@@ -73,7 +72,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 typeconv = (RegistryItemType)Enum.Parse(typeof(RegistryItemType), id.Split('%')[3]);
             }
-
             catch
             {
             }
@@ -84,7 +82,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 regtypeconv = uint.Parse(id.Split('%')[5]);
             }
-
             catch
             {
             }
@@ -132,7 +129,6 @@ namespace InteropTools.ShellPages.Registry
                             itemlist.Add(new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
                         }
                     }
-
                     catch
                     {
                     }
@@ -141,7 +137,6 @@ namespace InteropTools.ShellPages.Registry
 
             return itemlist;
         }
-
 
         private string GetValueTypeName(RegTypes type)
         {
@@ -228,7 +223,7 @@ namespace InteropTools.ShellPages.Registry
             ValueTypeInput.Text = "";
             EditItemTitle.Text = currentEditItem.Name;
 
-            if (currentEditItem.Name == "")
+            if (currentEditItem.Name?.Length == 0)
             {
                 EditItemTitle.Text = "(Default)";
             }
@@ -253,7 +248,6 @@ namespace InteropTools.ShellPages.Registry
                         {
                             EditItemDesc.Text = GetValueTypeName((RegTypes)currentEditItem.ValueType);
                         }
-
                         else
                         {
                             EditItemDesc.Text = "Custom: " + currentEditItem.ValueType;
@@ -382,7 +376,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 BrowserCtrl.ChangeCurrentItem();
             }
-
             else
             {
                 BrowserCtrl.ChangeCurrentItem((RegistryItemCustom)e.ClickedItem);
@@ -405,17 +398,14 @@ namespace InteropTools.ShellPages.Registry
             {
                 HideEditValueDialog();
             }
-
             else if (ValCreateCtrl.Visibility == Visibility.Visible)
             {
                 HideCreateValueDialog();
             }
-
             else if (FavListCtrl.Visibility == Visibility.Visible)
             {
                 HideFavoriteDialog();
             }
-
             else if (!BrowserCtrl.GoBack())
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= RegistryBrowserPage_BackRequested;
@@ -438,17 +428,14 @@ namespace InteropTools.ShellPages.Registry
             {
                 HideEditValueDialog();
             }
-
             else if (ValCreateCtrl.Visibility == Visibility.Visible)
             {
                 HideCreateValueDialog();
             }
-
             else if (FavListCtrl.Visibility == Visibility.Visible)
             {
                 HideFavoriteDialog();
             }
-
             else if (!BrowserCtrl.GoBack())
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= RegistryBrowserPage_BackRequested;
@@ -484,19 +471,18 @@ namespace InteropTools.ShellPages.Registry
                     {
                         ShowKeyUnableToAddMessageBox();
                     }
-
                     else
                     {
                         string path = "";
 
-                        if (!(keypath.Split('\\').Count() - 1 < 0))
+                        if (keypath.Split('\\').Length - 1 >= 0)
                         {
-                            path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Count() - 1));
+                            path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
                         }
 
                         RegistryItemCustom item = new()
                         {
-                            Name = keypath.Split('\\').First(),
+                            Name = keypath.Split('\\')[0],
                             Hive = hive,
                             Key = path,
                             Type = RegistryItemType.KEY,
@@ -597,7 +583,6 @@ namespace InteropTools.ShellPages.Registry
                 hivename = PathInput.Text.Split(char.Parse("\\"))[0];
                 keypath = PathInput.Text.Substring(hivename.Length + 1, PathInput.Text.Length - hivename.Length - 1);
             }
-
             else
             {
                 hivename = PathInput.Text;
@@ -640,7 +625,6 @@ namespace InteropTools.ShellPages.Registry
                     });
                 });
             }
-
             else
             {
                 KeyActionButton.IsEnabled = false;
@@ -658,7 +642,6 @@ namespace InteropTools.ShellPages.Registry
                 hivename = PathInput.Text.Split(char.Parse("\\"))[0];
                 keypath = PathInput.Text.Substring(hivename.Length + 1, PathInput.Text.Length - hivename.Length - 1);
             }
-
             else
             {
                 hivename = PathInput.Text;
@@ -682,7 +665,7 @@ namespace InteropTools.ShellPages.Registry
                                     {
                                         string path = "";
 
-                                        if (!(keypath.Split('\\').Length - 1 < 0))
+                                        if (keypath.Split('\\').Length - 1 >= 0)
                                         {
                                             path = string.Join(@"\",
                                                                keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
@@ -690,7 +673,7 @@ namespace InteropTools.ShellPages.Registry
 
                                         RegistryItemCustom item = new()
                                         {
-                                            Name = keypath.Split('\\').First(),
+                                            Name = keypath.Split('\\')[0],
                                             Hive = hive,
                                             Key = path,
                                             Type = RegistryItemType.KEY,
@@ -699,7 +682,6 @@ namespace InteropTools.ShellPages.Registry
                                         };
                                         BrowserCtrl.ChangeCurrentItem(item);
                                     }
-
                                     else
                                     {
                                         RegistryItemCustom item = new()
@@ -793,7 +775,6 @@ namespace InteropTools.ShellPages.Registry
                     ).Start();
                 }
             }
-
             else
             {
                 if (App.Fancyness)
@@ -832,7 +813,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 keypath = BrowserCtrl._currentRegItem.Name;
             }
-
             else
             {
                 keypath = keypath + @"\" + BrowserCtrl._currentRegItem.Name;
@@ -850,7 +830,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 BrowserCtrl.ChangeCurrentItem();
             }
-
             else
             {
                 BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
@@ -884,12 +863,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void BrowserControl_OnCurrentItemChanged(object sender,
@@ -923,9 +902,8 @@ namespace InteropTools.ShellPages.Registry
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = e.newItem });
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
-
                     else
-                        if ((e.newItem.Key == "") || (e.newItem.Key == null))
+                        if ((e.newItem.Key?.Length == 0) || (e.newItem.Key == null))
                     {
                         BreadCrumbBarIcon.Text = "";
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
@@ -933,7 +911,6 @@ namespace InteropTools.ShellPages.Registry
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Name, ItemObject = e.newItem });
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
-
                     else
                     {
                         BreadCrumbBarIcon.Text = "";
@@ -945,11 +922,10 @@ namespace InteropTools.ShellPages.Registry
                         {
                             BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = item, ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = current, Name = item, Type = RegistryItemType.KEY, Value = null, ValueType = 0 } });
 
-                            if (current == "")
+                            if (current?.Length == 0)
                             {
                                 current = item;
                             }
-
                             else
                             {
                                 current = current + @"\" + item;
@@ -960,7 +936,6 @@ namespace InteropTools.ShellPages.Registry
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
                 }
-
                 else
                 {
                     _ = e.newItem.Key ?? "";
@@ -970,7 +945,6 @@ namespace InteropTools.ShellPages.Registry
                     //.Init();
                 }
             }
-
             else
             {
                 ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new()
@@ -1065,7 +1039,6 @@ namespace InteropTools.ShellPages.Registry
                     return val;
                 }
             }
-
             catch
             {
             }
@@ -1094,7 +1067,6 @@ namespace InteropTools.ShellPages.Registry
                 {
                     BrowserCtrl.ChangeCurrentItem();
                 }
-
                 else
                 {
                     BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
@@ -1120,7 +1092,6 @@ namespace InteropTools.ShellPages.Registry
                             uint.Parse(str);
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -1134,7 +1105,6 @@ namespace InteropTools.ShellPages.Registry
                             ulong.Parse(str);
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -1164,7 +1134,6 @@ namespace InteropTools.ShellPages.Registry
 
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -1172,7 +1141,6 @@ namespace InteropTools.ShellPages.Registry
                     }
             }
         }
-
 
         private static byte[] StringToByteArrayFastest(string hex)
         {
@@ -1185,7 +1153,7 @@ namespace InteropTools.ShellPages.Registry
 
             for (int i = 0; i < (hex.Length >> 1); ++i)
             {
-                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
+                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
 
             return arr;
@@ -1202,7 +1170,6 @@ namespace InteropTools.ShellPages.Registry
             return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
 
-
         private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
             if (ValueDataInput != null)
@@ -1212,7 +1179,6 @@ namespace InteropTools.ShellPages.Registry
                     ValEditAccept.IsEnabled = true;
                     ValueDataBorder.BorderThickness = new Thickness(0);
                 }
-
                 else
                 {
                     ValEditAccept.IsEnabled = false;
@@ -1232,7 +1198,6 @@ namespace InteropTools.ShellPages.Registry
                         ValEditAccept.IsEnabled = true;
                         ValueDataBorder.BorderThickness = new Thickness(0);
                     }
-
                     else
                     {
                         ValEditAccept.IsEnabled = false;
@@ -1240,7 +1205,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             }
-
             catch
             {
             }
@@ -1261,7 +1225,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 keypath = BrowserCtrl._currentRegItem.Name;
             }
-
             else
             {
                 keypath = keypath + @"\" + BrowserCtrl._currentRegItem.Name;
@@ -1279,7 +1242,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 BrowserCtrl.ChangeCurrentItem();
             }
-
             else
             {
                 BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);
@@ -1306,7 +1268,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             }
-
             catch
             {
             }
@@ -1330,7 +1291,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             }
-
             catch
             {
             }
@@ -1387,7 +1347,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             }
-
             catch
             {
             }
@@ -1477,7 +1436,6 @@ namespace InteropTools.ShellPages.Registry
                     return val;
                 }
             }
-
             catch
             {
             }
@@ -1523,7 +1481,7 @@ namespace InteropTools.ShellPages.Registry
 
         private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            BrowserCtrl.ChangeCurrentItem((e.ClickedItem as BrowserControl.Item).regitem);
+            BrowserCtrl.ChangeCurrentItem((e.ClickedItem as BrowserControl.Item)?.regitem);
             HideFavoriteDialog();
         }
 
@@ -1556,7 +1514,6 @@ namespace InteropTools.ShellPages.Registry
                     {
                         BrowserCtrl.ChangeCurrentItem();
                     }
-
                     else
                     {
                         BrowserCtrl.ChangeCurrentItem(BrowserCtrl._currentRegItem);

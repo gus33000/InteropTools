@@ -18,7 +18,7 @@ namespace Intense
         /// <returns></returns>
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
         {
-            HashSet<TKey> keys = new HashSet<TKey>();
+            HashSet<TKey> keys = new();
             foreach (T element in source)
             {
                 if (keys.Add(keySelector(element)))

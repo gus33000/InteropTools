@@ -10,7 +10,7 @@ namespace RegistryHelper
 {
     public sealed class WinPRTUtilsProvider : IRegistryProvider
     {
-        private static readonly Dictionary<REG_VALUE_TYPE, int> _winprtvaltypes = new Dictionary<REG_VALUE_TYPE, int>
+        private static readonly Dictionary<REG_VALUE_TYPE, int> _winprtvaltypes = new()
         {
             { REG_VALUE_TYPE.REG_NONE , 0 },
             { REG_VALUE_TYPE.REG_SZ , 1 },
@@ -76,7 +76,7 @@ namespace RegistryHelper
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
-            List<REG_ITEM> list = new List<REG_ITEM>();
+            List<REG_ITEM> list = new();
 
             if (hive == null)
             {
@@ -394,7 +394,7 @@ namespace RegistryHelper
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM_CUSTOM> items)
         {
-            List<REG_ITEM_CUSTOM> list = new List<REG_ITEM_CUSTOM>();
+            List<REG_ITEM_CUSTOM> list = new();
 
             if (hive == null)
             {

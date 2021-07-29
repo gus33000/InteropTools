@@ -8,7 +8,7 @@ namespace Intense.UI
     /// </summary>
     public static class DependencyObjectExtensions
     {
-        private static readonly DependencyObjectHierarchyService service = new DependencyObjectHierarchyService();
+        private static readonly DependencyObjectHierarchyService service = new();
 
         /// <summary>
         /// Returns a collection of ancestors of specified object.

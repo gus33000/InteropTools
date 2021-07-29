@@ -8,7 +8,6 @@ namespace InteropTools.AppExtensibilityDefinition
 {
     public abstract class AppExtensibilityDefinition : AbstractPlugin<string, string, double>//TransfareOptions
     {
-
         public const string PLUGIN_NAME = "InteropTools.External.AppExtensibility";
 
         protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)//, TransfareOptions options

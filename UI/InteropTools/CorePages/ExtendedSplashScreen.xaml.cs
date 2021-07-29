@@ -1,16 +1,15 @@
-﻿using InteropTools.Presentation;
+﻿using InteropTools.Classes;
+using InteropTools.Presentation;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Graphics.Display;
 using Windows.Storage;
-using Windows.System.Profile;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -19,6 +18,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,13 +29,74 @@ namespace InteropTools.CorePages
     /// </summary>
     public sealed partial class ExtendedSplashScreen : Page
     {
-        internal Rect splashImageRect; // Rect to store splash screen image coordinates.
-        private readonly SplashScreen splash; // Variable to hold the splash screen object.
-        internal bool dismissed = false; // Variable to track splash screen dismissal status.
-        internal Frame rootFrame;
-        private readonly double ScaleFactor;
-        private readonly object args;
+        private Rect splashImageRect;       // Rect to store splash screen image coordinates.
+        private SplashScreen splashScreen; // Variable to hold the splash screen object.
 
+        private object arguments;
+
+        public delegate void Dismissed(ExtendedSplashScreen splash);
+
+        public static event Dismissed OnDismissed = null;
+
+        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
+
+        public ExtendedSplashScreen()
+        {
+            InitializeComponent();
+
+            // Listen for window resize events to reposition the extended splash screen image accordingly.
+            // This ensures that the extended splash screen formats properly in response to window resizing.
+            Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
+
+            SetupTitleBar();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is LaunchActivatedEventArgs e2)
+            {
+                splashScreen = e2.SplashScreen;
+                arguments = e2.Arguments;
+            }
+            else if (e.Parameter is FileActivatedEventArgs e1)
+            {
+                splashScreen = e1.SplashScreen;
+                arguments = e1.Files[0] as StorageFile;
+            }
+            else if (e.Parameter is IActivatedEventArgs e3)
+            {
+                splashScreen = e3.SplashScreen;
+                arguments = e3;
+            }
+
+            if (splashScreen != null)
+            {
+                // Register an event handler to be executed when the splash screen has been dismissed.
+                splashScreen.Dismissed += new TypedEventHandler<SplashScreen, object>(DismissedEventHandler);
+
+                // Retrieve the window coordinates of the splash screen image.
+                splashImageRect = splashScreen.ImageLocation;
+                PositionImage();
+                PositionRing();
+            }
+            else
+            {
+                _ = ThreadPool.RunAsync((o) =>
+                {
+                    OnDismissed?.Invoke(this);
+
+                    if (OnDismissed != null)
+                    {
+                        foreach (Delegate d in OnDismissed.GetInvocationList())
+                        {
+                            OnDismissed -= (Dismissed)d;
+                        }
+                    }
+                });
+            }
+
+            base.OnNavigatedTo(e);
+        }
 
         private void SetupTitleBar()
         {
@@ -58,19 +119,20 @@ namespace InteropTools.CorePages
                 titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
             }
 
-
             if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
             {
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            Windows.UI.Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Windows.UI.Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
             hovercolor.A = 32;
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
             hovercolor.A = 64;
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
+
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
 
         private void FlipViewItem_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -81,198 +143,87 @@ namespace InteropTools.CorePages
             }
         }
 
-        public ExtendedSplashScreen(SplashScreen splashscreen, bool loadState, object args)
+        private async Task ShowLoadingUIAsync()
         {
-            ViewModel = new SettingsViewModel();
-            this.args = args;
-            RequestedTheme = ElementTheme.Dark;
-            ScaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            InitializeComponent();
-            Loaded += ExtendedSplashScreen_Loaded;
-            SetupTitleBar();
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            // Listen for window resize events to reposition the extended splash screen image accordingly.
-            // This is important to ensure that the extended splash screen is formatted properly in response to snapping, unsnapping, rotation, etc...
-            Window.Current.SizeChanged += new WindowSizeChangedEventHandler(ExtendedSplash_OnResize);
-            splash = splashscreen;
-
-            if (splash != null)
-            {
-                // Register an event handler to be executed when the splash screen has been dismissed.
-                splash.Dismissed += new TypedEventHandler<SplashScreen, object>(DismissedEventHandler);
-                // Retrieve the window coordinates of the splash screen image.
-                splashImageRect = splash.ImageLocation;
-                PositionImage();
-                // Optional: Add a progress ring to your splash screen to show users that content is loading
-                PositionRing();
-            }
-
-            // Create a Frame to act as the navigation context
-            rootFrame = new Frame();
-            // Restore the saved session state if necessary
-            RestoreStateAsync(loadState);
-        }
-
-        public SettingsViewModel ViewModel { get; }
-
-        private async void ExtendedSplashScreen_Loaded(object sender, RoutedEventArgs e)
-        {
-            new SettingsViewModel();
-            await FadeInBg.BeginAsync();
-            string devicefamily = AnalyticsInfo.VersionInfo.DeviceFamily;
-            string tileimg;
-            switch (devicefamily.ToLower())
-            {
-                case "windows.desktop":
-                    {
-                        tileimg = "desktop";
-                        break;
-                    }
-
-                case "windows.xbox":
-                    {
-                        tileimg = "xbox";
-                        break;
-                    }
-
-                case "windows.holographic":
-                    {
-                        tileimg = "holographic";
-                        break;
-                    }
-
-                case "windows.team":
-                    {
-                        tileimg = "team";
-                        break;
-                    }
-
-                case "windows.iot":
-                    {
-                        tileimg = "iot";
-                        break;
-                    }
-
-                case "windows.mobile":
-                    {
-                        tileimg = "phone";
-                        break;
-                    }
-
-                default:
-                    {
-                        tileimg = "generic";
-                        break;
-                    }
-            }
-
-            extendedSplashImage2.Source = new BitmapImage(new Uri("ms-appx:///Assets/Tiles/" + tileimg + ".png"));
-            Assembly assembly = GetType().GetTypeInfo().Assembly;
-            Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
-            string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
-            PackageVersion appver = Package.Current.Id.Version;
-            string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
-            string buildString = appverstr + " (fbl_prerelease(gustavem)";
-            Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
-
-            if (myType != null)
-            {
-                buildString += "/private";
-            }
-
-            buildString = buildString + "." + builddate + ")";
+            string buildString = VersionHelper.GetBuildString();
             VersionText.Text = buildString;
+
+            await FadeInBg.BeginAsync();
+
+            extendedSplashImage2.Source = new BitmapImage(new Uri(DeviceFamilyAssetHelper.GetTileAssetPath("Tiles")));
+
             await FadeInLogoSwitch.BeginAsync();
 
             ApplicationData applicationData = ApplicationData.Current;
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
-            if (localSettings.Values["EULAAccepted"] as bool? != true)
+            if ((localSettings.Values["EULAAccepted"] as bool?) != true)
             {
                 LoadingPanel.Visibility = Visibility.Collapsed;
                 EULAFlipView.Visibility = Visibility.Visible;
             }
-            else if (localSettings.Values["LastVersion"] as string != string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision))
+            else if ((localSettings.Values["LastVersion"] as string) != buildString)
             {
-                localSettings.Values["LastVersion"] = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
+                localSettings.Values["LastVersion"] = buildString;
                 LoadingPanel.Visibility = Visibility.Collapsed;
                 OOBEFlipView.Visibility = Visibility.Visible;
                 OOBEFlipView.SelectedIndex = 0;
             }
             else
             {
-                App.AddNewSession(args);
+                SessionManager.AddNewSession(arguments);
             }
         }
 
-        private static async Task RunInUiThread(Action function)
+        private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
         {
-            await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
-        }
-
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => { function(); });
-        }
-
-        private async void RestoreStateAsync(bool loadState)
-        {
-            if (loadState)
+            // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
+            if (splashScreen != null)
             {
-                // TODO: write code to load state
+                // Update the coordinates of the splash screen image.
+                splashImageRect = splashScreen.ImageLocation;
+                PositionImage();
+                PositionRing();
             }
         }
 
         // Position the extended splash screen image in the same location as the system splash screen image.
         private void PositionImage()
         {
-            extendedSplashImage.SetValue(Canvas.LeftProperty, splashImageRect.Left);
-            extendedSplashImage.SetValue(Canvas.TopProperty, splashImageRect.Top);
-            extendedSplashImage.Height = splashImageRect.Height;
-            extendedSplashImage.Width = splashImageRect.Width;
+            PositionImage(extendedSplashImage);
+            PositionImage(extendedSplashImage2);
+        }
 
-            extendedSplashImage2.SetValue(Canvas.LeftProperty, splashImageRect.Left);
-            extendedSplashImage2.SetValue(Canvas.TopProperty, splashImageRect.Top);
-            extendedSplashImage2.Height = splashImageRect.Height;
-            extendedSplashImage2.Width = splashImageRect.Width;
+        private void PositionImage(Image SplashImage)
+        {
+            if (SystemInformation.DeviceFamily != "Windows.Xbox")
+            {
+                SplashImage.SetValue(Canvas.LeftProperty, splashImageRect.X);
+                SplashImage.SetValue(Canvas.TopProperty, splashImageRect.Y);
+                SplashImage.Height = splashImageRect.Height;
+                SplashImage.Width = splashImageRect.Width;
+            }
         }
 
         private void PositionRing()
         {
             splashProgressRing.SetValue(Canvas.LeftProperty, splashImageRect.X + (splashImageRect.Width * 0.5) - (splashProgressRing.Width * 0.5));
-            splashProgressRing.SetValue(Canvas.TopProperty, (splashImageRect.Y + splashImageRect.Height + splashImageRect.Height * 0.1));
+            splashProgressRing.SetValue(Canvas.TopProperty, splashImageRect.Y + splashImageRect.Height + (splashImageRect.Height * 0.1));
         }
 
-        private void ExtendedSplash_OnResize(object sender, WindowSizeChangedEventArgs e)
-        {
-            // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
-            if (splash != null)
-            {
-                // Update the coordinates of the splash screen image.
-                splashImageRect = splash.ImageLocation;
-                PositionImage();
-                PositionRing();
-            }
-        }
-
-        // Include code to be executed when the system has transitioned from the splash screen to the extended splash screen (application's first view).
         private async void DismissedEventHandler(SplashScreen sender, object e)
         {
-            dismissed = true;
-            // Complete app setup operations here...
-            // Safely update the extended splash screen image coordinates. This function will be fired in response to snapping, unsnapping, rotation, etc...
-            await RunInUiThread(() =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => await ShowLoadingUIAsync());
+
+            OnDismissed?.Invoke(this);
+
+            if (OnDismissed != null)
             {
-                if (sender != null)
+                foreach (Delegate d in OnDismissed.GetInvocationList())
                 {
-                    // Update the coordinates of the splash screen image.
-                    splashImageRect = sender.ImageLocation;
-                    PositionImage();
-                    PositionRing();
+                    OnDismissed -= (Dismissed)d;
                 }
-            });
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -291,13 +242,7 @@ namespace InteropTools.CorePages
         {
             OOBEFlipView.Visibility = Visibility.Collapsed;
             LoadingPanel.Visibility = Visibility.Visible;
-            RunInThreadPool(async () =>
-            {
-                await RunInUiThread(() =>
-                {
-                    App.AddNewSession(args);
-                });
-            });
+            SessionManager.AddNewSession(arguments);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -317,7 +262,7 @@ namespace InteropTools.CorePages
 
             PackageVersion appver = Package.Current.Id.Version;
 
-            if (localSettings.Values["LastVersion"] as string != string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision))
+            if ((localSettings.Values["LastVersion"] as string) != string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision))
             {
                 localSettings.Values["LastVersion"] = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
                 LoadingPanel.Visibility = Visibility.Collapsed;
@@ -326,7 +271,7 @@ namespace InteropTools.CorePages
             }
             else
             {
-                App.AddNewSession(args);
+                SessionManager.AddNewSession(arguments);
             }
         }
     }

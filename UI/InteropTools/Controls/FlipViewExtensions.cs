@@ -7,21 +7,21 @@ using Windows.UI.Xaml.Controls;
 
 namespace InteropTools.Controls
 {
-    /// <summary> 
-    /// FlipView Extensions 
-    /// </summary> 
+    /// <summary>
+    /// FlipView Extensions
+    /// </summary>
     public class FlipViewExtensions
     {
         #region Classes 
-        /// <summary> 
-        /// FlipView list 
-        /// </summary> 
+        /// <summary>
+        /// FlipView list
+        /// </summary>
         protected class FlipViewList : List<object>
         {
-            /// <summary> 
-            /// Initializes a new instance of the FlipViewList class. 
-            /// </summary> 
-            /// <param name="collection">the initial collection</param> 
+            /// <summary>
+            /// Initializes a new instance of the FlipViewList class.
+            /// </summary>
+            /// <param name="collection">the initial collection</param>
             public FlipViewList(IEnumerable<object> collection) :
                 base(collection)
             {
@@ -30,9 +30,9 @@ namespace InteropTools.Controls
         #endregion
 
         #region Fields 
-        /// <summary> 
-        /// IsLooping attached property for FlipView 
-        /// </summary> 
+        /// <summary>
+        /// IsLooping attached property for FlipView
+        /// </summary>
         public static readonly DependencyProperty IsLoopingProperty =
             DependencyProperty.RegisterAttached(
                 "IsLooping",
@@ -42,21 +42,21 @@ namespace InteropTools.Controls
         #endregion
 
         #region Methods 
-        /// <summary> 
-        /// Gets a value indicating whether this is a looping FlipView 
-        /// </summary> 
-        /// <param name="obj">the flipView</param> 
-        /// <returns>true if the list loops</returns> 
+        /// <summary>
+        /// Gets a value indicating whether this is a looping FlipView
+        /// </summary>
+        /// <param name="obj">the flipView</param>
+        /// <returns>true if the list loops</returns>
         public static bool GetIsLooping(FlipView obj)
         {
             return (bool)obj.GetValue(IsLoopingProperty);
         }
 
-        /// <summary> 
-        /// Sets a value indicating whether the FlipView loops 
-        /// </summary> 
-        /// <param name="obj">the FlipView</param> 
-        /// <param name="value">true if the list loops</param> 
+        /// <summary>
+        /// Sets a value indicating whether the FlipView loops
+        /// </summary>
+        /// <param name="obj">the FlipView</param>
+        /// <param name="value">true if the list loops</param>
         public static void SetIsLooping(FlipView obj, bool value)
         {
             obj.SetValue(IsLoopingProperty, value);
@@ -65,11 +65,11 @@ namespace InteropTools.Controls
 
         #region Implementation 
 
-        /// <summary> 
-        /// Initialize the selection changed handler and the list if the ItemsSource is set 
-        /// </summary> 
-        /// <param name="dependencyObject">the FlipView</param> 
-        /// <param name="args">the dependency property changed event arguments</param> 
+        /// <summary>
+        /// Initialize the selection changed handler and the list if the ItemsSource is set
+        /// </summary>
+        /// <param name="dependencyObject">the FlipView</param>
+        /// <param name="args">the dependency property changed event arguments</param>
         private static void OnIsLoopingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             FlipView flipView = dependencyObject as FlipView;
@@ -103,25 +103,20 @@ namespace InteropTools.Controls
             }
         }
 
-        /// <summary> 
-        /// Replace the FlipView.ItemsSource with a FlipView list that has 
-        /// duplicate items at the head and tail 
-        /// </summary> 
-        /// <param name="flipView">the FlipView</param> 
-        /// <returns>the number of items in the FlipView.ItemsSource</returns> 
+        /// <summary>
+        /// Replace the FlipView.ItemsSource with a FlipView list that has
+        /// duplicate items at the head and tail
+        /// </summary>
+        /// <param name="flipView">the FlipView</param>
+        /// <returns>the number of items in the FlipView.ItemsSource</returns>
         private static int Initialize(FlipView flipView)
         {
             flipView.SelectionChanged -= flipView_SelectionChanged;
 
-
             if (flipView.ItemsSource is INotifyCollectionChanged collectionChanged)
             {
-                collectionChanged.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e)
-                {
-                    UpdateList(flipView, sender as IEnumerable);
-                };
+                collectionChanged.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => UpdateList(flipView, sender as IEnumerable);
             }
-
 
             if (flipView.ItemsSource is IEnumerable enumerable)
             {
@@ -145,11 +140,11 @@ namespace InteropTools.Controls
             return 0;
         }
 
-        /// <summary> 
-        /// Update the list 
-        /// </summary> 
-        /// <param name="flipView">the FlipView</param> 
-        /// <param name="enumerable">the enumerable collection</param> 
+        /// <summary>
+        /// Update the list
+        /// </summary>
+        /// <param name="flipView">the FlipView</param>
+        /// <param name="enumerable">the enumerable collection</param>
         private static void UpdateList(FlipView flipView, IEnumerable enumerable)
         {
             object selection = flipView.SelectedItem;
@@ -166,15 +161,14 @@ namespace InteropTools.Controls
             flipView.SelectedItem = selection;
         }
 
-        /// <summary> 
-        /// swaps the selected index if the beginning or end is reached 
-        /// </summary> 
-        /// <param name="sender">the FlipView</param> 
-        /// <param name="e">the selection changed event arguments</param> 
+        /// <summary>
+        /// swaps the selected index if the beginning or end is reached
+        /// </summary>
+        /// <param name="sender">the FlipView</param>
+        /// <param name="e">the selection changed event arguments</param>
         private static void flipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FlipView flipView = sender as FlipView;
-
 
             int count;
             if (flipView.ItemsSource is not FlipViewList list)

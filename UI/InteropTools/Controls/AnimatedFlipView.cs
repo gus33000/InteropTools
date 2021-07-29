@@ -134,11 +134,8 @@ namespace InteropTools.Controls
         private static void OnScrollViewerChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
-            ScrollViewer scrollViewer = (ScrollViewer)(e.NewValue);
-            if (null != scrollViewer)
-            {
-                scrollViewer.ScrollToVerticalOffset(mediator.VerticalOffset);
-            }
+            ScrollViewer scrollViewer = (ScrollViewer)e.NewValue;
+            scrollViewer?.ScrollToVerticalOffset(mediator.VerticalOffset);
         }
 
         /// <summary>
@@ -159,10 +156,7 @@ namespace InteropTools.Controls
         public static void OnVerticalOffsetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
-            if (null != mediator.ScrollViewer)
-            {
-                mediator.ScrollViewer.ScrollToVerticalOffset((double)(e.NewValue));
-            }
+            mediator.ScrollViewer?.ScrollToVerticalOffset((double)e.NewValue);
         }
         /// <summary>
         /// Multiplier for ScrollableHeight property to forward to the ScrollViewer.
@@ -187,10 +181,7 @@ namespace InteropTools.Controls
         {
             ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
             ScrollViewer scrollViewer = mediator.ScrollViewer;
-            if (null != scrollViewer)
-            {
-                scrollViewer.ScrollToVerticalOffset((double)(e.NewValue) * scrollViewer.ScrollableHeight);
-            }
+            scrollViewer?.ScrollToVerticalOffset((double)e.NewValue * scrollViewer.ScrollableHeight);
         }
 
         /// <summary>
@@ -211,10 +202,7 @@ namespace InteropTools.Controls
         public static void OnHorizontalOffsetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
-            if (null != mediator.ScrollViewer)
-            {
-                mediator.ScrollViewer.ScrollToHorizontalOffset((double)(e.NewValue));
-            }
+            mediator.ScrollViewer?.ScrollToHorizontalOffset((double)e.NewValue);
         }
         /// <summary>
         /// Multiplier for ScrollableWidth property to forward to the ScrollViewer.
@@ -239,10 +227,7 @@ namespace InteropTools.Controls
         {
             ScrollViewerOffsetMediator mediator = (ScrollViewerOffsetMediator)o;
             ScrollViewer scrollViewer = mediator.ScrollViewer;
-            if (null != scrollViewer)
-            {
-                scrollViewer.ScrollToHorizontalOffset((double)(e.NewValue) * scrollViewer.ScrollableWidth);
-            }
+            scrollViewer?.ScrollToHorizontalOffset((double)e.NewValue * scrollViewer.ScrollableWidth);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace InteropTools.Classes
         public async Task<UnlockStates> UnlockSSHSystemAccess()
         {
             IRegistryProvider helper = App.MainRegistryHelper;
-            CorePages.Shell shell = ((CorePages.Shell)App.AppContent);
-            bool useCMD = await App.IsCMDSupported();
+            CorePages.Shell shell = (CorePages.Shell)App.AppContent;
+            bool useCMD = await SessionManager.IsCMDSupported();
 
             if (useCMD)
             {
@@ -66,7 +66,7 @@ namespace InteropTools.Classes
                 ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                    RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
-                if ((regvalue == null) || (regvalue == ""))
+                if ((regvalue == null) || (regvalue?.Length == 0))
                 {
                     await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                        RegTypes.REG_SZ, "Sirepuser");
@@ -75,7 +75,7 @@ namespace InteropTools.Classes
                 bool add
                       = true;
 
-                string username = "InteropTools";
+                const string username = "InteropTools";
                 ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                    RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
@@ -90,7 +90,6 @@ namespace InteropTools.Classes
                         }
                     }
                 }
-
                 else
                 {
                     if (regvalue.ToLower() == username.ToLower())
@@ -109,7 +108,7 @@ namespace InteropTools.Classes
                     await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                        "auth-method", RegTypes.REG_SZ, "password");
                     await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                       "user-pin", RegTypes.REG_SZ, App.SessionId);
+                                       "user-pin", RegTypes.REG_SZ, SessionManager.SessionId);
                     await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                        "subsystems", RegTypes.REG_SZ, "default,sftp");
                     await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
@@ -140,7 +139,7 @@ namespace InteropTools.Classes
                 try
                 {
                     string Server = helper.GetHostName();
-                    string Username = "InteropTools";
+                    const string Username = "InteropTools";
                     string Password = regvalue;
                     PasswordConnectionInfo coninfo = new(Server, Username, Password)
                     {
@@ -180,7 +179,6 @@ namespace InteropTools.Classes
 
                     return UnlockStates.DONE_NEEDS_REBOOT;
                 }
-
                 catch
                 {
                     HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");
@@ -193,7 +191,6 @@ namespace InteropTools.Classes
                     return UnlockStates.FAILED;
                 }
             }
-
             catch
             {
                 HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");

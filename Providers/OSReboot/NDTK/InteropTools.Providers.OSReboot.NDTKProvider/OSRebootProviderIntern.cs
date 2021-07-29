@@ -34,7 +34,6 @@ using Windows.ApplicationModel.Background;
 
 namespace InteropTools.Providers.OSReboot.NDTKProvider
 {
-
     public sealed class OSRebootProvider : IBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new OSRebootProviderIntern();
@@ -53,11 +52,11 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
         {
             string[] arr = input.Split(new string[] { "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" }, StringSplitOptions.None);
 
-            string operation = arr.First();
+            string operation = arr[0];
             Enum.TryParse(operation, true, out REBOOT_OPERATION operationenum);
 
-            List<List<string>> returnvalue = new List<List<string>>();
-            List<string> returnvalue2 = new List<string>();
+            List<List<string>> returnvalue = new();
+            List<string> returnvalue2 = new();
 
             if (provider.IsSupported(operationenum))
             {
@@ -76,7 +75,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
             }
             else
             {
-                returnvalue2.Add(REBOOT_STATUS.NOT_SUPPORTED.ToString());
+                returnvalue2.Add(nameof(REBOOT_STATUS.NOT_SUPPORTED));
 
                 returnvalue.Add(returnvalue2);
             }
@@ -98,7 +97,6 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 
             return returnstr;
         }
-
 
         protected override Task<Options> GetOptions()
         {

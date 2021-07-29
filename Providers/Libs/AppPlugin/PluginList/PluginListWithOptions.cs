@@ -7,13 +7,10 @@ using Windows.Foundation.Collections;
 
 namespace AppPlugin.PluginList
 {
-
     public class PluginList<TIn, TOut, TOption, TProgress> : AbstractPluginList<TOut, PluginList<TIn, TOut, TOption, TProgress>.PluginProvider>
     {
-
         internal PluginList(string pluginName) : base(pluginName)
         {
-
         }
 
         public new sealed class PluginProvider : AbstractPluginList<TOut, PluginProvider>.PluginProvider, IPlugin<TIn, TOut, TOption, TProgress>
@@ -24,7 +21,6 @@ namespace AppPlugin.PluginList
             {
                 PrototypeOptions = GetPlugin(null, default).ContinueWith(x => x.Result.RequestOptionsAsync()).Unwrap();
             }
-
 
             private Task<PluginConnection> GetPlugin(IProgress<TProgress> progress, CancellationToken cancelTokem)
             {
@@ -53,7 +49,6 @@ namespace AppPlugin.PluginList
             private readonly CancellationToken cancelTokem;
             private readonly Guid id = Guid.NewGuid();
 
-
             private PluginConnection(AppServiceConnection connection, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
             {
                 this.connection = connection;
@@ -66,7 +61,7 @@ namespace AppPlugin.PluginList
 
             private async void Canceld()
             {
-                ValueSet valueSet = new ValueSet
+                ValueSet valueSet = new()
                 {
                     { AbstractPlugin<object, object, object>.ID_KEY, id },
                     { AbstractPlugin<object, object, object>.CANCEL_KEY, true }
@@ -82,7 +77,7 @@ namespace AppPlugin.PluginList
                     throw new ObjectDisposedException(ToString());
                 }
 
-                ValueSet inputs = new ValueSet
+                ValueSet inputs = new()
                 {
                     { AbstractPlugin<object, object, object>.OPTIONS_REQUEST_KEY, true }
                 };
@@ -138,7 +133,6 @@ namespace AppPlugin.PluginList
 
                 TProgress progress = Helper.DeSerilize<TProgress>(progressString);
 
-
                 this.progress?.Report(progress);
                 await args.Request.SendResponseAsync(new ValueSet());
             }
@@ -150,9 +144,9 @@ namespace AppPlugin.PluginList
 
             public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
             {
-                AppServiceConnection connection = new AppServiceConnection();
+                AppServiceConnection connection = new();
 
-                PluginConnection pluginConnection = new PluginConnection(connection, progress, cancelTokem);
+                PluginConnection pluginConnection = new(connection, progress, cancelTokem);
                 connection.AppServiceName = serviceName;
 
                 connection.PackageFamilyName = appExtension.Package.Id.FamilyName;
@@ -167,7 +161,7 @@ namespace AppPlugin.PluginList
                 else
                 {
                     //Clean up before we go
-                    Exceptions.ConnectionFailureException exception = new Exceptions.ConnectionFailureException(status, connection);
+                    Exceptions.ConnectionFailureException exception = new(status, connection);
                     connection.Dispose();
                     throw exception;
                 }
@@ -194,7 +188,7 @@ namespace AppPlugin.PluginList
                 string inputString = Helper.Serilize(input);
                 string optionString = Helper.Serilize(option);
 
-                ValueSet inputs = new ValueSet
+                ValueSet inputs = new()
                 {
                     { AbstractPlugin<object, object, object>.START_KEY, inputString },
                     { AbstractPlugin<object, object, object>.OPTION_KEY, optionString },
@@ -228,7 +222,6 @@ namespace AppPlugin.PluginList
                 TOut output = Helper.DeSerilize<TOut>(outputString);
 
                 return output;
-
             }
         }
     }

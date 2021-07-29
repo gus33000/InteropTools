@@ -30,9 +30,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
     internal class WinRTRegProvider : IRegProvider
     {
-        private readonly RegistryRT.Registry helper = new RegistryRT.Registry();
+        private readonly RegistryRT.Registry helper = new();
 
-        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
+        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new()
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT },
             { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER },
@@ -44,7 +44,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
+        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new()
         {
             { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
             { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
@@ -60,7 +60,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             { REG_VALUE_TYPE.REG_QWORD, RegistryType.Long }
         };
 
-
         public bool IsSupported(REG_OPERATION operation)
         {
             try
@@ -69,7 +68,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
             catch
             {
-
             }
             return true;
         }
@@ -117,7 +115,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
-            List<REG_ITEM> list = new List<REG_ITEM>();
+            List<REG_ITEM> list = new();
 
             if (hive == null)
             {
@@ -164,7 +162,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         {
                             list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, Data = null, ValueType = type });
                         }
-
                     }
                 }
 
@@ -176,7 +173,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
             catch
             {
-
             }
 
             items = new List<REG_ITEM>();
@@ -201,7 +197,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             }
             catch
             {
-
             }
             return REG_KEY_STATUS.NOT_FOUND;
         }

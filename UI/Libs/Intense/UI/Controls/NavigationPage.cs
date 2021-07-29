@@ -54,10 +54,7 @@ namespace Intense.UI.Controls
             //  5) two way SelectedItem binding result in SelectedItem to be result to null
 
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            Task.Delay(10).ContinueWith(t =>
-            {
-                page.OnNavigationItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue);
-            }, scheduler);
+            Task.Delay(10).ContinueWith(t => page.OnNavigationItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue), scheduler);
         }
 
         /// <summary>

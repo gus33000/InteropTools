@@ -31,7 +31,7 @@ namespace InteropTools.ContentDialogs.SSH
 
             string regvalue = ret.regvalue;
 
-            if ((regvalue == null) || (regvalue == ""))
+            if ((regvalue == null) || (regvalue?.Length == 0))
             {
                 await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                    RegTypes.REG_SZ, "Sirepuser");
@@ -67,7 +67,6 @@ namespace InteropTools.ContentDialogs.SSH
                     }
                 }
             }
-
             else
             {
                 if (regvalue.ToLower() == username.ToLower())
@@ -120,12 +119,12 @@ namespace InteropTools.ContentDialogs.SSH
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
     }
 }

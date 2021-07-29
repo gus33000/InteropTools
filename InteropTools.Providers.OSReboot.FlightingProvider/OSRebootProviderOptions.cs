@@ -5,7 +5,7 @@ namespace InteropTools.Providers.OSReboot.FlightingProvider
 {
     internal class OSRebootProviderOptions : Options
     {
-        public static readonly Guid ID = new Guid("CAB45A10-6BC7-4BCF-B246-62E1EC7679E0");
+        public static readonly Guid ID = new("CAB45A10-6BC7-4BCF-B246-62E1EC7679E0");
 
         private readonly AbstractOption[] abstractOption;
 

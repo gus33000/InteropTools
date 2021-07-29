@@ -29,12 +29,10 @@ namespace Intense.UI
         {
             base.OnLaunched(args);
 
-
             if (!(Window.Current.Content is Frame frame))
             {
                 frame = new Frame
                 {
-
                     // assign navigation root style
                     Style = (Style)Resources["NavigationRootFrameStyle"]
                 };

@@ -25,7 +25,7 @@ namespace InteropTools.RemoteClasses.Server
               .ListenOnPort(8800)
               .RegisterRoute("api", restRouteHandler)
               .EnableCors()
-              .RegisterRoute(new StaticFileRouteHandler(@"Web"));
+              .RegisterRoute(new StaticFileRouteHandler("Web"));
 
             HttpServer httpServer = new(configuration);
             await httpServer.StartServerAsync();

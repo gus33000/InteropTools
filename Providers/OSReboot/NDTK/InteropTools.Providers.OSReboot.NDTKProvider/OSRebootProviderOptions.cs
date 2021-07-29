@@ -5,7 +5,7 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 {
     internal class OSRebootProviderOptions : Options
     {
-        public static readonly Guid ID = new Guid("CF0E28B7-A0B3-4457-96CE-142271FD4AC7");
+        public static readonly Guid ID = new("CF0E28B7-A0B3-4457-96CE-142271FD4AC7");
 
         private readonly AbstractOption[] abstractOption;
 

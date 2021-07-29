@@ -19,7 +19,7 @@ namespace InteropTools.Presentation
             IsSplitViewPaneOpen = IsWideState();
         }
 
-        public ICommand ToggleSplitViewPaneCommand { get; private set; }
+        public ICommand ToggleSplitViewPaneCommand { get; }
 
         public bool IsSplitViewPaneOpen
         {
@@ -63,7 +63,6 @@ namespace InteropTools.Presentation
             {
                 selectedBottomItem = null;
             }
-
             else
                 if (SelectedItem == SelectedBottomItem)
             {
@@ -106,7 +105,6 @@ namespace InteropTools.Presentation
             {
                 SelectedBottomItem = null;
             }
-
             else
                 if (item == SelectedBottomItem)
             {

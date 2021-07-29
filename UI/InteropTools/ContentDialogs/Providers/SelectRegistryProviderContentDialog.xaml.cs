@@ -68,7 +68,6 @@ namespace InteropTools.ContentDialogs.Providers
             }
             catch
             {
-
             }
         }
 
@@ -81,13 +80,11 @@ namespace InteropTools.ContentDialogs.Providers
             }
             catch
             {
-
             }
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-
         }
     }
 }

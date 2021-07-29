@@ -44,13 +44,12 @@ namespace InteropTools.RemoteClasses.Client
                 Read();
                 RootObject jsonObject = new()
                 {
-                    SessionID = App.SessionId,
+                    SessionID = SessionManager.SessionId,
                     Operation = "Authentificate"
                 };
                 string json = JsonConvert.SerializeObject(jsonObject);
                 Send(json);
             }
-
             catch (Exception ex)
             {
                 OnError?.Invoke(ex.Message);
@@ -67,7 +66,6 @@ namespace InteropTools.RemoteClasses.Client
                 await _writer.StoreAsync();
                 await _writer.FlushAsync();
             }
-
             catch (Exception ex)
             {
                 OnError?.Invoke(ex.Message);
@@ -110,14 +108,12 @@ namespace InteropTools.RemoteClasses.Client
                     {
                         OnAuthentificated?.Invoke();
                     }
-
                     else
                     {
                         OnNotAuthentificated?.Invoke();
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 OnError?.Invoke(ex.Message);
@@ -151,7 +147,6 @@ namespace InteropTools.RemoteClasses.Client
             public DateTime LastModifiedTime { get; set; }
         }
 
-
         private class RootObject
         {
             public string SessionID { get; set; }
@@ -170,6 +165,5 @@ namespace InteropTools.RemoteClasses.Client
             public string mountpoint { get; set; }
             public bool inUser { get; set; }
         }
-
     }
 }

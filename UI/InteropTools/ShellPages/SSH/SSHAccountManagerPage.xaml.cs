@@ -37,7 +37,7 @@ namespace InteropTools.ShellPages.SSH
             GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                 RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
-            if ((regvalue == null) || (regvalue == ""))
+            if ((regvalue == null) || (regvalue?.Length == 0))
             {
                 await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
                                     RegTypes.REG_SZ, "Sirepuser");
@@ -71,7 +71,6 @@ namespace InteropTools.ShellPages.SSH
                     UserList.Items.Add(user);
                 }
             }
-
             else
             {
                 UserList.Items.Add(regvalue);
@@ -104,7 +103,6 @@ namespace InteropTools.ShellPages.SSH
                     }
                 }
             }
-
             else
             {
                 if (regvalue.ToLower() == username.ToLower())
@@ -245,7 +243,6 @@ namespace InteropTools.ShellPages.SSH
                     }
                 }
             }
-
             else
             {
                 if (regvalue.ToLower() == "default")
@@ -513,7 +510,7 @@ namespace InteropTools.ShellPages.SSH
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void AuthMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -555,21 +552,18 @@ namespace InteropTools.ShellPages.SSH
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-
                 else
                     if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default");
                 }
-
                 else
                         if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-
                 else
                             if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
                 {
@@ -600,21 +594,18 @@ namespace InteropTools.ShellPages.SSH
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-
                 else
                     if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default");
                 }
-
                 else
                         if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-
                 else
                             if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
                 {
@@ -645,21 +636,18 @@ namespace InteropTools.ShellPages.SSH
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-
                 else
                     if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default");
                 }
-
                 else
                         if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-
                 else
                             if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
                 {
@@ -690,21 +678,18 @@ namespace InteropTools.ShellPages.SSH
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-
                 else
                     if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "default");
                 }
-
                 else
                         if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
                                         "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-
                 else
                             if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
                 {

@@ -14,7 +14,6 @@ namespace InteropTools.ShellPages.Core
 {
     public class Viewmodel : DependencyObject
     {
-
         public class DisplayableRegPlugin
         {
             public BitmapImage Logo { get; set; }
@@ -66,7 +65,7 @@ namespace InteropTools.ShellPages.Core
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private async Task InitAsync()

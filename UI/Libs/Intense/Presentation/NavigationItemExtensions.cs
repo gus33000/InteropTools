@@ -7,7 +7,7 @@ namespace Intense.Presentation
     /// </summary>
     public static class NavigationItemExtensions
     {
-        private static readonly NavigationItemHierarchyService service = new NavigationItemHierarchyService();
+        private static readonly NavigationItemHierarchyService service = new();
 
         /// <summary>
         /// Returns a collection of ancestors of specified item.

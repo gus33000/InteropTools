@@ -9,9 +9,9 @@ namespace RegistryHelper
 {
     public sealed class RegistryRTProvider : IRegistryProvider
     {
-        private readonly Registry helper = new Registry();
+        private readonly Registry helper = new();
 
-        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new Dictionary<REG_HIVES, RegistryHive>
+        private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new()
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT },
             { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER },
@@ -23,7 +23,7 @@ namespace RegistryHelper
             { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new Dictionary<REG_VALUE_TYPE, RegistryType>
+        private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new()
         {
             { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
             { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
@@ -47,7 +47,6 @@ namespace RegistryHelper
             }
             catch
             {
-
             }
         }
 
@@ -99,7 +98,7 @@ namespace RegistryHelper
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
-            List<REG_ITEM> list = new List<REG_ITEM>();
+            List<REG_ITEM> list = new();
 
             if (hive == null)
             {
@@ -140,12 +139,11 @@ namespace RegistryHelper
                         string data = "";
                         try
                         {
-                            CRegistryHelper helper = new CRegistryHelper();
+                            CRegistryHelper helper = new();
                             helper.RegQueryValue((REG_HIVES)hive, key, subval, propertype, out REG_VALUE_TYPE valtype, out data);
                         }
                         catch
                         {
-
                         }
 
                         list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = propertype });
@@ -160,7 +158,6 @@ namespace RegistryHelper
             }
             catch
             {
-
             }
 
             items = new List<REG_ITEM>();
@@ -185,7 +182,6 @@ namespace RegistryHelper
             }
             catch
             {
-
             }
             return REG_KEY_STATUS.NOT_FOUND;
         }
@@ -477,7 +473,7 @@ namespace RegistryHelper
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM_CUSTOM> items)
         {
-            List<REG_ITEM_CUSTOM> list = new List<REG_ITEM_CUSTOM>();
+            List<REG_ITEM_CUSTOM> list = new();
 
             if (hive == null)
             {
@@ -516,12 +512,11 @@ namespace RegistryHelper
                         string data = "";
                         try
                         {
-                            CRegistryHelper helper = new CRegistryHelper();
+                            CRegistryHelper helper = new();
                             helper.RegQueryValue((REG_HIVES)hive, key, subval, type, out uint valtype, out data);
                         }
                         catch
                         {
-
                         }
 
                         list.Add(new REG_ITEM_CUSTOM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = type });
@@ -536,7 +531,6 @@ namespace RegistryHelper
             }
             catch
             {
-
             }
 
             items = new List<REG_ITEM_CUSTOM>();

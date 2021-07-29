@@ -56,14 +56,13 @@ namespace InteropTools.ShellPages.Registry
                 ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\FingerKB\Options",
                                     "CaretInputHeight_Percentage", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
                 decimal YPercentage = decimal.Parse(regvalue) / 100m;
-                decimal OffsetX = _offsetXPercentage * long.Parse(FakeKeyb.ActualWidth.ToString().Split('.').First());
-                decimal OffsetY = (1m - _offsetYPercentage) * long.Parse(FakeKeyb.ActualHeight.ToString().Split('.').First());
+                decimal OffsetX = _offsetXPercentage * long.Parse(FakeKeyb.ActualWidth.ToString().Split('.')[0]);
+                decimal OffsetY = (1m - _offsetYPercentage) * long.Parse(FakeKeyb.ActualHeight.ToString().Split('.')[0]);
                 decimal PxX = XPercentage * decimal.Parse(FakeKeyb.ActualWidth.ToString());
                 decimal PxY = (1m - YPercentage) * decimal.Parse(FakeKeyb.ActualHeight.ToString());
                 Canvas.SetLeft(Carret, double.Parse(PxX.ToString()));
                 Canvas.SetTop(Carret, double.Parse((PxY - OffsetY).ToString()));
             }
-
             catch
             {
             }

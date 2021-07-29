@@ -26,8 +26,8 @@ namespace InteropTools.CorePages
             {
                 IReadOnlyList<User> users = await User.FindAllAsync();
 
-                User current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
-                                            p.Type == UserType.LocalUser).FirstOrDefault();
+                User current = users.FirstOrDefault(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                                            p.Type == UserType.LocalUser);
 
                 // user may have username
                 object data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
@@ -46,7 +46,7 @@ namespace InteropTools.CorePages
 
                 UserName.Text = displayName;
 
-                if (UserName.Text == "")
+                if (UserName.Text?.Length == 0)
                 {
                     okay = false;
                 }
@@ -82,7 +82,6 @@ namespace InteropTools.CorePages
             }
             catch
             {
-
             }
         }
     }

@@ -36,7 +36,6 @@ namespace InteropTools.Providers
             {
                 fileexists = File.Exists(path);
             }
-
             catch (InvalidOperationException)
             {
                 fileexists = true;

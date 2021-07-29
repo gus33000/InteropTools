@@ -384,7 +384,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                 {
-
                     bool add
                           = true;
 
@@ -427,12 +426,7 @@ namespace InteropTools.ShellPages.Registry
               "PrincipalClass",
               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
 
-            if (regvalue != "principalClass_DevUnlock_Internal")
-            {
-                return false;
-            }
-
-            return true;
+            return regvalue == "principalClass_DevUnlock_Internal";
         }
 
         private async void DoChecks()
@@ -441,12 +435,11 @@ namespace InteropTools.ShellPages.Registry
 
             if (await CheckFSAccess())
             {
-                RunInUiThread(() => { MTPPathOption.Visibility = Visibility.Visible; });
+                RunInUiThread(() => MTPPathOption.Visibility = Visibility.Visible);
             }
-
             else
             {
-                RunInUiThread(() => { MTPPathOption.Visibility = Visibility.Collapsed; });
+                RunInUiThread(() => MTPPathOption.Visibility = Visibility.Collapsed);
             }
 
             RegTypes regtype;
@@ -456,7 +449,7 @@ namespace InteropTools.ShellPages.Registry
               "Software\\Microsoft\\MTP",
               "datastore",
               RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
-            RunInUiThread(() => { MTPPathInput.Text = regvalue; });
+            RunInUiThread(() => MTPPathInput.Text = regvalue);
             bool RestoreNDTKState = await CheckRestoreNDTK();
             bool RestoreNDTKx50State = await CheckRestoreNDTKx50();
             bool CheckFSAccessState = await CheckFSAccess();
@@ -581,7 +574,6 @@ namespace InteropTools.ShellPages.Registry
                     DoChecks();
                 });
             }
-
             else
             {
                 RunInThreadPool(async () =>
@@ -749,7 +741,6 @@ namespace InteropTools.ShellPages.Registry
                     {
                         if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                         {
-
                             bool add
                                   = true;
 
@@ -915,7 +906,6 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-
         private void NewCapUnlock_Toggled(object sender, RoutedEventArgs e)
         {
             if (!_initialized)
@@ -944,7 +934,6 @@ namespace InteropTools.ShellPages.Registry
                     DoChecks();
                 });
             }
-
             else
             {
                 RunInThreadPool(DoChecks);
@@ -963,11 +952,10 @@ namespace InteropTools.ShellPages.Registry
                 ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                     "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
-                if (regvalue == "")
+                if (regvalue?.Length == 0)
                 {
-                    RunInUiThread(() => { InstallNDTK.IsEnabled = false; });
+                    RunInUiThread(() => InstallNDTK.IsEnabled = false);
                 }
-
                 else
                 {
                     RunInUiThread(() =>
@@ -977,7 +965,6 @@ namespace InteropTools.ShellPages.Registry
                     });
                 }
             }
-
             else
             {
                 RunInUiThread(() =>
@@ -1009,7 +996,6 @@ namespace InteropTools.ShellPages.Registry
                     DoChecks();
                 });
             }
-
             else
             {
                 RunInThreadPool(DoChecks);
@@ -1039,7 +1025,6 @@ namespace InteropTools.ShellPages.Registry
                           "c:\\data\\users\\public\\ndtk\\ndtksvc.dll"
                         );
                     }
-
                     else
                     {
                         RunInUiThread(
@@ -1064,12 +1049,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -1086,10 +1071,7 @@ namespace InteropTools.ShellPages.Registry
                     ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                         "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
 
-                    if (regvalue == "")
-                    {
-                    }
-                    else
+                    if (regvalue != "")
                     {
                         await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
                                             "PhoneManufacturer", RegTypes.REG_SZ, regvalue);
@@ -1097,7 +1079,6 @@ namespace InteropTools.ShellPages.Registry
                                             "PhoneManufacturerBak");
                     }
                 }
-
                 else
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",

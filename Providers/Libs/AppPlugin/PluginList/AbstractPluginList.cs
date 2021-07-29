@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace AppPlugin.PluginList
 {
-
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public abstract class AbstractPluginList<TOut, TPluginProvider> : IDisposable
         where TPluginProvider : AbstractPluginList<TOut, TPluginProvider>.PluginProvider
@@ -22,7 +21,7 @@ namespace AppPlugin.PluginList
         private const string SERVICE_KEY = "Service";
         private readonly string pluginName;
 
-        private readonly ObservableCollection<TPluginProvider> plugins = new ObservableCollection<TPluginProvider>();
+        private readonly ObservableCollection<TPluginProvider> plugins = new();
         public ReadOnlyObservableCollection<TPluginProvider> Plugins { get; }
 
         internal AbstractPluginList(string pluginName)
@@ -48,14 +47,10 @@ namespace AppPlugin.PluginList
             catalog.PackageUpdating += Catalog_PackageUpdating;
             catalog.PackageStatusChanged += Catalog_PackageStatusChanged;
 
-
-
             // Scan all extensions
 
             await FindAllExtensionsAsync();
         }
-
-
 
         private async Task FindAllExtensionsAsync()
         {
@@ -71,7 +66,6 @@ namespace AppPlugin.PluginList
             }).Unwrap();
         }
 
-
         private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
         {
             await workerThread.Factory.StartNew(async () =>
@@ -82,7 +76,6 @@ namespace AppPlugin.PluginList
                 }
             }).Unwrap();
         }
-
 
         // package has been updated, so reload the extensions
 
@@ -97,16 +90,12 @@ namespace AppPlugin.PluginList
             }).Unwrap();
         }
 
-
-
         // package is updating, so just unload the extensions
 
         private async void Catalog_PackageUpdating(AppExtensionCatalog sender, AppExtensionPackageUpdatingEventArgs args)
         {
             await UnloadExtensionsAsync(args.Package);
         }
-
-
 
         // package is removed, so unload all the extensions in the package and remove it
 
@@ -115,15 +104,11 @@ namespace AppPlugin.PluginList
             await RemoveExtensionsAsync(args.Package);
         }
 
-
-
-
-
         // package status has changed, could be invalid, licensing issue, app was on USB and removed, etc
         private async void Catalog_PackageStatusChanged(AppExtensionCatalog sender, AppExtensionPackageStatusChangedEventArgs args)
         {
             // get package status
-            if (!(args.Package.Status.VerifyIsOK()))
+            if (!args.Package.Status.VerifyIsOK())
             {
                 // if it's offline unload only
                 if (args.Package.Status.PackageOffline)
@@ -149,8 +134,6 @@ namespace AppPlugin.PluginList
             }
         }
 
-
-
         // loads an extension
         private async Task LoadExtensionAsync(AppExtension ext)
         {
@@ -167,7 +150,7 @@ namespace AppPlugin.PluginList
             }*/
 
             // if its already existing then this is an update
-            TPluginProvider existingExt = plugins.Where(e => e.UniqueId == identifier).FirstOrDefault();
+            TPluginProvider existingExt = plugins.FirstOrDefault(e => e.UniqueId == identifier);
 
             // new extension
             if (existingExt == null)
@@ -177,7 +160,6 @@ namespace AppPlugin.PluginList
 
                 PropertySet servicesProperty = properties[SERVICE_KEY] as PropertySet;
                 string serviceName = servicesProperty["#text"].ToString();
-
 
                 try
                 {
@@ -190,14 +172,12 @@ namespace AppPlugin.PluginList
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
             // update
             else
             {
-
                 // update the extension
                 await existingExt.UpdateAsync(ext);
             }
@@ -242,7 +222,6 @@ namespace AppPlugin.PluginList
             });
         }
 
-
         public abstract class PluginProvider
         {
             public AppExtension Extension { get; private set; }
@@ -252,7 +231,7 @@ namespace AppPlugin.PluginList
                         .AsTask()
                         .ContinueWith(filestreamTask =>
                         {
-                            BitmapImage logo = new BitmapImage();
+                            BitmapImage logo = new();
                             logo.SetSource(filestreamTask.Result);
                             return logo;
                         });
@@ -264,12 +243,9 @@ namespace AppPlugin.PluginList
                 ServiceName = serviceName;
             }
 
-
             public string UniqueId => Extension.AppInfo.AppUserModelId + "!" + Extension.Id;
 
             public bool IsEnabled { get; internal set; }
-
-
 
             internal async Task UpdateAsync(AppExtension ext)
             {
@@ -283,13 +259,12 @@ namespace AppPlugin.PluginList
                 // get extension properties
 
                 // get logo 
-                Windows.Storage.Streams.IRandomAccessStreamWithContentType filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
-                BitmapImage logo = new BitmapImage();
+                Windows.Storage.Streams.IRandomAccessStreamWithContentType filestream = await ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync();
+                BitmapImage logo = new();
                 logo.SetSource(filestream);
 
                 // update the extension
                 Extension = ext;
-
 
                 #region Update Properties
                 // update app service information
@@ -330,7 +305,7 @@ namespace AppPlugin.PluginList
 
             private async void Canceld()
             {
-                ValueSet valueSet = new ValueSet
+                ValueSet valueSet = new()
                 {
                     { AbstractPlugin<object, object, object>.ID_KEY, id },
                     { AbstractPlugin<object, object, object>.CANCEL_KEY, true }
@@ -373,7 +348,6 @@ namespace AppPlugin.PluginList
                 connection.Dispose();
                 isDisposed = true;
             }
-
         }
 
         #region IDisposable Support
@@ -388,11 +362,9 @@ namespace AppPlugin.PluginList
                     workerThread.Dispose();
                 }
 
-
                 disposedValue = true;
             }
         }
-
 
         // Dieser Code wird hinzugefügt, um das Dispose-Muster richtig zu implementieren.
         public void Dispose()

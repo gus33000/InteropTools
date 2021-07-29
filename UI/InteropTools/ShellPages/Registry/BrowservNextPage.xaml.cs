@@ -52,14 +52,13 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
-
 
         private void SampleTreeView2_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -76,11 +75,10 @@ namespace InteropTools.ShellPages.Registry
 
                             if (data.RegItem.Type == RegistryItemType.KEY)
                             {
-                                if ((key == "") || (key == null))
+                                if ((key?.Length == 0) || (key == null))
                                 {
                                     key = data.RegItem.Name;
                                 }
-
                                 else
                                 {
                                     key += @"\" + data.RegItem.Name;
@@ -114,18 +112,16 @@ namespace InteropTools.ShellPages.Registry
                                     await RunInUIThread(() => node.Add(CreateFolderNode(hive.Name, hive)));
                                 }
                             }
-
                             else
                             {
                                 string key = data.RegItem.Key;
 
                                 if (data.RegItem.Type == RegistryItemType.KEY)
                                 {
-                                    if ((key == "") || (key == null))
+                                    if ((key?.Length == 0) || (key == null))
                                     {
                                         key = data.RegItem.Name;
                                     }
-
                                     else
                                     {
                                         key += @"\" + data.RegItem.Name;
@@ -171,18 +167,16 @@ namespace InteropTools.ShellPages.Registry
                                 node.Add(newnode);
                             }
                         }
-
                         else
                         {
                             string key = data.RegItem.Key;
 
                             if (data.RegItem.Type == RegistryItemType.KEY)
                             {
-                                if ((key == "") || (key == null))
+                                if ((key?.Length == 0) || (key == null))
                                 {
                                     key = data.RegItem.Name;
                                 }
-
                                 else
                                 {
                                     key += @"\" + data.RegItem.Name;
@@ -211,7 +205,6 @@ namespace InteropTools.ShellPages.Registry
         {
             return new TreeNode2() { Data = new FileSystemData(name) { RegItem = item } };
         }
-
 
         private List<BrowserControl.Item> GetFavoriteItemList()
         {
@@ -245,7 +238,6 @@ namespace InteropTools.ShellPages.Registry
                             itemlist.Add(new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
                         }
                     }
-
                     catch
                     {
                     }
@@ -258,7 +250,6 @@ namespace InteropTools.ShellPages.Registry
             //}
             return itemlist;
         }
-
 
         private string GetValueTypeName(RegTypes type)
         {
@@ -330,7 +321,7 @@ namespace InteropTools.ShellPages.Registry
 
         private async void ListBrowser_ItemClick(object sender, ItemClickEventArgs e)
         {
-            RegistryItemCustom currentEditItem = (e.ClickedItem as Item).regitem;
+            RegistryItemCustom currentEditItem = (e.ClickedItem as Item)?.regitem;
 
             ValEditCtrl.Visibility = Visibility.Visible;
 
@@ -338,7 +329,7 @@ namespace InteropTools.ShellPages.Registry
             ValueTypeInput.Text = "";
             EditItemTitle.Text = currentEditItem.Name;
 
-            if (currentEditItem.Name == "")
+            if (currentEditItem.Name?.Length == 0)
             {
                 EditItemTitle.Text = "(Default)";
             }
@@ -363,7 +354,6 @@ namespace InteropTools.ShellPages.Registry
                         {
                             EditItemDesc.Text = GetValueTypeName((RegTypes)currentEditItem.ValueType);
                         }
-
                         else
                         {
                             EditItemDesc.Text = "Custom: " + currentEditItem.ValueType;
@@ -498,7 +488,6 @@ namespace InteropTools.ShellPages.Registry
                             return (bool)value ? Visibility.Visible : Visibility.Collapsed;
                         }
                     }
-
                     catch (Exception)
                     {
                         //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Get" + e.Message + e.HResult);
@@ -515,7 +504,7 @@ namespace InteropTools.ShellPages.Registry
                                  (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
-                        localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
+                        localSettings.Values["browserfav_" + id] = value == Visibility.Visible;
                         Debug.WriteLine("browserfav_" + id);
                         object strlist = localSettings.Values["browserfavlist"];
 
@@ -532,7 +521,6 @@ namespace InteropTools.ShellPages.Registry
                             localSettings.Values.Remove("browserfav_" + id);
                             list.Remove("browserfav_" + id);
                         }
-
                         else
                         {
                             list.Add("browserfav_" + id);
@@ -541,7 +529,6 @@ namespace InteropTools.ShellPages.Registry
                         localSettings.Values["browserfavlist"] = string.Join("\n", list);
                         OnPropertyChanged("IsFavorite");
                     }
-
                     catch (Exception)
                     {
                     }
@@ -587,7 +574,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 get
                 {
-                    if (regitem.Name == "")
+                    if (regitem.Name?.Length == 0)
                     {
                         return "(Default)";
                     }
@@ -761,7 +748,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 hiveconv = (RegHives)Enum.Parse(typeof(RegHives), id.Split('%')[0]);
             }
-
             catch
             {
             }
@@ -772,7 +758,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 typeconv = (RegistryItemType)Enum.Parse(typeof(RegistryItemType), id.Split('%')[3]);
             }
-
             catch
             {
             }
@@ -783,7 +768,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 regtypeconv = uint.Parse(id.Split('%')[5]);
             }
-
             catch
             {
             }
@@ -811,6 +795,5 @@ namespace InteropTools.ShellPages.Registry
         {
             RefreshFavoriteDialog();
         }
-
     }
 }

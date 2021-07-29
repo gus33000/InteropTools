@@ -21,7 +21,7 @@ namespace InteropTools.RemoteClasses.Server
                 bool allowed = false;
                 bool denied = false;
 
-                foreach (App.Remote item in App.AllowedRemotes)
+                foreach (SessionManager.Remote item in SessionManager.AllowedRemotes)
                 {
                     if (string.Equals(item.Hostname, hostname, StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -32,7 +32,7 @@ namespace InteropTools.RemoteClasses.Server
                     }
                 }
 
-                foreach (App.Remote item in App.DeniedRemotes)
+                foreach (SessionManager.Remote item in SessionManager.DeniedRemotes)
                 {
                     if (string.Equals(item.Hostname, hostname, StringComparison.CurrentCultureIgnoreCase))
                     {
@@ -51,18 +51,17 @@ namespace InteropTools.RemoteClasses.Server
                         {
                             Windows.Foundation.IAsyncAction tsk = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
-                                bool result = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(App.RemoteLoc, "You can allow it to access it or deny it\n\nIP address: " + hostname,
-                                             App.RemoteAllowLoc, App.RemoteDenyLoc);
+                                bool result = await new InteropTools.ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(SessionManager.RemoteLoc, "You can allow it to access it or deny it\n\nIP address: " + hostname,
+                                             SessionManager.RemoteAllowLoc, SessionManager.RemoteDenyLoc);
 
                                 if (result)
                                 {
-                                    App.AllowedRemotes.Add(new App.Remote { Hostname = hostname, SessionID = data.SessionID });
+                                    SessionManager.AllowedRemotes.Add(new SessionManager.Remote { Hostname = hostname, SessionID = data.SessionID });
                                     allowed = true;
                                 }
-
                                 else
                                 {
-                                    App.DeniedRemotes.Add(new App.Remote { Hostname = hostname, SessionID = data.SessionID });
+                                    SessionManager.DeniedRemotes.Add(new SessionManager.Remote { Hostname = hostname, SessionID = data.SessionID });
                                 }
                             });
 
@@ -86,7 +85,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -115,7 +113,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -136,7 +133,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -156,7 +152,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -176,7 +171,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -196,7 +190,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -216,7 +209,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -236,7 +228,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -265,7 +256,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -295,7 +285,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -322,7 +311,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -343,7 +331,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -361,7 +348,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -379,7 +365,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -399,7 +384,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -417,7 +401,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -435,7 +418,6 @@ namespace InteropTools.RemoteClasses.Server
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
                                 }
-
                                 catch
                                 {
                                     // ignored
@@ -450,7 +432,6 @@ namespace InteropTools.RemoteClasses.Server
                             }
                     }
                 }
-
                 else
                 {
                     try
@@ -460,7 +441,6 @@ namespace InteropTools.RemoteClasses.Server
                         string resultjson = JsonConvert.SerializeObject(data);
                         return resultjson;
                     }
-
                     catch
                     {
                         // ignored

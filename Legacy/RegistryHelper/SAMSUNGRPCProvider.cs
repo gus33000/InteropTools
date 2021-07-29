@@ -11,7 +11,7 @@ namespace RegistryHelper
     {
         private bool _initialized = false;
 
-        private static readonly Dictionary<REG_HIVES, uint> _srpchives = new Dictionary<REG_HIVES, uint>
+        private static readonly Dictionary<REG_HIVES, uint> _srpchives = new()
         {
             { REG_HIVES.HKEY_CLASSES_ROOT, 2147483648 },
             { REG_HIVES.HKEY_CURRENT_USER, 2147483649 },
@@ -55,9 +55,7 @@ namespace RegistryHelper
             }
 #endif
             return false;
-
         }
-
 
         public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
         {
@@ -110,7 +108,6 @@ namespace RegistryHelper
 #endif
             data = uint.MinValue;
             return REG_STATUS.NOT_IMPLEMENTED;
-
         }
 
         public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)

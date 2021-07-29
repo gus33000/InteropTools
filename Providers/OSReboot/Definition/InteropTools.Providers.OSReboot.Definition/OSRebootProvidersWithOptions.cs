@@ -8,7 +8,6 @@ namespace InteropTools.Providers.OSReboot.Definition
 {
     public abstract class OSRebootProvidersWithOptions : AbstractPlugin<string, string, double>
     {
-
         public const string PLUGIN_NAME = "InteropTools.Providers.OSReboot";
 
         protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)

@@ -55,16 +55,9 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            while (true)
+            while (o != null)
             {
-                if (o != null)
-                {
-                    yield return o;
-                }
-                else
-                {
-                    break;
-                }
+                yield return o;
 
                 o = service.GetParent(o);
             }
@@ -80,7 +73,7 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            Stack<T> stack = new Stack<T>(service.GetChildren(o).Reverse());
+            Stack<T> stack = new(service.GetChildren(o).Reverse());
             return GetDescendantsAndSelf(service, stack);
         }
 
@@ -94,7 +87,7 @@ namespace Intense
         {
             ThrowIfInvalidArgs(service, o);
 
-            Stack<T> stack = new Stack<T>();
+            Stack<T> stack = new();
             stack.Push(o);
             return GetDescendantsAndSelf(service, stack);
         }

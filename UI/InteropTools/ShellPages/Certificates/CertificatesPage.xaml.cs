@@ -51,7 +51,6 @@ namespace InteropTools.ShellPages.Certificates
 
         private void CertificatesPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-
         }
 
         private async void Refresh()
@@ -87,13 +86,11 @@ namespace InteropTools.ShellPages.Certificates
                             {
                                 currentUserCerts.Add(cert);
                             }
-
                             else
                             {
                                 localMachineCerts.Add(cert);
                             }
                         }
-
                         catch
                         {
                             localMachineCerts.Add(cert);
@@ -150,7 +147,6 @@ namespace InteropTools.ShellPages.Certificates
                         }
                     }
                 }
-
                 catch
                 {
                     // ignored
@@ -266,13 +262,11 @@ namespace InteropTools.ShellPages.Certificates
                         CertificateStores.GetUserStoreByName(selectedItem.StoreName)
                         .RequestDeleteAsync(selectedItem);
                     }
-
                     else
                     {
                         CertificateStores.GetStoreByName(selectedItem.StoreName).Delete(selectedItem);
                     }
                 }
-
                 catch
                 {
                     // ignored
@@ -309,25 +303,19 @@ namespace InteropTools.ShellPages.Certificates
             {
                 get
                 {
-                    string result;
-
                     if ((cert.ValidFrom < DateTime.Now) && (cert.ValidTo > DateTime.Now))
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                         if (cert.ValidFrom > DateTime.Now)
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
-                    return result;
                 }
             }
 

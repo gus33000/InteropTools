@@ -61,7 +61,7 @@ namespace Intense.UI.Controls
             }
             lastSelectedItem = newValue;
 
-            if (NavigationItem != newValue && ((!newValue.IsLeaf() || WindowState == WindowStateNarrow)))
+            if (NavigationItem != newValue && (!newValue.IsLeaf() || WindowState == WindowStateNarrow))
             {
                 // navigate to selected item
                 base.OnSelectedItemChanged(oldValue, newValue);

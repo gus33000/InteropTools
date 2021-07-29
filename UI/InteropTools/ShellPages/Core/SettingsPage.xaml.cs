@@ -24,7 +24,7 @@ namespace InteropTools.ShellPages.Core
         public string PageName => "Settings";
         public PageGroup PageGroup => PageGroup.Bottom;
 
-        private readonly RemoteServer _server = App.Server;
+        private readonly RemoteServer _server = SessionManager.Server;
 
         public SettingsPage()
         {
@@ -37,7 +37,6 @@ namespace InteropTools.ShellPages.Core
             }
             catch
             {
-
             }
 
             Refresh();
@@ -62,15 +61,13 @@ namespace InteropTools.ShellPages.Core
                 try
                 {
                     StartRemoteServer(int.Parse(PortNumber.Text));
-                    App.DisplayRequest.RequestActive();
+                    SessionManager.DisplayRequest.RequestActive();
                 }
-
                 catch
                 {
                     ServerSwitch.IsOn = false;
                 }
             }
-
             else
             {
                 if (!_server.Started)
@@ -78,7 +75,7 @@ namespace InteropTools.ShellPages.Core
                     return;
                 }
 
-                App.DisplayRequest.RequestRelease();
+                SessionManager.DisplayRequest.RequestRelease();
                 _server.Stop();
             }
         }
@@ -113,7 +110,6 @@ namespace InteropTools.ShellPages.Core
                 await writer.StoreAsync();
                 writer.DetachStream();
             }
-
             catch
             {
                 // ignored
@@ -126,7 +122,7 @@ namespace InteropTools.ShellPages.Core
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         public SettingsViewModel ViewModel { get; }
@@ -144,7 +140,6 @@ namespace InteropTools.ShellPages.Core
             }
             ViewModel.SelectedBrush = new Windows.UI.Xaml.Media.SolidColorBrush(args.NewColor);
         }
-
 
         private void Refresh()
         {
@@ -165,7 +160,7 @@ namespace InteropTools.ShellPages.Core
             VersionText.Text = buildString;
             string title = ApplicationView.GetForCurrentView().Title;
 
-            if (title == "")
+            if (title?.Length == 0)
             {
                 title = Package.Current.DisplayName;
             }

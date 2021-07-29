@@ -37,7 +37,6 @@ namespace InteropTools.Classes
             {
                 CollectionLevel = PlatformDiagnosticsAndUsageDataSettings.CollectionLevel.ToString();
             }
-
             catch
             {
                 CollectionLevel = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
@@ -48,32 +47,26 @@ namespace InteropTools.Classes
         {
             get
             {
-                if (_Instance == null)
-                {
-                    _Instance = new DeviceInfo();
-                }
-
-                return _Instance;
+                return _Instance ??= new DeviceInfo();
             }
         }
 
+        public string FriendlyName { get; }
+        public string HardwareId { get; }
+        public string UUID { get; }
+        public string OperatingSystem { get; }
+        public string SystemFirmwareVersion { get; }
+        public string SystemHardwareVersion { get; }
+        public string SystemManufacturer { get; }
+        public string SystemProductName { get; }
+        public string SystemSku { get; }
 
-        public string FriendlyName { get; private set; }
-        public string HardwareId { get; private set; }
-        public string UUID { get; private set; }
-        public string OperatingSystem { get; private set; }
-        public string SystemFirmwareVersion { get; private set; }
-        public string SystemHardwareVersion { get; private set; }
-        public string SystemManufacturer { get; private set; }
-        public string SystemProductName { get; private set; }
-        public string SystemSku { get; private set; }
+        public string SystemVersion { get; }
 
-        public string SystemVersion { get; private set; }
-
-        public string DeviceForm { get; private set; }
-        public string DeviceFamily { get; private set; }
+        public string DeviceForm { get; }
+        public string DeviceFamily { get; }
         public string DeviceFamilyVersion { get; }
-        public string CollectionLevel { get; private set; }
+        public string CollectionLevel { get; }
 
         private static string GetId()
         {
@@ -89,7 +82,6 @@ namespace InteropTools.Classes
 
             return "";
         }
-
 
         private static readonly uint[] _lookup32 = CreateLookup32();
 
@@ -112,10 +104,9 @@ namespace InteropTools.Classes
             {
                 uint val = lookup32[bytes[i]];
                 result[2 * i] = (char)val;
-                result[2 * i + 1] = (char)(val >> 16);
+                result[(2 * i) + 1] = (char)(val >> 16);
             }
             return new string(result);
         }
-
     }
 }

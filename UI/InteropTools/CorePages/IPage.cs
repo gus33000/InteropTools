@@ -48,16 +48,16 @@ namespace InteropTools.CorePages
 
     public abstract class ShellPage
     {
-        public int viewid => App.CurrentSession.Value;
+        public int viewid => SessionManager.CurrentSession.Value;
 
         public abstract PageGroup PageGroup { get; }
         public abstract string PageName { get; }
 
         public IRegistryProvider RegistryProvider
         {
-            get => App.Sessions[viewid].Helper;
+            get => SessionManager.Sessions[viewid].Helper;
 
-            set => App.Sessions[viewid].Helper = value;
+            set => SessionManager.Sessions[viewid].Helper = value;
         }
     }
 }

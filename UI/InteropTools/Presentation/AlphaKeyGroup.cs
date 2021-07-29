@@ -6,7 +6,7 @@ using Windows.Globalization.Collation;
 
 namespace InteropTools.Presentation
 {
-    public class AlphaKeyGroup<T> : List<T>
+    public sealed class AlphaKeyGroup<T> : List<T>
     {
         /// <summary>
         ///     The delegate that is used to get the key information.
@@ -36,7 +36,7 @@ namespace InteropTools.Presentation
         /// <returns>Theitems source for a LongListSelector</returns>
         private static List<AlphaKeyGroup<T>> CreateGroups(CharacterGroupings slg)
         {
-            return (from key in slg where string.IsNullOrWhiteSpace(key.Label) == false select new AlphaKeyGroup<T>(key.Label)).ToList();
+            return (from key in slg where !string.IsNullOrWhiteSpace(key.Label) select new AlphaKeyGroup<T>(key.Label)).ToList();
         }
 
         /// <summary>
@@ -58,16 +58,15 @@ namespace InteropTools.Presentation
                 string index = "";
                 index = slg.Lookup(getKey(item));
 
-                if (string.IsNullOrEmpty(index) == false)
+                if (!string.IsNullOrEmpty(index))
                 {
                     try
                     {
                         list.Find(a => a.Key == index).Add(item);
                     }
-
                     catch
                     {
-                        list.First().Add(item);
+                        list[0].Add(item);
                     }
                 }
             }

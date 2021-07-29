@@ -15,7 +15,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 if (IsFolder)
                 {
-
                 }
 
                 return name;

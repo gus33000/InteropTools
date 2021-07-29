@@ -12,7 +12,6 @@ namespace AppPlugin
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public abstract class AbstractBasePlugin<TOut> : IBackgroundTask
     {
-
         internal AbstractBasePlugin(bool useSyncronisationContext)
         {
             this.useSyncronisationContext = useSyncronisationContext;
@@ -28,7 +27,7 @@ namespace AppPlugin
         internal const string OPTION_KEY = "Option";
 
         private BackgroundTaskDeferral dereffal;
-        private readonly Dictionary<Guid, CancellationTokenSource> idDirectory = new Dictionary<Guid, CancellationTokenSource>();
+        private readonly Dictionary<Guid, CancellationTokenSource> idDirectory = new();
         private readonly bool useSyncronisationContext;
         private AsyncContextThread worker;
 
@@ -45,7 +44,6 @@ namespace AppPlugin
             details.AppServiceConnection.RequestReceived += AppServiceConnection_RequestReceivedAsync;
             details.AppServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed; ;
             taskInstance.Canceled += TaskInstance_Canceled;
-
         }
 
         private void TaskInstance_Canceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
@@ -97,7 +95,6 @@ namespace AppPlugin
 
         private void CancelMessage(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-
             if (!args.Request.Message.ContainsKey(CANCEL_KEY))
             {
                 return;
@@ -121,9 +118,7 @@ namespace AppPlugin
             }
 
             idDirectory[id].Cancel();
-
         }
-
 
         private async Task StartMessageAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
@@ -136,23 +131,22 @@ namespace AppPlugin
                     throw new Exceptions.PluginException("Start was already send.");
                 }
 
-                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource cancellationTokenSource = new();
                 idDirectory.Add(id.Value, cancellationTokenSource);
 
                 object output = await PerformStartAsync(sender, args, id, cancellationTokenSource);
 
                 string outputString = Helper.Serilize(output);
-                ValueSet valueSet = new Windows.Foundation.Collections.ValueSet
+                ValueSet valueSet = new()
                 {
                     { ID_KEY, id.Value },
                     { RESULT_KEY, outputString }
                 };
                 await args.Request.SendResponseAsync(valueSet);
-
             }
             catch (Exception e)
             {
-                ValueSet valueSet = new ValueSet
+                ValueSet valueSet = new()
                 {
                     { ERROR_KEY, e.Message },
                     { ID_KEY, id.Value }
@@ -169,6 +163,5 @@ namespace AppPlugin
         }
 
         internal abstract Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource);
-
     }
 }

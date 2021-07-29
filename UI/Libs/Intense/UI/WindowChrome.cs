@@ -78,7 +78,7 @@ namespace Intense.UI
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
@@ -94,16 +94,16 @@ namespace Intense.UI
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
 
             hovercolor.A = 64;
 
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
         }
 
         private void SetTarget(FrameworkElement target)
@@ -154,7 +154,7 @@ namespace Intense.UI
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
@@ -170,16 +170,16 @@ namespace Intense.UI
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
 
             hovercolor.A = 64;
 
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
         }
 
         private void SetStatusBarForeground()
@@ -196,7 +196,7 @@ namespace Intense.UI
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
 
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new SolidColorBrush { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
             Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
@@ -212,16 +212,16 @@ namespace Intense.UI
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
             hovercolor.A = 32;
 
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
 
             hovercolor.A = 64;
 
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush).Color;
+            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
         }
 
         private static void OnMarginChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)

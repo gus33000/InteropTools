@@ -35,7 +35,6 @@ namespace InteropTools.ContentDialogs.Registry
                     ShowKeyUnableToDeleteMessageBox();
                 }
             }
-
             else
             {
                 HelperErrorCodes status = await helper.DeleteKey(hive, key, false);

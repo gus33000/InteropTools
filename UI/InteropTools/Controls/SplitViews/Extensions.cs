@@ -32,7 +32,7 @@ namespace InteropTools.Controls.SplitViews
         public static T GetChild<T>(this DependencyObject parentContainer, string controlName)
         {
             List<Control> childControls = AllChildren(parentContainer);
-            T control = childControls.OfType<Control>().Where(x => x.Name.Equals(controlName)).Cast<T>().First();
+            T control = childControls.Where(f => f != null).Where(x => x.Name.Equals(controlName)).Cast<T>().First();
             return control;
         }
 

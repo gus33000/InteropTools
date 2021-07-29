@@ -48,12 +48,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void Load()
@@ -72,7 +72,7 @@ namespace InteropTools.ShellPages.Registry
                 foreach (RegistryItemCustom item in items)
                 {
                     counter++;
-                    await RunInUiThread(() => { LoadingBar.Value = counter; });
+                    await RunInUiThread(() => LoadingBar.Value = counter);
                     AppAssotiationItem appasso = new() { Extension = item.Name };
                     List<AppAssotiation> listasso = new();
                     RegTypes regtype;
@@ -137,7 +137,6 @@ namespace InteropTools.ShellPages.Registry
 
                                                 appAssotiation.Launchuri = item3.Value.Split('!')[0];
                                             }
-
                                             else
                                             {
                                                 foreach (AppAssotiation listAssoItem in listasso)
@@ -184,7 +183,7 @@ namespace InteropTools.ShellPages.Registry
 
                     if (listasso.Count != 0)
                     {
-                        await RunInUiThread(() => { _itemlist.Add(appasso); });
+                        await RunInUiThread(() => _itemlist.Add(appasso));
                     }
                 }
 
@@ -203,7 +202,6 @@ namespace InteropTools.ShellPages.Registry
                     {
                         applist.AddRange(pkgman.FindPackagesForUserWithPackageTypes("", PackageTypes.Optional));
                     }
-
                     catch
                     {
                     }
@@ -276,7 +274,6 @@ namespace InteropTools.ShellPages.Registry
                                     {
                                         app.Title = appEntry.DisplayInfo.DisplayName;
                                     }
-
                                     catch
                                     {
                                         // ignored
@@ -288,7 +285,6 @@ namespace InteropTools.ShellPages.Registry
                                                           package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                           package.Id.Version.Build + "." + package.Id.Version.Revision;
                                     }
-
                                     catch
                                     {
                                         // ignored
@@ -310,7 +306,6 @@ namespace InteropTools.ShellPages.Registry
                                             app.logo = bitmapImage;
                                         });
                                     }
-
                                     catch
                                     {
                                         // ignored
@@ -360,7 +355,6 @@ namespace InteropTools.ShellPages.Registry
                         ProgressPanel.Visibility = Visibility.Collapsed;
                     });
                 }
-
                 catch
                 {
                 }

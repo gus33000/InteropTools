@@ -97,7 +97,6 @@ namespace InteropTools.ShellPages.Core
                 GridView2.ItemsSource = ((Shell)App.AppContent).recentitems;
                 ViewMoreRecent.Content = "See less items";
             }
-
             else
             {
                 GridView2.ItemsSource = ((Shell)App.AppContent).recentitems5max;

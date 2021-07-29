@@ -109,8 +109,10 @@
     </Compile>
     <Compile Include="Classes\AsyncHelper.cs" />
     <Compile Include="Classes\DeviceInfo.cs" />
+    <Compile Include="Classes\DeviceFamilyAssetHelper.cs" />
     <Compile Include="Classes\ObservableRangeCollection.cs" />
     <Compile Include="Classes\SSHSystemAccessHelper.cs" />
+    <Compile Include="Classes\VersionHelper.cs" />
     <Compile Include="ContentDialogs\AppManager\AppPackageContentDialog.xaml.cs">
       <DependentUpon>AppPackageContentDialog.xaml</DependentUpon>
     </Compile>
@@ -208,6 +210,7 @@
     <Compile Include="Presentation\ShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CCMDProvider.cs" />
+    <Compile Include="SessionManager.cs" />
     <Compile Include="ShellPages\Store\StorePage.xaml.cs">
       <DependentUpon>StorePage.xaml</DependentUpon>
     </Compile>

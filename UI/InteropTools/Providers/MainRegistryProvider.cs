@@ -92,6 +92,8 @@ namespace InteropTools.Providers
             return App.RegistryHelper.GetSymbol();
         }
 
+        private bool ProgressShown = false;
+
         private async void ShowStatusBarInfo(string text, bool show)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
@@ -104,35 +106,37 @@ namespace InteropTools.Providers
                 }
                 catch
                 {
-
                 }
 
-                if (show)
+                if (show && !ProgressShown)
                 {
                     if (isinuithread)
                     {
+                        Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
 
-                        await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+                        await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
-                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = "DEBUG: " + text;
+                        currentView.ProgressIndicator.Text = "DEBUG: " + text;
 #else
-                        Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = "Working...";
+                        currentView.ProgressIndicator.Text = "Working...";
 #endif
                     }
                     else
                     {
                         await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                         {
-                            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+                            Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+
+                            await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
-                            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = "DEBUG: " + text;
+                            currentView.ProgressIndicator.Text = "DEBUG: " + text;
 #else
-                            Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = "Working...";
+                            currentView.ProgressIndicator.Text = "Working...";
 #endif
                         });
                     }
                 }
-                else
+                else if (!show && ProgressShown)
                 {
                     if (isinuithread)
                     {
@@ -140,12 +144,11 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
-                        {
-                            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
-                        });
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.HideAsync());
                     }
                 }
+
+                ProgressShown = show;
             }
         }
 

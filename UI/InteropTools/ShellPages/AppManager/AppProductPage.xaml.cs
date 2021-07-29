@@ -26,7 +26,6 @@ namespace InteropTools.ShellPages.AppManager
     /// </summary>
     public sealed partial class AppProductPage : Page
     {
-
         public class Item
         {
             public string DisplayName { get; set; }
@@ -34,7 +33,6 @@ namespace InteropTools.ShellPages.AppManager
 
             public string FullName { get; set; }
         }
-
 
         private readonly ObservableCollection<Item> ItemsList = new();
 
@@ -64,13 +62,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     Author.Text = package.Id.Author;
 
-                    if (Author.Text.Trim() == "")
+                    if (Author.Text.Trim()?.Length == 0)
                     {
                         AuthorHeader.Visibility = Visibility.Collapsed;
                         Author.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     AuthorHeader.Visibility = Visibility.Collapsed;
@@ -116,13 +113,12 @@ namespace InteropTools.ShellPages.AppManager
 
                     Architecture.Text = arch;
 
-                    if (Architecture.Text.Trim() == "")
+                    if (Architecture.Text.Trim()?.Length == 0)
                     {
                         ArchitectureHeader.Visibility = Visibility.Collapsed;
                         Architecture.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     ArchitectureHeader.Visibility = Visibility.Collapsed;
@@ -134,14 +130,13 @@ namespace InteropTools.ShellPages.AppManager
                     FamilyName.Text = package.Id.FamilyName;
                     AppTitle.Text = package.Id.FamilyName;
 
-                    if (FamilyName.Text.Trim() == "")
+                    if (FamilyName.Text.Trim()?.Length == 0)
                     {
                         FamilyNameHeader.Visibility = Visibility.Collapsed;
                         FamilyName.Visibility = Visibility.Collapsed;
                         OpenStore.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     FamilyNameHeader.Visibility = Visibility.Collapsed;
@@ -152,13 +147,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     FullName.Text = package.Id.FullName;
 
-                    if (FullName.Text.Trim() == "")
+                    if (FullName.Text.Trim()?.Length == 0)
                     {
                         FullNameHeader.Visibility = Visibility.Collapsed;
                         FullName.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     FullNameHeader.Visibility = Visibility.Collapsed;
@@ -169,13 +163,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     PName.Text = package.Id.Name;
 
-                    if (PName.Text.Trim() == "")
+                    if (PName.Text.Trim()?.Length == 0)
                     {
                         NameHeader.Visibility = Visibility.Collapsed;
                         PName.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     NameHeader.Visibility = Visibility.Collapsed;
@@ -186,13 +179,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     ProductID.Text = package.Id.ProductId;
 
-                    if (ProductID.Text.Trim() == "")
+                    if (ProductID.Text.Trim()?.Length == 0)
                     {
                         ProductIDHeader.Visibility = Visibility.Collapsed;
                         ProductID.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     ProductIDHeader.Visibility = Visibility.Collapsed;
@@ -203,13 +195,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     Publisher.Text = package.Id.Publisher;
 
-                    if (Publisher.Text.Trim() == "")
+                    if (Publisher.Text.Trim()?.Length == 0)
                     {
                         PublisherHeader.Visibility = Visibility.Collapsed;
                         Publisher.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     PublisherHeader.Visibility = Visibility.Collapsed;
@@ -220,13 +211,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     PublisherID.Text = package.Id.PublisherId;
 
-                    if (PublisherID.Text.Trim() == "")
+                    if (PublisherID.Text.Trim()?.Length == 0)
                     {
                         PublisherIDHeader.Visibility = Visibility.Collapsed;
                         PublisherID.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     PublisherIDHeader.Visibility = Visibility.Collapsed;
@@ -237,13 +227,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     ResourceID.Text = package.Id.ResourceId;
 
-                    if (ResourceID.Text.Trim() == "")
+                    if (ResourceID.Text.Trim()?.Length == 0)
                     {
                         ResourceIDHeader.Visibility = Visibility.Collapsed;
                         ResourceID.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     ResourceIDHeader.Visibility = Visibility.Collapsed;
@@ -261,7 +250,6 @@ namespace InteropTools.ShellPages.AppManager
                         Version.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     VersionHeader.Visibility = Visibility.Collapsed;
@@ -272,13 +260,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     Description.Text = package.Description;
 
-                    if (Description.Text.Trim() == "")
+                    if (Description.Text.Trim()?.Length == 0)
                     {
                         DescriptionHeader.Visibility = Visibility.Collapsed;
                         Description.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     DescriptionHeader.Visibility = Visibility.Collapsed;
@@ -289,13 +276,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     DisplayName.Text = package.DisplayName;
 
-                    if (DisplayName.Text.Trim() == "")
+                    if (DisplayName.Text.Trim()?.Length == 0)
                     {
                         DisplayNameHeader.Visibility = Visibility.Collapsed;
                         DisplayName.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     DisplayNameHeader.Visibility = Visibility.Collapsed;
@@ -306,13 +292,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     InstalledDate.Text = package.InstalledDate.LocalDateTime.ToString();
 
-                    if (InstalledDate.Text.Trim() == "")
+                    if (InstalledDate.Text.Trim()?.Length == 0)
                     {
                         InstalledDateHeader.Visibility = Visibility.Collapsed;
                         InstalledDate.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     InstalledDateHeader.Visibility = Visibility.Collapsed;
@@ -323,13 +308,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     InstalledLocation.Text = package.InstalledLocation.Path;
 
-                    if (InstalledLocation.Text.Trim() == "")
+                    if (InstalledLocation.Text.Trim()?.Length == 0)
                     {
                         InstalledLocationHeader.Visibility = Visibility.Collapsed;
                         InstalledLocation.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     InstalledLocationHeader.Visibility = Visibility.Collapsed;
@@ -340,13 +324,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     IsBundle.Text = package.IsBundle.ToString();
 
-                    if (IsBundle.Text.Trim() == "")
+                    if (IsBundle.Text.Trim()?.Length == 0)
                     {
                         IsBundleHeader.Visibility = Visibility.Collapsed;
                         IsBundle.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     IsBundleHeader.Visibility = Visibility.Collapsed;
@@ -357,13 +340,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     IsDevelopmentMode.Text = package.IsDevelopmentMode.ToString();
 
-                    if (IsDevelopmentMode.Text.Trim() == "")
+                    if (IsDevelopmentMode.Text.Trim()?.Length == 0)
                     {
                         IsDevelopmentModeHeader.Visibility = Visibility.Collapsed;
                         IsDevelopmentMode.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     IsDevelopmentModeHeader.Visibility = Visibility.Collapsed;
@@ -374,13 +356,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     IsFramework.Text = package.IsFramework.ToString();
 
-                    if (IsFramework.Text.Trim() == "")
+                    if (IsFramework.Text.Trim()?.Length == 0)
                     {
                         IsFrameworkHeader.Visibility = Visibility.Collapsed;
                         IsFramework.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     IsFrameworkHeader.Visibility = Visibility.Collapsed;
@@ -391,13 +372,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     IsResourcePackage.Text = package.IsResourcePackage.ToString();
 
-                    if (IsResourcePackage.Text.Trim() == "")
+                    if (IsResourcePackage.Text.Trim()?.Length == 0)
                     {
                         IsResourcePackageHeader.Visibility = Visibility.Collapsed;
                         IsResourcePackage.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     IsResourcePackageHeader.Visibility = Visibility.Collapsed;
@@ -408,13 +388,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     Logo.Text = package.Logo.PathAndQuery;
 
-                    if (Logo.Text.Trim() == "")
+                    if (Logo.Text.Trim()?.Length == 0)
                     {
                         LogoHeader.Visibility = Visibility.Collapsed;
                         Logo.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     LogoHeader.Visibility = Visibility.Collapsed;
@@ -425,13 +404,12 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     PublisherDisplayName.Text = package.PublisherDisplayName;
 
-                    if (PublisherDisplayName.Text.Trim() == "")
+                    if (PublisherDisplayName.Text.Trim()?.Length == 0)
                     {
                         PublisherDisplayNameHeader.Visibility = Visibility.Collapsed;
                         PublisherDisplayName.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     PublisherDisplayNameHeader.Visibility = Visibility.Collapsed;
@@ -446,61 +424,51 @@ namespace InteropTools.ShellPages.AppManager
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Data_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                         if (package.Status.DependencyIssue)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Dependency_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                             if (package.Status.DeploymentInProgress)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Deployment_In_Progress", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                 if (package.Status.Disabled)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Disabled", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                     if (package.Status.LicenseIssue)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/License_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                         if (package.Status.Modified)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Modified", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                             if (package.Status.NeedsRemediation)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Needs_Remediation", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                                 if (package.Status.NotAvailable)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_Available", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                                     if (package.Status.PackageOffline)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Package_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                                         if (package.Status.Servicing)
                     {
                         statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Servicing", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                                                             if (package.Status.Tampered)
                     {
@@ -509,13 +477,12 @@ namespace InteropTools.ShellPages.AppManager
 
                     Status.Text = statustext;
 
-                    if (Status.Text.Trim() == "")
+                    if (Status.Text.Trim()?.Length == 0)
                     {
                         StatusHeader.Visibility = Visibility.Collapsed;
                         Status.Visibility = Visibility.Collapsed;
                     }
                 }
-
                 catch
                 {
                     StatusHeader.Visibility = Visibility.Collapsed;
@@ -584,7 +551,6 @@ namespace InteropTools.ShellPages.AppManager
 
                     DependenciesList.ItemsSource = ItemsList;
                 }
-
                 catch (Exception caughtEx)
                 {
                     await
@@ -607,14 +573,13 @@ namespace InteropTools.ShellPages.AppManager
                             displayname = AppEntry.DisplayInfo.DisplayName;
                             AppTitle.Text = displayname;
 
-                            if (DisplayName.Text.Trim() == "")
+                            if (DisplayName.Text.Trim()?.Length == 0)
                             {
                                 DisplayName.Text = displayname;
                                 DisplayName.Visibility = Visibility.Visible;
                                 DisplayNameHeader.Visibility = Visibility.Visible;
                             }
                         }
-
                         catch
                         {
                             DisplayName.Visibility = Visibility.Collapsed;
@@ -626,14 +591,13 @@ namespace InteropTools.ShellPages.AppManager
                             description = AppEntry.DisplayInfo.Description;
                             AppDesc.Text = description;
 
-                            if (Description.Text.Trim() == "")
+                            if (Description.Text.Trim()?.Length == 0)
                             {
                                 Description.Text = description;
                                 Description.Visibility = Visibility.Visible;
                                 DescriptionHeader.Visibility = Visibility.Visible;
                             }
                         }
-
                         catch
                         {
                             Description.Visibility = Visibility.Collapsed;
@@ -670,7 +634,6 @@ namespace InteropTools.ShellPages.AppManager
                                 HeaderPanel2.Fill = new SolidColorBrush(myDominantColor);
                             }
                         }
-
                         catch
                         {
                         }
@@ -682,7 +645,7 @@ namespace InteropTools.ShellPages.AppManager
             }
             catch
             {
-                (App.AppContent as Shell).RootFrame.GoBack();
+                (App.AppContent as Shell)?.RootFrame.GoBack();
             }
         }
 
@@ -708,7 +671,6 @@ namespace InteropTools.ShellPages.AppManager
             {
                 await Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PFN=" + _package.Id.FamilyName));
             }
-
             catch
             {
             }
@@ -721,7 +683,6 @@ namespace InteropTools.ShellPages.AppManager
                 System.Collections.Generic.IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> results = await _package.GetAppListEntriesAsync();
                 await results[0].LaunchAsync();
             }
-
             catch
             {
             }

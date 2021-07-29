@@ -36,7 +36,6 @@ namespace InteropTools.ShellPages.Registry
             return tb.DesiredSize.Width;
         }
 
-
         private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BreadCrumbControl breadcrumbs = (BreadCrumbControl)d;
@@ -81,7 +80,6 @@ namespace InteropTools.ShellPages.Registry
 
                     breadcrumbs.BreadCrumb.ItemsSource = newlist;
                 }
-
                 else
                 {
                     double sizenow = lastsize + firstsize;
@@ -136,7 +134,6 @@ namespace InteropTools.ShellPages.Registry
                     breadcrumbs.BreadCrumb.ItemsSource = newlist;
                 }
             }
-
             else
             {
                 List<BreadCrumbItem> newlist = new()
@@ -203,7 +200,6 @@ namespace InteropTools.ShellPages.Registry
 
                     breadcrumbs.BreadCrumb.ItemsSource = newlist;
                 }
-
                 else
                 {
                     double sizenow = lastsize + firstsize;
@@ -258,7 +254,6 @@ namespace InteropTools.ShellPages.Registry
                     breadcrumbs.BreadCrumb.ItemsSource = newlist;
                 }
             }
-
             else
             {
                 List<BreadCrumbItem> newlist = new()
@@ -278,7 +273,7 @@ namespace InteropTools.ShellPages.Registry
 
         public delegate void ItemClickEvent(object sender, ItemClickEventArgs e);
 
-        public event ItemClickEvent OnItemClick;
+        public event System.EventHandler<ItemClickEventArgs> OnItemClick;
 
         private void UpdateItemClick(object item)
         {
@@ -292,7 +287,6 @@ namespace InteropTools.ShellPages.Registry
             OnItemClick(this, args);
         }
 
-
         public class ItemClickEventArgs
         {
             public ItemClickEventArgs(object item)
@@ -303,22 +297,20 @@ namespace InteropTools.ShellPages.Registry
             public object ClickedItem { get; internal set; }
         }
 
-
         private void BreadCrumb_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
         {
-            if ((e.ClickedItem as BreadCrumbItem).ItemObject == null)
+            if ((e.ClickedItem as BreadCrumbItem)?.ItemObject == null)
             {
-                UpdateItemClick((e.ClickedItem as BreadCrumbItem).ItemObject);
+                UpdateItemClick((e.ClickedItem as BreadCrumbItem)?.ItemObject);
             }
-
             else
-                if ((e.ClickedItem as BreadCrumbItem).ItemObject.GetType() == typeof(bool))
+                if ((e.ClickedItem as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
             {
                 // Display menu here
             }
             else
             {
-                UpdateItemClick((e.ClickedItem as BreadCrumbItem).ItemObject);
+                UpdateItemClick((e.ClickedItem as BreadCrumbItem)?.ItemObject);
             }
         }
 
@@ -326,7 +318,7 @@ namespace InteropTools.ShellPages.Registry
         {
             object a = ((FrameworkElement)e.OriginalSource).DataContext;
 
-            if (((a as BreadCrumbItem).ItemObject != null) && (a as BreadCrumbItem).ItemObject.GetType() == typeof(bool))
+            if (((a as BreadCrumbItem)?.ItemObject != null) && (a as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
             {
                 // Display menu here
                 ItemCollection list = BreadCrumb.Items;
@@ -348,7 +340,6 @@ namespace InteropTools.ShellPages.Registry
                         counter++;
                     }
                 }
-
                 else
                 {
                     int numbertoskip = list.Count - 2;
@@ -367,7 +358,7 @@ namespace InteropTools.ShellPages.Registry
         private void TypeListView_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
         {
             ItemFlyout.Hide();
-            UpdateItemClick((e.ClickedItem as BreadCrumbItem).ItemObject);
+            UpdateItemClick((e.ClickedItem as BreadCrumbItem)?.ItemObject);
         }
     }
 }

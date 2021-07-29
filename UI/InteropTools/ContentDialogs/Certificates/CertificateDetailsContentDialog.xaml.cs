@@ -39,13 +39,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 SName.Text = cert.Subject;
 
-                if (SName.Text.Trim() == "")
+                if (SName.Text.Trim()?.Length == 0)
                 {
                     SubjectHeader.Visibility = Visibility.Collapsed;
                     SName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 SubjectHeader.Visibility = Visibility.Collapsed;
@@ -56,13 +55,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 FName.Text = cert.FriendlyName;
 
-                if (FName.Text.Trim() == "")
+                if (FName.Text.Trim()?.Length == 0)
                 {
                     FriendlyNameHeader.Visibility = Visibility.Collapsed;
                     FName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 FriendlyNameHeader.Visibility = Visibility.Collapsed;
@@ -73,13 +71,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 Issuer.Text = cert.Issuer;
 
-                if (Issuer.Text.Trim() == "")
+                if (Issuer.Text.Trim()?.Length == 0)
                 {
                     IssuerHeader.Visibility = Visibility.Collapsed;
                     Issuer.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 IssuerHeader.Visibility = Visibility.Collapsed;
@@ -90,13 +87,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 StoreName.Text = cert.StoreName;
 
-                if (StoreName.Text.Trim() == "")
+                if (StoreName.Text.Trim()?.Length == 0)
                 {
                     StoreNameHeader.Visibility = Visibility.Collapsed;
                     StoreName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 StoreNameHeader.Visibility = Visibility.Collapsed;
@@ -107,13 +103,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 KeyStorageProviderName.Text = cert.KeyStorageProviderName;
 
-                if (KeyStorageProviderName.Text.Trim() == "")
+                if (KeyStorageProviderName.Text.Trim()?.Length == 0)
                 {
                     KeyStorageProviderNameHeader.Visibility = Visibility.Collapsed;
                     KeyStorageProviderName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 KeyStorageProviderNameHeader.Visibility = Visibility.Collapsed;
@@ -124,13 +119,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 ValidFrom.Text = cert.ValidFrom.ToString();
 
-                if (ValidFrom.Text.Trim() == "")
+                if (ValidFrom.Text.Trim()?.Length == 0)
                 {
                     ValidFromHeader.Visibility = Visibility.Collapsed;
                     ValidFrom.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 ValidFromHeader.Visibility = Visibility.Collapsed;
@@ -141,13 +135,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 ValidTo.Text = cert.ValidTo.ToString();
 
-                if (ValidTo.Text.Trim() == "")
+                if (ValidTo.Text.Trim()?.Length == 0)
                 {
                     ValidToHeader.Visibility = Visibility.Collapsed;
                     ValidTo.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 ValidToHeader.Visibility = Visibility.Collapsed;
@@ -161,13 +154,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 SerialNumber.Text = BitConverter.ToString(cert.SerialNumber);
 
-                if (SerialNumber.Text.Trim() == "")
+                if (SerialNumber.Text.Trim()?.Length == 0)
                 {
                     SerialNumberHeader.Visibility = Visibility.Collapsed;
                     SerialNumber.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 SerialNumberHeader.Visibility = Visibility.Collapsed;
@@ -178,13 +170,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 KeyAlgorithmName.Text = cert.KeyAlgorithmName;
 
-                if (KeyAlgorithmName.Text.Trim() == "")
+                if (KeyAlgorithmName.Text.Trim()?.Length == 0)
                 {
                     KeyAlgorithmNameHeader.Visibility = Visibility.Collapsed;
                     KeyAlgorithmName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 KeyAlgorithmNameHeader.Visibility = Visibility.Collapsed;
@@ -195,13 +186,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 SignatureAlgorithmName.Text = cert.SignatureAlgorithmName;
 
-                if (SignatureAlgorithmName.Text.Trim() == "")
+                if (SignatureAlgorithmName.Text.Trim()?.Length == 0)
                 {
                     SignatureAlgorithmNameHeader.Visibility = Visibility.Collapsed;
                     SignatureAlgorithmName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 SignatureAlgorithmNameHeader.Visibility = Visibility.Collapsed;
@@ -212,13 +202,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 SignatureHashAlgorithmName.Text = cert.SignatureHashAlgorithmName;
 
-                if (SignatureHashAlgorithmName.Text.Trim() == "")
+                if (SignatureHashAlgorithmName.Text.Trim()?.Length == 0)
                 {
                     SignatureHashAlgorithmNameHeader.Visibility = Visibility.Collapsed;
                     SignatureHashAlgorithmName.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 SignatureHashAlgorithmNameHeader.Visibility = Visibility.Collapsed;
@@ -229,13 +218,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 HasPrivateKey.Text = cert.HasPrivateKey.ToString();
 
-                if (HasPrivateKey.Text.Trim() == "")
+                if (HasPrivateKey.Text.Trim()?.Length == 0)
                 {
                     HasPrivateKeyHeader.Visibility = Visibility.Collapsed;
                     HasPrivateKey.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 HasPrivateKeyHeader.Visibility = Visibility.Collapsed;
@@ -246,13 +234,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 IsPerUser.Text = cert.IsPerUser.ToString();
 
-                if (IsPerUser.Text.Trim() == "")
+                if (IsPerUser.Text.Trim()?.Length == 0)
                 {
                     IsPerUserHeader.Visibility = Visibility.Collapsed;
                     IsPerUser.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 IsPerUserHeader.Visibility = Visibility.Collapsed;
@@ -263,13 +250,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 IsSecurityDeviceBound.Text = cert.IsSecurityDeviceBound.ToString();
 
-                if (IsSecurityDeviceBound.Text.Trim() == "")
+                if (IsSecurityDeviceBound.Text.Trim()?.Length == 0)
                 {
                     IsSecurityDeviceBoundHeader.Visibility = Visibility.Collapsed;
                     IsSecurityDeviceBound.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 IsSecurityDeviceBoundHeader.Visibility = Visibility.Collapsed;
@@ -280,13 +266,12 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 IsStronglyProtected.Text = cert.IsStronglyProtected.ToString();
 
-                if (IsStronglyProtected.Text.Trim() == "")
+                if (IsStronglyProtected.Text.Trim()?.Length == 0)
                 {
                     IsStronglyProtectedHeader.Visibility = Visibility.Collapsed;
                     IsStronglyProtected.Visibility = Visibility.Collapsed;
                 }
             }
-
             catch
             {
                 IsStronglyProtectedHeader.Visibility = Visibility.Collapsed;
@@ -370,25 +355,19 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 get
                 {
-                    string result;
-
                     if ((cert.ValidFrom < DateTime.Now) && (cert.ValidTo > DateTime.Now))
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                         if (cert.ValidFrom > DateTime.Now)
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
                     else
                     {
-                        result = ResourceManager.Current.MainResourceMap.GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-
-                    return result;
                 }
             }
 

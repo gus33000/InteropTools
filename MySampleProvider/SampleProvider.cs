@@ -70,12 +70,10 @@ namespace MySampleProvider
         }
         private void DevicePortalConnection_Closed(DevicePortalConnection sender, DevicePortalConnectionClosedEventArgs args)
         {
-
         }
 
         private void TaskInstance_Canceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-
         }
     }
 }

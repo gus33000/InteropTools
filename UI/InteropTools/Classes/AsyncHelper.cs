@@ -22,13 +22,11 @@ namespace InteropTools.Classes
                 {
                     await task();
                 }
-
                 catch (Exception e)
                 {
                     synch.InnerException = e;
                     throw;
                 }
-
                 finally
                 {
                     synch.EndMessageLoop();
@@ -56,13 +54,11 @@ namespace InteropTools.Classes
                 {
                     ret = await task();
                 }
-
                 catch (Exception e)
                 {
                     synch.InnerException = e;
                     throw;
                 }
-
                 finally
                 {
                     synch.EndMessageLoop();
@@ -125,7 +121,6 @@ namespace InteropTools.Classes
                             throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
                         }
                     }
-
                     else
                     {
                         workItemsWaiting.WaitOne();

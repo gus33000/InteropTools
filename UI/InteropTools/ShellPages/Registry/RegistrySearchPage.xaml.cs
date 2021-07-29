@@ -402,57 +402,49 @@ namespace InteropTools.ShellPages.Registry
 
         private static RegHives GetSelectedHive(int index)
         {
-            RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
+            const RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
             int selectedhiveindex = index;
 
             switch (selectedhiveindex)
             {
                 case 0:
                     {
-                        hive = RegHives.HKEY_CURRENT_CONFIG;
-                        break;
+                        return RegHives.HKEY_CURRENT_CONFIG;
                     }
 
                 case 1:
                     {
-                        hive = RegHives.HKEY_CLASSES_ROOT;
-                        break;
+                        return RegHives.HKEY_CLASSES_ROOT;
                     }
 
                 case 2:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER;
                     }
 
                 case 3:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
                     }
 
                 case 4:
                     {
-                        hive = RegHives.HKEY_DYN_DATA;
-                        break;
+                        return RegHives.HKEY_DYN_DATA;
                     }
 
                 case 5:
                     {
-                        hive = RegHives.HKEY_LOCAL_MACHINE;
-                        break;
+                        return RegHives.HKEY_LOCAL_MACHINE;
                     }
 
                 case 6:
                     {
-                        hive = RegHives.HKEY_PERFORMANCE_DATA;
-                        break;
+                        return RegHives.HKEY_PERFORMANCE_DATA;
                     }
 
                 case 7:
                     {
-                        hive = RegHives.HKEY_USERS;
-                        break;
+                        return RegHives.HKEY_USERS;
                     }
             }
 
@@ -576,11 +568,10 @@ namespace InteropTools.ShellPages.Registry
                             break;
                         }
 
-                        if (newkey == "")
+                        if (newkey?.Length == 0)
                         {
                             newkey = s;
                         }
-
                         else
                         {
                             newkey = newkey + "\\" + s;
@@ -596,17 +587,14 @@ namespace InteropTools.ShellPages.Registry
                         continue;
                     }
 
-                    if (newkey == "")
+                    if (newkey?.Length == 0)
                     {
-                        newkey = tmpkeys[tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1].Name;
+                        return tmpkeys[tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1].Name;
                     }
-
                     else
                     {
-                        newkey = newkey + "\\" + tmpkeys[tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1].Name;
+                        return newkey + "\\" + tmpkeys[tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1].Name;
                     }
-
-                    return newkey;
                 }
 
                 {
@@ -645,11 +633,10 @@ namespace InteropTools.ShellPages.Registry
 
                 RunInUiThread(() =>
                 {
-                    if (key == "")
+                    if (key?.Length == 0)
                     {
                         Status.Text = hive.ToString();
                     }
-
                     else
                     {
                         Status.Text = hive + "\\" + key;
@@ -683,7 +670,7 @@ namespace InteropTools.ShellPages.Registry
 
                         case RegistryItemType.VALUE:
                             {
-                                if (item.Name == "")
+                                if (item.Name?.Length == 0)
                                 {
                                     newItem = new Item
                                     {
@@ -699,7 +686,6 @@ namespace InteropTools.ShellPages.Registry
                                         DisplayHive = item.Hive.ToString()
                                     };
                                 }
-
                                 else
                                 {
                                     newItem = new Item
@@ -740,13 +726,11 @@ namespace InteropTools.ShellPages.Registry
                     {
                         key = result;
                     }
-
                     else
                     {
                         parse = false;
                     }
                 }
-
                 else
                 {
                     key = keys[0].Key + "\\" + keys[0].Name;
@@ -824,11 +808,10 @@ namespace InteropTools.ShellPages.Registry
 
                 RunInUiThread(() =>
                 {
-                    if (key == "")
+                    if (key?.Length == 0)
                     {
                         Status.Text = hive.ToString();
                     }
-
                     else
                     {
                         Status.Text = hive + "\\" + key;
@@ -862,7 +845,7 @@ namespace InteropTools.ShellPages.Registry
 
                         case RegistryItemType.VALUE:
                             {
-                                if (item.Name == "")
+                                if (item.Name?.Length == 0)
                                 {
                                     newItem = new Item
                                     {
@@ -878,7 +861,6 @@ namespace InteropTools.ShellPages.Registry
                                         DisplayHive = item.Hive.ToString()
                                     };
                                 }
-
                                 else
                                 {
                                     newItem = new Item
@@ -919,13 +901,11 @@ namespace InteropTools.ShellPages.Registry
                     {
                         key = result;
                     }
-
                     else
                     {
                         parse = false;
                     }
                 }
-
                 else
                     if (key != null)
                 {
@@ -1058,12 +1038,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void ResultsListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -1096,7 +1076,6 @@ namespace InteropTools.ShellPages.Registry
                 valueTypeFilter.Visibility = Visibility.Visible;
                 hiveFilter.Visibility = Visibility.Collapsed;
             }
-
             else
                 if (((ComboBox)sender).SelectedIndex == 5)
             {
@@ -1104,7 +1083,6 @@ namespace InteropTools.ShellPages.Registry
                 valueTypeFilter.Visibility = Visibility.Collapsed;
                 hiveFilter.Visibility = Visibility.Visible;
             }
-
             else
             {
                 textFilter.Visibility = Visibility.Visible;
@@ -1143,14 +1121,14 @@ namespace InteropTools.ShellPages.Registry
                 ResourceContext.GetForCurrentView()).ValueAsString
             };
 
-            if ((item.Key == null) || (item.Key == ""))
+            if ((item.Key == null) || (item.Key?.Length == 0))
             {
                 flyoutitem2.IsEnabled = false;
             }
 
             flyoutitem2.Click += (sender_, e_) =>
             {
-                if ((item.Key == null) || (item.Key == ""))
+                if ((item.Key == null) || (item.Key?.Length == 0))
                 {
                     return;
                 }
@@ -1204,7 +1182,7 @@ namespace InteropTools.ShellPages.Registry
                         }
                 }
 
-                if (str == "")
+                if (str?.Length == 0)
                 {
                     return;
                 }

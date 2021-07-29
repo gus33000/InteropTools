@@ -124,7 +124,6 @@ namespace InteropTools.ShellPages.Registry
                 EmptyText.Visibility = Visibility.Collapsed;
                 ClearHistoryLink.IsEnabled = true;
             }
-
             else
             {
                 EmptyText.Visibility = Visibility.Visible;
@@ -398,7 +397,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 localSettings.Values["history_count"] = 1;
             }
-
             else
             {
                 localSettings.Values["history_count"] = (int)localSettings.Values["history_count"] + 1;
@@ -573,57 +571,49 @@ namespace InteropTools.ShellPages.Registry
 
         private RegHives GetSelectedHive()
         {
-            RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
+            const RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
             int selectedhiveindex = HiveSelector.SelectedIndex;
 
             switch (selectedhiveindex)
             {
                 case 0:
                     {
-                        hive = RegHives.HKEY_CURRENT_CONFIG;
-                        break;
+                        return RegHives.HKEY_CURRENT_CONFIG;
                     }
 
                 case 1:
                     {
-                        hive = RegHives.HKEY_CLASSES_ROOT;
-                        break;
+                        return RegHives.HKEY_CLASSES_ROOT;
                     }
 
                 case 2:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER;
                     }
 
                 case 3:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
                     }
 
                 case 4:
                     {
-                        hive = RegHives.HKEY_DYN_DATA;
-                        break;
+                        return RegHives.HKEY_DYN_DATA;
                     }
 
                 case 5:
                     {
-                        hive = RegHives.HKEY_LOCAL_MACHINE;
-                        break;
+                        return RegHives.HKEY_LOCAL_MACHINE;
                     }
 
                 case 6:
                     {
-                        hive = RegHives.HKEY_PERFORMANCE_DATA;
-                        break;
+                        return RegHives.HKEY_PERFORMANCE_DATA;
                     }
 
                 case 7:
                     {
-                        hive = RegHives.HKEY_USERS;
-                        break;
+                        return RegHives.HKEY_USERS;
                     }
             }
 
@@ -719,7 +709,6 @@ namespace InteropTools.ShellPages.Registry
                     return val;
                 }
             }
-
             catch
             {
             }
@@ -760,12 +749,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void Suggestions_ItemClick(object sender, ItemClickEventArgs e)
@@ -779,7 +768,6 @@ namespace InteropTools.ShellPages.Registry
                 string prevkey = string.Join(@"\", tmp);
                 PathInput.Text = prevkey + @"\" + item.DisplayName + @"\";
             }
-
             else
             {
                 PathInput.Text = item.DisplayName + @"\";
@@ -825,7 +813,6 @@ namespace InteropTools.ShellPages.Registry
                     });
                 });
             }
-
             else
             {
                 string prevkey = "";
@@ -959,7 +946,6 @@ namespace InteropTools.ShellPages.Registry
                     ValueNameInput.Text = "";
                     ValueNameInput.IsEnabled = false;
                 }
-
                 else
                 {
                     ValueNameInput.Text = "";
@@ -979,7 +965,6 @@ namespace InteropTools.ShellPages.Registry
                             uint.Parse(ValueDataInput.Text);
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -993,7 +978,6 @@ namespace InteropTools.ShellPages.Registry
                             ulong.Parse(ValueDataInput.Text);
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -1023,7 +1007,6 @@ namespace InteropTools.ShellPages.Registry
 
                             return true;
                         }
-
                         catch
                         {
                             return false;
@@ -1031,7 +1014,6 @@ namespace InteropTools.ShellPages.Registry
                     }
             }
         }
-
 
         private static byte[] StringToByteArrayFastest(string hex)
         {
@@ -1044,7 +1026,7 @@ namespace InteropTools.ShellPages.Registry
 
             for (int i = 0; i < (hex.Length >> 1); ++i)
             {
-                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
+                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
 
             return arr;
@@ -1061,7 +1043,6 @@ namespace InteropTools.ShellPages.Registry
             return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
 
-
         private void ValueDataInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
             if (ValueDataInput != null)
@@ -1071,7 +1052,6 @@ namespace InteropTools.ShellPages.Registry
                     WriteButton.IsEnabled = true;
                     ValueDataBorder.BorderThickness = new Thickness(0);
                 }
-
                 else
                 {
                     WriteButton.IsEnabled = false;
@@ -1098,7 +1078,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             }
-
             catch
             {
             }

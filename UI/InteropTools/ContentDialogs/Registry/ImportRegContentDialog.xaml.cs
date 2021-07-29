@@ -11,7 +11,6 @@ using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
-
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace InteropTools.ContentDialogs.Registry
@@ -79,7 +78,6 @@ namespace InteropTools.ContentDialogs.Registry
                                 Description = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString
                             });
                         }
-
                         else
                         {
                             displaylist.Add(new DisplayItem
@@ -91,7 +89,6 @@ namespace InteropTools.ContentDialogs.Registry
                             });
                         }
                     }
-
                     else
                     {
                         if (regoperation.type == RegItemType.KEY)
@@ -104,7 +101,6 @@ namespace InteropTools.ContentDialogs.Registry
                                 Description = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString
                             });
                         }
-
                         else
                         {
                             displaylist.Add(new DisplayItem
@@ -213,14 +209,12 @@ namespace InteropTools.ContentDialogs.Registry
                             {
                                 return false;
                             }
-
                             else
                             {
                                 expects = false;
                             }
                         }
                     }
-
                     else
                     {
                         if (curstr != "")
@@ -255,7 +249,6 @@ namespace InteropTools.ContentDialogs.Registry
                                             type = type
                                         });
                                     }
-
                                     else
                                     {
                                         isinkey = false;
@@ -276,7 +269,6 @@ namespace InteropTools.ContentDialogs.Registry
                                         });
                                     }
                                 }
-
                                 else
                                     if (isinkey)
                                 {
@@ -304,7 +296,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                         return false;
                                                     }
                                                 }
-
                                                 else
                                                 {
                                                     if ((secondpart[0] == '"') && (secondpart.Last() == '"'))
@@ -325,7 +316,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                         if (secondpart.StartsWith("hex(0):"))
                                                     {
@@ -343,7 +333,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                             if (secondpart.StartsWith("hex(1):"))
                                                     {
@@ -369,7 +358,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                 if (secondpart.StartsWith("hex(2):"))
                                                     {
@@ -395,7 +383,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                     if (secondpart.StartsWith("hex(3):"))
                                                     {
@@ -413,7 +400,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                         if (secondpart.StartsWith("hex:"))
                                                     {
@@ -431,7 +417,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                             if (secondpart.StartsWith("hex(4):"))
                                                     {
@@ -439,8 +424,7 @@ namespace InteropTools.ContentDialogs.Registry
                                                         RegTypes type = RegTypes.REG_DWORD;
                                                         string valuedata =
                                                                                   int.Parse(
-                                                                                    string.Join("",
-                                                                                                secondpart.Split(':')[1].Split(',').Reverse()),
+                                                                                    string.Concat(                                                                                                secondpart.Split(':')[1].Split(',').Reverse()),
                                                                                     NumberStyles.HexNumber).ToString();
                                                         list.Add(new RegFileItem
                                                         {
@@ -453,7 +437,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                 if (secondpart.StartsWith("dword:"))
                                                     {
@@ -473,7 +456,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                     if (secondpart.StartsWith("hex(5):"))
                                                     {
@@ -491,7 +473,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                         if (secondpart.StartsWith("hex(6):"))
                                                     {
@@ -509,14 +490,13 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                             if (secondpart.StartsWith("hex(7):"))
                                                     {
                                                         // REG_MULTI_SZ
                                                         RegTypes type = RegTypes.REG_MULTI_SZ;
                                                         string tmpbufferstr = secondpart.Split(':')[1];
-                                                        string trim = ",00,00";
+                                                        const string trim = ",00,00";
                                                         tmpbufferstr = tmpbufferstr.TrimEnd(trim.ToCharArray());
                                                         string[] data =
                                                                                                   new string[
@@ -552,7 +532,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                 if (secondpart.StartsWith("hex(8):"))
                                                     {
@@ -570,7 +549,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                     if (secondpart.StartsWith("hex(9):"))
                                                     {
@@ -588,7 +566,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                         if (secondpart.StartsWith("hex(a):"))
                                                     {
@@ -606,7 +583,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                             if (secondpart.StartsWith("hex(b):"))
                                                     {
@@ -632,11 +608,10 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                                 if (secondpart.StartsWith("hex("))
                                                     {
-                                                        uint type = uint.Parse(secondpart.Split(':').First().Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
+                                                        uint type = uint.Parse(secondpart.Split(':')[0].Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
                                                         string valuedata = secondpart.Split(':')[1].Replace(",", "");
                                                         list.Add(new RegFileItem
                                                         {
@@ -649,7 +624,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype2 = type
                                                         });
                                                     }
-
                                                     else
                                                                                                                     if (secondpart.StartsWith("-"))
                                                     {
@@ -662,14 +636,12 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuename = valuename
                                                         });
                                                     }
-
                                                     else
                                                     {
                                                         return false;
                                                     }
                                                 }
                                             }
-
                                             else
                                                 if ((curstr.Split('=')[0][0] == '"') && (curstr.Split('=')[0].Last() == '"'))
                                             {
@@ -690,7 +662,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                         return false;
                                                     }
                                                 }
-
                                                 else
                                                 {
                                                     if ((secondpart[0] == '"') && (secondpart.Last() == '"'))
@@ -711,7 +682,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                         if (secondpart.StartsWith("hex(0):"))
                                                     {
@@ -729,7 +699,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                             if (secondpart.StartsWith("hex(1):"))
                                                     {
@@ -755,7 +724,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                 if (secondpart.StartsWith("hex(2):"))
                                                     {
@@ -781,7 +749,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                     if (secondpart.StartsWith("hex(3):"))
                                                     {
@@ -799,7 +766,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                         if (secondpart.StartsWith("hex:"))
                                                     {
@@ -817,7 +783,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                             if (secondpart.StartsWith("hex(4):"))
                                                     {
@@ -825,8 +790,7 @@ namespace InteropTools.ContentDialogs.Registry
                                                         RegTypes type = RegTypes.REG_DWORD;
                                                         string valuedata =
                                                                                       int.Parse(
-                                                                                        string.Join("",
-                                                                                                    secondpart.Split(':')[1].Split(',').Reverse()),
+                                                                                        string.Concat(                                                                                                    secondpart.Split(':')[1].Split(',').Reverse()),
                                                                                         NumberStyles.HexNumber).ToString();
                                                         list.Add(new RegFileItem
                                                         {
@@ -839,7 +803,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                 if (secondpart.StartsWith("dword:"))
                                                     {
@@ -859,7 +822,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                     if (secondpart.StartsWith("hex(5):"))
                                                     {
@@ -877,7 +839,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                         if (secondpart.StartsWith("hex(6):"))
                                                     {
@@ -895,14 +856,13 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                             if (secondpart.StartsWith("hex(7):"))
                                                     {
                                                         // REG_MULTI_SZ
                                                         RegTypes type = RegTypes.REG_MULTI_SZ;
                                                         string tmpbufferstr = secondpart.Split(':')[1];
-                                                        string trim = ",00,00";
+                                                        const string trim = ",00,00";
                                                         tmpbufferstr = tmpbufferstr.TrimEnd(trim.ToCharArray());
                                                         string[] data =
                                                                                                       new string[
@@ -938,7 +898,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                 if (secondpart.StartsWith("hex(8):"))
                                                     {
@@ -956,7 +915,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                     if (secondpart.StartsWith("hex(9):"))
                                                     {
@@ -974,7 +932,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                         if (secondpart.StartsWith("hex(a):"))
                                                     {
@@ -992,7 +949,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                             if (secondpart.StartsWith("hex(b):"))
                                                     {
@@ -1018,11 +974,10 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype = type
                                                         });
                                                     }
-
                                                     else
                                                                                                                 if (secondpart.StartsWith("hex("))
                                                     {
-                                                        uint type = uint.Parse(secondpart.Split(':').First().Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
+                                                        uint type = uint.Parse(secondpart.Split(':')[0].Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
                                                         string valuedata = secondpart.Split(':')[1].Replace(",", "");
                                                         list.Add(new RegFileItem
                                                         {
@@ -1035,7 +990,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuetype2 = type
                                                         });
                                                     }
-
                                                     else
                                                                                                                     if (secondpart.StartsWith("-"))
                                                     {
@@ -1048,26 +1002,22 @@ namespace InteropTools.ContentDialogs.Registry
                                                             valuename = valuename
                                                         });
                                                     }
-
                                                     else
                                                     {
                                                         return false;
                                                     }
                                                 }
                                             }
-
                                             else
                                             {
                                                 return false;
                                             }
                                         }
-
                                         else
                                         {
                                             return false;
                                         }
                                     }
-
                                     else
                                     {
                                         // Continue parsing
@@ -1081,7 +1031,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                 return false;
                                             }
                                         }
-
                                         else
                                         {
                                             isStillParsingValue = false;
@@ -1110,7 +1059,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                 if (curdatasecondpart.StartsWith("hex(0):"))
                                             {
@@ -1128,7 +1076,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                     if (curdatasecondpart.StartsWith("hex(1):"))
                                             {
@@ -1154,7 +1101,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                         if (curdatasecondpart.StartsWith("hex(2):"))
                                             {
@@ -1180,7 +1126,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                             if (curdatasecondpart.StartsWith("hex(3):"))
                                             {
@@ -1198,7 +1143,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                 if (curdatasecondpart.StartsWith("hex:"))
                                             {
@@ -1216,7 +1160,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                     if (curdatasecondpart.StartsWith("hex(4):"))
                                             {
@@ -1224,7 +1167,7 @@ namespace InteropTools.ContentDialogs.Registry
                                                 RegTypes type = RegTypes.REG_DWORD;
                                                 string valuedata =
                                                                           int.Parse(
-                                                                            string.Join("", curdatasecondpart.Split(':')[1].Split(',').Reverse()),
+                                                                            string.Concat(curdatasecondpart.Split(':')[1].Split(',').Reverse()),
                                                                             NumberStyles.HexNumber).ToString();
                                                 list.Add(new RegFileItem
                                                 {
@@ -1237,7 +1180,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                         if (curdatasecondpart.StartsWith("dword:"))
                                             {
@@ -1257,7 +1199,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                             if (curdatasecondpart.StartsWith("hex(5):"))
                                             {
@@ -1275,7 +1216,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                 if (curdatasecondpart.StartsWith("hex(6):"))
                                             {
@@ -1293,14 +1233,13 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                     if (curdatasecondpart.StartsWith("hex(7):"))
                                             {
                                                 // REG_MULTI_SZ
                                                 RegTypes type = RegTypes.REG_MULTI_SZ;
                                                 string tmpbufferstr = curdatasecondpart.Split(':')[1];
-                                                string trim = ",00,00";
+                                                const string trim = ",00,00";
                                                 tmpbufferstr = tmpbufferstr.TrimEnd(trim.ToCharArray());
                                                 string[] data =
                                                                                           new string[
@@ -1335,7 +1274,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                         if (curdatasecondpart.StartsWith("hex(8):"))
                                             {
@@ -1353,7 +1291,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                             if (curdatasecondpart.StartsWith("hex(9):"))
                                             {
@@ -1371,7 +1308,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                                 if (curdatasecondpart.StartsWith("hex(a):"))
                                             {
@@ -1389,7 +1325,6 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                                     if (curdatasecondpart.StartsWith("hex(b):"))
                                             {
@@ -1415,11 +1350,10 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype = type
                                                 });
                                             }
-
                                             else
                                                                                                         if (curdatasecondpart.StartsWith("hex("))
                                             {
-                                                uint type = uint.Parse(curdatasecondpart.Split(':').First().Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
+                                                uint type = uint.Parse(curdatasecondpart.Split(':')[0].Replace("hex(", "").Replace(")", ""), NumberStyles.HexNumber);
                                                 string valuedata = curdatasecondpart.Split(':')[1].Replace(",", "");
                                                 list.Add(new RegFileItem
                                                 {
@@ -1432,13 +1366,11 @@ namespace InteropTools.ContentDialogs.Registry
                                                     valuetype2 = type
                                                 });
                                             }
-
                                             else
                                                                                                             if (curdatasecondpart.StartsWith("-"))
                                             {
                                                 return false;
                                             }
-
                                             else
                                             {
                                                 return false;
@@ -1446,7 +1378,6 @@ namespace InteropTools.ContentDialogs.Registry
                                         }
                                     }
                                 }
-
                                 else
                                 {
                                     return false;
@@ -1482,7 +1413,6 @@ namespace InteropTools.ContentDialogs.Registry
                             await helper.AddKey(regoperation.hive, regoperation.key);
                         }
                     }
-
                     else
                     {
                         if (regoperation.valuetype2.HasValue)
@@ -1490,7 +1420,6 @@ namespace InteropTools.ContentDialogs.Registry
                             await helper.SetKeyValue(regoperation.hive, regoperation.key, regoperation.valuename,
                                                regoperation.valuetype2.Value, regoperation.valuedata);
                         }
-
                         else
                         {
                             await helper.SetKeyValue(regoperation.hive, regoperation.key, regoperation.valuename,
@@ -1498,14 +1427,12 @@ namespace InteropTools.ContentDialogs.Registry
                         }
                     }
                 }
-
                 else
                 {
                     if (regoperation.type == RegItemType.KEY)
                     {
                         await helper.DeleteKey(regoperation.hive, regoperation.key, true);
                     }
-
                     else
                     {
                         await helper.DeleteValue(regoperation.hive, regoperation.key, regoperation.valuename);

@@ -33,10 +33,7 @@ namespace Intense.Presentation
 
         private void OnFrameChanged(Frame oldFrame, Frame newFrame)
         {
-            if (newFrame != null)
-            {
-                newFrame.RegisterEventSink(this);
-            }
+            newFrame?.RegisterEventSink(this);
 
             UpdateCommandStates();
         }

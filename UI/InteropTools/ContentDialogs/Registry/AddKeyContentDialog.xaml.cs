@@ -96,64 +96,56 @@ namespace InteropTools.ContentDialogs.Registry
 
                 if (status == HelperErrorCodes.FAILED)
                 {
-                    RunInUIThread(() => { ShowKeyUnableToAddMessageBox(); });
+                    RunInUIThread(() => ShowKeyUnableToAddMessageBox());
                 }
             });
         }
 
         private RegHives GetSelectedHive()
         {
-            RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
+            const RegHives hive = RegHives.HKEY_LOCAL_MACHINE;
             int selectedhiveindex = HiveSelector.SelectedIndex;
 
             switch (selectedhiveindex)
             {
                 case 0:
                     {
-                        hive = RegHives.HKEY_CURRENT_CONFIG;
-                        break;
+                        return RegHives.HKEY_CURRENT_CONFIG;
                     }
 
                 case 1:
                     {
-                        hive = RegHives.HKEY_CLASSES_ROOT;
-                        break;
+                        return RegHives.HKEY_CLASSES_ROOT;
                     }
 
                 case 2:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER;
                     }
 
                 case 3:
                     {
-                        hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
-                        break;
+                        return RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS;
                     }
 
                 case 4:
                     {
-                        hive = RegHives.HKEY_DYN_DATA;
-                        break;
+                        return RegHives.HKEY_DYN_DATA;
                     }
 
                 case 5:
                     {
-                        hive = RegHives.HKEY_LOCAL_MACHINE;
-                        break;
+                        return RegHives.HKEY_LOCAL_MACHINE;
                     }
 
                 case 6:
                     {
-                        hive = RegHives.HKEY_PERFORMANCE_DATA;
-                        break;
+                        return RegHives.HKEY_PERFORMANCE_DATA;
                     }
 
                 case 7:
                     {
-                        hive = RegHives.HKEY_USERS;
-                        break;
+                        return RegHives.HKEY_USERS;
                     }
             }
 
@@ -175,12 +167,12 @@ namespace InteropTools.ContentDialogs.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
     }
 }

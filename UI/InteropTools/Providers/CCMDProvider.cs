@@ -47,7 +47,7 @@ namespace InteropTools.Providers
 
         public bool DoesFileExists(string path)
         {
-            return App.SshClient.RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
+            return SessionManager.SshClient.RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
         }
 
         public string GetAppInstallationPath()
@@ -62,12 +62,12 @@ namespace InteropTools.Providers
 
         public string GetFriendlyName()
         {
-            return App.SshClient.ConnectionInfo.Host == "127.0.0.1" ? "This device" : App.SshClient.ConnectionInfo.Host;
+            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1" ? "This device" : SessionManager.SshClient.ConnectionInfo.Host;
         }
 
         public string GetHostName()
         {
-            return App.SshClient.ConnectionInfo.Host;
+            return SessionManager.SshClient.ConnectionInfo.Host;
         }
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
@@ -272,12 +272,12 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryItems(RegHives hive, string key)
         {
-            Renci.SshNet.SshClient Client = App.SshClient;
+            Renci.SshNet.SshClient Client = SessionManager.SshClient;
             List<RegistryItem> ItemsList = new();
             string hivename = hive.ToString();
             string querystr = hivename + @"\" + key;
 
-            if (key == "")
+            if (key?.Length == 0)
             {
                 querystr = hivename;
             }
@@ -306,7 +306,6 @@ namespace InteropTools.Providers
                             });
                         }
                     }
-
                     else
                     {
                         string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
@@ -354,9 +353,9 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = App.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Count() != 0))
+            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -420,12 +419,12 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
-            Renci.SshNet.SshClient Client = App.SshClient;
+            Renci.SshNet.SshClient Client = SessionManager.SshClient;
             List<RegistryItemCustom> ItemsList = new();
             string hivename = hive.ToString();
             string querystr = hivename + @"\" + key;
 
-            if (key == "")
+            if (key?.Length == 0)
             {
                 querystr = hivename;
             }
@@ -453,7 +452,6 @@ namespace InteropTools.Providers
                             });
                         }
                     }
-
                     else
                     {
                         string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
@@ -501,9 +499,9 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = App.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Count() != 0))
+            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -577,7 +575,7 @@ namespace InteropTools.Providers
 
         public bool IsLocal()
         {
-            return App.SshClient.ConnectionInfo.Host == "127.0.0.1";
+            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1";
         }
 
         public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)

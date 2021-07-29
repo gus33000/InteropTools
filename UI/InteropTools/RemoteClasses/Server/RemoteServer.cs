@@ -37,7 +37,6 @@ namespace InteropTools.RemoteClasses.Server
                 await _listener.BindServiceNameAsync(Port.ToString());
                 Started = true;
             }
-
             catch (Exception e)
             {
                 OnError?.Invoke(e.Message);
@@ -88,7 +87,6 @@ namespace InteropTools.RemoteClasses.Server
                     OnDataReceived(data, args);
                 }
             }
-
             catch (Exception ex)
             {
                 OnError?.Invoke(ex.Message);

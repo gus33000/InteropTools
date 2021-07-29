@@ -25,7 +25,6 @@ namespace AppPlugin
         /// <param name="useSyncronisationContext">Discrips if the code should be called using a SyncronisationContext.</param>
         public AbstractPlugin(bool useSyncronisationContext = true) : base(useSyncronisationContext)
         {
-
         }
 
         /// <summary>
@@ -41,7 +40,7 @@ namespace AppPlugin
         /// <returns>The <see cref="AppPlugin.PluginList<,,,>"/></returns>
         public static async Task<PluginList<TIn, TOut, TProgress>> ListAsync(string pluginName)
         {
-            PluginList<TIn, TOut, TProgress> pluginList = new PluginList<TIn, TOut, TProgress>(pluginName);
+            PluginList<TIn, TOut, TProgress> pluginList = new(pluginName);
             await pluginList.InitAsync();
             return pluginList;
         }
@@ -55,17 +54,16 @@ namespace AppPlugin
         /// <returns>The result of the execution.</returns>
         protected abstract Task<TOut> Execute(AppServiceConnection sender, TIn input, IProgress<TProgress> progress, CancellationToken cancelToken);
 
-
         internal override async Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource)
         {
             string inputString = args.Request.Message[START_KEY] as string;
 
             TIn input = Helper.DeSerilize<TIn>(inputString);
 
-            Progress<TProgress> progress = new Progress<TProgress>(async r =>
+            Progress<TProgress> progress = new(async r =>
             {
                 string data = Helper.Serilize(r);
-                ValueSet dataSet = new ValueSet
+                ValueSet dataSet = new()
                 {
                     { PROGRESS_KEY, data },
                     { ID_KEY, id }

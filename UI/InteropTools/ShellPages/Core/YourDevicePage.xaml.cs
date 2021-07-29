@@ -42,7 +42,6 @@ namespace InteropTools.ShellPages.Core
                 ulong v4 = v & 0x000000000000FFFFL;
                 DeviceFamilyVersion.Text = $"{v1}.{v2}.{v3}.{v4}";
             }
-
             catch
             {
                 // ignored

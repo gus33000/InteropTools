@@ -45,7 +45,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            GetKeyValueReturn ret = new GetKeyValueReturn
+            GetKeyValueReturn ret = new()
             {
                 regtype = RegTypes.REG_SZ,
                 regvalue = "Test",
@@ -56,7 +56,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            List<RegistryItem> itemList = new List<RegistryItem>
+            List<RegistryItem> itemList = new()
             {
                 new RegistryItem
                 {
@@ -136,7 +136,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryItems(RegHives hive, string key)
         {
-            List<RegistryItem> itemList = new List<RegistryItem>
+            List<RegistryItem> itemList = new()
             {
                 new RegistryItem
                 {
@@ -292,7 +292,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime
+            GetKeyLastModifiedTime ret = new()
             {
                 LastModified = DateTime.Now,
                 returncode = HelperErrorCodes.SUCCESS
@@ -302,7 +302,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            GetKeyValueReturn2 ret = new GetKeyValueReturn2
+            GetKeyValueReturn2 ret = new()
             {
                 regtype = (uint)RegTypes.REG_SZ,
                 regvalue = "Test",
@@ -318,7 +318,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>
+            List<RegistryItemCustom> itemList = new()
             {
                 new RegistryItemCustom
                 {
@@ -398,7 +398,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
-            List<RegistryItemCustom> itemList = new List<RegistryItemCustom>
+            List<RegistryItemCustom> itemList = new()
             {
                 new RegistryItemCustom
                 {

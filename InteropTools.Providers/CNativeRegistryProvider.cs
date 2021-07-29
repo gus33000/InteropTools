@@ -10,10 +10,10 @@ namespace InteropTools.Providers
 {
     public sealed class CNativeRegistryProvider : InteropTools.Providers.IRegistryProvider
     {
-        private readonly CRegistryHelper helper = new CRegistryHelper();
+        private readonly CRegistryHelper helper = new();
         public bool Initialized;
 
-        private static readonly Dictionary<RegHives, RegistryHelper.REG_HIVES> _hives = new Dictionary<RegHives, RegistryHelper.REG_HIVES>
+        private static readonly Dictionary<RegHives, RegistryHelper.REG_HIVES> _hives = new()
         {
             { RegHives.HKEY_CLASSES_ROOT, RegistryHelper.REG_HIVES.HKEY_CLASSES_ROOT },
             { RegHives.HKEY_CURRENT_USER, RegistryHelper.REG_HIVES.HKEY_CURRENT_USER },
@@ -25,7 +25,7 @@ namespace InteropTools.Providers
             { RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHelper.REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS }
         };
 
-        private static readonly Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE> _valtypes = new Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE>
+        private static readonly Dictionary<RegTypes, RegistryHelper.REG_VALUE_TYPE> _valtypes = new()
         {
             { RegTypes.REG_NONE, RegistryHelper.REG_VALUE_TYPE.REG_NONE },
             { RegTypes.REG_SZ, RegistryHelper.REG_VALUE_TYPE.REG_SZ },
@@ -118,7 +118,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            GetKeyValueReturn ret = new GetKeyValueReturn();
+            GetKeyValueReturn ret = new();
 
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             RegistryHelper.REG_VALUE_TYPE tmptype = _valtypes[type];
@@ -135,7 +135,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
-            List<RegistryItem> itemsList = new List<RegistryItem>();
+            List<RegistryItem> itemsList = new();
             helper.RegEnumKey(null, null, out IReadOnlyList<RegistryHelper.REG_ITEM> items);
 
             foreach (RegistryHelper.REG_ITEM item in items)
@@ -157,7 +157,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryItems(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            List<RegistryItem> itemsList = new List<RegistryItem>();
+            List<RegistryItem> itemsList = new();
             helper.RegEnumKey(tmphive, key, out IReadOnlyList<RegistryHelper.REG_ITEM> items);
 
             foreach (RegistryHelper.REG_ITEM item in items)
@@ -198,7 +198,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            GetKeyLastModifiedTime ret = new GetKeyLastModifiedTime();
+            GetKeyLastModifiedTime ret = new();
 
             try
             {
@@ -207,7 +207,6 @@ namespace InteropTools.Providers
                 ret.LastModified = DateTime.FromFileTime(time);
                 ret.returncode = HelperErrorCodes.SUCCESS;
             }
-
             catch
             {
                 ret.LastModified = new DateTime();
@@ -219,7 +218,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            GetKeyValueReturn2 ret = new GetKeyValueReturn2();
+            GetKeyValueReturn2 ret = new();
 
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             HelperErrorCodes result =
@@ -241,7 +240,7 @@ namespace InteropTools.Providers
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            List<RegistryItemCustom> itemsList = new List<RegistryItemCustom>();
+            List<RegistryItemCustom> itemsList = new();
             helper.RegEnumKey(null, null, out IReadOnlyList<REG_ITEM_CUSTOM> items);
 
             foreach (REG_ITEM_CUSTOM item in items)
@@ -263,7 +262,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
-            List<RegistryItemCustom> itemsList = new List<RegistryItemCustom>();
+            List<RegistryItemCustom> itemsList = new();
             helper.RegEnumKey(tmphive, key, out IReadOnlyList<REG_ITEM_CUSTOM> items);
 
             foreach (REG_ITEM_CUSTOM item in items)

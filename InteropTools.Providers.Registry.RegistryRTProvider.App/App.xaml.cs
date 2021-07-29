@@ -47,7 +47,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider.App
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (!e.PrelaunchActivated)
             {
                 if (rootFrame.Content == null)
                 {

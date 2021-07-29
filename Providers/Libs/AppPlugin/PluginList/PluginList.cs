@@ -7,13 +7,10 @@ using Windows.Foundation.Collections;
 
 namespace AppPlugin.PluginList
 {
-
     public class PluginList<TIn, TOut, TProgress> : AbstractPluginList<TOut, PluginList<TIn, TOut, TProgress>.PluginProvider>
     {
-
         internal PluginList(string pluginName) : base(pluginName)
         {
-
         }
 
         internal override PluginProvider CreatePluginProvider(AppExtension ext, string serviceName)
@@ -23,7 +20,6 @@ namespace AppPlugin.PluginList
 
         public new sealed class PluginProvider : AbstractPluginList<TOut, PluginProvider>.PluginProvider, IPlugin<TIn, TOut, TProgress>
         {
-
             internal PluginProvider(AppExtension ext, string serviceName) : base(ext, serviceName)
             {
             }
@@ -40,7 +36,6 @@ namespace AppPlugin.PluginList
                     return await plugin.ExecuteAsync(input);
                 }
             }
-
         }
 
         private sealed class PluginConnection : IDisposable
@@ -63,7 +58,7 @@ namespace AppPlugin.PluginList
 
             private async void Canceld()
             {
-                ValueSet valueSet = new ValueSet
+                ValueSet valueSet = new()
                 {
                     { AbstractPlugin<object, object, object>.ID_KEY, id },
                     { AbstractPlugin<object, object, object>.CANCEL_KEY, true }
@@ -94,7 +89,6 @@ namespace AppPlugin.PluginList
 
                 TProgress progress = Helper.DeSerilize<TProgress>(progressString);
 
-
                 this.progress?.Report(progress);
                 await args.Request.SendResponseAsync(new ValueSet());
             }
@@ -106,16 +100,14 @@ namespace AppPlugin.PluginList
 
             public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
             {
-                AppServiceConnection connection = new AppServiceConnection
+                AppServiceConnection connection = new()
                 {
                     AppServiceName = serviceName,
                     PackageFamilyName = appExtension.Package.Id.FamilyName
                 };
 
-                PluginConnection pluginConnection = new PluginConnection(connection, progress, cancelTokem);
+                PluginConnection pluginConnection = new(connection, progress, cancelTokem);
                 AppServiceConnectionStatus status = await connection.OpenAsync();
-
-
 
                 //If the new connection opened successfully we're done here
                 if (status == AppServiceConnectionStatus.Success)
@@ -125,7 +117,7 @@ namespace AppPlugin.PluginList
                 else
                 {
                     //Clean up before we go
-                    Exceptions.ConnectionFailureException exception = new Exceptions.ConnectionFailureException(status, connection);
+                    Exceptions.ConnectionFailureException exception = new(status, connection);
                     connection.Dispose();
                     throw exception;
                 }
@@ -151,7 +143,7 @@ namespace AppPlugin.PluginList
 
                 string inputString = Helper.Serilize(input);
 
-                ValueSet inputs = new ValueSet
+                ValueSet inputs = new()
                 {
                     { AbstractPlugin<object, object, object>.START_KEY, inputString },
                     { AbstractPlugin<object, object, object>.ID_KEY, id }
@@ -183,7 +175,6 @@ namespace AppPlugin.PluginList
                 TOut output = Helper.DeSerilize<TOut>(outputString);
 
                 return output;
-
             }
         }
     }

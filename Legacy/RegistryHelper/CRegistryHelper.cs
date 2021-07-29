@@ -6,7 +6,7 @@ namespace RegistryHelper
 {
     public sealed class CRegistryHelper
     {
-        private readonly List<IRegistryProvider> providers = new List<IRegistryProvider>();
+        private readonly List<IRegistryProvider> providers = new();
 
         public CRegistryHelper()
         {
@@ -15,19 +15,19 @@ namespace RegistryHelper
             providers.Add(new DevProgramProvider());
             providers.Add(new WinPRTUtilsProvider());
 
-            NDTKRegistryProvider ndtkprov = new NDTKRegistryProvider();
+            NDTKRegistryProvider ndtkprov = new();
             if (ndtkprov.IsSupported())
             {
                 providers.Add(ndtkprov);
             }
 
-            SAMSUNGRPCProvider samprov = new SAMSUNGRPCProvider();
+            SAMSUNGRPCProvider samprov = new();
             if (samprov.IsSupported())
             {
                 providers.Add(samprov);
             }
 
-            LGRPCProvider lgprov = new LGRPCProvider();
+            LGRPCProvider lgprov = new();
             if (lgprov.IsSupported())
             {
                 providers.Add(lgprov);
@@ -129,7 +129,6 @@ namespace RegistryHelper
             items = new List<REG_ITEM_CUSTOM>();
             return REG_STATUS.FAILED;
         }
-
 
         public REG_STATUS RegAddKey(REG_HIVES hive, string key)
         {
@@ -345,7 +344,6 @@ namespace RegistryHelper
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-
         private static readonly uint[] _lookup32 = CreateLookup32();
 
         private static uint[] CreateLookup32()
@@ -367,11 +365,10 @@ namespace RegistryHelper
             {
                 uint val = lookup32[bytes[i]];
                 result[2 * i] = (char)val;
-                result[2 * i + 1] = (char)(val >> 16);
+                result[(2 * i) + 1] = (char)(val >> 16);
             }
             return new string(result);
         }
-
 
         public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out string data)
         {
@@ -380,7 +377,7 @@ namespace RegistryHelper
             foreach (IRegistryProvider prov in providers)
             {
                 REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out REG_VALUE_TYPE valtypetmp, out byte[] datatmp);
-                if ((result == REG_STATUS.SUCCESS))
+                if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
 
@@ -594,7 +591,7 @@ namespace RegistryHelper
             foreach (IRegistryProvider prov in providers)
             {
                 REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out uint valtypetmp, out byte[] datatmp);
-                if ((result == REG_STATUS.SUCCESS))
+                if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
 
@@ -910,7 +907,6 @@ namespace RegistryHelper
             return REG_STATUS.FAILED;
         }
 
-
         private static byte[] StringToByteArrayFastest(string hex)
         {
             if (hex.Length % 2 == 1)
@@ -922,7 +918,7 @@ namespace RegistryHelper
 
             for (int i = 0; i < (hex.Length >> 1); ++i)
             {
-                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + (GetHexVal(hex[(i << 1) + 1])));
+                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
 
             return arr;
@@ -938,7 +934,6 @@ namespace RegistryHelper
             //Or the two combined, but a bit slower:
             return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
-
 
         [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
         public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, string data)
@@ -1043,7 +1038,6 @@ namespace RegistryHelper
 
             return REG_STATUS.FAILED;
         }
-
 
         public bool DoesFileExists(string path)
         {
@@ -1190,6 +1184,5 @@ namespace RegistryHelper
             lastmodified = long.MinValue;
             return REG_STATUS.FAILED;
         }
-
     }
 }

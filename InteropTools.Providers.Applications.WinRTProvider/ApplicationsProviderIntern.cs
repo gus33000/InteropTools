@@ -38,7 +38,6 @@ using Windows.Management.Deployment;
 
 namespace InteropTools.Providers.Applications.WinRTProvider
 {
-
     public sealed class ApplicationsProvider : IBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new ApplicationsProviderIntern();
@@ -68,11 +67,11 @@ namespace InteropTools.Providers.Applications.WinRTProvider
         {
             string[] arr = input.Split(new string[] { "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" }, StringSplitOptions.None);
 
-            string operation = arr.First();
+            string operation = arr[0];
             Enum.TryParse(operation, true, out APPLICATIONS_OPERATION operationenum);
 
-            List<List<string>> returnvalue = new List<List<string>>();
-            List<string> returnvalue2 = new List<string>();
+            List<List<string>> returnvalue = new();
+            List<string> returnvalue2 = new();
 
             switch (operationenum)
             {
@@ -81,7 +80,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                         Enum.TryParse<RemovalOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out RemovalOptions remop);
                         _ = await new PackageManager().RemovePackageAsync(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
@@ -90,7 +89,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                         Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().RegisterPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
@@ -99,7 +98,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                         Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().AddPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
@@ -108,7 +107,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                         Enum.TryParse<DeploymentOptions>(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
                         _ = await new PackageManager().UpdatePackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
@@ -116,12 +115,12 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                     {
                         IReadOnlyList<PackageVolume> vols = await new PackageManager().GetPackageVolumesAsync();
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
 
                         foreach (PackageVolume item in vols)
                         {
-                            List<string> itemlist = new List<string>
+                            List<string> itemlist = new()
                             {
                                 Convert.ToBase64String(Encoding.UTF8.GetBytes(item.MountPoint)),
                                 Convert.ToBase64String(Encoding.UTF8.GetBytes(item.PackageStorePath)),
@@ -153,7 +152,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                             await RunInUiThread(() => {
                                 ((CollectionViewSource)Resources["AppsGroups"]).Source = itemSource;
                             });*/
-                            List<Item> tmplist = new List<Item>();
+                            List<Item> tmplist = new();
                             IReadOnlyList<PackageVolume> vols = await new PackageManager().GetPackageVolumesAsync();
                             /*_volumelist.Add(new VolumeDisplayitem());
 
@@ -193,7 +192,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                 foreach (PackageTypes type in pkgtypes)
                                 {
                                     IList<Package> pkgs = vol.FindPackagesForUserWithPackageTypes("", type);
-                                    numofpkgs += pkgs.Count();
+                                    numofpkgs += pkgs.Count;
                                 }
                             }
 
@@ -201,7 +200,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
                             foreach (PackageVolume vol in vols)
                             {
-                                List<Package> applist = new List<Package>();
+                                List<Package> applist = new();
 
                                 foreach (PackageTypes type in pkgtypes)
                                 {
@@ -231,7 +230,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                                 {
                                                     displayname = appEntry.DisplayInfo.DisplayName;
                                                 }
-
                                                 catch
                                                 {
                                                     // ignored
@@ -243,7 +241,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                                                   package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
                                                                   package.Id.Version.Build + "." + package.Id.Version.Revision;
                                                 }
-
                                                 catch
                                                 {
                                                     // ignored
@@ -251,7 +248,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
                                                 try
                                                 {
-                                                    Size logosize = new Size
+                                                    Size logosize = new()
                                                     {
                                                         Height = 160,
                                                         Width = 160
@@ -263,7 +260,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                                         logo = bitmapImage;
                                                     });*/
                                                 }
-
                                                 catch
                                                 {
                                                     // ignored
@@ -272,7 +268,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                                 break;
                                             }
                                         }
-
                                         catch
                                         {
                                             // ignored
@@ -296,10 +291,9 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                 }
                             }
 
-
                             foreach (Item item in tmplist)
                             {
-                                List<string> itemlist = new List<string>
+                                List<string> itemlist = new()
                                 {
                                     Convert.ToBase64String(Encoding.UTF8.GetBytes(item.DisplayName)),
                                     Convert.ToBase64String(Encoding.UTF8.GetBytes(item.FullName)),
@@ -311,13 +305,11 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                 returnvalue.Add(itemlist);
                             }
                         }
-
                         catch (Exception)
                         {
-
                         }
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(APPLICATIONS_STATUS.SUCCESS.ToString())));
+                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
 
                         break;
@@ -341,7 +333,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
             return returnstr;
         }
-
 
         protected override Task<Options> GetOptions()
         {

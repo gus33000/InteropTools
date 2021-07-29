@@ -8,7 +8,6 @@ namespace InteropTools.Providers.Applications.Definition
 {
     public abstract class ApplicationProvidersWithOptions : AbstractPlugin<string, string, double>
     {
-
         public const string PLUGIN_NAME = "InteropTools.Providers.Applications";
 
         protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)

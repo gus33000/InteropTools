@@ -11,7 +11,7 @@ namespace Intense.Presentation
     public class AppearanceCommands
         : IAppearanceManagerEventSink
     {
-        private readonly ColorToObjectConverter converter = new ColorToObjectConverter();
+        private readonly ColorToObjectConverter converter = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppearanceCommands"/> class.

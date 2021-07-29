@@ -8,11 +8,7 @@ namespace Intense.Resources
 
         private static ResourceLoader GetLoader()
         {
-            if (loader == null)
-            {
-                loader = ResourceLoader.GetForCurrentView("Intense/Resources");
-            }
-            return loader;
+            return loader ??= ResourceLoader.GetForCurrentView("Intense/Resources");
         }
 
         /// <summary>
@@ -21,7 +17,6 @@ namespace Intense.Resources
         /// <param name="name"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-
         public static string GetString(string name, params object[] args)
         {
             string value = GetLoader().GetString(name);

@@ -51,7 +51,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
-            List<REG_ITEM> list = new List<REG_ITEM>();
+            List<REG_ITEM> list = new();
 
             if (hive == null)
             {

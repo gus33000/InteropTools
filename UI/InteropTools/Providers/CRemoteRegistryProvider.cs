@@ -49,7 +49,7 @@ namespace InteropTools.Providers
             GetKeyValueReturn ret = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetKeyValue",
                 Hive = hive.ToString(),
                 Key = key,
@@ -68,7 +68,6 @@ namespace InteropTools.Providers
                     ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
                     return ret;
                 }
-
                 catch
                 {
                     ret.regtype = RegTypes.REG_ERROR;
@@ -88,7 +87,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "SetKeyValue",
                 Hive = hive.ToString(),
                 Key = key,
@@ -108,7 +107,6 @@ namespace InteropTools.Providers
                 RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -119,7 +117,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "DeleteValue",
                 Hive = hive.ToString(),
                 Key = key,
@@ -137,7 +135,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -148,7 +145,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetKeyStatus",
                 Hive = hive.ToString(),
                 Key = key
@@ -165,7 +162,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (KeyStatus)Enum.Parse(typeof(KeyStatus), data.Result.Status);
             }
-
             catch
             {
                 return KeyStatus.UNKNOWN;
@@ -176,7 +172,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "AddKey",
                 Hive = hive.ToString(),
                 Key = key
@@ -193,7 +189,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -204,7 +199,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "DeleteKey",
                 Hive = hive.ToString(),
                 Recursive = recursive,
@@ -222,7 +217,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -233,7 +227,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "RenameKey",
                 Hive = hive.ToString(),
                 Key = key,
@@ -251,7 +245,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -263,7 +256,7 @@ namespace InteropTools.Providers
             List<RegistryItem> itemList = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetRegistryHives"
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
@@ -286,7 +279,6 @@ namespace InteropTools.Providers
                     ValueType = (RegTypes)Enum.Parse(typeof(RegTypes), item.ValueType)
                 }));
             }
-
             catch
             {
                 // ignored
@@ -299,7 +291,7 @@ namespace InteropTools.Providers
         {
             if (!_initialized)
             {
-                _useCmd = await App.IsCMDSupported();
+                _useCmd = await SessionManager.IsCMDSupported();
                 _initialized = true;
             }
 
@@ -312,7 +304,7 @@ namespace InteropTools.Providers
             List<RegistryItem> itemList = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetRegistryItems",
                 Hive = hive.ToString(),
                 Key = key
@@ -337,7 +329,6 @@ namespace InteropTools.Providers
                     ValueType = (RegTypes)Enum.Parse(typeof(RegTypes), item.ValueType)
                 }));
             }
-
             catch
             {
                 // ignored
@@ -350,7 +341,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "DoesFileExists",
                 Path = path
             };
@@ -366,7 +357,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return data.Result.Exists;
             }
-
             catch
             {
                 return false;
@@ -377,7 +367,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetAppInstallationPath"
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
@@ -392,7 +382,6 @@ namespace InteropTools.Providers
                 RootObject data = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return data.Result.AppInstallationPath;
             }
-
             catch
             {
                 return "";
@@ -424,7 +413,7 @@ namespace InteropTools.Providers
             GetKeyLastModifiedTime ret = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetKeyLastModifiedTime",
                 Hive = hive.ToString(),
                 Key = key
@@ -445,7 +434,6 @@ namespace InteropTools.Providers
                 ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
                 return ret;
             }
-
             catch
             {
                 ret.LastModified = new DateTime();
@@ -459,7 +447,7 @@ namespace InteropTools.Providers
             GetKeyValueReturn2 ret = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetKeyValue2",
                 Hive = hive.ToString(),
                 Key = key,
@@ -478,7 +466,6 @@ namespace InteropTools.Providers
                     ret.returncode = (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data.Result.Error);
                     return ret;
                 }
-
                 catch
                 {
                     ret.regtype = 0;
@@ -498,7 +485,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "SetKeyValue2",
                 Hive = hive.ToString(),
                 Key = key,
@@ -518,7 +505,6 @@ namespace InteropTools.Providers
                 RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -530,7 +516,7 @@ namespace InteropTools.Providers
             List<RegistryItemCustom> itemList = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetRegistryHives2"
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
@@ -553,7 +539,6 @@ namespace InteropTools.Providers
                     ValueType = item.ValueType2
                 }));
             }
-
             catch
             {
                 // ignored
@@ -566,7 +551,7 @@ namespace InteropTools.Providers
         {
             if (!_initialized)
             {
-                _useCmd = await App.IsCMDSupported();
+                _useCmd = await SessionManager.IsCMDSupported();
                 _initialized = true;
             }
 
@@ -579,7 +564,7 @@ namespace InteropTools.Providers
             List<RegistryItemCustom> itemList = new();
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "GetRegistryItems2",
                 Hive = hive.ToString(),
                 Key = key
@@ -604,7 +589,6 @@ namespace InteropTools.Providers
                     ValueType = item.ValueType2
                 }));
             }
-
             catch
             {
                 // ignored
@@ -617,7 +601,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "LoadHive",
                 FilePath = FileName,
                 mountpoint = mountpoint,
@@ -635,7 +619,6 @@ namespace InteropTools.Providers
                 RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;
@@ -646,7 +629,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = App.SessionId,
+                SessionId = SessionManager.SessionId,
                 Operation = "UnloadHive",
                 mountpoint = mountpoint,
                 inUser = inUser
@@ -663,7 +646,6 @@ namespace InteropTools.Providers
                 RootObject data_ = JsonConvert.DeserializeObject<RootObject>(replydata);
                 return (HelperErrorCodes)Enum.Parse(typeof(HelperErrorCodes), data_.Result.Error);
             }
-
             catch
             {
                 return HelperErrorCodes.FAILED;

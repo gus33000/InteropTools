@@ -270,6 +270,5 @@
         public static string ValueName = "Registry value name";
         public static string HistoryEmpty = "Your history list is empty. Read or write to a registry value to fill this space in.";
         public static string ClearHistory = "Clear history";
-
     }
 }

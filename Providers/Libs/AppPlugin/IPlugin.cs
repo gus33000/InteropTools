@@ -14,6 +14,5 @@ namespace AppPlugin
         Task<Tout> ExecuteAsync(TIn input, TOption options, IProgress<TProgress> progress = null, CancellationToken cancelTokem = default);
 
         Task<TOption> PrototypeOptions { get; }
-
     }
 }

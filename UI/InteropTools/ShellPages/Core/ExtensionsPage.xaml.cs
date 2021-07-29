@@ -46,20 +46,18 @@ namespace InteropTools.ShellPages.Core
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListView lv = (sender as ListView);
+            ListView lv = sender as ListView;
 
             if (lv.SelectedItem == null)
             {
                 lv.SelectedItem = e.ClickedItem;
             }
-
             else
             {
                 if (lv.SelectedItem.Equals(e.ClickedItem))
                 {
                     lv.SelectedItem = null;
                 }
-
                 else
                 {
                     lv.SelectedItem = e.ClickedItem;

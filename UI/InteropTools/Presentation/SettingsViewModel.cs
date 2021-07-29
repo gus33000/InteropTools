@@ -72,7 +72,6 @@ namespace InteropTools.Presentation
                 localSettings.Values["selectedBrush"] = null;
                 selectedBrush = new SolidColorBrush(AppearanceManager.SystemAccentColor);
             }
-
             else
             {
                 int argb = int.Parse(((string)localSettings.Values["selectedBrush"]).Replace("#", ""), NumberStyles.HexNumber);
@@ -94,9 +93,8 @@ namespace InteropTools.Presentation
             if ((localSettings.Values["selectedTheme"] == null) || (localSettings.Values["selectedTheme"].GetType() != typeof(string)))
             {
                 localSettings.Values["selectedTheme"] = null;
-                selectedTheme = Themes.First();
+                selectedTheme = Themes[0];
             }
-
             else
             {
                 selectedTheme = Themes.FirstOrDefault(t => t.Theme.ToString() == (string)localSettings.Values["selectedTheme"]);
@@ -106,17 +104,8 @@ namespace InteropTools.Presentation
             {
                 try
                 {
-                    if (selectedTheme.Theme.HasValue)
-                    {
-                        manager.Theme = selectedTheme.Theme.Value;
-                    }
-
-                    else
-                    {
-                        manager.Theme = Application.Current.RequestedTheme;
-                    }
+                    manager.Theme = selectedTheme.Theme ?? Application.Current.RequestedTheme;
                 }
-
                 catch
                 {
                 }
@@ -126,7 +115,6 @@ namespace InteropTools.Presentation
             {
                 useSystemAccentColor = true;
             }
-
             else
             {
                 selectedBrush = Brushes.FirstOrDefault(b => b.Color == AppearanceManager.AccentColor);
@@ -183,11 +171,10 @@ namespace InteropTools.Presentation
                 ApplicationDataContainer localSettings = applicationData.LocalSettings;
                 localSettings.Values["selectedTheme"] = value?.Theme.ToString();
 
-                if (Set(ref selectedTheme, value) && value != null && value.Theme.HasValue)
+                if (Set(ref selectedTheme, value) && value?.Theme.HasValue == true)
                 {
                     AppearanceManager.GetForCurrentView().Theme = value.Theme.Value;
                 }
-
                 else
                 {
                     AppearanceManager.GetForCurrentView().Theme = Application.Current.RequestedTheme;
@@ -214,7 +201,6 @@ namespace InteropTools.Presentation
                     {
                         AppearanceManager.AccentColor = null;
                     }
-
                     else
                         if (SelectedBrush != null)
                     {
@@ -277,14 +263,14 @@ namespace InteropTools.Presentation
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private static async Task RunInUiThread(Action function)
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async Task<bool> AskCreds()
@@ -324,7 +310,6 @@ namespace InteropTools.Presentation
                     }
                 }
             }
-
             else
             {
                 authorized = true;

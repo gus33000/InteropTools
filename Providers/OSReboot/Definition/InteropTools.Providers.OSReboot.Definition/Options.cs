@@ -6,25 +6,18 @@ using System.Runtime.Serialization;
 
 namespace InteropTools.Providers.OSReboot.Definition
 {
-
     [DataContract]
     [KnownType(typeof(IntOption))]
     [KnownType(typeof(StringOption))]
     public class TransfareOptions : IReadOnlyList<AbstractOption>
     {
-
         internal Guid? optionsIdentifyer;
         [DataMember]
         internal Guid OptionsIdentifyer
         {
             get
             {
-                if (optionsIdentifyer == null)
-                {
-                    optionsIdentifyer = Options.OptionsIdentifier;
-                }
-
-                return optionsIdentifyer.Value;
+                return optionsIdentifyer ??= Options.OptionsIdentifier;
             }
             set => optionsIdentifyer = value;
         }
@@ -34,12 +27,7 @@ namespace InteropTools.Providers.OSReboot.Definition
         {
             get
             {
-                if (options == null)
-                {
-                    options = new OptionsImpl(settings ?? throw new InvalidOperationException(), optionsIdentifyer ?? throw new InvalidOperationException());
-                }
-
-                return options;
+                return options ??= new OptionsImpl(settings ?? throw new InvalidOperationException(), optionsIdentifyer ?? throw new InvalidOperationException());
             }
             set => options = value;
         }
@@ -50,12 +38,7 @@ namespace InteropTools.Providers.OSReboot.Definition
         {
             get
             {
-                if (settings == null)
-                {
-                    settings = options?.Settings ?? throw new InvalidOperationException();
-                }
-
-                return settings;
+                return settings ??= options?.Settings ?? throw new InvalidOperationException();
             }
             set => settings = value;
         }
@@ -63,9 +46,6 @@ namespace InteropTools.Providers.OSReboot.Definition
         public int Count => Options.Count;
 
         public AbstractOption this[int index] => Options[index];
-
-
-
 
         public IEnumerator<AbstractOption> GetEnumerator()
         {
@@ -119,7 +99,7 @@ namespace InteropTools.Providers.OSReboot.Definition
 
         public IEnumerator<AbstractOption> GetEnumerator()
         {
-            return Settings.OfType<AbstractOption>().GetEnumerator();
+            return Settings.Where(f => f != null).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -140,7 +120,6 @@ namespace InteropTools.Providers.OSReboot.Definition
         public string Name { get; private set; }
         [DataMember]
         public string Description { get; private set; }
-
     }
 
     [DataContract]
@@ -164,7 +143,6 @@ namespace InteropTools.Providers.OSReboot.Definition
     {
         public StringOption(string name, string description) : base(name, description)
         {
-
         }
         [DataMember]
         public string Value { get; set; }

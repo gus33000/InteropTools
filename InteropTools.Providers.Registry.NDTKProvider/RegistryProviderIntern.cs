@@ -35,7 +35,6 @@ using Windows.ApplicationModel.Background;
 
 namespace InteropTools.Providers.Registry.NDTKProvider
 {
-
     public sealed class RegistryProvider : IBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new RegistryProviderIntern();
@@ -56,11 +55,11 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
             string[] arr = input.Split(new string[] { "_" }, StringSplitOptions.None);
 
-            string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr.First()));
+            string operation = Encoding.UTF8.GetString(Convert.FromBase64String(arr[0]));
             Enum.TryParse(operation, true, out REG_OPERATION operationenum);
 
-            List<List<string>> returnvalue = new List<List<string>>();
-            List<string> returnvalue2 = new List<string>();
+            List<List<string>> returnvalue = new();
+            List<string> returnvalue2 = new();
 
             if (provider.IsSupported(operationenum))
             {
@@ -123,7 +122,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
                             foreach (REG_ITEM item in items)
                             {
-                                List<string> itemlist = new List<string>();
+                                List<string> itemlist = new();
                                 if (item.Data == null)
                                 {
                                     itemlist.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes("")));
@@ -169,7 +168,6 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                     case REG_OPERATION.RegQueryValue:
                         {
                             Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out REG_HIVES hive);
-
 
                             uint.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(4))), out uint valuetype);
 
@@ -239,7 +237,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             }
             else
             {
-                returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(REG_STATUS.NOT_SUPPORTED.ToString())));
+                returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(REG_STATUS.NOT_SUPPORTED))));
 
                 returnvalue.Add(returnvalue2);
             }
@@ -261,7 +259,6 @@ namespace InteropTools.Providers.Registry.NDTKProvider
 
             return returnstr;
         }
-
 
         protected override Task<Options> GetOptions()
         {

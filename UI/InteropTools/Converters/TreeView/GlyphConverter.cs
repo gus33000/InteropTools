@@ -12,11 +12,10 @@ namespace InteropTools.Converters.TreeView2
         {
             bool? isExpanded = value as bool?;
 
-            if (isExpanded.HasValue && isExpanded.Value)
+            if (isExpanded == true)
             {
                 return ExpandedGlyph;
             }
-
             else
             {
                 return CollapsedGlyph;

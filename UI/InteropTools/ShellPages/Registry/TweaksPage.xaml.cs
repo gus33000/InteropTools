@@ -39,12 +39,7 @@ namespace InteropTools.ShellPages.Registry
                                     "EnabledForTest", RegTypes.REG_DWORD, out RegTypes BrightSliderType,
                                     out string BrightSliderValue);
 
-                if (BrightSliderValue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return BrightSliderValue == "1";
             },
             state =>
             {
@@ -53,7 +48,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Shell\\Docking",
                                         "EnabledForTest", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Shell\\Docking",
@@ -68,12 +62,7 @@ namespace InteropTools.ShellPages.Registry
                                     "UserSettingNoBrightnessSettings", RegTypes.REG_DWORD, out RegTypes BrightSliderType,
                                     out string BrightSliderValue);
 
-                if (BrightSliderValue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return BrightSliderValue == "0";
             },
             async state =>
             {
@@ -82,7 +71,6 @@ namespace InteropTools.ShellPages.Registry
                     AsyncHelpers.RunSync<HelperErrorCodes>(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
                                         "UserSettingNoBrightnessSettings", RegTypes.REG_DWORD, "0"));
                 }
-
                 else
                 {
                     AsyncHelpers.RunSync<HelperErrorCodes>(() => _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight",
@@ -112,12 +100,7 @@ namespace InteropTools.ShellPages.Registry
                                     "BCD00000001\\Objects\\{7ea2e1ac-2e61-4728-aaa3-896d9d0a9f0e}\\Elements\\26000512", "Element",
                                     RegTypes.REG_BINARY, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "01")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "01";
             },
             state =>
             {
@@ -127,7 +110,6 @@ namespace InteropTools.ShellPages.Registry
                                         "BCD00000001\\Objects\\{7ea2e1ac-2e61-4728-aaa3-896d9d0a9f0e}\\Elements\\26000512",
                                         "Element", RegTypes.REG_BINARY, "01");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -142,12 +124,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\CurrentControlSet\Services\KeepWiFiOnSvc",
                                     "Start", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "2")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "2";
             },
             state =>
             {
@@ -156,7 +133,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
                                         @"SYSTEM\CurrentControlSet\Services\KeepWiFiOnSvc", "Start", RegTypes.REG_DWORD, "2");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -180,12 +156,7 @@ namespace InteropTools.ShellPages.Registry
                                     @"SYSTEM\ControlSet001\services\WiFiConnSvc\Parameters\Config", "EnableStaticIP",
                                     RegTypes.REG_DWORD, out regtype, out regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             },
             state =>
             {
@@ -198,7 +169,6 @@ namespace InteropTools.ShellPages.Registry
                                         @"SYSTEM\ControlSet001\services\WiFiConnSvc\Parameters\Config", "EnableStaticIP",
                                         RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -216,12 +186,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Settings\Lock", "DisableNever",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "0")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "0";
             },
             state =>
             {
@@ -230,7 +195,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Settings\Lock",
                                         "DisableNever", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Settings\Lock",
@@ -254,12 +218,7 @@ namespace InteropTools.ShellPages.Registry
                                     @"SOFTWARE\Microsoft\EventSounds\Sounds\WiFiDisconnected", "Disabled", RegTypes.REG_DWORD,
                                     out regtype, out regvalue);
 
-                if (regvalue != "0")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "0";
             },
             state =>
             {
@@ -271,7 +230,6 @@ namespace InteropTools.ShellPages.Registry
                                         @"SOFTWARE\Microsoft\EventSounds\Sounds\WiFiDisconnected", "Disabled", RegTypes.REG_DWORD,
                                         "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -288,12 +246,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Photos\OEM", "ShutterSoundUnlocked",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             }, state =>
             {
                 if (state)
@@ -301,7 +254,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Photos\OEM",
                                         "ShutterSoundUnlocked", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Photos\OEM",
@@ -314,12 +266,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\NlpmService",
                                     "ImagePath", RegTypes.REG_EXPAND_SZ, out RegTypes regtype, out string regvalue);
 
-                if (!regvalue.ToLower().Contains(@"C:\windows\System32\OEMServiceHost.exe -k NsgGlance".ToLower()))
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue.ToLower().Contains(@"C:\windows\System32\OEMServiceHost.exe -k NsgGlance".ToLower());
             }, state =>
             {
                 _helper.AddKey(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\OEM\Nokia\NokiaSvcHost\Plugins\NsgGlance");
@@ -402,13 +349,11 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\NlpmService",
                                         "ImagePath", RegTypes.REG_EXPAND_SZ, @"C:\windows\System32\OEMServiceHost.exe -k NsgGlance");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\NlpmService",
                                         "ImagePath", RegTypes.REG_EXPAND_SZ, @"C:\windows\System32\OEMServiceHost.exe -k NsgExtA");
                 }
-
             }, "Enable Old Glance Screen (RS1) (Glance enabled devices only) (Reboot required)",
             "Allows you to re-enable the old glance screen with the widget and battery icon support");
             AddBoolTweak(() =>
@@ -416,12 +361,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\Power", "TtmEnabled",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             }, state =>
             {
                 if (state)
@@ -429,7 +369,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\Power",
                                         "TtmEnabled", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\Power",
@@ -442,12 +381,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\FingerKB\Options",
                                     "ForceLargeScreenDevice", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             }, state =>
             {
                 if (state)
@@ -455,7 +389,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\FingerKB\Options",
                                         "ForceLargeScreenDevice", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\FingerKB\Options",
@@ -467,12 +400,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense", "ShowPayPerByte",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             }, state =>
             {
                 if (state)
@@ -480,7 +408,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense", "ShowPayPerByte",
                                         RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense", "ShowPayPerByte",
@@ -492,12 +419,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense", "DisableSystemBucket",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue != "1")
-                {
-                    return false;
-                }
-
-                return true;
+                return regvalue == "1";
             }, state =>
             {
                 if (state)
@@ -505,7 +427,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense",
                                         "DisableSystemBucket", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"Software\Microsoft\Data Sense",
@@ -518,12 +439,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows Phone\\LanguageCPL",
                                     "CPLMode", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -532,7 +448,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
                                         "Software\\Microsoft\\Windows Phone\\LanguageCPL", "CPLMode", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -547,12 +462,7 @@ namespace InteropTools.ShellPages.Registry
                                     "System\\ControlSet001\\Services\\BrokerInfrastructure\\Parameters", "EnergyBudgetDisabled",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -562,7 +472,6 @@ namespace InteropTools.ShellPages.Registry
                                         "System\\ControlSet001\\Services\\BrokerInfrastructure\\Parameters", "EnergyBudgetDisabled",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -577,12 +486,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                     "Debug Endpoint", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -591,7 +495,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                         "Debug Endpoint", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
@@ -605,12 +508,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                     "EnableWebBrowserBorder", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -619,7 +517,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                         "EnableWebBrowserBorder", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
@@ -633,12 +530,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                     "EnableWebBrowserLogger", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -647,7 +539,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                         "EnableWebBrowserLogger", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
@@ -661,12 +552,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                     "EnableDefaultDocModeForLegacyApp", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -675,7 +561,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
                                         "EnableDefaultDocModeForLegacyApp", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\TaskHost",
@@ -689,12 +574,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                     "DisableEntityExtraction", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -703,7 +583,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                         "DisableEntityExtraction", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
@@ -717,12 +596,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                     "TouchEvents", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -731,7 +605,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
                                         "TouchEvents", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer\\Debug",
@@ -746,12 +619,7 @@ namespace InteropTools.ShellPages.Registry
                                     "SOFTWARE\\Microsoft\\Internet Explorer\\IntelliForms", "Enabled", RegTypes.REG_DWORD,
                                     out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -760,7 +628,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
                                         "SOFTWARE\\Microsoft\\Internet Explorer\\IntelliForms", "Enabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -775,12 +642,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MULTITHREADED_WEBVIEW",
                                     "*", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "MT")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "MT";
             },
             state =>
             {
@@ -790,7 +652,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_DISABLE_MULTITHREADED_WEBVIEW",
                                         "*", RegTypes.REG_DWORD, "MT");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -806,12 +667,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ENABLE_MULTITHREADED_WEBVIEW_FOR_VERSION_6_3",
                                     "*", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "MT")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "MT";
             },
             state =>
             {
@@ -821,7 +677,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_ENABLE_MULTITHREADED_WEBVIEW_FOR_VERSION_6_3",
                                         "*", RegTypes.REG_DWORD, "MT");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -836,12 +691,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Internet Explorer\\Main",
                                     "DisableEdgeEngine", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "Edge")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "Edge";
             },
             state =>
             {
@@ -850,7 +700,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Internet Explorer\\Main",
                                         "DisableEdgeEngine", RegTypes.REG_DWORD, "Edge");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Internet Explorer\\Main",
@@ -864,12 +713,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Email\\OemSettings\\DarkTheme",
                                     "Disabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -878,7 +722,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
                                         "Software\\Microsoft\\Email\\OemSettings\\DarkTheme", "Disabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -892,12 +735,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Sim",
                                     "EnableSIMAddressBookAndExport", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -906,7 +744,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Sim",
                                         "EnableSIMAddressBookAndExport", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Sim",
@@ -920,12 +757,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Settings",
                                     "FeaturesEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -934,7 +766,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Settings",
                                         "FeaturesEnabled", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Contacts\\Settings",
@@ -949,12 +780,7 @@ namespace InteropTools.ShellPages.Registry
                                     "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\BackgroundModel\\Policy", "Enable",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -964,7 +790,6 @@ namespace InteropTools.ShellPages.Registry
                                         "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\BackgroundModel\\Policy", "Enable",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -979,12 +804,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ActiveSync",
                                     "DisablePIIStripping", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -993,7 +813,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ActiveSync",
                                         "DisablePIIStripping", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\ActiveSync",
@@ -1007,12 +826,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                     "EnableMediaLogDisplay", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1021,7 +835,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                         "EnableMediaLogDisplay", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
@@ -1036,12 +849,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications", "Server", RegTypes.REG_DWORD,
                                     out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "winphone.wns.windows.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "winphone.wns.windows.com";
             },
             state =>
             {
@@ -1051,7 +859,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\Windows\\CurrentVersion\\PushNotifications", "Server",
                                         RegTypes.REG_DWORD, "winphone.wns.windows.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1066,12 +873,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\PhoneShareHost",
                                     "EnableDataPackageHost", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1080,7 +882,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\PhoneShareHost",
                                         "EnableDataPackageHost", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\PhoneShareHost",
@@ -1094,12 +895,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                     "DisableYUVComposition", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "YUV")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "YUV";
             },
             state =>
             {
@@ -1108,7 +904,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                         "DisableYUVComposition", RegTypes.REG_DWORD, "YUV");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
@@ -1122,12 +917,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                     "DisableDCompForVideo", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "YUV")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "YUV";
             },
             state =>
             {
@@ -1136,7 +926,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                         "DisableDCompForVideo", RegTypes.REG_DWORD, "YUV");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
@@ -1150,12 +939,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                     "EnableFramerateCounter", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "YUV")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "YUV";
             },
             state =>
             {
@@ -1164,7 +948,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
                                         "EnableFramerateCounter", RegTypes.REG_DWORD, "YUV");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Silverlight",
@@ -1178,12 +961,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC", "EnableTestMode",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1192,7 +970,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC",
                                         "EnableTestMode", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC",
@@ -1206,12 +983,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC", "MaxDataAge",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1220,7 +992,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC", "MaxDataAge",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Input\\TIPC", "MaxDataAge",
@@ -1234,12 +1005,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\TestHooks",
                                     "InstallAppsToSDTestHook", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1248,7 +1014,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\TestHooks",
                                         "InstallAppsToSDTestHook", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\TestHooks",
@@ -1262,12 +1027,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\MusicVideoHub",
                                     "MusicAppRedirectorEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1276,7 +1036,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\MusicVideoHub",
                                         "MusicAppRedirectorEnabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\MusicVideoHub",
@@ -1290,12 +1049,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense",
                                     "DisableSystemBucket", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1304,7 +1058,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense",
                                         "DisableSystemBucket", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense",
@@ -1318,12 +1071,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense", "ShowPayPerByte",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1332,7 +1080,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense",
                                         "ShowPayPerByte", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Data Sense",
@@ -1346,12 +1093,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\OEM\\SystemTray",
                                     "DataActivity", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1360,7 +1102,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\OEM\\SystemTray",
                                         "DataActivity", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\OEM\\SystemTray",
@@ -1375,12 +1116,7 @@ namespace InteropTools.ShellPages.Registry
                                     "SYSTEM\\ControlSet001\\Control\\WMI\\Autologger\\WiFiSession\\{5CA18737-22AC-4050-85BC-B8DBB9F7D986}",
                                     "EnableLevel", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "4")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "4";
             },
             state =>
             {
@@ -1390,7 +1126,6 @@ namespace InteropTools.ShellPages.Registry
                                         "SYSTEM\\ControlSet001\\Control\\WMI\\Autologger\\WiFiSession\\{5CA18737-22AC-4050-85BC-B8DBB9F7D986}",
                                         "EnableLevel", RegTypes.REG_DWORD, "4");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1405,12 +1140,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Office Mobile\\OneNote Mobile",
                                     "SyncFileBackupEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1420,7 +1150,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\Office Mobile\\OneNote Mobile", "SyncFileBackupEnabled",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1435,12 +1164,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Search\\ClientConfiguration",
                                     "UseCustomServer", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1449,7 +1173,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Search\\ClientConfiguration",
                                         "UseCustomServer", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Search\\ClientConfiguration",
@@ -1463,12 +1186,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "MOSServerName",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "hybrid.api.here.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "hybrid.api.here.com";
             },
             state =>
             {
@@ -1477,7 +1195,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "MOSServerName",
                                         RegTypes.REG_DWORD, "hybrid.api.here.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "MOSServerName",
@@ -1491,12 +1208,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "DisableFrameRateCap",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "hybrid.api.here.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "hybrid.api.here.com";
             },
             state =>
             {
@@ -1505,7 +1217,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
                                         "DisableFrameRateCap", RegTypes.REG_DWORD, "hybrid.api.here.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
@@ -1519,12 +1230,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "FusionSensorCapable",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "hybrid.api.here.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "hybrid.api.here.com";
             },
             state =>
             {
@@ -1533,7 +1239,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
                                         "FusionSensorCapable", RegTypes.REG_DWORD, "hybrid.api.here.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
@@ -1547,12 +1252,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "ShowDebugPanel",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "hybrid.api.here.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "hybrid.api.here.com";
             },
             state =>
             {
@@ -1561,7 +1261,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "ShowDebugPanel",
                                         RegTypes.REG_DWORD, "hybrid.api.here.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration", "ShowDebugPanel",
@@ -1575,12 +1274,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
                                     "ShowRenderStatistics", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "hybrid.api.here.com")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "hybrid.api.here.com";
             },
             state =>
             {
@@ -1589,7 +1283,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
                                         "ShowRenderStatistics", RegTypes.REG_DWORD, "hybrid.api.here.com");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration",
@@ -1603,12 +1296,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
                                     "EnableVoiceAgents", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1617,7 +1305,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
                                         "EnableVoiceAgents", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
@@ -1631,12 +1318,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
                                     "EnableAllVoiceAgents", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1645,7 +1327,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
                                         "EnableAllVoiceAgents", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Dev\\SapiSvr",
@@ -1659,12 +1340,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Test",
                                     "EnableSpeechRecoServiceAudioSegmentation", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1673,7 +1349,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Test",
                                         "EnableSpeechRecoServiceAudioSegmentation", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Speech\\Test",
@@ -1688,12 +1363,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\ContextualAwareness\\InterestExtraction\\", "PIIStripping",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1703,7 +1373,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\ContextualAwareness\\InterestExtraction\\", "PIIStripping",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1719,12 +1388,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\ContextualAwareness\\InterestExtraction\\", "ZCortanaAppSupport",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1734,7 +1398,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\ContextualAwareness\\InterestExtraction\\", "ZCortanaAppSupport",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1749,12 +1412,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\Start",
                                     "PinOnInstallComplete", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1763,7 +1421,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\Start",
                                         "PinOnInstallComplete", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\Start",
@@ -1777,12 +1434,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\ActionCenter",
                                     "XamlExperienceEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1791,7 +1443,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\ActionCenter",
                                         "XamlExperienceEnabled", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\ActionCenter",
@@ -1805,12 +1456,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
                                     "LockLayer", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1819,7 +1465,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
                                         "LockLayer", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
@@ -1833,12 +1478,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
                                     "LivingImage", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1847,7 +1487,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
                                         "LivingImage", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Shell\\LockAppSettings",
@@ -1861,12 +1500,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\CurrentControlSet\\Control\\Power",
                                     "TtmEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1875,7 +1509,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\CurrentControlSet\\Control\\Power",
                                         "TtmEnabled", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\CurrentControlSet\\Control\\Power",
@@ -1890,12 +1523,7 @@ namespace InteropTools.ShellPages.Registry
                                     "Software\\Microsoft\\Windows Media Foundation\\Platform\\SAR", "OffloadDisable",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1905,7 +1533,6 @@ namespace InteropTools.ShellPages.Registry
                                         "Software\\Microsoft\\Windows Media Foundation\\Platform\\SAR", "OffloadDisable",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -1920,12 +1547,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\Playback",
                                     "DisableHardwareMFTUse", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1934,7 +1556,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\Playback",
                                         "DisableHardwareMFTUse", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Zune\\Playback",
@@ -1948,12 +1569,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\XAML",
                                     "ReleaseGraphicsDeviceOnSuspend", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -1962,7 +1578,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\XAML",
                                         "ReleaseGraphicsDeviceOnSuspend", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\XAML",
@@ -1976,12 +1591,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\AgHost", "Enabled",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -1990,7 +1600,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\AgHost", "Enabled",
                                         RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\AgHost", "Enabled",
@@ -2004,12 +1613,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\TaskHost",
                                     "AllowUIAutomationForLegacyApps", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2018,7 +1622,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\TaskHost",
                                         "AllowUIAutomationForLegacyApps", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\TaskHost",
@@ -2032,12 +1635,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
                                     "EverythingIsLightUp", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2046,7 +1644,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
                                         "EverythingIsLightUp", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
@@ -2060,12 +1657,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
                                     "ForcedLightupWhiteListEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2074,7 +1666,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
                                         "ForcedLightupWhiteListEnabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\PackageManager",
@@ -2088,12 +1679,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration\\DataLoader",
                                     "UseOdvsIntData", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "INT")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "INT";
             },
             state =>
             {
@@ -2102,7 +1688,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration\\DataLoader",
                                         "UseOdvsIntData", RegTypes.REG_DWORD, "INT");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Maps\\Configuration\\DataLoader",
@@ -2117,12 +1702,7 @@ namespace InteropTools.ShellPages.Registry
                                     "System\\Assistant\\ClientConfiguration\\HoseProfile", "UseConfig", RegTypes.REG_DWORD,
                                     out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "registry")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "registry";
             },
             state =>
             {
@@ -2132,7 +1712,6 @@ namespace InteropTools.ShellPages.Registry
                                         "System\\Assistant\\ClientConfiguration\\HoseProfile", "UseConfig", RegTypes.REG_DWORD,
                                         "registry");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
@@ -2147,12 +1726,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\OEM\\Nokia\\Touch\\WakeupGesture",
                                     "Enabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -2161,7 +1735,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\OEM\\Nokia\\Touch\\WakeupGesture",
                                         "Enabled", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\OEM\\Nokia\\Touch\\WakeupGesture",
@@ -2175,12 +1748,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Touch\\Settings", "WakeupGestureSupported",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -2189,7 +1757,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Touch\\Settings",
                                         "WakeupGestureSupported", RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Touch\\Settings",
@@ -2203,12 +1770,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                     "ForceWideLayout", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2217,7 +1779,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                         "ForceWideLayout", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
@@ -2231,12 +1792,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                     "ShowCommaOnChat", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2245,7 +1801,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                         "ShowCommaOnChat", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
@@ -2259,12 +1814,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                     "DockedKeyboardEnable", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2273,7 +1823,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                         "DockedKeyboardEnable", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
@@ -2287,12 +1836,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                     "CaretDisabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2301,7 +1845,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                         "CaretDisabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
@@ -2315,12 +1858,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                     "CaretRightHand", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2329,7 +1867,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
                                         "CaretRightHand", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\FingerKB\\Options",
@@ -2343,12 +1880,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\SearchMaps\\Assist\\Persona", "Hiding",
                                     RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "1")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "1";
             },
             state =>
             {
@@ -2357,7 +1889,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\SearchMaps\\Assist\\Persona", "Hiding",
                                         RegTypes.REG_DWORD, "1");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\SearchMaps\\Assist\\Persona", "Hiding",
@@ -2371,12 +1902,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                     "MultiSizeLogicEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2385,7 +1911,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                         "MultiSizeLogicEnabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
@@ -2399,12 +1924,7 @@ namespace InteropTools.ShellPages.Registry
                 GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                     "DragAnchorKeyEnabled", RegTypes.REG_DWORD, out RegTypes regtype, out string regvalue);
 
-                if (regvalue == "0")
-                {
-                    return true;
-                }
-
-                return false;
+                return regvalue == "0";
             },
             state =>
             {
@@ -2413,7 +1933,6 @@ namespace InteropTools.ShellPages.Registry
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",
                                         "DragAnchorKeyEnabled", RegTypes.REG_DWORD, "0");
                 }
-
                 else
                 {
                     _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "Software\\Microsoft\\StigRegKey\\FingerKB",

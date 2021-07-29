@@ -27,7 +27,6 @@ namespace InteropTools.Providers
             }
             catch
             {
-
             }
 
             if (isinuithread)
@@ -49,10 +48,7 @@ namespace InteropTools.Providers
             }
             else
             {
-                result = await DispatcherHelper.ExecuteOnUIThreadAsync<IRegProvider>(async () =>
-                {
-                    return await new SelectRegistryProviderContentDialog().AskUserForProvider();
-                });
+                result = await DispatcherHelper.ExecuteOnUIThreadAsync<IRegProvider>(async () => await new SelectRegistryProviderContentDialog().AskUserForProvider());
 
                 if (result == null)
                 {
@@ -350,7 +346,6 @@ namespace InteropTools.Providers
             {
                 fileexists = File.Exists(path);
             }
-
             catch (InvalidOperationException)
             {
                 fileexists = true;
@@ -851,7 +846,6 @@ namespace InteropTools.Providers
             }
         }
 
-
         private static readonly uint[] _lookup32 = CreateLookup32();
 
         private static uint[] CreateLookup32()
@@ -875,7 +869,7 @@ namespace InteropTools.Providers
                 {
                     uint val = lookup32[bytes[i]];
                     result[2 * i] = (char)val;
-                    result[2 * i + 1] = (char)(val >> 16);
+                    result[(2 * i) + 1] = (char)(val >> 16);
                 }
                 return new string(result);
             }
@@ -884,8 +878,6 @@ namespace InteropTools.Providers
                 return "";
             }
         }
-
-
 
         private IReadOnlyList<RegistryItemCustom> ConvertFromNewToOldListItems(IReadOnlyList<REG_ITEM> items)
         {

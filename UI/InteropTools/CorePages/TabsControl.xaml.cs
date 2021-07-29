@@ -2,7 +2,7 @@
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static InteropTools.App;
+using static InteropTools.SessionManager;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -21,7 +21,7 @@ namespace InteropTools.CorePages
 
         private void TabsControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            TabsListView.MaxWidth = e.NewSize.Width - 2 * (32 + 4);
+            TabsListView.MaxWidth = e.NewSize.Width - (2 * (32 + 4));
         }
 
         private void TabsControl_OnCurrentContentChanged(object sender)
@@ -98,7 +98,6 @@ namespace InteropTools.CorePages
                 IsOpen = true;
                 TabsListView.Height = 222;
             }
-
             else
             {
                 IsOpen = false;
@@ -112,7 +111,6 @@ namespace InteropTools.CorePages
         {
             AddNewSession("");
         }
-
 
         public delegate void OpenStateChangedEvent(object sender);
 
@@ -131,7 +129,7 @@ namespace InteropTools.CorePages
 
         private void TabsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            SwitchSession((e.ClickedItem as DisplayItem).session);
+            SwitchSession((e.ClickedItem as DisplayItem)?.session);
         }
     }
 }

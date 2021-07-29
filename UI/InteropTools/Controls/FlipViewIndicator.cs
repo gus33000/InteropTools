@@ -35,10 +35,7 @@ namespace InteropTools.Controls
                 // this is a special case where ItemsSource is set in code
                 // and the associated FlipView's ItemsSource may not be available yet
                 // if it isn't available, let's listen for SelectionChanged 
-                fv.SelectionChanged += (s, e) =>
-                {
-                    fvi.ItemsSource = fv.Items;
-                };
+                fv.SelectionChanged += (s, e) => fvi.ItemsSource = fv.Items;
 
                 fvi.ItemsSource = fv.Items;
 

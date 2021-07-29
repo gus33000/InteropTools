@@ -8,7 +8,6 @@ namespace InteropTools.Providers.Registry.Definition
 {
     public abstract class RegistryProvidersWithOptions : AbstractPlugin<string, string, double>//TransfareOptions
     {
-
         public const string PLUGIN_NAME = "InteropTools.Providers.Registry";
 
         protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)//, TransfareOptions options

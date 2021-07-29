@@ -28,13 +28,13 @@ namespace InteropToolsAppExtensibilityTestingApp
 
         private async Task<string> LaunchAppForResults()
         {
-            Uri testAppUri = new Uri("interoptools-appextensionregistrar:"); // The protocol handled by the launched app
-            LauncherOptions options = new LauncherOptions
+            Uri testAppUri = new("interoptools-appextensionregistrar:"); // The protocol handled by the launched app
+            LauncherOptions options = new()
             {
                 TargetApplicationPackageFamilyName = "52346ITDevTeam.InteropToolsPreview_feeqnmc1868va"
             };
 
-            ValueSet inputData = new ValueSet
+            ValueSet inputData = new()
             {
                 ["TestData"] = "Test data"
             };
@@ -42,8 +42,7 @@ namespace InteropToolsAppExtensibilityTestingApp
             string theResult = "";
             LaunchUriResult result = await Launcher.LaunchUriForResultsAsync(testAppUri, options, inputData);
             if (result.Status == LaunchUriStatus.Success &&
-                result.Result != null &&
-                result.Result.ContainsKey("ReturnedData"))
+                result.Result?.ContainsKey("ReturnedData") == true)
             {
                 ValueSet theValues = result.Result;
                 theResult = theValues["ReturnedData"] as string;

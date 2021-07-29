@@ -48,7 +48,7 @@ namespace InteropTools.ShellPages.Registry
             ChangeCurrentItem();
         }
 
-        public event CurrentItemChangedEvent OnCurrentItemChanged;
+        public event EventHandler<CurrentItemChangedEventArgs> OnCurrentItemChanged;
 
         private void UpdateCurrentItemChanged(RegistryItemCustom previousItem, RegistryItemCustom newItem)
         {
@@ -76,7 +76,6 @@ namespace InteropTools.ShellPages.Registry
                 ZoomGrid.Style = Resources["NormalAlphaViewStyle"] as Style;
                 ((CollectionViewSource)Resources["RegistryGroups"]).Source = itemSource;
             }
-
             else
             {
                 IEnumerable<IGrouping<string, Item>> itemSource = _itemlist.OrderBy(x => x.DisplayName).GroupBy(x => x.Description);
@@ -121,7 +120,7 @@ namespace InteropTools.ShellPages.Registry
                 };
             }
 
-            if (!(key.Split('\\').Length - 1 < 0))
+            if (key.Split('\\').Length - 1 >= 0)
             {
                 path = string.Join(@"\", key.Split('\\').Take(key.Split('\\').Length - 1));
             }
@@ -143,11 +142,10 @@ namespace InteropTools.ShellPages.Registry
 
             if (item.Type == RegistryItemType.KEY)
             {
-                if ((key == "") || (key == null))
+                if ((key?.Length == 0) || (key == null))
                 {
                     key = item.Name;
                 }
-
                 else
                 {
                     key += @"\" + item.Name;
@@ -208,7 +206,7 @@ namespace InteropTools.ShellPages.Registry
             _moving = true;
             _preventclick = true;
             Item item = (Item)((SlidableListItem)sender).DataContext;
-            item.IsFavorite = (item.IsFavorite == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+            item.IsFavorite = item.IsFavorite == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void SlidableListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -290,11 +288,10 @@ namespace InteropTools.ShellPages.Registry
 
             if (regitem.Type == RegistryItemType.KEY)
             {
-                if ((key == "") || (key == null))
+                if ((key?.Length == 0) || (key == null))
                 {
                     key = regitem.Name;
                 }
-
                 else
                 {
                     key += @"\" + regitem.Name;
@@ -371,7 +368,7 @@ namespace InteropTools.ShellPages.Registry
                     ResourceContext.GetForCurrentView()).ValueAsString
                 };
 
-                if ((item.regitem.Key == null) || (item.regitem.Key == ""))
+                if ((item.regitem.Key == null) || (item.regitem.Key?.Length == 0))
                 {
                     flyoutitem2.IsEnabled = false;
                 }
@@ -432,7 +429,7 @@ namespace InteropTools.ShellPages.Registry
                             }
                     }
 
-                    if (str == "")
+                    if (str?.Length == 0)
                     {
                         return;
                     }
@@ -480,7 +477,6 @@ namespace InteropTools.ShellPages.Registry
                                     {
                                         key = item.regitem.Key + "\\" + item.regitem.Name;
                                     }
-
                                     else
                                     {
                                         key = item.regitem.Name;
@@ -492,11 +488,10 @@ namespace InteropTools.ShellPages.Registry
 
                                         if (item.regitem.Type == RegistryItemType.KEY)
                                         {
-                                            if ((Key == "") || (Key == null))
+                                            if ((Key?.Length == 0) || (Key == null))
                                             {
                                                 Key = item.regitem.Name;
                                             }
-
                                             else
                                             {
                                                 Key += @"\" + item.regitem.Name;
@@ -590,7 +585,6 @@ namespace InteropTools.ShellPages.Registry
             }
             catch
             {
-
             }
         }
 
@@ -600,7 +594,6 @@ namespace InteropTools.ShellPages.Registry
             {
                 ChangeCurrentItem();
             }
-
             else
             {
                 ChangeCurrentItem(_currentRegItem);
@@ -617,12 +610,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         public class CurrentItemChangedEventArgs
@@ -639,12 +632,10 @@ namespace InteropTools.ShellPages.Registry
 
         public class Item : INotifyPropertyChanged
         {
-
             private async void RunInThreadPool(Action function)
             {
-                await ThreadPool.RunAsync(x => { function(); });
+                await ThreadPool.RunAsync(x => function());
             }
-
 
             public Item(RegistryItemCustom regitem)
             {
@@ -744,7 +735,6 @@ namespace InteropTools.ShellPages.Registry
                             return (bool)value ? Visibility.Visible : Visibility.Collapsed;
                         }
                     }
-
                     catch (Exception)
                     {
                         //new MessageDialogContentDialog().ShowMessageDialog(e.StackTrace, "Get" + e.Message + e.HResult);
@@ -761,7 +751,7 @@ namespace InteropTools.ShellPages.Registry
                                  (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
-                        localSettings.Values["browserfav_" + id] = (value == Visibility.Visible);
+                        localSettings.Values["browserfav_" + id] = value == Visibility.Visible;
                         Debug.WriteLine("browserfav_" + id);
                         object strlist = localSettings.Values["browserfavlist"];
 
@@ -778,7 +768,6 @@ namespace InteropTools.ShellPages.Registry
                             localSettings.Values.Remove("browserfav_" + id);
                             list.Remove("browserfav_" + id);
                         }
-
                         else
                         {
                             list.Add("browserfav_" + id);
@@ -787,7 +776,6 @@ namespace InteropTools.ShellPages.Registry
                         localSettings.Values["browserfavlist"] = string.Join("\n", list);
                         OnPropertyChanged("IsFavorite");
                     }
-
                     catch (Exception)
                     {
                     }
@@ -833,7 +821,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 get
                 {
-                    if (regitem.Name == "")
+                    if (regitem.Name?.Length == 0)
                     {
                         return "(Default)";
                     }

@@ -38,7 +38,7 @@ namespace InteropTools.ShellPages.SSH
         {
             Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterReceived;
 
-            if (!await App.IsCMDSupported())
+            if (!await SessionManager.IsCMDSupported())
             {
                 await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
                   ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page", ResourceContext.GetForCurrentView()).ValueAsString,
@@ -74,14 +74,13 @@ namespace InteropTools.ShellPages.SSH
             {
                 try
                 {
-                    SshClient client = App.SshClient;
+                    SshClient client = SessionManager.SshClient;
                     ShellStream = client.CreateShellStream("cmd", 80, 24, 800, 600, 1024);
                     ShellStream.DataReceived += Stream_DataReceived;
                 }
-
                 catch (Exception ex)
                 {
-                    RunInUiThread(async () => { await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message); });
+                    RunInUiThread(async () => await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message));
                 }
             });
         }
@@ -108,12 +107,12 @@ namespace InteropTools.ShellPages.SSH
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private static async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
 
         private void Stream_DataReceived(object sender, ShellDataEventArgs e)
@@ -166,7 +165,7 @@ namespace InteropTools.ShellPages.SSH
                 ResourceManager.Current.MainResourceMap.GetValue("Resources/Select_All",
                 ResourceContext.GetForCurrentView()).ValueAsString
             };
-            flyoutitem2.Click += (sender_, e_) => { ConsoleBox.SelectAll(); };
+            flyoutitem2.Click += (sender_, e_) => ConsoleBox.SelectAll();
 
             if (flyout.Items != null)
             {

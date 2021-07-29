@@ -16,7 +16,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-
         public IEnumerable<TextElement> GetChildren(TextElement o)
         {
             if (o is Paragraph paragraph)

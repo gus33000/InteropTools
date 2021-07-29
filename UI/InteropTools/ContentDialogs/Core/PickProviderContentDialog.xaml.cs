@@ -150,7 +150,6 @@ namespace InteropTools.ContentDialogs.Core
                     }
                 }
             }
-
             else
             {
                 authorized = true;
@@ -178,7 +177,6 @@ namespace InteropTools.ContentDialogs.Core
                 _remoteip = hostname.Text;
                 _remoteport = int.Parse(portnumber.Text);
             }
-
             catch
             {
                 MainGridView.Opacity = 1;
@@ -207,7 +205,6 @@ namespace InteropTools.ContentDialogs.Core
             _client.Connect();
         }
 
-
         private void Client_OnConnected()
         {
             StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Waiting_for_permission_from_the_remote_server", ResourceContext.GetForCurrentView()).ValueAsString;
@@ -235,7 +232,6 @@ namespace InteropTools.ContentDialogs.Core
             MainGridView.Opacity = 0;
             await SFadeInMainMenu.BeginAsync();
         }
-
 
         private void Client_OnNotAuthentificated()
         {
@@ -277,7 +273,6 @@ namespace InteropTools.ContentDialogs.Core
                 MainGridView.Opacity = 0;
                 await SFadeInMainMenu.BeginAsync();
             }
-
             else
             {
                 if (requireAuthAtStartUp)
@@ -291,7 +286,6 @@ namespace InteropTools.ContentDialogs.Core
                         Hide();
                     }
                 }
-
                 else
                 {
                     App.RegistryHelper = tmpHelper;

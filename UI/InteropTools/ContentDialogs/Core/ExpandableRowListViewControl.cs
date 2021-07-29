@@ -2,7 +2,6 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
-
 namespace InteropTools.ContentDialogs.Core
 {
     [TemplatePart(Name = "listviewRows", Type = typeof(ListView))]
@@ -36,8 +35,8 @@ namespace InteropTools.ContentDialogs.Core
     [ContentProperty(Name = "Content")]
     public sealed class ExpandableRowListViewControlItem : ContentControl
     {
-        private static readonly string VISUALSTATES_EXPANDED = "Expanded";
-        private static readonly string VISUALSTATES_COLLAPSED = "Collapsed";
+        private const string VISUALSTATES_EXPANDED = "Expanded";
+        private const string VISUALSTATES_COLLAPSED = "Collapsed";
 
         public ExpandableRowListViewControlItem()
             : base()

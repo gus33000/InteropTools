@@ -49,7 +49,6 @@ namespace InteropTools.ShellPages.Registry
                     ulong v4 = v & 0x000000000000FFFFL;
                     sourceosversion = $"{v1}.{v2}.{v3}.{v4}";
                 }
-
                 catch
                 {
                     sourceosversion = "";
@@ -272,13 +271,11 @@ namespace InteropTools.ShellPages.Registry
                     {
                         BackgroundHeroImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/th2.jpg"));
                     }
-
                     else
                         if (buildbranch.ToLower().Contains("rs1"))
                     {
                         BackgroundHeroImage.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/rs.jpg"));
                     }
-
                     else
                             if (buildbranch.ToLower().Contains("rs"))
                     {
@@ -292,12 +289,12 @@ namespace InteropTools.ShellPages.Registry
         {
             await
             CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => { function(); });
+            () => function());
         }
 
         private async void RunInThreadPool(Action function)
         {
-            await ThreadPool.RunAsync(x => { function(); });
+            await ThreadPool.RunAsync(x => function());
         }
     }
 }

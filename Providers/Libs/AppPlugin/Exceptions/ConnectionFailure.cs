@@ -3,7 +3,6 @@ using Windows.ApplicationModel.AppService;
 
 namespace AppPlugin.Exceptions
 {
-
     public class ConnectionFailureException : Exception
     {
         private readonly AppServiceConnectionStatus status;
@@ -37,7 +36,6 @@ namespace AppPlugin.Exceptions
                 default:
                     return "Unknown failure";
             }
-
         }
 
         private static string GenerateMessage(AppServiceConnectionStatus status, AppServiceConnection connection)
@@ -63,8 +61,6 @@ namespace AppPlugin.Exceptions
                 default:
                     return "Unknown failure";
             }
-
-
 
 
         }

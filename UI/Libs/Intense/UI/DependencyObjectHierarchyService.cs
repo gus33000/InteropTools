@@ -15,7 +15,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-
         public IEnumerable<DependencyObject> GetChildren(DependencyObject o)
         {
             int count = VisualTreeHelper.GetChildrenCount(o);

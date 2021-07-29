@@ -40,7 +40,6 @@ namespace InteropTools.RemoteClasses.Client
                         await _writer.StoreAsync();
                         await _writer.FlushAsync();
                     }
-
                     catch
                     {
                         return null;
@@ -61,19 +60,16 @@ namespace InteropTools.RemoteClasses.Client
                         uint actualStringLength = await _reader.LoadAsync(stringLength);
                         return stringLength != actualStringLength ? null : _reader.ReadString(actualStringLength);
                     }
-
                     catch
                     {
                         return null;
                     }
                 }
-
                 catch
                 {
                     return null;
                 }
             }
-
             catch
             {
                 return null;
@@ -90,7 +86,6 @@ namespace InteropTools.RemoteClasses.Client
                 _reader.Dispose();
                 _socket.Dispose();
             }
-
             catch
             {
                 // ignored

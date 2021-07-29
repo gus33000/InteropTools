@@ -27,7 +27,7 @@ namespace InteropTools.Controls.SplitViews
         private Selector _menuHost;
         private readonly IList<SelectorItem> _menuItems = new List<SelectorItem>();
         private int _toBeSelectedIndex;
-        private static readonly double TOTAL_PANNING_DISTANCE = 160d;
+        private const double TOTAL_PANNING_DISTANCE = 160d;
         private double _distancePerItem;
         private double _startingDistance;
 
@@ -110,7 +110,7 @@ namespace InteropTools.Controls.SplitViews
 
                 if (_dismissLayer != null)
                 {
-                    _dismissLayer.Tapped += OnDismissLayerTapped; ;
+                    _dismissLayer.Tapped += OnDismissLayerTapped;
                 }
             }
         }
@@ -204,7 +204,6 @@ namespace InteropTools.Controls.SplitViews
                     {
                         splitView.OpenSwipeablePane();
                     }
-
                     else
                     {
                         splitView.CloseSwipeablePane();
@@ -235,7 +234,6 @@ namespace InteropTools.Controls.SplitViews
 
         public static readonly DependencyProperty PanAreaThresholdProperty =
           DependencyProperty.Register(nameof(PanAreaThreshold), typeof(double), typeof(SwipeableSplitView), new PropertyMetadata(36d));
-
 
         /// <summary>
         /// enabling this will allow users to select a menu item by panning up/down on the bottom area of the left pane,
@@ -337,7 +335,6 @@ namespace InteropTools.Controls.SplitViews
                 {
                     _toBeSelectedIndex = 0;
                 }
-
                 else
                     if (_toBeSelectedIndex >= _menuItems.Count)
                 {
@@ -363,7 +360,6 @@ namespace InteropTools.Controls.SplitViews
             {
                 CloseSwipeablePane();
             }
-
             else
                 if (x > -0.1 && x < 0.1)
             {
@@ -371,13 +367,11 @@ namespace InteropTools.Controls.SplitViews
                 {
                     CloseSwipeablePane();
                 }
-
                 else
                 {
                     OpenSwipeablePane();
                 }
             }
-
             else
             {
                 OpenSwipeablePane();
@@ -423,7 +417,6 @@ namespace InteropTools.Controls.SplitViews
                         _menuHost.SelectedIndex = _toBeSelectedIndex;
                     }
                 }
-
                 else
                 {
                     // recalculate the starting distance
@@ -496,7 +489,6 @@ namespace InteropTools.Controls.SplitViews
             {
                 OpenSwipeablePaneAnimation.Begin();
             }
-
             else
             {
                 IsSwipeablePaneOpen = true;
@@ -509,7 +501,6 @@ namespace InteropTools.Controls.SplitViews
             {
                 CloseSwipeablePaneAnimation.Begin();
             }
-
             else
             {
                 IsSwipeablePaneOpen = false;
