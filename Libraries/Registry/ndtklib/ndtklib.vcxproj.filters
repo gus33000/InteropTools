@@ -8,8 +8,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="ndtklib.cpp" />
+    <ClCompile Include="rpc_misc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ndtklib.h" />
+    <ClInclude Include="rpc_misc.h" />
   </ItemGroup>
 </Project>
