@@ -1,4 +1,5 @@
-﻿using InteropTools.CorePages;
+﻿using InteropTools.Classes;
+using InteropTools.CorePages;
 using InteropTools.Providers;
 using System;
 using System.Threading.Tasks;
@@ -82,551 +83,24 @@ namespace InteropTools.ShellPages.Registry
             {
                 RunInThreadPool(async () =>
                 {
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SYSTEM\\controlset001\\Control\\CI",
-                      "CI_DEVELOPERMODE",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg\\Install",
-                      "MaxUnsignedApp",
-                      RegTypes.REG_DWORD,
-                      "65539"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg",
-                      "PortalUrlProd",
-                      RegTypes.REG_SZ,
-                      "https://127.0.0.1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg",
-                      "PortalUrlInt",
-                      RegTypes.REG_SZ,
-                      "https://127.0.0.1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppLicenseCheck",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppSignatureCheck",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppProvisioning",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager",
-                      "DeveloperUnlockState",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\DeveloperUnlock",
-                      "DeveloperUnlockState",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-                      "CapabilityClass",
-                      RegTypes.REG_SZ,
-                      "CAPABILITY_CLASS_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-                      "PrincipalClass",
-                      RegTypes.REG_SZ,
-                      "PRINCIPAL_CLASS_ISV_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_FIRST_PARTY_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS\nCAPABILITY_CLASS_ENTERPRISE_APPLICATIONS\nCAPABILITY_CLASS_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_LOW_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_VERY_HIGH_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-                      "AttachEnabled",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-                      "Enabled",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\Silverlight\Debugger",
-                      "WaitForAttach",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
-                                                         @"SOFTWARE\Microsoft\SecurityManager\CapabilityClasses");
-
-                    foreach (RegistryItemCustom item in items)
+                    bool result = await InteropUnlockHelper.TryInteropUnlockAsync();
+                    if (!result)
                     {
-                        if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
-                        {
-                            bool add
-                                  = true;
-
-                            foreach (string val in item.Value.Split('\n'))
-                            {
-                                if (val.IndexOf("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS", StringComparison.OrdinalIgnoreCase) >= 0)
-                                {
-                                    add
-                                          = false;
-                                }
-                            }
-
-                            if (add)
-                            {
-                                await _helper.SetKeyValue(item.Hive, item.Key, item.Name, item.ValueType,
-                                                    item.Value + "\nCAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS");
-                            }
-                        }
+                        await RunInUiThread(() => CapUnlock.IsOn = false);
                     }
-
-                    DoChecks();
                 });
             }
             else
             {
                 RunInThreadPool(async () =>
                 {
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SYSTEM\\controlset001\\Control\\CI",
-                      "CI_DEVELOPERMODE",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg\\Install",
-                      "MaxUnsignedApp",
-                      RegTypes.REG_DWORD,
-                      "20"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg",
-                      "PortalUrlProd",
-                      RegTypes.REG_SZ,
-                      "https://developerservices.windowsphone.com/Services/WindowsPhoneRegistration.svc/01/2010"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\DeviceReg",
-                      "PortalUrlInt",
-                      RegTypes.REG_SZ,
-                      "https://developerservices.windowsphone.com/Services/WindowsPhoneRegistration.svc/01/2010"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppLicenseCheck",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppSignatureCheck",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\PackageManager",
-                      "EnableAppProvisioning",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager",
-                      "DeveloperUnlockState",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\DeveloperUnlock",
-                      "DeveloperUnlockState",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-                      "CapabilityClass",
-                      RegTypes.REG_SZ,
-                      "CAPABILITY_CLASS_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-                      "PrincipalClass",
-                      RegTypes.REG_SZ,
-                      "PRINCIPAL_CLASS_ISV_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_FIRST_PARTY_APPLICATIONS\nCAPABILITY_CLASS_ENTERPRISE_APPLICATIONS\nCAPABILITY_CLASS_DEVELOPER_UNLOCK"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_LOW_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS",
-                      RegTypes.REG_MULTI_SZ,
-                      "CAPABILITY_CLASS_ENTERPRISE_OEM_VERY_HIGH_ACCESS_APPLICATIONS"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-                      "AttachEnabled",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-                      "Enabled",
-                      RegTypes.REG_DWORD,
-                      "1"
-                    );
-                    await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      @"SOFTWARE\Microsoft\Silverlight\Debugger",
-                      "WaitForAttach",
-                      RegTypes.REG_DWORD,
-                      "0"
-                    );
-                    DoChecks();
+                    bool result = await InteropUnlockHelper.TryUninteropUnlockAsync();
+                    if (!result)
+                    {
+                        await RunInUiThread(() => CapUnlock.IsOn = true);
+                    }
                 });
             }
-        }
-
-        private async Task<bool> CheckCapUnlock()
-        {
-            string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SYSTEM\\controlset001\\Control\\CI",
-              "CI_DEVELOPERMODE",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\DeviceReg\\Install",
-              "MaxUnsignedApp",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "65539")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\DeviceReg",
-              "PortalUrlProd",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "https://127.0.0.1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\DeviceReg",
-              "PortalUrlInt",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "https://127.0.0.1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\PackageManager",
-              "EnableAppLicenseCheck",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "0")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\PackageManager",
-              "EnableAppSignatureCheck",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "0")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\PackageManager",
-              "EnableAppProvisioning",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "0")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager",
-              "DeveloperUnlockState",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\DeveloperUnlock",
-              "DeveloperUnlockState",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-              "CapabilityClass",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "CAPABILITY_CLASS_DEVELOPER_UNLOCK")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\CAPABILITY_RULE_ISV_DEVELOPER_UNLOCK",
-              "PrincipalClass",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "PRINCIPAL_CLASS_ISV_DEVELOPER_UNLOCK")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-              "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "CAPABILITY_CLASS_FIRST_PARTY_APPLICATIONS")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-              "CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue !=
-                "CAPABILITY_CLASS_SECOND_PARTY_APPLICATIONS\nCAPABILITY_CLASS_ENTERPRISE_APPLICATIONS\nCAPABILITY_CLASS_DEVELOPER_UNLOCK")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-              "CAPABILITY_CLASS_ENTERPRISE_OEM_LOW_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-              "CAPABILITY_CLASS_ENTERPRISE_OEM_MED_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\CapabilityClasses\\Inheritance",
-              "CAPABILITY_CLASS_ENTERPRISE_OEM_HIGH_ACCESS_APPLICATIONS",
-              RegTypes.REG_MULTI_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "CAPABILITY_CLASS_ENTERPRISE_OEM_VERY_HIGH_ACCESS_APPLICATIONS")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-              "AttachEnabled",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "1")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              @"SOFTWARE\Microsoft\.NETCompactFramework\Managed Debugger",
-              "Enabled",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "0")
-            {
-                return false;
-            }
-
-            ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              @"SOFTWARE\Microsoft\Silverlight\Debugger",
-              "WaitForAttach",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
-
-            if (regvalue != "1")
-            {
-                return false;
-            }
-
-            System.Collections.Generic.IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
-                                                 @"SOFTWARE\Microsoft\SecurityManager\CapabilityClasses");
-
-            foreach (RegistryItemCustom item in items)
-            {
-                if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
-                {
-                    bool add
-                          = true;
-
-                    foreach (string val in item.Value.Split('\n'))
-                    {
-                        if (val.IndexOf("CAPABILITY_CLASS_THIRD_PARTY_APPLICATIONS", StringComparison.OrdinalIgnoreCase) >= 0)
-                        {
-                            add
-                                  = false;
-                        }
-                    }
-
-                    if (add)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
 
         private async Task<bool> CheckFSAccess()
@@ -796,11 +270,11 @@ namespace InteropTools.ShellPages.Registry
 
             if (await CheckFSAccess())
             {
-                RunInUiThread(() => MTPPathOption.Visibility = Visibility.Visible);
+                await RunInUiThread(() => MTPPathOption.Visibility = Visibility.Visible);
             }
             else
             {
-                RunInUiThread(() => MTPPathOption.Visibility = Visibility.Collapsed);
+                await RunInUiThread(() => MTPPathOption.Visibility = Visibility.Collapsed);
             }
 
             RegTypes regtype;
@@ -810,14 +284,14 @@ namespace InteropTools.ShellPages.Registry
               "Software\\Microsoft\\MTP",
               "datastore",
               RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
-            RunInUiThread(() => MTPPathInput.Text = regvalue);
+            await RunInUiThread(() => MTPPathInput.Text = regvalue);
             bool RestoreNDTKState = await CheckRestoreNDTK();
             bool RestoreNDTKx50State = await CheckRestoreNDTKx50();
             bool CheckFSAccessState = await CheckFSAccess();
-            bool CheckCapUnlockState = await CheckCapUnlock();
+            bool CheckCapUnlockState = await InteropUnlockHelper.CheckInteropUnlockStateAsync();
             bool NewCapUnlockState = await CheckNewCapUnlock();
             InstallNDTKCheck();
-            RunInUiThread(() =>
+            await RunInUiThread(() =>
             {
                 RestoreNDTK.IsOn = RestoreNDTKState;
                 RestoreNDTKx50.IsOn = RestoreNDTKx50State;
@@ -949,11 +423,11 @@ namespace InteropTools.ShellPages.Registry
 
                 if (regvalue?.Length == 0)
                 {
-                    RunInUiThread(() => InstallNDTK.IsEnabled = false);
+                    await RunInUiThread(() => InstallNDTK.IsEnabled = false);
                 }
                 else
                 {
-                    RunInUiThread(() =>
+                    await RunInUiThread(() =>
                     {
                         InstallNDTK.IsEnabled = true;
                         InstallNDTKText.Text = "Restore default manufacturer";
@@ -962,7 +436,7 @@ namespace InteropTools.ShellPages.Registry
             }
             else
             {
-                RunInUiThread(() =>
+                await RunInUiThread(() =>
                 {
                     InstallNDTK.IsEnabled = true;
                     InstallNDTKText.Text = "Allow the installation of NDTK on any device";
@@ -1056,7 +530,7 @@ namespace InteropTools.ShellPages.Registry
                     }
                     else
                     {
-                        RunInUiThread(
+                        await RunInUiThread(
                           async () =>
                           {
                               await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(

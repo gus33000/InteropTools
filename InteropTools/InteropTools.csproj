@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -46,7 +46,7 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -58,7 +58,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -69,7 +69,7 @@
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -81,7 +81,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -92,7 +92,7 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -110,6 +110,7 @@
     <Compile Include="Classes\AsyncHelper.cs" />
     <Compile Include="Classes\DeviceInfo.cs" />
     <Compile Include="Classes\DeviceFamilyAssetHelper.cs" />
+    <Compile Include="Classes\InteropUnlockHelper.cs" />
     <Compile Include="Classes\ObservableRangeCollection.cs" />
     <Compile Include="Classes\SSHSystemAccessHelper.cs" />
     <Compile Include="Classes\VersionHelper.cs" />
@@ -1020,7 +1021,7 @@
     <OutputPath>bin\x86\StoreRelease\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -1034,7 +1035,7 @@
     <OutputPath>bin\ARM\StoreRelease\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -1048,7 +1049,7 @@
     <OutputPath>bin\x64\StoreRelease\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
     <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -1062,7 +1063,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\StoreDebug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -1075,7 +1076,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\StoreDebug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -1088,7 +1089,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\StoreDebug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
-    <NoWarn>;2008</NoWarn>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -1099,12 +1100,24 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <NoWarn>;2008;IDE0060;IDE0051;IDE1006;IDE0079;RCS1213;RCS1090;RCS1163</NoWarn>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>

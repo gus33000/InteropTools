@@ -365,7 +365,7 @@ namespace InteropTools.Providers
 
                         if (str != "")
                         {
-                            if (!(str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0))
+                            if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];
@@ -511,7 +511,7 @@ namespace InteropTools.Providers
 
                         if (str != "")
                         {
-                            if (!(str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) >= 0))
+                            if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
                                 string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
                                 string valuename = temparray[0];
