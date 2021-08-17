@@ -31,10 +31,10 @@ namespace InteropTools.ShellPages.Registry
             await ThreadPool.RunAsync(x => function());
         }
 
-        private static async void RunInUiThread(Action function)
+        private async void RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

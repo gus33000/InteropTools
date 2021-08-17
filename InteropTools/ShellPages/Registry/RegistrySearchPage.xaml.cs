@@ -694,7 +694,7 @@ namespace InteropTools.ShellPages.Registry
         private async void RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

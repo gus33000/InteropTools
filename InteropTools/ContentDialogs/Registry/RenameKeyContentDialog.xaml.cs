@@ -70,7 +70,7 @@ namespace InteropTools.ContentDialogs.Registry
         private async void RunInUIThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

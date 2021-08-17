@@ -267,10 +267,10 @@ namespace InteropTools.Presentation
             await ThreadPool.RunAsync(x => function());
         }
 
-        private static async Task RunInUiThread(Action function)
+        private async static Task RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

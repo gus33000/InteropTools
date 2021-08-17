@@ -67,10 +67,10 @@ namespace InteropTools.ShellPages.AppManager
             await ThreadPool.RunAsync(x => function());
         }
 
-        private static async Task RunInUiThread(Action function)
+        private async Task RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

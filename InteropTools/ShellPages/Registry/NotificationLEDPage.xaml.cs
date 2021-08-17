@@ -124,14 +124,14 @@ namespace InteropTools.ShellPages.Registry
         private async Task RunInUIThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 
         private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args)
         {
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
                 if (args.Name.IndexOf("hwnled", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -143,7 +143,7 @@ namespace InteropTools.ShellPages.Registry
         private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
         {
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
                 // Find the corresponding DeviceInformation in the collection and remove it
                 foreach (DeviceInformationDisplay deviceInfoDisp in ResultCollection)
@@ -160,7 +160,7 @@ namespace InteropTools.ShellPages.Registry
         private async void Watcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args)
         {
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
                 // Find the corresponding updated DeviceInformation in the collection and pass the update object
                 // to the Update method of the existing DeviceInformation. This automatically updates the object

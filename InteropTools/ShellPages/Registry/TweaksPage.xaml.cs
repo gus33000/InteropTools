@@ -93,7 +93,7 @@ namespace InteropTools.ShellPages.Registry
                     if (result == HelperErrorCodes.FAILED)
                     {
                         await
-                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                             async () =>
                         {
                             await

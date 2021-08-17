@@ -26,10 +26,10 @@ namespace InteropTools.ShellPages.SSH
         public PageGroup PageGroup => PageGroup.SSH;
         public string PageName => "SSH Account Manager";
 
-        private static async void RunInUiThread(Action function)
+        private async void RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

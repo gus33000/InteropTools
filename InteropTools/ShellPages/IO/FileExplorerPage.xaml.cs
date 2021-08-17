@@ -117,10 +117,10 @@ namespace InteropTools.ShellPages.IO
             await new InteropTools.ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s + "\nThe above path was copied to your clipboard", Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetValue("Resources/Current_Key", ResourceContext.GetForCurrentView()).ValueAsString);
         }
 
-        private static async void RunInUiThread(Action function)
+        private async void RunInUiThread(Action function)
         {
             await
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () => { function(); });
         }
 

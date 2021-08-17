@@ -59,10 +59,10 @@ namespace InteropTools.ShellPages.Registry
             return Enum.GetName(typeof(RegHives), hive);
         }
 
-        private static async void RunInUiThread(Action function)
+        private async void RunInUiThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 

@@ -370,7 +370,7 @@ namespace InteropTools.ShellPages.Registry
         private async Task RunInUIThread(Action function)
         {
             await
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () => function());
         }
 
