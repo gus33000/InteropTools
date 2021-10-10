@@ -87,7 +87,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid x:Name="MainPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="MainPanel">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -122,13 +122,6 @@
                     x:Name="EditorUI"
                     Grid.Row="0"
                     Grid.Column="1">
-                    <TextBlock
-                        Margin="{x:Bind Frame.Padding, Mode=OneWay}"
-                        DataContext="{x:Bind Frame}"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="Registry Browser"
-                        Visibility="{Binding PageTitleVisibility}" />
-
                     <Grid>
 
                         <StackPanel>

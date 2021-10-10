@@ -15,5 +15,5 @@
 
         <Rectangle Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" Opacity="0.0390625" />
     </Grid>-->
-    <Rectangle Fill="{ThemeResource SystemAcrylicWindowChromeMediumBrush}" />
+    <Rectangle Fill="{ThemeResource SystemChromeMediumColor}" Opacity="0.5" />
 </UserControl>

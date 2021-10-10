@@ -54,12 +54,6 @@ namespace InteropTools.ShellPages.Core
             await secondaryTile.RequestCreateAsync();
         }
 
-        private async void FeedbackButtonList_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
-            await launcher.LaunchAsync();
-        }
-
         private void Grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             NavigationItem item = (NavigationItem)((Grid)sender).DataContext;

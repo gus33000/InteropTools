@@ -299,7 +299,7 @@
                         x:Name="JumpGridView"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                       
                         ItemsSource="{Binding Source={StaticResource AppsGroups}, Path=CollectionGroups}"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollMode="Auto">

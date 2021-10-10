@@ -7,7 +7,7 @@
     Title="Select a provider for this application session"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Use this provider"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource ResourceKey=DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ContentDialog.Resources>

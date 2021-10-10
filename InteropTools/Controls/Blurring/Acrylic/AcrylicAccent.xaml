@@ -16,5 +16,5 @@
 
         <Rectangle Fill="{ThemeResource SystemControlForegroundAccentBrush}" Opacity="0.0390625" />
     </Grid>-->
-    <Rectangle Fill="{ThemeResource SystemAcrylicWindowAccentBrush}" />
+    <Rectangle Fill="{ThemeResource SystemAccentColor}" />
 </UserControl>

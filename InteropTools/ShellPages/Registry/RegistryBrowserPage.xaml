@@ -152,7 +152,7 @@
 
     <Grid x:Name="MainGrid">
         <controlsacrylic:AcrylicLow />
-        <Grid x:Name="MainViewer" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid x:Name="MainViewer">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
@@ -180,12 +180,6 @@
                 <StackPanel Grid.Row="0">
                     <Grid>
                         <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
-                            <TextBlock
-                                x:Uid="Registry_Browser_Title"
-                                DataContext="{x:Bind Frame}"
-                                Style="{StaticResource TitleTextBlockStyle}"
-                                Visibility="{Binding PageTitleVisibility}" />
-
                             <Grid
                                 x:Name="JumpToGrid"
                                 Margin="0,0,0,18"
@@ -292,7 +286,7 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Pivot Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="1">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>
@@ -391,7 +385,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="0">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>
@@ -500,7 +494,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Pivot Grid.Row="0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Pivot Grid.Row="0">
                         <Pivot.Style>
                             <StaticResource ResourceKey="PivotStyleTabNoIconsHeader" />
                         </Pivot.Style>

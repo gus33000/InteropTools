@@ -51,11 +51,6 @@
                     Padding="0,-60,0,-60"
                     VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0,60,0,60" Padding="{x:Bind Frame.Padding, Mode=OneWay}">
-                        <TextBlock
-                            DataContext="{x:Bind Frame}"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="Registry Editor"
-                            Visibility="{Binding PageTitleVisibility}" />
                         <TextBlock Style="{StaticResource TitleTextBlockStyle3}" Text="REGISTRY HIVE" />
                         <ComboBox
                             x:Name="HiveSelector"

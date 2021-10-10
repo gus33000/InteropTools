@@ -11,449 +11,189 @@
     xmlns:controlssplitview="using:InteropTools.Controls.SplitViews"
     xmlns:local="using:InteropTools.CorePages"
     xmlns:tvs="using:TreeViewControl"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:presentation="using:Intense.Presentation"
+    xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="LayerFillColorDefaultBrush"/>
+                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <StaticResource x:Key="NavigationViewContentBackground" ResourceKey="LayerFillColorDefaultBrush"/>
+                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <ui:WindowChrome.Chrome>
         <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeMediumColor}" StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
     </ui:WindowChrome.Chrome>
 
-    <UserControl.Resources>
 
-        <DataTemplate x:Key="TreeView2ItemDataTemplate">
-            <Grid Height="48" AllowDrop="false">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="48" />
-                </Grid.ColumnDefinitions>
+    <Grid>
 
-                <Grid
-                    Grid.Column="0"
-                    Width="48"
-                    Height="48">
-                    <FontIcon
-                        x:Name="expandCollapseFolder"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource FullMDL2FontFamily}"
-                        FontSize="16"
-                        Glyph="{Binding Data.Icon}"
-                        Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}" />
-                </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="1">
-                    <TextBlock
-                        Margin="12,0,0,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Text="{Binding Data.Name}"
-                        TextWrapping="Wrap" />
-                </Grid>
+        <Rectangle
+            x:Name="XboxContentSafeRect"
+            Width="48"
+            Fill="{ThemeResource NavigationViewDefaultPaneBackground}"
+            Visibility="Collapsed" Canvas.ZIndex="0" />
 
-                <FontIcon
-                    x:Name="expandCollapseChevron"
-                    Grid.Column="2"
-                    HorizontalAlignment="Center"
+        <Border x:Name="AppTitleBar"
+                Grid.Column="1"
+                IsHitTestVisible="True"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
+                Canvas.ZIndex="1">
+            <TextBlock x:Name="AppTitle"
+                       Text="{x:Bind GetAppTitleFromSystem()}"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource CaptionTextBlockStyle}" />
+        </Border>
+
+        <muxc:NavigationView
+            Canvas.ZIndex="0"
+            x:Name="NavigationViewControl"
+            Grid.Column="1"
+            AlwaysShowHeader="True"
+            Header="{x:Bind ViewModel.SelectedItem.DisplayName, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}"
+            MenuItemsSource="{x:Bind ViewModel.TopItems, Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind ViewModel.BottomItems, Mode=OneWay}"
+            IsSettingsVisible="False"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            PaneOpening="NavigationViewControl_PaneOpened"
+            PaneClosing="NavigationViewControl_PaneClosing"
+            DisplayModeChanged="NavigationViewControl_DisplayModeChanged">
+            <muxc:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    x:Name="controlsSearchBox"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
-                    FontSize="12"
-                    Glyph="{Binding IsExpanded, Converter={StaticResource expandCollapseGlyphConverter}}"
-                    Visibility="{Binding Data.IsGroup, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <FontIcon
-                    x:Name="expandCollapseChevron2"
-                    Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontFamily="{StaticResource FullMDL2FontFamily}"
-                    FontSize="12"
-                    Glyph="&#xE2AC;"
-                    Opacity="0"
-                    Visibility="{Binding Data.IsGroup, Converter={StaticResource inverseBooleanToVisibilityConverter}}" />
-            </Grid>
-        </DataTemplate>
-
-        <CollectionViewSource
-            x:Key="topitems"
-            x:Name="topitems"
-            IsSourceGrouped="True" />
-        <CollectionViewSource
-            x:Key="topitems2"
-            x:Name="topitems2"
-            IsSourceGrouped="True" />
-    </UserControl.Resources>
-
-    <Grid Margin="0,-1,0,-1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid x:Name="MainContent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <controlssplitview:SwipeableSplitView
-                x:Name="SplitView"
-                Grid.Row="1"
-                IsPanSelectorEnabled="False"
-                IsSwipeablePaneOpen="{x:Bind ViewModel.IsSplitViewPaneOpen, Mode=TwoWay}"
-                OpenPaneLength="48"
-                PaneOpenChanged="SplitView_PaneOpenChanged">
-                <SplitView.Pane>
-                    <Grid x:Name="SplitViewPaneGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <controlsacrylic:AcrylicMedium
-                            x:Name="Acrylic"
-                            Grid.RowSpan="3"
-                            Margin="0,-33,0,0" />
-
-                        <controlsbackdrop:BackDropMedium
-                            x:Name="BackDrop"
-                            Grid.RowSpan="3"
-                            Margin="0,-33,0,0"
-                            Visibility="Collapsed" />
-
-                        <!--  Top Area  -->
-                        <StackPanel Margin="0,8,0,0">
-
-                            <!--  pane header  -->
-                            <Grid x:Name="PaneHeader">
+                    x:FieldModifier="public"
+                    PlaceholderText="Search"
+                    QueryIcon="Find"
+                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                    MinWidth="200"
+                    Windows10version1803:KeyboardAcceleratorPlacementMode="Hidden"
+                    TextChanged="AutoSuggestBox_TextChanged"
+                    SuggestionChosen="AutoSuggestBox_SuggestionChosen">
+                    <AutoSuggestBox.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="F" Invoked="CtrlF_Invoked" />
+                    </AutoSuggestBox.KeyboardAccelerators>
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-
-                                <Button
-                                    Command="{x:Bind ViewModel.ToggleSplitViewPaneCommand}"
-                                    Content="&#xE700;"
-                                    Style="{StaticResource PaneToggleButtonStyle}" />
-
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="{Binding Description}" />
+                                </ToolTipService.ToolTip>
                                 <TextBlock
-                                    Grid.Column="1"
-                                    Margin="12,0,0,0"
-                                    VerticalAlignment="Center"
-                                    FontWeight="Medium"
-                                    Text="TOOLS" />
-                            </Grid>
-
-                            <Grid Margin="0,18,0,0">
-                                <controlsacrylic:AcrylicLow Margin="0,0,0,0" />
-
-                                <ListView
-                                    x:Name="SearchListButton"
-                                    IsItemClickEnabled="True"
-                                    ItemClick="ListView_ItemClick"
-                                    ItemContainerStyle="{StaticResource SearchButtonListViewItemStyle}"
-                                    ScrollViewer.VerticalScrollMode="Disabled"
-                                    SelectionMode="None">
-                                    <ListViewItem>
-                                        <Grid
-                                            Height="48"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Stretch">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="48" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                Grid.Column="0"
-                                                Width="16"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FullMDL2FontFamily}"
-                                                FontSize="16"
-                                                Text="" />
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="12,0,0,0"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                FontSize="15"
-                                                Text="Search" />
-                                        </Grid>
-                                    </ListViewItem>
-                                </ListView>
-
-                                <Grid Width="48" HorizontalAlignment="Left">
-                                    <TextBlock
-                                        Width="16"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FullMDL2FontFamily}"
-                                        FontSize="16"
-                                        Text=""
-                                        Visibility="{x:Bind SearchBox.Visibility, Mode=OneWay}" />
-                                </Grid>
-
-                                <AutoSuggestBox
-                                    x:Name="SearchBox"
-                                    Margin="46,0,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    PlaceholderText="Search"
-                                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"
-                                    Style="{StaticResource AutoSuggestBoxStyle1}"
-                                    SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                                    TextChanged="AutoSuggestBox_TextChanged">
-                                    <AutoSuggestBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <ToolTipService.ToolTip>
-                                                    <TextBlock Text="{Binding Description}" />
-                                                </ToolTipService.ToolTip>
-                                                <TextBlock
                                                     Margin="4"
                                                     VerticalAlignment="Center"
                                                     FontFamily="{StaticResource FullMDL2FontFamily}"
                                                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                                     Text="{Binding Icon}" />
-                                                <TextBlock
+                                <TextBlock
                                                     Grid.Column="1"
                                                     Margin="4"
                                                     VerticalAlignment="Center"
                                                     Text="{Binding DisplayName}"
                                                     TextWrapping="Wrap" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </AutoSuggestBox.ItemTemplate>
-                                </AutoSuggestBox>
                             </Grid>
-                        </StackPanel>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
+            </muxc:NavigationView.AutoSuggestBox>
 
-                        <!--  top menu  -->
-                        <ListView
-                            x:Name="TopList2"
-                            Grid.Row="1"
-                            Margin="0,12,0,0"
-                            Padding="-48,0,8,0"
-                            ItemsSource="{Binding Source={StaticResource topitems2}}"
-                            ScrollViewer.VerticalScrollMode="Auto"
-                            SelectedItem="{x:Bind ViewModel.SelectedTopItem, Mode=TwoWay, Converter={StaticResource NavigationItemToObjectConverter}}"
-                            SelectionChanged="TopList2_SelectionChanged"
-                            Style="{StaticResource MenuNavigationListViewStyle}">
-                            <ListView.GroupStyle>
-                                <GroupStyle HidesIfEmpty="True">
-                                    <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <StackPanel
-                                                    Height="48"
-                                                    Orientation="Horizontal"
-                                                    Visibility="{Binding Key.Visibility}">
-                                                    <TextBlock
-                                                        Width="16"
-                                                        Margin="16,0,0,0"
-                                                        VerticalAlignment="Center"
-                                                        FontFamily="{StaticResource FullMDL2FontFamily}"
-                                                        FontSize="15"
-                                                        Text="{Binding Key.Icon}" />
-                                                    <TextBlock
-                                                        Margin="16,0,0,0"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="15"
-                                                        FontWeight="Medium"
-                                                        Text="{Binding Key.DisplayName}" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GroupStyle.HeaderTemplate>
-                                </GroupStyle>
-                            </ListView.GroupStyle>
-                        </ListView>
+            <muxc:NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="presentation:NavigationItem">
+                    <muxc:NavigationViewItem Content="{x:Bind DisplayName, Mode=OneWay}">
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                </DataTemplate>
+            </muxc:NavigationView.MenuItemTemplate>
 
-                        <!--  Middle Area  -->
-                        <tvs:TreeView2
-                            x:Name="sampleTreeView2"
-                            Grid.Row="1"
-                            Margin="0,12,0,0"
-                            Padding="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top"
-                            IsItemClickEnabled="True"
-                            ItemContainerStyle="{StaticResource MenuNavigationListViewItemStyle2}"
-                            ItemTemplate="{StaticResource TreeView2ItemDataTemplate}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ScrollViewer.HorizontalScrollMode="Disabled"
-                            SelectionChanged="SampleTreeView2_SelectionChanged">
-                            <tvs:TreeView2.ItemContainerTransitions>
-                                <TransitionCollection />
-                            </tvs:TreeView2.ItemContainerTransitions>
-                        </tvs:TreeView2>
+            <muxc:NavigationView.Content>
+                <intense:ContentFrame x:Name="rootFrame" SourcePageType="{x:Bind ViewModel.SelectedPageType, Mode=TwoWay}">
+                    <intense:ContentFrame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
 
-                        <!--  Bottom Area  -->
-                        <StackPanel
-                            Grid.Row="2"
-                            Margin="0,24,0,0"
-                            VerticalAlignment="Bottom">
+                                <EntranceNavigationTransitionInfo />
 
-                            <ListView
-                                Margin="-48,0,0,0"
-                                Padding="0,0,0,0"
-                                ItemContainerStyle="{StaticResource ListViewItemStyle2}"
-                                ItemsSource="{x:Bind ViewModel.BottomItems}"
-                                ScrollViewer.VerticalScrollMode="Auto"
-                                SelectedItem="{x:Bind ViewModel.SelectedBottomItem, Mode=TwoWay, Converter={StaticResource NavigationItemToObjectConverter}}"
-                                SelectionChanged="ListView_SelectionChanged"
-                                Style="{StaticResource MenuNavigationListViewStyle}" />
+                                <!--<DrillInNavigationTransitionInfo />-->
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </intense:ContentFrame.ContentTransitions>
+                </intense:ContentFrame>
+            </muxc:NavigationView.Content>
 
-                            <Grid>
+            <muxc:NavigationView.PaneFooter>
+                <!--  Bottom Area  -->
+                <Grid>
 
-                                <ListView
-                                    Margin="0,12,0,0"
-                                    Padding="0,0,0,0"
-                                    HorizontalAlignment="Stretch"
+                    <ListView HorizontalAlignment="Stretch"
                                     VerticalAlignment="Bottom"
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     SelectionMode="None">
-                                    <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <Setter Property="Margin" Value="0" />
-                                            <Setter Property="Padding" Value="0" />
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-                                    <ListViewItem
-                                        MinWidth="0"
-                                        MinHeight="0"
-                                        MaxHeight="48">
-                                        <local:UserDisplayControl />
-                                    </ListViewItem>
-                                </ListView>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListViewItem>
+                            <local:UserDisplayControl />
+                        </ListViewItem>
+                    </ListView>
 
-                                <ListView
-                                    Padding="0,0,0,0"
-                                    HorizontalAlignment="Right"
+                    <ListView HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     IsItemClickEnabled="True"
                                     ItemClick="ListView_ItemClick_1"
-                                    ItemContainerStyle="{StaticResource ListViewItemStyle1}"
                                     ScrollViewer.VerticalScrollMode="Disabled"
                                     SelectionMode="None">
-                                    <ListViewItem
-                                        Width="48"
-                                        Height="48"
-                                        MinWidth="0"
-                                        MinHeight="0">
-                                        <Grid
-                                            Width="48"
-                                            Height="48"
-                                            MinWidth="0"
-                                            MinHeight="0"
+                        <ListViewItem >
+                            <Grid 
                                             HorizontalAlignment="Right">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="48" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
+                                <TextBlock
                                                 Grid.Column="0"
-                                                Width="16"
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource FullMDL2FontFamily}"
                                                 FontSize="15"
                                                 Text=""
                                                 TextAlignment="Center" />
-                                        </Grid>
-                                    </ListViewItem>
-                                </ListView>
                             </Grid>
-                        </StackPanel>
-                    </Grid>
-                </SplitView.Pane>
-                <SplitView.Content>
-                    <intense:ContentFrame x:Name="Frame" SourcePageType="{x:Bind ViewModel.SelectedPageType, Mode=TwoWay}">
-                        <intense:ContentFrame.ContentTransitions>
-                            <TransitionCollection>
-                                <NavigationThemeTransition>
-
-                                    <EntranceNavigationTransitionInfo />
-
-                                    <!--<DrillInNavigationTransitionInfo />-->
-                                </NavigationThemeTransition>
-                            </TransitionCollection>
-                        </intense:ContentFrame.ContentTransitions>
-                    </intense:ContentFrame>
-                </SplitView.Content>
-            </controlssplitview:SwipeableSplitView>
-
-            <controlsacrylic:AcrylicMedium
-                x:Name="NarrowHeaderBg"
-                Grid.Row="0"
-                Margin="0,33,0,0" />
-
-            <intense:PageHeader
-                x:Name="NarrowHeader"
-                Title="{x:Bind ViewModel.SelectedItem.DisplayNameUppercase, Mode=OneWay}"
-                Grid.Row="0"
-                Margin="0,33,0,0"
-                Background="Transparent"
-                Icon="&#xE700;"
-                IconButtonStyle="{StaticResource PaneToggleButtonStyle}"
-                IconCommand="{x:Bind ViewModel.ToggleSplitViewPaneCommand}" />
-        </Grid>
-
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid x:Name="CustomTitleBar" VerticalAlignment="Top">
-                <Grid
-                    x:Name="CustomTitleBarPanel"
-                    Height="33"
-                    VerticalAlignment="Top">
-
-                    <Canvas
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="Transparent" />
-                    <Grid
-                        x:Name="TitlebarBackground"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
-                        <controlsacrylic:AcrylicMedium />
-                    </Grid>
-                    <Grid
-                        Width="48"
-                        HorizontalAlignment="Left"
-                        Opacity="0.5">
-                        <Rectangle
-                            x:Name="BackButtonBg"
-                            Fill="{ThemeResource SystemControlForegroundAccentBrush}"
-                            Visibility="Collapsed" />
-                        <TextBlock
-                            Width="13"
-                            Margin="-1,0,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="{StaticResource FullMDL2FontFamily}"
-                            FontSize="16"
-                            FontStretch="ExtraCondensed"
-                            Text="" />
-                    </Grid>
-                    <TextBlock
-                        x:Name="WindowTitle"
-                        Margin="60,0,0,0"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource WindowTitleTextBlockStyle}"
-                        Text="{x:Bind AppTitle, Mode=OneWay}" />
+                        </ListViewItem>
+                    </ListView>
                 </Grid>
-            </Grid>
-        </Grid>
-
-        <TextBlock
-            x:Name="PrivateWarningText"
-            Margin="0,32,0,0"
-            VerticalAlignment="Top"
-            Foreground="Red"
-            IsHitTestVisible="False"
-            Style="{StaticResource WindowTitleTextBlockStyle}"
-            Text="Private Version shared under NDA - DO NOT DISTRIBUTE"
-            TextAlignment="Center"
-            TextWrapping="Wrap"
-            Visibility="Collapsed" />
+            </muxc:NavigationView.PaneFooter>
+        </muxc:NavigationView>
     </Grid>
 </UserControl>

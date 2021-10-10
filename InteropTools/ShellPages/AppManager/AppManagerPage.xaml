@@ -10,13 +10,13 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid x:Name="MainGrid" Margin="0,-33,0,0">
             <controlsacrylic:AcrylicLow />
             <Grid
                 x:Name="MainViewer"
                 Margin="0,33,0,0"
-                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+               >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>

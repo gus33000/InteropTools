@@ -10,7 +10,7 @@
     <Page.Resources />
 
     <Grid x:Name="MainGrid" Background="{ThemeResource SystemChromeLowColor}">
-        <Grid x:Name="MainViewer" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid x:Name="MainViewer">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
@@ -28,12 +28,7 @@
                             Fill="{ThemeResource SystemChromeLowColor}"
                             Visibility="{Binding PageTitleVisibility}" />
                         <StackPanel Padding="{x:Bind Frame.Padding, Mode=OneWay}">
-                            <TextBlock
-                                x:Uid="Registry_Browser_Title"
-                                DataContext="{x:Bind Frame}"
-                                Style="{StaticResource TitleTextBlockStyle}"
-                                Visibility="{Binding PageTitleVisibility}" />
-
+                            
                             <Grid
                                 x:Name="JumpToGrid"
                                 Margin="0,0,0,18"

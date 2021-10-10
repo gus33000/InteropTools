@@ -8,19 +8,13 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <!--
             Padding="{x:Bind Frame.Padding, Mode=OneWay}"
             Height="300"  Margin="20"
         -->
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,0,0,12">
-                <TextBlock
-                    x:Uid="Keyb_Settings_Title"
-                    DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Visibility="{Binding PageTitleVisibility}" />
-
                 <Grid
                     Height="300"
                     Margin="12.5"

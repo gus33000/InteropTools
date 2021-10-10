@@ -37,24 +37,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock
-                                x:Uid="Welcome_Title"
-                                Padding="{x:Bind Frame.Padding, Mode=OneWay}"
-                                DataContext="{x:Bind Frame}"
-                                Style="{StaticResource TitleTextBlockStyle}"
-                                Visibility="{Binding PageTitleVisibility}" />
-
                             <CommandBar x:Name="CommandBar" Background="Transparent">
-                                <AppBarButton
-                                    x:Name="FeedbackButtonList"
-                                    Click="FeedbackButtonList_Click"
-                                    Label="Send Feedback"
-                                    ToolTipService.ToolTip="If you find any bug or crash or odd behavior or just want to suggest something new, please file a feedback in the Feedback Hub via this button or post it on the xda thread.">
-                                    <AppBarButton.Icon>
-                                        <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-
                                 <CommandBar.SecondaryCommands>
                                     <AppBarButton
                                         Click="AppBarButton_Click"
@@ -73,7 +56,7 @@
                             <controls:AnimatedFlipView
                                 x:Name="MyFlipView"
                                 Height="400"
-                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                               >
                                 <FlipViewItem>
                                     <Grid Background="Teal" Tapped="Grid_Tapped">
                                         <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.5" />
@@ -136,15 +119,6 @@
                                 x:Name="FlipViewCommandBar"
                                 VerticalAlignment="Top"
                                 Background="Transparent">
-                                <AppBarButton
-                                    x:Name="FeedbackButtonList2"
-                                    Click="FeedbackButtonList_Click"
-                                    Label="Send Feedback"
-                                    ToolTipService.ToolTip="If you find any bug or crash or odd behavior or just want to suggest something new, please file a feedback in the Feedback Hub via this button or post it on the xda thread.">
-                                    <AppBarButton.Icon>
-                                        <FontIcon FontFamily="{StaticResource FullMDL2FontFamily}" Glyph="" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
 
                                 <CommandBar.SecondaryCommands>
                                     <AppBarButton
@@ -339,7 +313,6 @@
                                 Margin="-12,0,-12,0"
                                 IsItemClickEnabled="True"
                                 ItemClick="GridView_ItemClick"
-                                ItemContainerStyle="{StaticResource GridViewStretchedStyle}"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.VerticalScrollMode="Disabled"
                                 SelectionMode="None">

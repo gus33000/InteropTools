@@ -7,7 +7,7 @@
     x:Uid="Certificate_Details"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource ResourceKey=DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">

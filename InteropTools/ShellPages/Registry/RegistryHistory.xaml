@@ -7,14 +7,9 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock
-                    DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Text="Registry History"
-                    Visibility="{Binding PageTitleVisibility}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -297,12 +297,6 @@ namespace InteropTools
             await renderTargetBitmap_.RenderAsync(Sessions[(int)CurrentSession].WindowContent);
             Sessions[(int)CurrentSession].Preview = renderTargetBitmap_;
             Window.Current.Activate();
-
-            if (App.AppContent is Shell)
-            {
-                Shell shell = (Shell)session.WindowContent;
-                shell.ReSetupTitlebar();
-            }
         }
 
         private static string RandomString(int length)

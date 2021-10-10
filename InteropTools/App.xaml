@@ -7,8 +7,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <controls1:XamlControlsResources />
                 <ResourceDictionary Source="ms-appx:///Intense/Themes/Intense.xaml" />
-                <controls1:DEPControlsThemeResources />
                 <ResourceDictionary Source="ms-appx:///Themes/CommonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

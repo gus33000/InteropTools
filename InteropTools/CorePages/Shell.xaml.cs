@@ -21,19 +21,126 @@ using Windows.Foundation.Metadata;
 using Windows.Management.Deployment;
 using Windows.Phone.UI.Input;
 using Windows.Storage;
+using Windows.System.Profile;
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 namespace InteropTools.CorePages
 {
     public sealed partial class Shell : UserControl
     {
+        public Shell(object args)
+        {
+            this.InitializeComponent();
+
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox")
+            {
+                XboxContentSafeRect.Visibility = Visibility.Visible;
+            }
+
+            // Workaround for VisualState issue that should be fixed
+            // by https://github.com/microsoft/microsoft-ui-xaml/pull/2271
+            // NavigationViewControl.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
+
+            Window.Current.SetTitleBar(AppTitleBar);
+
+            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle(s);
+
+            NavigationViewControl.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
+            Load(args);
+        }
+
+        private void OnPaneDisplayModeChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            var navigationView = sender as muxc.NavigationView;
+            AppTitleBar.Visibility = navigationView.PaneDisplayMode == muxc.NavigationViewPaneDisplayMode.Top ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        void UpdateAppTitle(CoreApplicationViewTitleBar coreTitleBar)
+        {
+            //ensure the custom title bar does not overlap window caption controls
+            Thickness currMargin = AppTitleBar.Margin;
+            AppTitleBar.Margin = new Thickness(currMargin.Left, currMargin.Top, coreTitleBar.SystemOverlayRightInset, currMargin.Bottom);
+        }
+
+        public string GetAppTitleFromSystem()
+        {
+            return Windows.ApplicationModel.Package.Current.DisplayName;
+        }
+
+        private void NavigationViewControl_PaneClosing(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewPaneClosingEventArgs args)
+        {
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_PaneOpened(Microsoft.UI.Xaml.Controls.NavigationView sender, object args)
+        {
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)
+        {
+            Thickness currMargin = AppTitleBar.Margin;
+            if (sender.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal)
+            {
+                AppTitleBar.Margin = new Thickness((sender.CompactPaneLength * 2), currMargin.Top, currMargin.Right, currMargin.Bottom);
+
+            }
+            else
+            {
+                AppTitleBar.Margin = new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            }
+
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void UpdateAppTitleMargin(Microsoft.UI.Xaml.Controls.NavigationView sender)
+        {
+            const int smallLeftIndent = 4, largeLeftIndent = 24;
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            {
+                AppTitle.TranslationTransition = new Vector3Transition();
+
+                if ((sender.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal)
+                {
+                    AppTitle.Translation = new System.Numerics.Vector3(smallLeftIndent, 0, 0);
+                }
+                else
+                {
+                    AppTitle.Translation = new System.Numerics.Vector3(largeLeftIndent, 0, 0);
+                }
+            }
+            else
+            {
+                Thickness currMargin = AppTitle.Margin;
+
+                if ((sender.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewDisplayMode.Minimal)
+                {
+                    AppTitle.Margin = new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
+                else
+                {
+                    AppTitle.Margin = new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
+            }
+        }
+
+        private void CtrlF_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            controlsSearchBox.Focus(FocusState.Programmatic);
+        }
+
         public string _SwitchSession = InteropTools.Resources.TextResources.Shell_SwitchSession;
         public string mode;
         public ObservableRangeCollection<NavigationItem> recentitems = new();
@@ -42,27 +149,12 @@ namespace InteropTools.CorePages
         private bool _initialized;
         private double titlebarheight;
 
-        public Shell(object args)
-        {
-            InitializeComponent();
-            Load(args);
-        }
-
-        public Frame RootFrame => Frame;
+        public Frame RootFrame => rootFrame;
 
         public ShellViewModel ViewModel
         {
             get;
             private set;
-        }
-
-        private string AppTitle
-        {
-            get
-            {
-                string title = ApplicationView.GetForCurrentView().Title;
-                return title?.Length == 0 ? Package.Current.DisplayName : title;
-            }
         }
 
         private string UpperCaseAppTitle
@@ -233,9 +325,6 @@ namespace InteropTools.CorePages
             RootFrame.Navigated += RootFrame_Navigated;
             RootFrame.NavigationFailed += OnNavigationFailed;
 
-            CoreApplication.GetCurrentView().TitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-
             vm.TopItems.Add(new NavigationItem
             {
                 Icon = "",
@@ -258,80 +347,11 @@ namespace InteropTools.CorePages
                 PageType = typeof(SettingsPage)
             });
 
-            IEnumerable<IGrouping<GroupItem, NavigationItem>> groups = from c in vm.TopItems
-                                                                       group c by new GroupItem(c, true);
-            topitems.Source = groups;
-
-            sampleTreeView2.AllowDrop = false;
-            sampleTreeView2.CanDrag = false;
-            sampleTreeView2.CanDragItems = false;
-            sampleTreeView2.CanReorderItems = false;
-
-            foreach (IGrouping<GroupItem, NavigationItem> element in groups)
-            {
-                GroupItem groupitem = element.Key;
-                TreeNode2 groupnode = new()
-                {
-                    Data = new NavigationItemData()
-                    {
-                        GroupItem = groupitem
-                    }
-                };
-
-                if (!sampleTreeView2.RootNode.Contains(groupnode))
-                { sampleTreeView2.RootNode.Add(groupnode); }
-
-                foreach (NavigationItem item in element)
-                {
-                    TreeNode2 itemnode = new()
-                    {
-                        Data = new NavigationItemData()
-                        {
-                            NavigationItem = item
-                        }
-                    };
-                    treeviewnodes.Add(itemnode);
-                    groupnode.Add(itemnode);
-                }
-            }
-
-            IEnumerable<IGrouping<GroupItem, NavigationItem>> groups2 = from c in vm.TopItems
-                                                                        group c by new GroupItem(c, false);
-            topitems2.Source = groups2;
             vm.SelectedItem = vm.TopItems.First();
             ViewModel = vm;
-            ViewModel.SelectedTopItem.PropertyChanged += SelectedTopItem_PropertyChanged;
-            ViewModel.SelectedItem.PropertyChanged += SelectedItem_PropertyChanged;
 
             _initialized = true;
-            SetupTitleBar();
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged1;
-            titlebarheight = CoreApplication.GetCurrentView().TitleBar.Height;
-            Window.Current.SetTitleBar(CustomTitleBar);
-            Window.Current.SizeChanged += Current_SizeChanged;
-            Window.Current.Activated += Current_Activated;
-            Redraw(true);
             Windows.Foundation.Rect size = Window.Current.Bounds;
-            if (SplitView.IsSwipeablePaneOpen)
-            {
-                SearchListButton.Visibility = Visibility.Collapsed;
-                SearchBox.Visibility = Visibility.Visible;
-
-                sampleTreeView2.Visibility = Visibility.Visible;
-                TopList2.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                SearchListButton.Visibility = Visibility.Visible;
-                SearchBox.Visibility = Visibility.Collapsed;
-
-                if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
-                {
-                    sampleTreeView2.Visibility = Visibility.Collapsed;
-                    TopList2.Visibility = Visibility.Visible;
-                }
-            }
             await new PickProviderContentDialog().ShowAsync();
 
             if (App.MainRegistryHelper.AllowsRegistryEditing())
@@ -523,48 +543,6 @@ namespace InteropTools.CorePages
                 });
             }
 
-            groups = from c in vm.TopItems
-                     group c by new GroupItem(c, true);
-            topitems.Source = groups;
-
-            sampleTreeView2.AllowDrop = false;
-            sampleTreeView2.CanDrag = false;
-            sampleTreeView2.CanDragItems = false;
-            sampleTreeView2.CanReorderItems = false;
-
-            sampleTreeView2.RootNode.Clear();
-
-            foreach (IGrouping<GroupItem, NavigationItem> element in groups)
-            {
-                GroupItem groupitem = element.Key;
-                TreeNode2 groupnode = new()
-                {
-                    Data = new NavigationItemData()
-                    {
-                        GroupItem = groupitem
-                    }
-                };
-
-                if (!sampleTreeView2.RootNode.Contains(groupnode))
-                { sampleTreeView2.RootNode.Add(groupnode); }
-
-                foreach (NavigationItem item in element)
-                {
-                    TreeNode2 itemnode = new()
-                    {
-                        Data = new NavigationItemData()
-                        {
-                            NavigationItem = item
-                        }
-                    };
-                    treeviewnodes.Add(itemnode);
-                    groupnode.Add(itemnode);
-                }
-            }
-
-            groups2 = from c in vm.TopItems
-                      group c by new GroupItem(c, false);
-            topitems2.Source = groups2;
             vm.SelectedItem = vm.TopItems.First();
 
             if (args.GetType() == typeof(string))
@@ -649,251 +627,13 @@ namespace InteropTools.CorePages
             CheckAndUnlockSSH();
         }
 
-        public void Redraw(bool ignoresizecheck)
-        {
-            Windows.Foundation.Rect size = Window.Current.Bounds;
-            CustomTitleBarPanel.Height = titlebarheight;
-            string currentmode;
-            if (size.Width >= 1024)
-            {
-                currentmode = "big";
-            }
-            else
-                if (size.Width >= 720)
-            {
-                currentmode = "medium";
-            }
-            else
-            {
-                currentmode = "small";
-            }
-
-            if (mode == null || mode != currentmode || ignoresizecheck)
-            {
-                const double tmpvalue = 0;
-
-                mode = currentmode;
-
-                if (size.Width >= 1024)
-                {
-                    BackDrop.Visibility = Visibility.Collapsed;
-                    Acrylic.Visibility = Visibility.Visible;
-
-                    SplitView.DisplayMode = SplitViewDisplayMode.CompactInline;
-                    SplitView.OpenPaneLength = 320;
-                    NarrowHeader.Visibility = Visibility.Collapsed;
-                    NarrowHeaderBg.Visibility = Visibility.Collapsed;
-                    PaneHeader.Visibility = Visibility.Visible;
-                    Thickness padding = Frame.Padding;
-                    padding.Left = 48;
-                    padding.Top = 6;
-                    padding.Right = 48;
-                    padding.Bottom = 0;
-                    Frame.Padding = padding;
-                    Frame.PageTitleVisibility = Visibility.Visible;
-                    TitlebarBackground.Visibility = Visibility.Collapsed;
-
-                    if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 1);
-                        padding.Left = 0;
-                        padding.Top = titlebarheight;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = titlebarheight;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                        margin.Top += tmpvalue;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 1);
-                        padding.Left = 0;
-                        padding.Top = 0;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = 0;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                        margin.Top += tmpvalue;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Collapsed;
-                    }
-                }
-                else
-                    if (size.Width >= 720)
-                {
-                    BackDrop.Visibility = Visibility.Visible;
-                    Acrylic.Visibility = Visibility.Collapsed;
-
-                    SplitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
-                    SplitView.OpenPaneLength = 256;
-                    NarrowHeader.Visibility = Visibility.Collapsed;
-                    NarrowHeaderBg.Visibility = Visibility.Collapsed;
-                    PaneHeader.Visibility = Visibility.Visible;
-                    Thickness padding = Frame.Padding;
-                    padding.Left = 48;
-                    padding.Top = 6;
-                    padding.Right = 48;
-                    padding.Bottom = 0;
-                    Frame.Padding = padding;
-                    Frame.PageTitleVisibility = Visibility.Visible;
-                    TitlebarBackground.Visibility = Visibility.Collapsed;
-
-                    if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 1);
-                        padding.Left = 0;
-                        padding.Top = titlebarheight;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = titlebarheight;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                        margin.Top += tmpvalue;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 1);
-                        padding.Left = 0;
-                        padding.Top = 0;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = 0;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                        margin.Top += tmpvalue;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Collapsed;
-                    }
-                }
-                else
-                {
-                    BackDrop.Visibility = Visibility.Visible;
-                    Acrylic.Visibility = Visibility.Collapsed;
-
-                    SplitView.DisplayMode = SplitViewDisplayMode.Overlay;
-                    NarrowHeader.Visibility = Visibility.Visible;
-                    NarrowHeaderBg.Visibility = Visibility.Visible;
-                    PaneHeader.Visibility = Visibility.Collapsed;
-                    SplitView.OpenPaneLength = 256;
-                    Thickness padding = Frame.Padding;
-                    padding.Left = 12;
-                    padding.Top = 12;
-                    padding.Right = 12;
-                    padding.Bottom = 0;
-                    Frame.Padding = padding;
-                    Frame.PageTitleVisibility = Visibility.Collapsed;
-                    TitlebarBackground.Visibility = Visibility.Visible;
-
-                    if (CoreApplication.GetCurrentView().TitleBar.IsVisible)
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 0);
-                        padding.Left = 0;
-                        padding.Top = 0;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = 0;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Visible;
-                        margin.Left = 0;
-                        margin.Top = titlebarheight;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                    }
-                    else
-                    {
-                        CustomTitleBar.SetValue(Grid.RowProperty, 0);
-                        padding.Left = 0;
-                        padding.Top = 0;
-                        padding.Right = 0;
-                        padding.Bottom = 0;
-                        SplitViewPaneGrid.Padding = padding;
-                        Thickness margin = Frame.Margin;
-                        margin.Left = 0;
-                        margin.Top = 0;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        Frame.Margin = margin;
-                        CustomTitleBar.Visibility = Visibility.Collapsed;
-                        margin.Left = 0;
-                        margin.Top = 0;
-                        margin.Right = 0;
-                        margin.Bottom = 0;
-                        NarrowHeader.Margin = margin;
-                        NarrowHeaderBg.Margin = margin;
-                    }
-                }
-
-                if (SplitView.IsSwipeablePaneOpen)
-                {
-                    SearchListButton.Visibility = Visibility.Collapsed;
-                    SearchBox.Visibility = Visibility.Visible;
-
-                    sampleTreeView2.Visibility = Visibility.Visible;
-                    TopList2.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    SearchListButton.Visibility = Visibility.Visible;
-                    SearchBox.Visibility = Visibility.Collapsed;
-
-                    if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
-                    {
-                        sampleTreeView2.Visibility = Visibility.Collapsed;
-                        TopList2.Visibility = Visibility.Visible;
-                    }
-                }
-            }
-        }
-
-        public void ReSetupTitlebar()
-        {
-            SetupTitleBar();
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged1;
-            titlebarheight = CoreApplication.GetCurrentView().TitleBar.Height;
-            Window.Current.SetTitleBar(CustomTitleBar);
-        }
-
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
             {
                 // User selected an item from the suggestion list, take an action on it here.
                 RootFrame.Navigate((args.ChosenSuggestion as NavigationItem)?.PageType);
-                SearchBox.Text = "";
+                controlsSearchBox.Text = "";
             }
             else
             {
@@ -940,7 +680,7 @@ namespace InteropTools.CorePages
             {
             }
 
-            SearchBox.Text = "";
+            controlsSearchBox.Text = "";
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -995,32 +735,6 @@ namespace InteropTools.CorePages
             }
         }
 
-        private void Current_Activated(object sender, WindowActivatedEventArgs e)
-        {
-            try
-            {
-                Shell shell = (Shell)App.AppContent;
-                shell.Redraw(false);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            try
-            {
-                Shell shell = (Shell)App.AppContent;
-                shell.Redraw(false);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
         private NavigationItem FindPageItem(Type pagetype)
         {
             foreach (NavigationItem item in ViewModel.TopItems)
@@ -1050,25 +764,6 @@ namespace InteropTools.CorePages
         private async void ListView_ItemClick_1(object sender, ItemClickEventArgs e)
         {
             await new SelectSessionContentDialog().ShowAsync();
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
-                {
-                    sampleTreeView2.SelectedItem = null;
-                }
-
-                if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
-                {
-                    sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData)?.NavigationItem == ViewModel.SelectedTopItem);
-                }
-            }
-            catch
-            {
-            }
         }
 
         private void OnBackPressed(object sender, BackPressedEventArgs e)
@@ -1266,140 +961,19 @@ namespace InteropTools.CorePages
             }
         }
 
-        private void SelectedItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
-            {
-                sampleTreeView2.SelectedItem = null;
-            }
-        }
-
-        private void SelectedTopItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
-            {
-                sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData)?.NavigationItem == ViewModel.SelectedTopItem);
-            }
-            else
-            {
-                sampleTreeView2.SelectedItem = null;
-            }
-        }
-
-        private void SetupTitleBar()
-        {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                StatusBar.GetForCurrentView().BackgroundOpacity = 0;
-            }
-
-            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-            ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
-            Color transparentColor = transparentColorBrush.Color;
-            titlebar.BackgroundColor = transparentColor;
-            titlebar.ButtonBackgroundColor = transparentColor;
-            titlebar.ButtonInactiveBackgroundColor = transparentColor;
-
-            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush solidColorBrush)
-            {
-                titlebar.ButtonForegroundColor = solidColorBrush.Color;
-                titlebar.ButtonInactiveForegroundColor = solidColorBrush.Color;
-            }
-
-            if (Application.Current.Resources["ApplicationForegroundThemeBrush"] is SolidColorBrush colorBrush)
-            {
-                titlebar.ForegroundColor = colorBrush.Color;
-            }
-
-            Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
-            hovercolor.A = 32;
-            titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
-            hovercolor.A = 64;
-            titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
-        }
-
         private void Shell_Loaded(object sender, RoutedEventArgs e)
         {
             new SettingsViewModel();
-            UpdateBackButtonVisibility();
-        }
-
-        private void SplitView_PaneOpenChanged(object sender)
-        {
-            _ = Window.Current.Bounds;
-
-            if (SplitView.IsSwipeablePaneOpen)
-            {
-                SearchListButton.Visibility = Visibility.Collapsed;
-                SearchBox.Visibility = Visibility.Visible;
-
-                sampleTreeView2.Visibility = Visibility.Visible;
-                TopList2.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                SearchListButton.Visibility = Visibility.Visible;
-                SearchBox.Visibility = Visibility.Collapsed;
-
-                if (SplitView.DisplayMode != SplitViewDisplayMode.Overlay)
-                {
-                    sampleTreeView2.Visibility = Visibility.Collapsed;
-                    TopList2.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
-        private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            Redraw(true);
-        }
-
-        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            Redraw(true);
-        }
-
-        private void TitleBar_LayoutMetricsChanged1(CoreApplicationViewTitleBar sender, object args)
-        {
-            titlebarheight = CoreApplication.GetCurrentView().TitleBar.Height;
-            Redraw(true);
-        }
-
-        private void TopList2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                if (ViewModel != null)
-                {
-                    if (ViewModel.SelectedItem == ViewModel.SelectedBottomItem)
-                    {
-                        sampleTreeView2.SelectedItem = null;
-                    }
-
-                    if (ViewModel.SelectedItem == ViewModel.SelectedTopItem)
-                    {
-                        sampleTreeView2.SelectedItem = treeviewnodes.First(x => (x.Data as NavigationItemData)?.NavigationItem == ViewModel.SelectedTopItem);
-                    }
-                }
-            }
-            catch
-            {
-            }
         }
 
         private void UpdateBackButtonVisibility()
         {
             Shell shell = (Shell)App.AppContent;
             AppViewBackButtonVisibility visibility = AppViewBackButtonVisibility.Collapsed;
-            BackButtonBg.Visibility = Visibility.Collapsed;
 
             if (shell.RootFrame.CanGoBack)
             {
                 visibility = AppViewBackButtonVisibility.Visible;
-                BackButtonBg.Visibility = Visibility.Visible;
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visibility;

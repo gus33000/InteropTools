@@ -136,7 +136,7 @@
     <Pivot
         x:Name="MainPivot"
         Margin="{x:Bind Frame.Padding, Mode=OneWay}"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+       >
         <Pivot.HeaderTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding}" />

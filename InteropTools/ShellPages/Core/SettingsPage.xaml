@@ -8,15 +8,9 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock
-                    DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Text="Settings"
-                    Visibility="{Binding PageTitleVisibility}" />
-
                 <ToggleSwitch
                     Margin="0,0,0,24"
                     Header="Require authentication at start up (requires Windows Hello or a PIN to be set on the device)"

@@ -7,14 +7,9 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer Padding="{x:Bind Frame.Padding, Mode=OneWay}" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <TextBlock
-                    x:Uid="Default_Apps_Title"
-                    DataContext="{x:Bind Frame}"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Visibility="{Binding PageTitleVisibility}" />
                 <ListView
                     x:Name="FileAssociationsListView"
                     HorizontalAlignment="Stretch"

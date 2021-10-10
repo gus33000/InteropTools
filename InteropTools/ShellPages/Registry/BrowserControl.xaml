@@ -20,7 +20,7 @@
                     x:Name="JumpGridView"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                   
                     ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollMode="Auto">
@@ -72,7 +72,7 @@
                     x:Name="JumpGridView2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                   
                     ItemsSource="{Binding Source={StaticResource RegistryGroups}, Path=CollectionGroups}"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollMode="Auto">
@@ -132,7 +132,6 @@
                     IsItemClickEnabled="True"
                     IsPullToRefreshWithMouseEnabled="True"
                     ItemClick="ListBrowser_ItemClick"
-                    ItemContainerStyle="{StaticResource BrowserControlListViewItemContainerStyle}"
                     ItemsSource="{Binding Source={StaticResource RegistryGroups}}"
                     OverscrollLimit="0.4"
                     PullProgressChanged="ListBrowser_PullProgressChanged"

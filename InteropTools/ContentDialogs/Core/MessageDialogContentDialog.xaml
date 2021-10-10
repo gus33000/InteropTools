@@ -7,7 +7,7 @@
     Title="TITLE"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Ok"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource ResourceKey=DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <TextBlock x:Name="Description" TextWrapping="Wrap" />

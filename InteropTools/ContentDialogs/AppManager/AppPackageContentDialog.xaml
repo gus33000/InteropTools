@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="Package_Info"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}"
+    Style="{StaticResource ResourceKey=DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <ScrollViewer Padding="12" VerticalScrollBarVisibility="Auto">

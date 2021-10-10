@@ -3,7 +3,6 @@ using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.Resources;
 using Microsoft.HockeyApp;
-using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using Windows.ApplicationModel.Activation;
@@ -107,10 +106,6 @@ namespace InteropTools
                     {
                         ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
 
-                        StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-                        string originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(
-                            toastActivationArgs.Argument);
-
                         // Use the originalArgs variable to access the original arguments
                         // that were passed to the app.
                     }
@@ -122,15 +117,6 @@ namespace InteropTools
                 ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
 
                 SetupThemes();
-
-                try
-                {
-                    StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-                    await engagementManager.RegisterNotificationChannelAsync();
-                }
-                catch
-                {
-                }
 
 #if DEBUG
                 if (System.Diagnostics.Debugger.IsAttached)
@@ -189,10 +175,6 @@ namespace InteropTools
                     {
                         ToastNotificationActivatedEventArgs toastActivationArgs = args as ToastNotificationActivatedEventArgs;
 
-                        StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-                        string originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(
-                            toastActivationArgs.Argument);
-
                         // Use the originalArgs variable to access the original arguments
                         // that were passed to the app.
                     }
@@ -249,15 +231,6 @@ namespace InteropTools
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             SetupThemes();
-
-            try
-            {
-                StoreServicesEngagementManager engagementManager = StoreServicesEngagementManager.GetDefault();
-                await engagementManager.RegisterNotificationChannelAsync();
-            }
-            catch
-            {
-            }
 
             RefreshTile();
             RefreshJumpList();
