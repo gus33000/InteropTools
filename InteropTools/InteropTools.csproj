@@ -19,9 +19,9 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>InteropTools_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>
     </PackageCertificateThumbprint>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
@@ -221,15 +221,6 @@
     <Content Include="Assets\ti.jpg" />
     <Content Include="Assets\vb.jpg" />
     <Content Include="Microsoft.UI.Xaml\Assets\NoiseAsset_256X256_PNG.png" />
-    <Content Include="SSH\CheckNetIsolation.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SSH\cmd.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SSH\reg.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Web\assets\welcomeheader.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -366,15 +357,6 @@
     <Compile Include="ShellPages\SSH\SSHAccountManagerPage.xaml.cs">
       <DependentUpon>SSHAccountManagerPage.xaml</DependentUpon>
     </Compile>
-    <None Include="SSH\en-US\CheckNetIsolation.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SSH\en-US\cmd.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SSH\en-US\reg.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Web\css\winstrap-optional.css.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -440,6 +422,24 @@
         </AppxManifest>
         <None Include="InteropTools_TemporaryKey.pfx" />
         <PRIResource Include="Resources\en-US\Resources.resw" />
+        <None Include="SSH\en-US\CheckNetIsolation.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="SSH\en-US\cmd.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="SSH\en-US\reg.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <Content Include="SSH\CheckNetIsolation.exe" >
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="SSH\cmd.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="SSH\reg.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
       </ItemGroup>
     </Otherwise>
   </Choose>
