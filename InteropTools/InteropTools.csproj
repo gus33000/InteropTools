@@ -220,12 +220,6 @@
     <Content Include="Assets\sv.jpg" />
     <Content Include="Assets\ti.jpg" />
     <Content Include="Assets\vb.jpg" />
-    </Content>
-    </Content>
-    </Content>
-    </Content>
-    </Content>
-    </Content>
     <Content Include="Web\assets\welcomeheader.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
