@@ -220,14 +220,11 @@
     <Content Include="Assets\sv.jpg" />
     <Content Include="Assets\ti.jpg" />
     <Content Include="Assets\vb.jpg" />
-    <Content Include="SSH\CheckNetIsolation.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SSH\cmd.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SSH\reg.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    </Content>
+    </Content>
     </Content>
     <Content Include="Web\assets\welcomeheader.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -365,15 +362,6 @@
     <Compile Include="ShellPages\SSH\SSHAccountManagerPage.xaml.cs">
       <DependentUpon>SSHAccountManagerPage.xaml</DependentUpon>
     </Compile>
-    <None Include="SSH\en-US\CheckNetIsolation.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SSH\en-US\cmd.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SSH\en-US\reg.exe.mui">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Web\css\winstrap-optional.css.map">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -439,6 +427,24 @@
         </AppxManifest>
         <None Include="InteropTools_TemporaryKey.pfx" />
         <PRIResource Include="Resources\en-US\Resources.resw" />
+        <None Include="SSH\en-US\CheckNetIsolation.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="SSH\en-US\cmd.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Include="SSH\en-US\reg.exe.mui">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <Content Include="SSH\CheckNetIsolation.exe" >
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="SSH\cmd.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="SSH\reg.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
       </ItemGroup>
     </Otherwise>
   </Choose>
