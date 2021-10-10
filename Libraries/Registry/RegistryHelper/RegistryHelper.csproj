@@ -130,6 +130,16 @@
       <Name>RegistryRT</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.12</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
+    </SDKReference>
+  </ItemGroup>
   <Choose>
     <When Condition=" '$(Configuration)' != 'StoreDebug' And '$(Configuration)' != 'StoreRelease' ">
       <ItemGroup>
@@ -158,16 +168,6 @@
         <Reference Include="WinPRTUtils">
           <HintPath>..\Prebuilt\WinPRTUtils.winmd</HintPath>
         </Reference>
-      </ItemGroup>
-      <ItemGroup>
-        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-          <Version>6.2.12</Version>
-        </PackageReference>
-      </ItemGroup>
-      <ItemGroup>
-        <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
-          <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
-        </SDKReference>
       </ItemGroup>
     </When>
   </Choose>
