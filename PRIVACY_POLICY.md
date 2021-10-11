@@ -1,0 +1,7 @@
+# Privacy Policy for Interop Tools
+
+This privacy policy contains all the types of information that is and that isn't collected and stored by Interop Tools (Preview) and how those informations are used by the developers of Interop Tools (IT Dev Team). If you have any additional question about this privacy policy please contact Gustave Monce at gustave.monce@outlook.com
+
+Interop Tools uses HockeyApp's services to collect crash data when the App encounters a critical bug. This data may contain the device name, the Operating System version the app run on and the crash log of the App. IT Dev Team only uses this data to help fix critical bugs to ensure a better experience for consumers. The app won't collect any personal information about your device except from the ones mentioned before.
+
+Interop Tools through the Remote Access feature also serves as a local only server for other devices on your network to connect to the app instance. This server is local only, and is only used to provide api access (such as Registry) to the other app instance running on another device locally on the same network. Any attempt to connect to the app will preceed by a permission popup on the destination device with the local server running asking if you want to allow the connection from the remote computer (of which IP address is displayed). The data transfered with remote access is local only and won't be collected online by HockeyApp or any other service.
