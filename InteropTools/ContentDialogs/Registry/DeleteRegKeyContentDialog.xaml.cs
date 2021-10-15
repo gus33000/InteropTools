@@ -37,7 +37,7 @@ namespace InteropTools.ContentDialogs.Registry
             {
                 HelperErrorCodes status = await helper.DeleteKey(hive, key, true);
 
-                if (status == HelperErrorCodes.FAILED)
+                if (status == HelperErrorCodes.Failed)
                 {
                     ShowKeyUnableToDeleteMessageBox();
                 }
@@ -46,7 +46,7 @@ namespace InteropTools.ContentDialogs.Registry
             {
                 HelperErrorCodes status = await helper.DeleteKey(hive, key, false);
 
-                if (status == HelperErrorCodes.FAILED)
+                if (status == HelperErrorCodes.Failed)
                 {
                     ShowKeyUnableToDeleteMessageBox();
                 }

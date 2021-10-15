@@ -69,14 +69,14 @@ namespace InteropTools.ShellPages.Registry
 
         public void ChangeCurrentItem(RegistryItemCustom regitem)
         {
-            if (regitem.Type == RegistryItemType.VALUE)
+            if (regitem.Type == RegistryItemType.Value)
             {
                 return;
             }
 
             string key = regitem.Key;
 
-            if (regitem.Type == RegistryItemType.KEY)
+            if (regitem.Type == RegistryItemType.Key)
             {
                 if ((key?.Length == 0) || (key == null))
                 {
@@ -128,7 +128,7 @@ namespace InteropTools.ShellPages.Registry
                 return false;
             }
 
-            if (_currentRegItem.Type == RegistryItemType.HIVE)
+            if (_currentRegItem.Type == RegistryItemType.Hive)
             {
                 ChangeCurrentItem();
                 return true;
@@ -162,7 +162,7 @@ namespace InteropTools.ShellPages.Registry
                 return null;
             }
 
-            if (item.Type == RegistryItemType.HIVE)
+            if (item.Type == RegistryItemType.Hive)
             {
                 return null;
             }
@@ -177,7 +177,7 @@ namespace InteropTools.ShellPages.Registry
                     Name = item.Hive.ToString(),
                     Hive = item.Hive,
                     Key = path,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = "",
                     ValueType = 0
                 };
@@ -193,7 +193,7 @@ namespace InteropTools.ShellPages.Registry
                 Name = key.Split('\\').Last(),
                 Hive = item.Hive,
                 Key = path,
-                Type = RegistryItemType.KEY,
+                Type = RegistryItemType.Key,
                 Value = "",
                 ValueType = 0
             };
@@ -222,7 +222,7 @@ namespace InteropTools.ShellPages.Registry
         {
             string key = item.Key;
 
-            if (item.Type == RegistryItemType.KEY)
+            if (item.Type == RegistryItemType.Key)
             {
                 if ((key?.Length == 0) || (key == null))
                 {
@@ -234,13 +234,13 @@ namespace InteropTools.ShellPages.Registry
                 }
             }
 
-            if (item.Type == RegistryItemType.KEY)
+            if (item.Type == RegistryItemType.Key)
             {
                 await new DeleteRegKeyContentDialog(item.Hive, key).ShowAsync();
                 ChangeCurrentItem(_currentRegItem);
             }
 
-            if (item.Type != RegistryItemType.VALUE)
+            if (item.Type != RegistryItemType.Value)
             {
                 return;
             }
@@ -259,7 +259,7 @@ namespace InteropTools.ShellPages.Registry
                         HelperErrorCodes status = await _helper.DeleteValue(item.Hive, key, item.Name);
                         RunInUIThread(() =>
                         {
-                            if (status == HelperErrorCodes.FAILED)
+                            if (status == HelperErrorCodes.Failed)
                             { ShowValueUnableToDeleteMessageBox(); }
 
                             ChangeCurrentItem(GetPreviousItem(item));
@@ -285,7 +285,7 @@ namespace InteropTools.ShellPages.Registry
 
             if (item != null)
             {
-                if (item.regitem.Type == RegistryItemType.VALUE)
+                if (item.regitem.Type == RegistryItemType.Value)
                 {
                     UpdateCurrentItemChanged(_currentRegItem, item.regitem);
                     return;
@@ -428,20 +428,20 @@ namespace InteropTools.ShellPages.Registry
 
                     switch (item.regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 str = string.Format("Name: {0}\r\nType: {1}", item.regitem.Name, item.regitem.Type.ToString());
                                 break;
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 str =
                                   $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type}\r\nHive: {item.regitem.Hive}";
                                 break;
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 str =
                                   $"[{item.regitem.Key}]\r\nName: {item.regitem.Name}\r\nType: {item.regitem.Type}\r\nHive: {item.regitem.Hive}\r\nValue Type: {item.regitem.ValueType}\r\nValue: {item.regitem.Value}";
@@ -480,7 +480,7 @@ namespace InteropTools.ShellPages.Registry
                     };
                     flyout.Items.Add(flyoutitem6);
 
-                    if (item.regitem.Type != RegistryItemType.KEY)
+                    if (item.regitem.Type != RegistryItemType.Key)
                     {
                         flyoutitem6.IsEnabled = false;
                     }
@@ -489,7 +489,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         switch (item.regitem.Type)
                         {
-                            case RegistryItemType.KEY:
+                            case RegistryItemType.Key:
                                 {
                                     string key = "";
 
@@ -506,7 +506,7 @@ namespace InteropTools.ShellPages.Registry
                                     {
                                         string Key = item.regitem.Key;
 
-                                        if (item.regitem.Type == RegistryItemType.KEY)
+                                        if (item.regitem.Type == RegistryItemType.Key)
                                         {
                                             if ((Key?.Length == 0) || (Key == null))
                                             {
@@ -524,7 +524,7 @@ namespace InteropTools.ShellPages.Registry
                                     break;
                                 }
 
-                            case RegistryItemType.VALUE:
+                            case RegistryItemType.Value:
                                 {
                                     //TODO
                                     break;
@@ -539,7 +539,7 @@ namespace InteropTools.ShellPages.Registry
                     };
                     flyout.Items.Add(flyoutitem7);
 
-                    if (item.regitem.Type == RegistryItemType.HIVE)
+                    if (item.regitem.Type == RegistryItemType.Hive)
                     {
                         flyoutitem7.IsEnabled = false;
                     }
@@ -548,13 +548,13 @@ namespace InteropTools.ShellPages.Registry
                     {
                         switch (item.regitem.Type)
                         {
-                            case RegistryItemType.KEY:
+                            case RegistryItemType.Key:
                                 {
                                     DeleteItem(item.regitem);
                                     break;
                                 }
 
-                            case RegistryItemType.VALUE:
+                            case RegistryItemType.Value:
                                 {
                                     DeleteItem(item.regitem);
                                     break;
@@ -562,7 +562,7 @@ namespace InteropTools.ShellPages.Registry
                         }
                     };
 
-                    if (_currentRegItem.Type == RegistryItemType.HIVE && (_currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || _currentRegItem.Hive == RegHives.HKEY_USERS) && item.regitem.Type == RegistryItemType.KEY)
+                    if (_currentRegItem.Type == RegistryItemType.Hive && (_currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || _currentRegItem.Hive == RegHives.HKEY_USERS) && item.regitem.Type == RegistryItemType.Key)
                     {
                         MenuFlyoutItem flyoutitemm = new()
                         {
@@ -656,11 +656,11 @@ namespace InteropTools.ShellPages.Registry
                         {
                             switch (regitem.Type)
                             {
-                                case RegistryItemType.HIVE:
+                                case RegistryItemType.Hive:
                                     {
                                         GetKeyLastModifiedTime res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, null);//.ConfigureAwait(false).GetAwaiter().GetResult();
 
-                                        if (res.returncode != HelperErrorCodes.SUCCESS)
+                                        if (res.returncode != HelperErrorCodes.Success)
                                         {
                                             LastModified = "";
                                             return;
@@ -672,11 +672,11 @@ namespace InteropTools.ShellPages.Registry
                                         return;
                                     }
 
-                                case RegistryItemType.KEY:
+                                case RegistryItemType.Key:
                                     {
                                         GetKeyLastModifiedTime res = await App.MainRegistryHelper.GetKeyLastModifiedTime(this.regitem.Hive, this.regitem.Key + @"\" + this.regitem.Name);//.ConfigureAwait(false).GetAwaiter().GetResult();
 
-                                        if (res.returncode != HelperErrorCodes.SUCCESS)
+                                        if (res.returncode != HelperErrorCodes.Success)
                                         {
                                             LastModified = "";
                                             return;
@@ -688,7 +688,7 @@ namespace InteropTools.ShellPages.Registry
                                         return;
                                     }
 
-                                case RegistryItemType.VALUE:
+                                case RegistryItemType.Value:
                                     {
                                         LastModified = "";
                                         return;
@@ -718,17 +718,17 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 return ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 if (regitem.ValueType < 12)
                                 {
@@ -841,17 +841,17 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 return "";
                             }

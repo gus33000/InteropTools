@@ -228,7 +228,7 @@ namespace InteropTools.Classes
 
                 foreach (RegistryItemCustom item in items)
                 {
-                    if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
+                    if ((item.Type == RegistryItemType.Value) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                     {
                         bool add
                               = true;
@@ -397,7 +397,7 @@ namespace InteropTools.Classes
 
                 foreach (RegistryItemCustom item in items)
                 {
-                    if ((item.Type == RegistryItemType.VALUE) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
+                    if ((item.Type == RegistryItemType.Value) && (item.ValueType == (uint)RegTypes.REG_MULTI_SZ))
                     {
                         bool add = true;
 

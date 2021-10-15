@@ -59,7 +59,7 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            RegistryItemType typeconv = RegistryItemType.HIVE;
+            RegistryItemType typeconv = RegistryItemType.Hive;
 
             try
             {
@@ -229,19 +229,19 @@ namespace InteropTools.ShellPages.Registry
 
             switch (currentEditItem.Type)
             {
-                case RegistryItemType.HIVE:
+                case RegistryItemType.Hive:
                     {
                         EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
-                case RegistryItemType.KEY:
+                case RegistryItemType.Key:
                     {
                         EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
-                case RegistryItemType.VALUE:
+                case RegistryItemType.Value:
                     {
                         if (currentEditItem.ValueType < 12)
                         {
@@ -398,7 +398,7 @@ namespace InteropTools.ShellPages.Registry
                         {
                             string key = data.RegItem.Key;
 
-                            if (data.RegItem.Type == RegistryItemType.KEY)
+                            if (data.RegItem.Type == RegistryItemType.Key)
                             {
                                 if ((key?.Length == 0) || (key == null))
                                 {
@@ -419,7 +419,7 @@ namespace InteropTools.ShellPages.Registry
 
                             foreach (RegistryItemCustom item in items)
                             {
-                                if (item.Type != RegistryItemType.VALUE)
+                                if (item.Type != RegistryItemType.Value)
                                 { node.Add(CreateFolderNode(item.Name, item)); }
                             }
                         }
@@ -441,7 +441,7 @@ namespace InteropTools.ShellPages.Registry
                         {
                             string key = data.RegItem.Key;
 
-                            if (data.RegItem.Type == RegistryItemType.KEY)
+                            if (data.RegItem.Type == RegistryItemType.Key)
                             {
                                 if ((key?.Length == 0) || (key == null))
                                 {
@@ -462,7 +462,7 @@ namespace InteropTools.ShellPages.Registry
 
                             foreach (RegistryItemCustom item in items)
                             {
-                                if (item.Type == RegistryItemType.VALUE)
+                                if (item.Type == RegistryItemType.Value)
                                 { await RunInUIThread(() => _itemlist.Add(new Item(item))); }
                             }
 
@@ -484,7 +484,7 @@ namespace InteropTools.ShellPages.Registry
                             {
                                 string key = data.RegItem.Key;
 
-                                if (data.RegItem.Type == RegistryItemType.KEY)
+                                if (data.RegItem.Type == RegistryItemType.Key)
                                 {
                                     if ((key?.Length == 0) || (key == null))
                                     {
@@ -505,7 +505,7 @@ namespace InteropTools.ShellPages.Registry
 
                                 foreach (RegistryItemCustom item in items)
                                 {
-                                    if (item.Type != RegistryItemType.VALUE)
+                                    if (item.Type != RegistryItemType.Value)
                                     { await RunInUIThread(() => node.Add(CreateFolderNode(item.Name, item))); }
                                 }
                             }
@@ -551,17 +551,17 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 return ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 if (regitem.ValueType < 12)
                                 {
@@ -667,17 +667,17 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 return "";
                             }
@@ -698,17 +698,17 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (regitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 return "";
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 return "";
                             }

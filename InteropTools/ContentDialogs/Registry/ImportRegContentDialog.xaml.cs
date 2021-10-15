@@ -1265,7 +1265,7 @@ namespace InteropTools.ContentDialogs.Registry
                     {
                         KeyStatus status = await helper.GetKeyStatus(regoperation.hive, regoperation.key);
 
-                        if ((status == KeyStatus.NOT_FOUND) || (status == KeyStatus.UNKNOWN))
+                        if ((status == KeyStatus.NotFound) || (status == KeyStatus.Unknown))
                         {
                             await helper.AddKey(regoperation.hive, regoperation.key);
                         }

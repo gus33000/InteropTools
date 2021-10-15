@@ -11,7 +11,7 @@ namespace InteropTools.Providers
     {
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public bool AllowsRegistryEditing()
@@ -21,12 +21,12 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public bool DoesFileExists(string path)
@@ -69,14 +69,14 @@ namespace InteropTools.Providers
             GetKeyLastModifiedTime ret = new()
             {
                 LastModified = new DateTime(),
-                returncode = HelperErrorCodes.NOT_IMPLEMENTED
+                returncode = HelperErrorCodes.NotImplemented
             };
             return ret;
         }
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            return KeyStatus.UNKNOWN;
+            return KeyStatus.Unknown;
         }
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
@@ -85,7 +85,7 @@ namespace InteropTools.Providers
             {
                 regtype = 0,
                 regvalue = "",
-                returncode = HelperErrorCodes.NOT_IMPLEMENTED
+                returncode = HelperErrorCodes.NotImplemented
             };
             return ret;
         }
@@ -96,7 +96,7 @@ namespace InteropTools.Providers
             {
                 regtype = RegTypes.REG_ERROR,
                 regvalue = "",
-                returncode = HelperErrorCodes.NOT_IMPLEMENTED
+                returncode = HelperErrorCodes.NotImplemented
             };
             return ret;
         }
@@ -143,17 +143,17 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
         {
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)

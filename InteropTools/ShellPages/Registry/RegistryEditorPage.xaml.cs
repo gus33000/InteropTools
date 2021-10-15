@@ -163,7 +163,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 HelperErrorCodes status = await _helper.AddKey(hive, keypath);
 
-                if (status == HelperErrorCodes.FAILED)
+                if (status == HelperErrorCodes.Failed)
                 {
                     RunInUiThread(ShowKeyUnableToAddMessageBox);
                 }
@@ -445,13 +445,13 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (status)
                     {
-                        case KeyStatus.FOUND:
+                        case KeyStatus.Found:
                             {
                                 DeleteKey(selectedhive, key);
                                 break;
                             }
 
-                        case KeyStatus.NOT_FOUND:
+                        case KeyStatus.NotFound:
                             {
                                 AddKey(selectedhive, key);
                                 break;
@@ -482,22 +482,22 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (status)
                     {
-                        case KeyStatus.FOUND:
+                        case KeyStatus.Found:
                             {
                                 KeyActionButton.IsEnabled = true;
                                 KeyActionIcon.Symbol = Symbol.Delete;
                                 break;
                             }
 
-                        case KeyStatus.NOT_FOUND:
+                        case KeyStatus.NotFound:
                             {
                                 KeyActionButton.IsEnabled = true;
                                 KeyActionIcon.Symbol = Symbol.Add;
                                 break;
                             }
 
-                        case KeyStatus.ACCESS_DENIED:
-                        case KeyStatus.UNKNOWN:
+                        case KeyStatus.AccessDenied:
+                        case KeyStatus.Unknown:
                             {
                                 KeyActionButton.IsEnabled = false;
                                 KeyActionIcon.Symbol = Symbol.Cancel;
@@ -544,7 +544,7 @@ namespace InteropTools.ShellPages.Registry
                         ValueTypeInput.Text = "";
                     }
 
-                    if ((await _helper.GetKeyStatus(selectedhive, key)) == KeyStatus.FOUND)
+                    if ((await _helper.GetKeyStatus(selectedhive, key)) == KeyStatus.Found)
                     {
                         if (ValueNameSelector.SelectedIndex != 1)
                         {
@@ -639,7 +639,7 @@ namespace InteropTools.ShellPages.Registry
 
                     switch (result)
                     {
-                        case HelperErrorCodes.SUCCESS:
+                        case HelperErrorCodes.Success:
                             {
                                 AddHistoryItem(GetRegistryHiveName(selectedhive), key, value, data, "Read");
                                 if (ValueDataInput != null)
@@ -649,19 +649,19 @@ namespace InteropTools.ShellPages.Registry
                                 break;
                             }
 
-                        case HelperErrorCodes.FAILED:
+                        case HelperErrorCodes.Failed:
                             {
                                 ShowReadFailedMessageBox();
                                 break;
                             }
 
-                        case HelperErrorCodes.ACCESS_DENIED:
+                        case HelperErrorCodes.AccessDenied:
                             {
                                 ShowDebugMessageBox("Access denied");
                                 break;
                             }
 
-                        case HelperErrorCodes.NOT_IMPLEMENTED:
+                        case HelperErrorCodes.NotImplemented:
                             {
                                 ShowNotYetImplementedMessageBox();
                                 break;
@@ -809,7 +809,7 @@ namespace InteropTools.ShellPages.Registry
                         {
                             switch (item.Type)
                             {
-                                case RegistryItemType.KEY:
+                                case RegistryItemType.Key:
                                     {
                                         _suggestionList.Add(new SuggestionItem { DisplayName = item.Name, Symbol = "" });
                                         break;
@@ -841,7 +841,7 @@ namespace InteropTools.ShellPages.Registry
                         {
                             switch (item.Type)
                             {
-                                case RegistryItemType.KEY:
+                                case RegistryItemType.Key:
                                     {
                                         if (item.Name.StartsWith(current, StringComparison.OrdinalIgnoreCase))
                                         {
@@ -876,7 +876,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         switch (item.Type)
                         {
-                            case RegistryItemType.VALUE:
+                            case RegistryItemType.Value:
                                 {
                                     if (item.Name.StartsWith(current, StringComparison.OrdinalIgnoreCase) &&
                                         (item.ValueType == GetSelectedType()))
@@ -1040,25 +1040,25 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (result)
                     {
-                        case HelperErrorCodes.SUCCESS:
+                        case HelperErrorCodes.Success:
                             {
                                 AddHistoryItem(GetRegistryHiveName(selectedhive), key, value, valuedata, "Write");
                                 break;
                             }
 
-                        case HelperErrorCodes.FAILED:
+                        case HelperErrorCodes.Failed:
                             {
                                 ShowDebugMessageBox("Write failed");
                                 break;
                             }
 
-                        case HelperErrorCodes.ACCESS_DENIED:
+                        case HelperErrorCodes.AccessDenied:
                             {
                                 ShowDebugMessageBox("Access denied");
                                 break;
                             }
 
-                        case HelperErrorCodes.NOT_IMPLEMENTED:
+                        case HelperErrorCodes.NotImplemented:
                             {
                                 ShowNotYetImplementedMessageBox();
                                 break;

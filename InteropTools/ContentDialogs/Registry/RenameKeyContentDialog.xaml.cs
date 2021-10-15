@@ -43,13 +43,13 @@ namespace InteropTools.ContentDialogs.Registry
             {
                 switch (result)
                 {
-                    case HelperErrorCodes.ACCESS_DENIED:
+                    case HelperErrorCodes.AccessDenied:
                         {
                             ShowAccessDeniedMessageBox();
                             break;
                         }
 
-                    case HelperErrorCodes.FAILED:
+                    case HelperErrorCodes.Failed:
                         {
                             ShowFailedMessageBox();
                             break;

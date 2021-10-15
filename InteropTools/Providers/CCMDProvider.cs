@@ -119,7 +119,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT (HKCR)",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -128,7 +128,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG (HKCC)",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -137,7 +137,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER (HKCU)",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -146,7 +146,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -155,7 +155,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA (HKDD)",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -164,7 +164,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE (HKLM)",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -173,7 +173,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA (HKPD)",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -182,7 +182,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS (HKU)",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 }
@@ -199,7 +199,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT (HKCR)",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -208,7 +208,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG (HKCC)",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -217,7 +217,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER (HKCU)",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -226,7 +226,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -235,7 +235,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA (HKDD)",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -244,7 +244,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE (HKLM)",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -253,7 +253,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA (HKPD)",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -262,7 +262,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS (HKU)",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 }
@@ -300,7 +300,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = temparray.Last(),
-                                Type = RegistryItemType.KEY,
+                                Type = RegistryItemType.Key,
                                 Value = null,
                                 ValueType = RegTypes.REG_ERROR
                             });
@@ -344,7 +344,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = valuename,
-                                Type = RegistryItemType.VALUE,
+                                Type = RegistryItemType.Value,
                                 Value = valuedata,
                                 ValueType = regtype
                             });
@@ -403,7 +403,7 @@ namespace InteropTools.Providers
                                         Hive = hive,
                                         Key = key,
                                         Name = valuename,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = valuedata,
                                         ValueType = regtype
                                     });
@@ -447,7 +447,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = temparray.Last(),
-                                Type = RegistryItemType.KEY,
+                                Type = RegistryItemType.Key,
                                 Value = null
                             });
                         }
@@ -490,7 +490,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = valuename,
-                                Type = RegistryItemType.VALUE,
+                                Type = RegistryItemType.Value,
                                 Value = valuedata,
                                 ValueType = regtype
                             });
@@ -549,7 +549,7 @@ namespace InteropTools.Providers
                                         Hive = hive,
                                         Key = key,
                                         Name = valuename,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = valuedata,
                                         ValueType = regtype
                                     });

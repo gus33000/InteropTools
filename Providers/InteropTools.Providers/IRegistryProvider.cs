@@ -6,18 +6,18 @@ namespace InteropTools.Providers
 {
     public enum HelperErrorCodes
     {
-        SUCCESS,
-        FAILED,
-        ACCESS_DENIED,
-        NOT_IMPLEMENTED
+        Success,
+        Failed,
+        AccessDenied,
+        NotImplemented
     }
 
     public enum KeyStatus
     {
-        FOUND,
-        NOT_FOUND,
-        ACCESS_DENIED,
-        UNKNOWN
+        Found,
+        NotFound,
+        AccessDenied,
+        Unknown
     }
 
     public enum RegHives
@@ -34,9 +34,9 @@ namespace InteropTools.Providers
 
     public enum RegistryItemType
     {
-        HIVE,
-        KEY,
-        VALUE
+        Hive,
+        Key,
+        Value
     }
 
     public enum RegTypes

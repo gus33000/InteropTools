@@ -54,15 +54,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public bool AllowsRegistryEditing()
@@ -100,18 +100,18 @@ namespace InteropTools.Providers
             switch (status)
             {
                 case REG_STATUS.ACCESS_DENIED:
-                    return HelperErrorCodes.ACCESS_DENIED;
+                    return HelperErrorCodes.AccessDenied;
 
                 case REG_STATUS.FAILED:
-                    return HelperErrorCodes.FAILED;
+                    return HelperErrorCodes.Failed;
 
                 case REG_STATUS.NOT_SUPPORTED:
-                    return HelperErrorCodes.NOT_IMPLEMENTED;
+                    return HelperErrorCodes.NotImplemented;
 
                 case REG_STATUS.SUCCESS:
-                    return HelperErrorCodes.SUCCESS;
+                    return HelperErrorCodes.Success;
             }
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public RegistryItemType ConvertToOldType(REG_TYPE type)
@@ -165,15 +165,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
@@ -217,15 +217,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public bool DoesFileExists(string path)
@@ -312,19 +312,19 @@ namespace InteropTools.Providers
             if (hadaccessdenied)
             {
                 ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.ACCESS_DENIED;
+                ret.returncode = HelperErrorCodes.AccessDenied;
                 return ret;
             }
 
             if (hadfailed)
             {
                 ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
                 return ret;
             }
 
             ret.LastModified = new DateTime();
-            ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
+            ret.returncode = HelperErrorCodes.NotImplemented;
             return ret;
         }
 
@@ -369,15 +369,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return KeyStatus.ACCESS_DENIED;
+                return KeyStatus.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return KeyStatus.NOT_FOUND;
+                return KeyStatus.NotFound;
             }
 
-            return KeyStatus.UNKNOWN;
+            return KeyStatus.Unknown;
         }
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
@@ -436,7 +436,7 @@ namespace InteropTools.Providers
             {
                 ret.regtype = RegTypes.REG_ERROR;
                 ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.ACCESS_DENIED;
+                ret.returncode = HelperErrorCodes.AccessDenied;
                 return ret;
             }
 
@@ -444,13 +444,13 @@ namespace InteropTools.Providers
             {
                 ret.regtype = RegTypes.REG_ERROR;
                 ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
                 return ret;
             }
 
             ret.regtype = RegTypes.REG_ERROR;
             ret.regvalue = "";
-            ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
+            ret.returncode = HelperErrorCodes.NotImplemented;
             return ret;
         }
 
@@ -508,7 +508,7 @@ namespace InteropTools.Providers
             {
                 ret.regtype = 0;
                 ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.ACCESS_DENIED;
+                ret.returncode = HelperErrorCodes.AccessDenied;
                 return ret;
             }
 
@@ -516,13 +516,13 @@ namespace InteropTools.Providers
             {
                 ret.regtype = 0;
                 ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
                 return ret;
             }
 
             ret.regtype = 0;
             ret.regvalue = "";
-            ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
+            ret.returncode = HelperErrorCodes.NotImplemented;
             return ret;
         }
 
@@ -632,15 +632,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public string RegBufferToString(uint valtype, byte[] data)
@@ -729,15 +729,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
@@ -781,15 +781,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
@@ -833,15 +833,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
@@ -885,15 +885,15 @@ namespace InteropTools.Providers
 
             if (hadaccessdenied)
             {
-                return HelperErrorCodes.ACCESS_DENIED;
+                return HelperErrorCodes.AccessDenied;
             }
 
             if (hadfailed)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
-            return HelperErrorCodes.NOT_IMPLEMENTED;
+            return HelperErrorCodes.NotImplemented;
         }
 
         private static string ByteArrayToHexViaLookup32(byte[] bytes)
@@ -938,7 +938,7 @@ namespace InteropTools.Providers
                     Hive = item.Hive.HasValue ? ConvertToOldHive(item.Hive.Value) : RegHives.HKEY_LOCAL_MACHINE,
                     Key = item.Key,
                     Name = item.Name,
-                    Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.HIVE,
+                    Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.Hive,
                     Value = RegBufferToString(item.ValueType ?? 0, item.Data),
                     ValueType = item.ValueType ?? 0
                 };

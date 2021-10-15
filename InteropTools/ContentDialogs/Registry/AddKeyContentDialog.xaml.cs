@@ -89,7 +89,7 @@ namespace InteropTools.ContentDialogs.Registry
             {
                 HelperErrorCodes status = await helper.AddKey(hive, keylocation + "\\" + keyname);
 
-                if (status == HelperErrorCodes.FAILED)
+                if (status == HelperErrorCodes.Failed)
                 {
                     RunInUIThread(() => ShowKeyUnableToAddMessageBox());
                 }

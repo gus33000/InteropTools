@@ -39,7 +39,7 @@ namespace InteropTools.Classes
                                    RegTypes.REG_DWORD, "1");
                 HelperErrorCodes result3 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "4");
 
-                if (result3 != HelperErrorCodes.SUCCESS)
+                if (result3 != HelperErrorCodes.Success)
                 {
                     return UnlockStates.FAILED;
                 }
@@ -172,7 +172,7 @@ namespace InteropTools.Classes
                     await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(str);
                     HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");
 
-                    if (result2 != HelperErrorCodes.SUCCESS)
+                    if (result2 != HelperErrorCodes.Success)
                     {
                         return UnlockStates.FAILED;
                     }
@@ -183,7 +183,7 @@ namespace InteropTools.Classes
                 {
                     HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");
 
-                    if (result2 != HelperErrorCodes.SUCCESS)
+                    if (result2 != HelperErrorCodes.Success)
                     {
                         return UnlockStates.FAILED;
                     }
@@ -195,7 +195,7 @@ namespace InteropTools.Classes
             {
                 HelperErrorCodes result2 = await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD, "2");
 
-                if (result2 != HelperErrorCodes.SUCCESS)
+                if (result2 != HelperErrorCodes.Success)
                 {
                     return UnlockStates.FAILED;
                 }

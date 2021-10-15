@@ -74,8 +74,8 @@ namespace InteropTools.Providers
         public string GetDescription()
         {
             return
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Connects_to_this_device_natively_using_different_runtime_components__Provides_system_level_access_for_Nokia__excluding_x50s___Samsung_and_LG_devices__Other_devices_get_normal_access_to_the_registry",
-                  ResourceContext.GetForCurrentView()).ValueAsString;
+                ResourceManager.Current.MainResourceMap.GetValue("Resources/Connects_to_this_device_natively_using_different_runtime_components__Provides_system_level_access_for_Nokia__excluding_x50s___Samsung_and_LG_devices__Other_devices_get_normal_access_to_the_registry",
+                    ResourceContext.GetForCurrentView()).ValueAsString;
         }
 
         public string GetSymbol()
@@ -123,8 +123,8 @@ namespace InteropTools.Providers
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             RegistryHelper.REG_VALUE_TYPE tmptype = _valtypes[type];
             HelperErrorCodes result =
-              (HelperErrorCodes)
-              (uint)helper.RegQueryValue(tmphive, key, keyvalue, tmptype, out RegistryHelper.REG_VALUE_TYPE tmpregtype, out string regvalue);
+                (HelperErrorCodes)
+                    (uint)helper.RegQueryValue(tmphive, key, keyvalue, tmptype, out RegistryHelper.REG_VALUE_TYPE tmpregtype, out string regvalue);
 
             ret.regtype = (RegTypes)(uint)tmpregtype;
             ret.regvalue = regvalue;
@@ -205,12 +205,12 @@ namespace InteropTools.Providers
                 RegistryHelper.REG_HIVES tmphive = _hives[hive];
                 HelperErrorCodes result = (HelperErrorCodes)(uint)helper.RegQueryKeyLastModifiedTime(tmphive, key, out long time);
                 ret.LastModified = DateTime.FromFileTime(time);
-                ret.returncode = HelperErrorCodes.SUCCESS;
+                ret.returncode = HelperErrorCodes.Success;
             }
             catch
             {
                 ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
             }
 
             return ret;
@@ -222,8 +222,8 @@ namespace InteropTools.Providers
 
             RegistryHelper.REG_HIVES tmphive = _hives[hive];
             HelperErrorCodes result =
-              (HelperErrorCodes)
-              (uint)helper.RegQueryValue(tmphive, key, keyvalue, type, out uint regtype, out string regvalue);
+                (HelperErrorCodes)
+                    (uint)helper.RegQueryValue(tmphive, key, keyvalue, type, out uint regtype, out string regvalue);
 
             ret.regtype = regtype;
             ret.regvalue = regvalue;

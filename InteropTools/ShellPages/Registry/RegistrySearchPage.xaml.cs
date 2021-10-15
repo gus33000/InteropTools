@@ -452,7 +452,7 @@ namespace InteropTools.ShellPages.Registry
 
             switch (item.Type)
             {
-                case RegistryItemType.HIVE:
+                case RegistryItemType.Hive:
                     {
                         if (FindHive.IsChecked != null && (bool)FindHive.IsChecked)
                         {
@@ -463,7 +463,7 @@ namespace InteropTools.ShellPages.Registry
                         break;
                     }
 
-                case RegistryItemType.KEY:
+                case RegistryItemType.Key:
                     {
                         if (FindKey.IsChecked != null && (bool)FindKey.IsChecked)
                         {
@@ -478,7 +478,7 @@ namespace InteropTools.ShellPages.Registry
                         break;
                     }
 
-                case RegistryItemType.VALUE:
+                case RegistryItemType.Value:
                     {
                         if (FindValue.IsChecked != null && (bool)FindValue.IsChecked)
                         {
@@ -563,7 +563,7 @@ namespace InteropTools.ShellPages.Registry
                     }
 
                     List<RegistryItemCustom> tmpitems = (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, newkey);
-                    List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.KEY);
+                    List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.Key);
 
                     if (tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1 == tmpkeys.Count)
                     {
@@ -583,7 +583,7 @@ namespace InteropTools.ShellPages.Registry
 
                 {
                     List<RegistryItemCustom> tmpitems = (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, "");
-                    List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.KEY);
+                    List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.Key);
 
                     if (tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == key)) + 1 == tmpkeys.Count)
                     {
@@ -719,7 +719,7 @@ namespace InteropTools.ShellPages.Registry
                         Hive = item.Hive,
                         Key = item.Key,
                         Name = item.Name,
-                        Type = RegistryItemType.HIVE,
+                        Type = RegistryItemType.Hive,
                         Value = "N/A",
                         ValueType = item.ValueType,
                         DisplayHive = item.Hive.ToString()
@@ -769,7 +769,7 @@ namespace InteropTools.ShellPages.Registry
                         Hive = item.Hive,
                         Key = item.Key,
                         Name = item.Name,
-                        Type = RegistryItemType.HIVE,
+                        Type = RegistryItemType.Hive,
                         Value = "N/A",
                         ValueType = item.ValueType,
                         DisplayHive = item.Hive.ToString()
@@ -830,7 +830,7 @@ namespace InteropTools.ShellPages.Registry
 
                     switch (item.Type)
                     {
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 newItem = new Item
                                 {
@@ -840,7 +840,7 @@ namespace InteropTools.ShellPages.Registry
                                     Hive = item.Hive,
                                     Key = item.Key,
                                     Name = item.Name,
-                                    Type = RegistryItemType.KEY,
+                                    Type = RegistryItemType.Key,
                                     Value = "N/A",
                                     ValueType = item.ValueType,
                                     DisplayHive = hive.ToString()
@@ -848,7 +848,7 @@ namespace InteropTools.ShellPages.Registry
                                 break;
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 if (item.Name?.Length == 0)
                                 {
@@ -860,7 +860,7 @@ namespace InteropTools.ShellPages.Registry
                                         Hive = item.Hive,
                                         Key = item.Key,
                                         Name = item.Name,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = item.Value,
                                         ValueType = item.ValueType,
                                         DisplayHive = item.Hive.ToString()
@@ -876,7 +876,7 @@ namespace InteropTools.ShellPages.Registry
                                         Hive = item.Hive,
                                         Key = item.Key,
                                         Name = item.Name,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = item.Value,
                                         ValueType = item.ValueType,
                                         DisplayHive = item.Hive.ToString()
@@ -896,7 +896,7 @@ namespace InteropTools.ShellPages.Registry
                     });
                 }
 
-                List<RegistryItemCustom> keys = items.FindAll(i => i.Type == RegistryItemType.KEY);
+                List<RegistryItemCustom> keys = items.FindAll(i => i.Type == RegistryItemType.Key);
 
                 if (keys.Count == 0)
                 {
@@ -961,7 +961,7 @@ namespace InteropTools.ShellPages.Registry
 
                     switch (item.Type)
                     {
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             {
                                 newItem = new Item
                                 {
@@ -971,7 +971,7 @@ namespace InteropTools.ShellPages.Registry
                                     Hive = item.Hive,
                                     Key = item.Key,
                                     Name = item.Name,
-                                    Type = RegistryItemType.KEY,
+                                    Type = RegistryItemType.Key,
                                     Value = "N/A",
                                     ValueType = item.ValueType,
                                     DisplayHive = hive.ToString()
@@ -979,7 +979,7 @@ namespace InteropTools.ShellPages.Registry
                                 break;
                             }
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             {
                                 if (item.Name?.Length == 0)
                                 {
@@ -991,7 +991,7 @@ namespace InteropTools.ShellPages.Registry
                                         Hive = item.Hive,
                                         Key = item.Key,
                                         Name = item.Name,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = item.Value,
                                         ValueType = item.ValueType,
                                         DisplayHive = item.Hive.ToString()
@@ -1007,7 +1007,7 @@ namespace InteropTools.ShellPages.Registry
                                         Hive = item.Hive,
                                         Key = item.Key,
                                         Name = item.Name,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = item.Value,
                                         ValueType = item.ValueType,
                                         DisplayHive = item.Hive.ToString()
@@ -1027,7 +1027,7 @@ namespace InteropTools.ShellPages.Registry
                     });
                 }
 
-                List<RegistryItemCustom> keys = items.FindAll(i => i.Type == RegistryItemType.KEY);
+                List<RegistryItemCustom> keys = items.FindAll(i => i.Type == RegistryItemType.Key);
 
                 if (keys.Count == 0)
                 {
@@ -1169,20 +1169,20 @@ namespace InteropTools.ShellPages.Registry
 
                 switch (item.Type)
                 {
-                    case RegistryItemType.HIVE:
+                    case RegistryItemType.Hive:
                         {
                             str = string.Format("Name: {0}\r\nType: {1}", item.Name, item.Type.ToString());
                             break;
                         }
 
-                    case RegistryItemType.KEY:
+                    case RegistryItemType.Key:
                         {
                             str =
                               $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}";
                             break;
                         }
 
-                    case RegistryItemType.VALUE:
+                    case RegistryItemType.Value:
                         {
                             str =
                               $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}\r\nValue Type: {item.ValueType}\r\nValue: {item.Value}";

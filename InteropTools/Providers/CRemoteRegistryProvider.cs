@@ -39,7 +39,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -49,7 +49,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -72,7 +72,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -82,7 +82,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -100,7 +100,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -110,7 +110,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -197,7 +197,7 @@ namespace InteropTools.Providers
             if (replydata == null)
             {
                 ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
                 return ret;
             }
 
@@ -211,7 +211,7 @@ namespace InteropTools.Providers
             catch
             {
                 ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.FAILED;
+                ret.returncode = HelperErrorCodes.Failed;
                 return ret;
             }
         }
@@ -229,7 +229,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return KeyStatus.UNKNOWN;
+                return KeyStatus.Unknown;
             }
 
             try
@@ -239,7 +239,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return KeyStatus.UNKNOWN;
+                return KeyStatus.Unknown;
             }
         }
 
@@ -271,14 +271,14 @@ namespace InteropTools.Providers
                 {
                     ret.regtype = RegTypes.REG_ERROR;
                     ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.FAILED;
+                    ret.returncode = HelperErrorCodes.Failed;
                     return ret;
                 }
             }
 
             ret.regtype = RegTypes.REG_ERROR;
             ret.regvalue = "";
-            ret.returncode = HelperErrorCodes.FAILED;
+            ret.returncode = HelperErrorCodes.Failed;
             return ret;
         }
 
@@ -310,14 +310,14 @@ namespace InteropTools.Providers
                 {
                     ret.regtype = 0;
                     ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.FAILED;
+                    ret.returncode = HelperErrorCodes.Failed;
                     return ret;
                 }
             }
 
             ret.regtype = 0;
             ret.regvalue = "";
-            ret.returncode = HelperErrorCodes.FAILED;
+            ret.returncode = HelperErrorCodes.Failed;
             return ret;
         }
 
@@ -522,7 +522,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -532,7 +532,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -550,7 +550,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -560,7 +560,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -580,7 +580,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -590,7 +590,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -610,7 +610,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -620,7 +620,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 
@@ -637,7 +637,7 @@ namespace InteropTools.Providers
 
             if (replydata == null)
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
 
             try
@@ -647,7 +647,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return HelperErrorCodes.FAILED;
+                return HelperErrorCodes.Failed;
             }
         }
 

@@ -21,7 +21,7 @@
     <PackageCertificateKeyFile>InteropTools_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>
     </PackageCertificateThumbprint>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
@@ -211,6 +211,7 @@
     <Compile Include="Presentation\ShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CCMDProvider.cs" />
+    <Compile Include="Providers\LegacyBridge\LegacyBridgeRegistryProvider.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="ShellPages\Store\StorePage.xaml.cs">
       <DependentUpon>StorePage.xaml</DependentUpon>
@@ -251,7 +252,6 @@
     <Content Include="Assets\FullMDL2.ttf" />
     <Compile Include="Providers\CLocalOnlyProvider.cs" />
     <Compile Include="Providers\CRemoteRegistryProvider.cs" />
-    <Compile Include="Providers\LegacyBridge\LegacyBridgeRegistryProvider.cs" />
     <Compile Include="Providers\MainRegistryProvider.cs" />
     <Compile Include="RemoteClasses\Client\RemoteAuthClient.cs" />
     <Compile Include="RemoteClasses\Client\RemoteClient.cs" />
@@ -431,7 +431,7 @@
         <None Include="SSH\en-US\reg.exe.mui">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <Content Include="SSH\CheckNetIsolation.exe" >
+        <Content Include="SSH\CheckNetIsolation.exe">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="SSH\cmd.exe">

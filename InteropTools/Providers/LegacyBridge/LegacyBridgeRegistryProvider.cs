@@ -2,7 +2,6 @@
 using Microsoft.Toolkit.Uwp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,88 +11,128 @@ namespace InteropTools.Providers
 {
     public class LegacyBridgeRegistryProvider : IRegistryProvider
     {
-        public bool IsAuto;
-        public IRegProvider provider;
+        public bool UsesPlugins;
+        public IRegProvider LocalProvider;
+        private bool IsInitialized;
+
         private static readonly uint[] _lookup32 = CreateLookup32();
-        private bool initialized;
 
-        public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
+        public async Task InitializeAsync()
         {
-            if (!initialized)
+            IRegProvider result = null;
+            bool HasUIAccess = false;
+
+            try
             {
-                await InitializeNewProviderChoice();
+                HasUIAccess = CoreWindow.GetForCurrentThread().Dispatcher.HasThreadAccess;
             }
+            catch { }
 
-            if (!IsAuto)
+            if (HasUIAccess)
             {
-                REG_STATUS result = await provider.RegAddKey(ConvertToNewHive(hive), key);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await AddKey(hive, key);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
+                result = await new SelectRegistryProviderContentDialog().AskUserForProvider();
             }
             else
             {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegAddKey(ConvertToNewHive(hive), key);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
+                result = await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await new SelectRegistryProviderContentDialog().AskUserForProvider());
             }
+
+            if (result == null)
+            {
+                UsesPlugins = true;
+                LocalProvider = null;
+            }
+            else
+            {
+                UsesPlugins = false;
+                LocalProvider = result;
+            }
+
+            IsInitialized = true;
         }
 
-        public bool AllowsRegistryEditing()
+        public async Task<HelperErrorCodes> ExecuteAction(Func<IRegProvider, Task<REG_STATUS>> providerFunctionCall)
         {
-            return true;
+            return await ExecuteAction(providerFunctionCall, RegStatusToHelperErrorCodes, (t) => t, (t) => t);
+        }
+
+        public async Task<T1> ExecuteAction<T1,T2>(Func<IRegProvider, Task<T2>> providerFunctionCall, Func<T2, T1> typeConverterCall, Func<T2, REG_STATUS> typeStatusConverter, Func<HelperErrorCodes, T1> statusTypeConverter, bool SecondCall = false)
+        {
+            try
+            {
+                if (!IsInitialized)
+                {
+                    await InitializeAsync();
+                }
+
+                if (!UsesPlugins)
+                {
+                    T2 result = await providerFunctionCall(LocalProvider);
+
+                    if (typeStatusConverter(result) == REG_STATUS.NOT_SUPPORTED && !SecondCall)
+                    {
+                        await InitializeAsync();
+                        return await ExecuteAction(providerFunctionCall, typeConverterCall, typeStatusConverter, statusTypeConverter, true);
+                    }
+                    else
+                    {
+                        return typeConverterCall(result);
+                    }
+                }
+                else
+                {
+                    bool hadaccessdenied = false;
+                    bool hadfailed = false;
+
+                    using (AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME))
+                    {
+                        foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
+                        {
+                            RegistryProvider provider = new(plugin);
+
+                            T2 result = await providerFunctionCall(provider);
+
+                            if (typeStatusConverter(result) == REG_STATUS.SUCCESS)
+                            {
+                                reglist.Dispose();
+                                return typeConverterCall(result);
+                            }
+
+                            if (typeStatusConverter(result) == REG_STATUS.NOT_SUPPORTED)
+                            {
+                                continue;
+                            }
+
+                            if (typeStatusConverter(result) == REG_STATUS.ACCESS_DENIED)
+                            {
+                                hadaccessdenied = true;
+                                continue;
+                            }
+
+                            if (typeStatusConverter(result) == REG_STATUS.FAILED)
+                            {
+                                hadfailed = true;
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (hadaccessdenied)
+                    {
+                        return statusTypeConverter(HelperErrorCodes.AccessDenied);
+                    }
+
+                    if (hadfailed)
+                    {
+                        return statusTypeConverter(HelperErrorCodes.Failed);
+                    }
+
+                    return statusTypeConverter(HelperErrorCodes.NotImplemented);
+                }
+            }
+            catch { }
+
+            return statusTypeConverter(HelperErrorCodes.Failed);
         }
 
         public REG_HIVES ConvertToNewHive(RegHives hive)
@@ -121,15 +160,15 @@ namespace InteropTools.Providers
             return (KeyStatus)Enum.Parse(typeof(KeyStatus), status.ToString());
         }
 
-        public HelperErrorCodes ConvertToOldStatus(REG_STATUS status)
+        public HelperErrorCodes RegStatusToHelperErrorCodes(REG_STATUS status)
         {
             return status switch
             {
-                REG_STATUS.ACCESS_DENIED => HelperErrorCodes.ACCESS_DENIED,
-                REG_STATUS.FAILED => HelperErrorCodes.FAILED,
-                REG_STATUS.NOT_SUPPORTED => HelperErrorCodes.NOT_IMPLEMENTED,
-                REG_STATUS.SUCCESS => HelperErrorCodes.SUCCESS,
-                _ => HelperErrorCodes.NOT_IMPLEMENTED,
+                REG_STATUS.ACCESS_DENIED => HelperErrorCodes.AccessDenied,
+                REG_STATUS.FAILED => HelperErrorCodes.Failed,
+                REG_STATUS.NOT_SUPPORTED => HelperErrorCodes.NotImplemented,
+                REG_STATUS.SUCCESS => HelperErrorCodes.Success,
+                _ => HelperErrorCodes.NotImplemented,
             };
         }
 
@@ -141,804 +180,6 @@ namespace InteropTools.Providers
         public RegTypes ConvertToOldValType(REG_VALUE_TYPE type)
         {
             return (RegTypes)Enum.Parse(typeof(RegTypes), type.ToString());
-        }
-
-        public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegDeleteKey(ConvertToNewHive(hive), key, recursive);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await DeleteKey(hive, key, recursive);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegDeleteKey(ConvertToNewHive(hive), key, recursive);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
-        public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegDeleteValue(ConvertToNewHive(hive), key, keyvalue);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await DeleteValue(hive, key, keyvalue);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegDeleteValue(ConvertToNewHive(hive), key, keyvalue);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
-        public bool DoesFileExists(string path)
-        {
-            bool fileexists;
-            try
-            {
-                fileexists = File.Exists(path);
-            }
-            catch (InvalidOperationException)
-            {
-                fileexists = true;
-            }
-
-            return fileexists;
-        }
-
-        public string GetAppInstallationPath()
-        {
-            return Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-        }
-
-        public string GetDescription()
-        {
-            return "This device (through provider extensions)";
-        }
-
-        public string GetFriendlyName()
-        {
-            return "This device (through provider extensions)";
-        }
-
-        public string GetHostName()
-        {
-            return "127.0.0.1";
-        }
-
-        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            GetKeyLastModifiedTime ret = new();
-            if (!IsAuto)
-            {
-                long modified;
-                RegQueryKeyLastModifiedTime result = await provider.RegQueryKeyLastModifiedTime(ConvertToNewHive(hive), key);
-
-                modified = result.LastModified;
-
-                ret.LastModified = new DateTime(modified);
-
-                if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetKeyLastModifiedTime(hive, key);
-                }
-                else
-                {
-                    ret.returncode = ConvertToOldStatus(result.returncode);
-                    return ret;
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    long modified;
-                    RegQueryKeyLastModifiedTime result = await provider.RegQueryKeyLastModifiedTime(ConvertToNewHive(hive), key);
-
-                    modified = result.LastModified;
-
-                    ret.LastModified = new DateTime(modified);
-
-                    if (result.returncode == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        ret.returncode = ConvertToOldStatus(result.returncode);
-                        return ret;
-                    }
-
-                    if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    ret.LastModified = new DateTime();
-                    ret.returncode = HelperErrorCodes.ACCESS_DENIED;
-                    return ret;
-                }
-
-                if (hadfailed)
-                {
-                    ret.LastModified = new DateTime();
-                    ret.returncode = HelperErrorCodes.FAILED;
-                    return ret;
-                }
-
-                ret.LastModified = new DateTime();
-                ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
-                return ret;
-            }
-        }
-
-        public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_KEY_STATUS result = await provider.RegQueryKeyStatus(ConvertToNewHive(hive), key);
-
-                if (result == REG_KEY_STATUS.UNKNOWN)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetKeyStatus(hive, key);
-                }
-                else
-                {
-                    return ConvertToOldKeyStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_KEY_STATUS result = await provider.RegQueryKeyStatus(ConvertToNewHive(hive), key);
-
-                    if (result == REG_KEY_STATUS.FOUND)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldKeyStatus(result);
-                    }
-
-                    if (result == REG_KEY_STATUS.UNKNOWN)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_KEY_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_KEY_STATUS.NOT_FOUND)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return KeyStatus.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return KeyStatus.NOT_FOUND;
-                }
-
-                return KeyStatus.UNKNOWN;
-            }
-        }
-
-        public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            GetKeyValueReturn ret = new();
-            if (!IsAuto)
-            {
-                REG_VALUE_TYPE newregtype;
-                string regvalue;
-                RegQueryValue result = await provider.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type));
-
-                regvalue = result.regvalue;
-                newregtype = result.regtype;
-
-                ret.regvalue = regvalue;
-
-                ret.regtype = ConvertToOldValType(newregtype);
-
-                if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetKeyValue(hive, key, keyvalue, type);
-                }
-                else
-                {
-                    ret.returncode = ConvertToOldStatus(result.returncode);
-                    return ret;
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    Debug.WriteLine(plugin.UniqueId);
-
-                    REG_VALUE_TYPE newregtype;
-                    string regvalue;
-                    RegQueryValue result = await provider.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type));
-
-                    regvalue = result.regvalue;
-                    newregtype = result.regtype;
-
-                    ret.regvalue = regvalue;
-
-                    ret.regtype = ConvertToOldValType(newregtype);
-
-                    if (result.returncode == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        ret.returncode = ConvertToOldStatus(result.returncode);
-                        return ret;
-                    }
-
-                    if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    ret.regtype = RegTypes.REG_ERROR;
-                    ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.ACCESS_DENIED;
-                    return ret;
-                }
-
-                if (hadfailed)
-                {
-                    ret.regtype = RegTypes.REG_ERROR;
-                    ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.FAILED;
-                    return ret;
-                }
-
-                ret.regtype = RegTypes.REG_ERROR;
-                ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
-                return ret;
-            }
-        }
-
-        public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            GetKeyValueReturn2 ret = new();
-            if (!IsAuto)
-            {
-                uint regtype;
-                string regvalue;
-                RegQueryValue1 result = await provider.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, type);
-
-                regvalue = result.regvalue;
-                regtype = result.regtype;
-
-                ret.regvalue = regvalue;
-
-                ret.regtype = regtype;
-
-                if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetKeyValue(hive, key, keyvalue, type);
-                }
-                else
-                {
-                    ret.returncode = ConvertToOldStatus(result.returncode);
-                    return ret;
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    uint regtype;
-                    string regvalue;
-                    RegQueryValue1 result = await provider.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, type);
-
-                    regtype = result.regtype;
-                    regvalue = result.regvalue;
-
-                    ret.regvalue = regvalue;
-
-                    ret.regtype = regtype;
-
-                    if (result.returncode == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        ret.returncode = ConvertToOldStatus(result.returncode);
-                        return ret;
-                    }
-
-                    if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result.returncode == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    ret.regtype = 0;
-                    ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.ACCESS_DENIED;
-                    return ret;
-                }
-
-                if (hadfailed)
-                {
-                    ret.regtype = 0;
-                    ret.regvalue = "";
-                    ret.returncode = HelperErrorCodes.FAILED;
-                    return ret;
-                }
-
-                ret.regtype = 0;
-                ret.regvalue = "";
-                ret.returncode = HelperErrorCodes.NOT_IMPLEMENTED;
-                return ret;
-            }
-        }
-
-        public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                IReadOnlyList<REG_ITEM> items;
-                RegEnumKey result = await provider.RegEnumKey(null, "");
-
-                items = result.items;
-
-                if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetRegistryHives2();
-                }
-                else
-                {
-                    return ConvertFromNewToOldListItems(items);
-                }
-            }
-            else
-            {
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    IReadOnlyList<REG_ITEM> items;
-                    RegEnumKey result = await provider.RegEnumKey(null, "");
-
-                    items = result.items;
-
-                    if (result.returncode == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertFromNewToOldListItems(items);
-                    }
-                }
-
-                reglist.Dispose();
-
-                return new List<RegistryItemCustom>();
-            }
-        }
-
-        public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                IReadOnlyList<REG_ITEM> items;
-                RegEnumKey result = await provider.RegEnumKey(ConvertToNewHive(hive), key);
-
-                items = result.items;
-
-                if (result.returncode == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await GetRegistryItems2(hive, key);
-                }
-                else
-                {
-                    return ConvertFromNewToOldListItems(items);
-                }
-            }
-            else
-            {
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    IReadOnlyList<REG_ITEM> items;
-                    RegEnumKey result = await provider.RegEnumKey(ConvertToNewHive(hive), key);
-
-                    items = result.items;
-
-                    if (result.returncode == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertFromNewToOldListItems(items);
-                    }
-                }
-
-                reglist.Dispose();
-
-                return new List<RegistryItemCustom>();
-            }
-        }
-
-        public string GetSymbol()
-        {
-            return "";
-        }
-
-        public string GetTitle()
-        {
-            return "This device (through provider extensions)";
-        }
-
-        public async Task InitializeNewProviderChoice()
-        {
-            IRegProvider result = null;
-            bool isinuithread = false;
-
-            try
-            {
-                isinuithread = CoreWindow.GetForCurrentThread().Dispatcher.HasThreadAccess;
-            }
-            catch
-            {
-            }
-
-            if (isinuithread)
-            {
-                result = await new SelectRegistryProviderContentDialog().AskUserForProvider();
-
-                if (result == null)
-                {
-                    IsAuto = true;
-                    provider = null;
-                }
-                else
-                {
-                    IsAuto = false;
-                    provider = result;
-                }
-
-                initialized = true;
-            }
-            else
-            {
-                result = await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await new SelectRegistryProviderContentDialog().AskUserForProvider());
-
-                if (result == null)
-                {
-                    IsAuto = true;
-                    provider = null;
-                }
-                else
-                {
-                    IsAuto = false;
-                    provider = result;
-                }
-
-                initialized = true;
-            }
-        }
-
-        public bool IsLocal()
-        {
-            return true;
-        }
-
-        public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegLoadHive(FileName, mountpoint, inUser);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await LoadHive(FileName, mountpoint, inUser);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegLoadHive(FileName, mountpoint, inUser);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
         }
 
         public string RegBufferToString(uint valtype, byte[] data)
@@ -986,302 +227,6 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegRenameKey(ConvertToNewHive(hive), key, newname);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await RenameKey(hive, key, newname);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegRenameKey(ConvertToNewHive(hive), key, newname);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type), data);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await SetKeyValue(hive, key, keyvalue, type, data);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type), data);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, type, data);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await SetKeyValue(hive, key, keyvalue, type, data);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegSetValue(ConvertToNewHive(hive), key, keyvalue, type, data);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
-        public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
-        {
-            if (!initialized)
-            {
-                await InitializeNewProviderChoice();
-            }
-
-            if (!IsAuto)
-            {
-                REG_STATUS result = await provider.RegUnloadHive(mountpoint, inUser);
-
-                if (result == REG_STATUS.NOT_SUPPORTED)
-                {
-                    await InitializeNewProviderChoice();
-                    return await UnloadHive(mountpoint, inUser);
-                }
-                else
-                {
-                    return ConvertToOldStatus(result);
-                }
-            }
-            else
-            {
-                bool hadaccessdenied = false;
-                bool hadfailed = false;
-
-                AppPlugin.PluginList.PluginList<string, string, double> reglist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
-
-                foreach (AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider plugin in reglist.Plugins)
-                {
-                    RegistryProvider provider = new(plugin);
-
-                    REG_STATUS result = await provider.RegUnloadHive(mountpoint, inUser);
-
-                    if (result == REG_STATUS.SUCCESS)
-                    {
-                        reglist.Dispose();
-                        return ConvertToOldStatus(result);
-                    }
-
-                    if (result == REG_STATUS.NOT_SUPPORTED)
-                    {
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.ACCESS_DENIED)
-                    {
-                        hadaccessdenied = true;
-                        continue;
-                    }
-
-                    if (result == REG_STATUS.FAILED)
-                    {
-                        hadfailed = true;
-                        continue;
-                    }
-                }
-
-                reglist.Dispose();
-
-                if (hadaccessdenied)
-                {
-                    return HelperErrorCodes.ACCESS_DENIED;
-                }
-
-                if (hadfailed)
-                {
-                    return HelperErrorCodes.FAILED;
-                }
-
-                return HelperErrorCodes.NOT_IMPLEMENTED;
-            }
-        }
-
         private static string ByteArrayToHexViaLookup32(byte[] bytes)
         {
             try
@@ -1324,7 +269,7 @@ namespace InteropTools.Providers
                     Hive = item.Hive.HasValue ? ConvertToOldHive(item.Hive.Value) : RegHives.HKEY_LOCAL_MACHINE,
                     Key = item.Key,
                     Name = item.Name,
-                    Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.HIVE,
+                    Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.Hive,
                     Value = RegBufferToString(item.ValueType ?? 0, item.Data),
                     ValueType = item.ValueType ?? 0
                 };
@@ -1333,6 +278,161 @@ namespace InteropTools.Providers
             }
 
             return itemlist;
+        }
+
+        public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
+        {
+            return await ExecuteAction((t) => t.RegAddKey(ConvertToNewHive(hive), key));
+        }
+
+        public bool AllowsRegistryEditing()
+        {
+            return true;
+        }
+
+        public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
+        {
+            return await ExecuteAction((t) => t.RegDeleteKey(ConvertToNewHive(hive), key, recursive));
+        }
+
+        public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
+        {
+            return await ExecuteAction((t) => t.RegDeleteValue(ConvertToNewHive(hive), key, keyvalue));
+        }
+
+        public bool DoesFileExists(string path)
+        {
+            bool fileexists;
+            try
+            {
+                fileexists = File.Exists(path);
+            }
+            catch (InvalidOperationException)
+            {
+                fileexists = true;
+            }
+
+            return fileexists;
+        }
+
+        public string GetAppInstallationPath()
+        {
+            return Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+        }
+
+        public string GetDescription()
+        {
+            return "This device (through provider extensions)";
+        }
+
+        public string GetFriendlyName()
+        {
+            return "This device (through provider extensions)";
+        }
+
+        public string GetHostName()
+        {
+            return "127.0.0.1";
+        }
+
+        public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
+        {
+            return await ExecuteAction((t) => t.RegQueryKeyLastModifiedTime(ConvertToNewHive(hive), key), (t) => new Providers.GetKeyLastModifiedTime() {  LastModified = new DateTime(t.LastModified), returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(), returncode = t });
+        }
+
+        public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
+        {
+            return await ExecuteAction((t) => t.RegQueryKeyStatus(ConvertToNewHive(hive), key), ConvertToOldKeyStatus, (t) =>
+            { 
+                switch (t)
+                {
+                    case REG_KEY_STATUS.FOUND:
+                        return REG_STATUS.SUCCESS;
+                    case REG_KEY_STATUS.NOT_FOUND:
+                        return REG_STATUS.FAILED;
+                    case REG_KEY_STATUS.ACCESS_DENIED:
+                        return REG_STATUS.ACCESS_DENIED;
+                    case REG_KEY_STATUS.UNKNOWN:
+                        return REG_STATUS.NOT_SUPPORTED;
+                }
+
+                return REG_STATUS.NOT_SUPPORTED;
+            }, (t) =>
+            {
+                switch (t)
+                {
+                    case HelperErrorCodes.Success:
+                        return KeyStatus.Found;
+                    case HelperErrorCodes.Failed:
+                        return KeyStatus.NotFound;
+                    case HelperErrorCodes.AccessDenied:
+                        return KeyStatus.AccessDenied;
+                    case HelperErrorCodes.NotImplemented:
+                        return KeyStatus.Unknown;
+                }
+
+                return KeyStatus.Unknown;
+            });
+        }
+
+        public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
+        {
+            return await ExecuteAction((t) => t.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type)), (t) => new Providers.GetKeyValueReturn() { regtype = ConvertToOldValType(t.regtype), regvalue = t.regvalue, returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn() { regtype = RegTypes.REG_ERROR, regvalue = "", returncode = t });
+        }
+
+        public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
+        {
+            return await ExecuteAction((t) => t.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, type), (t) => new Providers.GetKeyValueReturn2() { regtype = t.regtype, regvalue = t.regvalue, returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn2() { regtype = 0, regvalue = "", returncode = t });
+        }
+
+        public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
+        {
+            return await ExecuteAction((t) => t.RegEnumKey(null, ""), (t) => ConvertFromNewToOldListItems(t.items), (t) => t.returncode, (t) => new List<RegistryItemCustom>());
+        }
+
+        public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
+        {
+            return await ExecuteAction((t) => t.RegEnumKey(ConvertToNewHive(hive), key), (t) => ConvertFromNewToOldListItems(t.items), (t) => t.returncode, (t) => new List<RegistryItemCustom>());
+        }
+
+        public string GetSymbol()
+        {
+            return "";
+        }
+
+        public string GetTitle()
+        {
+            return "This device (through provider extensions)";
+        }
+
+        public bool IsLocal()
+        {
+            return true;
+        }
+
+        public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
+        {
+            return await ExecuteAction((t) => t.RegLoadHive(FileName, mountpoint, inUser));
+        }
+
+        public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
+        {
+            return await ExecuteAction((t) => t.RegRenameKey(ConvertToNewHive(hive), key, newname));
+        }
+
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        {
+            return await ExecuteAction((t) => t.RegSetValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type), data));
+        }
+
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        {
+            return await ExecuteAction((t) => t.RegSetValue(ConvertToNewHive(hive), key, keyvalue, type, data));
+        }
+
+        public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
+        {
+            return await ExecuteAction((t) => t.RegUnloadHive(mountpoint, inUser));
         }
     }
 }

@@ -90,7 +90,7 @@ namespace InteropTools.ShellPages.Registry
                     HelperErrorCodes result = AsyncHelpers.RunSync(() => _helper.DeleteValue(RegHives.HKEY_LOCAL_MACHINE,
                                                      "SOFTWARE\\OEM\\NOKIA\\Display\\ColorAndLight", "UserSettingNoBrightnessSettings"));
 
-                    if (result == HelperErrorCodes.FAILED)
+                    if (result == HelperErrorCodes.Failed)
                     {
                         await
                         Dispatcher.RunAsync(CoreDispatcherPriority.Normal,

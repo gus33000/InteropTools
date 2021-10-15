@@ -65,7 +65,7 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            RegistryItemType typeconv = RegistryItemType.HIVE;
+            RegistryItemType typeconv = RegistryItemType.Hive;
 
             try
             {
@@ -238,7 +238,7 @@ namespace InteropTools.ShellPages.Registry
                 HelperErrorCodes status = await _helper.AddKey(hive, keypath);
                 RunInUiThread(() =>
                 {
-                    if (status == HelperErrorCodes.FAILED)
+                    if (status == HelperErrorCodes.Failed)
                     {
                         ShowKeyUnableToAddMessageBox();
                     }
@@ -256,7 +256,7 @@ namespace InteropTools.ShellPages.Registry
                             Name = keypath.Split('\\')[0],
                             Hive = hive,
                             Key = path,
-                            Type = RegistryItemType.KEY,
+                            Type = RegistryItemType.Key,
                             Value = "",
                             ValueType = 0
                         };
@@ -288,7 +288,7 @@ namespace InteropTools.ShellPages.Registry
                 keypath = keypath + @"\" + BrowserCtrl._currentRegItem.Name;
             }
 
-            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.HIVE)
+            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.Hive)
             {
                 keypath = "";
             }
@@ -350,7 +350,7 @@ namespace InteropTools.ShellPages.Registry
 
             if (e.newItem != null)
             {
-                if (e.newItem.Type == RegistryItemType.HIVE && (e.newItem.Hive == RegHives.HKEY_LOCAL_MACHINE || e.newItem.Hive == RegHives.HKEY_USERS))
+                if (e.newItem.Type == RegistryItemType.Hive && (e.newItem.Hive == RegHives.HKEY_LOCAL_MACHINE || e.newItem.Hive == RegHives.HKEY_USERS))
                 {
                     MountHive.Visibility = Visibility.Visible;
                 }
@@ -361,9 +361,9 @@ namespace InteropTools.ShellPages.Registry
 
                 ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new();
 
-                if (e.newItem.Type != RegistryItemType.VALUE)
+                if (e.newItem.Type != RegistryItemType.Value)
                 {
-                    if (e.newItem.Type == RegistryItemType.HIVE)
+                    if (e.newItem.Type == RegistryItemType.Hive)
                     {
                         BreadCrumbBarIcon.Text = "";
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
@@ -375,7 +375,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         BreadCrumbBarIcon.Text = "";
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.HIVE, Value = null, ValueType = 0 } });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.Hive, Value = null, ValueType = 0 } });
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Name, ItemObject = e.newItem });
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
@@ -383,12 +383,12 @@ namespace InteropTools.ShellPages.Registry
                     {
                         BreadCrumbBarIcon.Text = "";
                         BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.HIVE, Value = null, ValueType = 0 } });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.Hive, Value = null, ValueType = 0 } });
                         string current = "";
 
                         foreach (string item in e.newItem.Key.Split('\\'))
                         {
-                            BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = item, ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = current, Name = item, Type = RegistryItemType.KEY, Value = null, ValueType = 0 } });
+                            BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = item, ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = current, Name = item, Type = RegistryItemType.Key, Value = null, ValueType = 0 } });
 
                             if (current?.Length == 0)
                             {
@@ -694,11 +694,11 @@ namespace InteropTools.ShellPages.Registry
                 {
                     switch (currentitem.Type)
                     {
-                        case RegistryItemType.HIVE:
+                        case RegistryItemType.Hive:
                             pathinput = currentitem.Hive.ToString();
                             break;
 
-                        case RegistryItemType.KEY:
+                        case RegistryItemType.Key:
                             pathinput = currentitem.Hive.ToString() + @"\" + currentitem.Key + @"\" + currentitem.Name;
 
                             if (string.IsNullOrEmpty(currentitem.Key))
@@ -708,7 +708,7 @@ namespace InteropTools.ShellPages.Registry
 
                             break;
 
-                        case RegistryItemType.VALUE:
+                        case RegistryItemType.Value:
                             break;
                     }
                 }
@@ -794,7 +794,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         switch (status)
                         {
-                            case KeyStatus.FOUND:
+                            case KeyStatus.Found:
                                 {
                                     if (keypath != "")
                                     {
@@ -811,7 +811,7 @@ namespace InteropTools.ShellPages.Registry
                                             Name = keypath.Split('\\')[0],
                                             Hive = hive,
                                             Key = path,
-                                            Type = RegistryItemType.KEY,
+                                            Type = RegistryItemType.Key,
                                             Value = "",
                                             ValueType = 0
                                         };
@@ -824,7 +824,7 @@ namespace InteropTools.ShellPages.Registry
                                             Name = hive.ToString(),
                                             Hive = hive,
                                             Key = "",
-                                            Type = RegistryItemType.HIVE,
+                                            Type = RegistryItemType.Hive,
                                             Value = "",
                                             ValueType = 0
                                         };
@@ -837,7 +837,7 @@ namespace InteropTools.ShellPages.Registry
                                     break;
                                 }
 
-                            case KeyStatus.NOT_FOUND:
+                            case KeyStatus.NotFound:
                                 {
                                     AddKey(hive, keypath);
                                     break;
@@ -850,7 +850,7 @@ namespace InteropTools.ShellPages.Registry
 
         private async void MountHive_Click(object sender, RoutedEventArgs e)
         {
-            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.HIVE && (BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_USERS))
+            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.Hive && (BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_USERS))
             {
                 MountHive.Visibility = Visibility.Visible;
 
@@ -916,22 +916,22 @@ namespace InteropTools.ShellPages.Registry
                     {
                         switch (status)
                         {
-                            case KeyStatus.FOUND:
+                            case KeyStatus.Found:
                                 {
                                     KeyActionButton.IsEnabled = true;
                                     KeyActionIcon.Symbol = Symbol.Forward;
                                     break;
                                 }
 
-                            case KeyStatus.NOT_FOUND:
+                            case KeyStatus.NotFound:
                                 {
                                     KeyActionButton.IsEnabled = true;
                                     KeyActionIcon.Symbol = Symbol.Add;
                                     break;
                                 }
 
-                            case KeyStatus.ACCESS_DENIED:
-                            case KeyStatus.UNKNOWN:
+                            case KeyStatus.AccessDenied:
+                            case KeyStatus.Unknown:
                                 {
                                     KeyActionButton.IsEnabled = false;
                                     KeyActionIcon.Symbol = Symbol.Cancel;
@@ -1024,19 +1024,19 @@ namespace InteropTools.ShellPages.Registry
 
             switch (currentEditItem.Type)
             {
-                case RegistryItemType.HIVE:
+                case RegistryItemType.Hive:
                     {
                         EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
-                case RegistryItemType.KEY:
+                case RegistryItemType.Key:
                     {
                         EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
-                case RegistryItemType.VALUE:
+                case RegistryItemType.Value:
                     {
                         if (currentEditItem.ValueType < 12)
                         {
@@ -1475,7 +1475,7 @@ namespace InteropTools.ShellPages.Registry
                 keypath = keypath + @"\" + BrowserCtrl._currentRegItem.Name;
             }
 
-            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.HIVE)
+            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.Hive)
             {
                 keypath = "";
             }

@@ -204,7 +204,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
                                         string displayname = package.Id.FamilyName;
                                         string description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
-                                                          package.Id.Version.Build + "." + package.Id.Version.Revision;
+                                                             package.Id.Version.Build + "." + package.Id.Version.Revision;
                                         dynamic logo = "";
 
                                         try

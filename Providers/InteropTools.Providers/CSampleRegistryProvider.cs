@@ -10,7 +10,7 @@ namespace InteropTools.Providers
     {
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public bool AllowsRegistryEditing()
@@ -20,12 +20,12 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public bool DoesFileExists(string path)
@@ -58,14 +58,14 @@ namespace InteropTools.Providers
             GetKeyLastModifiedTime ret = new()
             {
                 LastModified = DateTime.Now,
-                returncode = HelperErrorCodes.SUCCESS
+                returncode = HelperErrorCodes.Success
             };
             return ret;
         }
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            return KeyStatus.FOUND;
+            return KeyStatus.Found;
         }
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
@@ -74,7 +74,7 @@ namespace InteropTools.Providers
             {
                 regtype = RegTypes.REG_SZ,
                 regvalue = "Test",
-                returncode = HelperErrorCodes.SUCCESS
+                returncode = HelperErrorCodes.Success
             };
             return ret;
         }
@@ -85,7 +85,7 @@ namespace InteropTools.Providers
             {
                 regtype = (uint)RegTypes.REG_SZ,
                 regvalue = "Test",
-                returncode = HelperErrorCodes.SUCCESS
+                returncode = HelperErrorCodes.Success
             };
             return ret;
         }
@@ -99,7 +99,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -108,7 +108,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -117,7 +117,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -126,7 +126,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -135,7 +135,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -144,7 +144,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -153,7 +153,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -162,7 +162,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 }
@@ -179,7 +179,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -188,7 +188,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -197,7 +197,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -206,7 +206,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -215,7 +215,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -224,7 +224,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -233,7 +233,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -242,7 +242,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 }
@@ -259,7 +259,7 @@ namespace InteropTools.Providers
                     Name = "Test 1",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -268,7 +268,7 @@ namespace InteropTools.Providers
                     Name = "est 2",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -277,7 +277,7 @@ namespace InteropTools.Providers
                     Name = "st 3",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -286,7 +286,7 @@ namespace InteropTools.Providers
                     Name = "t 4",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -295,7 +295,7 @@ namespace InteropTools.Providers
                     Name = "Test 5",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -304,7 +304,7 @@ namespace InteropTools.Providers
                     Name = "est 6",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -313,7 +313,7 @@ namespace InteropTools.Providers
                     Name = "st 7",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 },
@@ -322,7 +322,7 @@ namespace InteropTools.Providers
                     Name = "t 8",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 },
@@ -331,7 +331,7 @@ namespace InteropTools.Providers
                     Name = "Test 9",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 },
@@ -340,7 +340,7 @@ namespace InteropTools.Providers
                     Name = "est 10",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 },
@@ -349,7 +349,7 @@ namespace InteropTools.Providers
                     Name = "st 11",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 },
@@ -358,7 +358,7 @@ namespace InteropTools.Providers
                     Name = "t 12",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = RegTypes.REG_SZ
                 }
@@ -375,7 +375,7 @@ namespace InteropTools.Providers
                     Name = "Test 1",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -384,7 +384,7 @@ namespace InteropTools.Providers
                     Name = "est 2",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -393,7 +393,7 @@ namespace InteropTools.Providers
                     Name = "st 3",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -402,7 +402,7 @@ namespace InteropTools.Providers
                     Name = "t 4",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -411,7 +411,7 @@ namespace InteropTools.Providers
                     Name = "Test 5",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -420,7 +420,7 @@ namespace InteropTools.Providers
                     Name = "est 6",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.KEY,
+                    Type = RegistryItemType.Key,
                     Value = null,
                     ValueType = 0
                 },
@@ -429,7 +429,7 @@ namespace InteropTools.Providers
                     Name = "st 7",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 },
@@ -438,7 +438,7 @@ namespace InteropTools.Providers
                     Name = "t 8",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 },
@@ -447,7 +447,7 @@ namespace InteropTools.Providers
                     Name = "Test 9",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 },
@@ -456,7 +456,7 @@ namespace InteropTools.Providers
                     Name = "est 10",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 },
@@ -465,7 +465,7 @@ namespace InteropTools.Providers
                     Name = "st 11",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 },
@@ -474,7 +474,7 @@ namespace InteropTools.Providers
                     Name = "t 12",
                     Hive = hive,
                     Key = key,
-                    Type = RegistryItemType.VALUE,
+                    Type = RegistryItemType.Value,
                     Value = "Test value",
                     ValueType = 1
                 }
@@ -504,17 +504,17 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
-            return HelperErrorCodes.SUCCESS;
+            return HelperErrorCodes.Success;
         }
 
         public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
