@@ -9,12 +9,4 @@
         QueryApplicationVolumes,
         QueryApplications
     }
-
-    internal enum APPLICATIONS_STATUS
-    {
-        SUCCESS,
-        FAILED,
-        ACCESS_DENIED,
-        NOT_SUPPORTED,
-    }
 }

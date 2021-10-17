@@ -116,12 +116,14 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ERebootProvider.cs" />
+    <Compile Include="REBOOT_OPERATION.cs" />
     <Compile Include="IRebootProvider.cs" />
     <Compile Include="FlightingRebootProvider.cs" />
+    <Compile Include="OSRebootProvider.cs" />
     <Compile Include="OSRebootProviderIntern.cs" />
     <Compile Include="OSRebootProviderOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="REBOOT_STATUS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Libraries\AppPlugin\AppPlugin.csproj">

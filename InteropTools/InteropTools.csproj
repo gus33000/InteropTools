@@ -124,6 +124,7 @@
       <DependentUpon>DualMessageDialogContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentDialogs\Core\ExpandableRowListViewControl.cs" />
+    <Compile Include="ContentDialogs\Core\ExpandableRowListViewControlItem.cs" />
     <Compile Include="ContentDialogs\Core\MessageDialogContentDialog.xaml.cs">
       <DependentUpon>MessageDialogContentDialog.xaml</DependentUpon>
     </Compile>
@@ -169,6 +170,7 @@
       <DependentUpon>BackDropMedium.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomFlipView.cs" />
+    <Compile Include="Controls\CustomFlipViewItem.cs" />
     <Compile Include="Controls\FlipViewExtensions.cs" />
     <Compile Include="Controls\FlipViewIndicator.cs" />
     <Compile Include="Controls\Keyboards\Carret.xaml.cs">
@@ -180,6 +182,7 @@
     <Compile Include="Controls\Pivots\TabHeader.xaml.cs">
       <DependentUpon>TabHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ScrollViewerOffsetMediator.cs" />
     <Compile Include="Controls\SplitViews\Extensions.cs" />
     <Compile Include="Controls\SplitViews\SwipeableSplitView.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -190,15 +193,17 @@
     <Compile Include="CorePages\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CorePages\IPage.cs" />
+    <Compile Include="CorePages\PageHelper.cs" />
     <Compile Include="CorePages\LaunchedForResultsPage.xaml.cs">
       <DependentUpon>LaunchedForResultsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CorePages\NavigationItemData.cs" />
     <Compile Include="CorePages\NavigationItemToObjectConverter2.cs" />
+    <Compile Include="CorePages\PageGroup.cs" />
     <Compile Include="CorePages\Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CorePages\ShellPage.cs" />
     <Compile Include="CorePages\TabsControl.xaml.cs">
       <DependentUpon>TabsControl.xaml</DependentUpon>
     </Compile>
@@ -212,7 +217,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CCMDProvider.cs" />
     <Compile Include="Providers\LegacyBridge\LegacyBridgeRegistryProvider.cs" />
+    <Compile Include="RemoteClasses\Server\DataReceived.cs" />
+    <Compile Include="RemoteClasses\Server\ParameterController.cs" />
     <Compile Include="SessionManager.cs" />
+    <Compile Include="ShellPages\AppManager\TypeDisplayitem.cs" />
+    <Compile Include="ShellPages\AppManager\VolumeDisplayitem.cs" />
     <Compile Include="ShellPages\Store\StorePage.xaml.cs">
       <DependentUpon>StorePage.xaml</DependentUpon>
     </Compile>

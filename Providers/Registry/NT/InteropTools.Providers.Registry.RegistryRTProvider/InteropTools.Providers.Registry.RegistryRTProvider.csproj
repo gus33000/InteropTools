@@ -116,8 +116,15 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ERegProvider.cs" />
+    <Compile Include="REG_ITEM.cs" />
     <Compile Include="IRegProvider.cs" />
+    <Compile Include="RegistryProvider.cs" />
+    <Compile Include="REG_HIVES.cs" />
+    <Compile Include="REG_KEY_STATUS.cs" />
+    <Compile Include="REG_OPERATION.cs" />
+    <Compile Include="REG_STATUS.cs" />
+    <Compile Include="REG_TYPE.cs" />
+    <Compile Include="REG_VALUE_TYPE.cs" />
     <Compile Include="WinRTRegProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryProviderIntern.cs" />

@@ -4,12 +4,4 @@
     {
         SystemReboot
     }
-
-    internal enum REBOOT_STATUS
-    {
-        SUCCESS,
-        FAILED,
-        ACCESS_DENIED,
-        NOT_SUPPORTED,
-    }
 }

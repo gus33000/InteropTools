@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
@@ -186,6 +186,15 @@
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="UI\XamlHelper.cs" />
     <Compile Include="WeakEventHandler.cs" />
+    <Compile Include="x64\Debug\Activator.cs" />
+    <Compile Include="x64\Debug\AddToCollection.cs" />
+    <Compile Include="x64\Debug\AddToDictionary.cs" />
+    <Compile Include="x64\Debug\Getter.cs" />
+    <Compile Include="x64\Debug\Setter.cs" />
+    <Compile Include="x64\Debug\XamlMember.cs" />
+    <Compile Include="x64\Debug\XamlSystemBaseType.cs" />
+    <Compile Include="x64\Debug\XamlTypeInfoProvider.cs" />
+    <Compile Include="x64\Debug\XamlUserType.cs" />
     <Content Include="Properties\Intense.rd.xml" />
   </ItemGroup>
   <ItemGroup>

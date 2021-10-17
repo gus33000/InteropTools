@@ -32,20 +32,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 
 namespace InteropTools.Providers.Registry.SampleProvider
 {
-    public sealed class RegistryProvider : IBackgroundTask
-    {
-        private readonly IBackgroundTask internalTask = new RegistryProviderIntern();
-
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
-    }
-
     internal class RegistryProviderIntern : RegistryProvidersWithOptions
     {
         // Define your provider class here

@@ -1,18 +1,5 @@
-﻿using InteropTools.Providers;
-
-namespace InteropTools.CorePages
+﻿namespace InteropTools.CorePages
 {
-    public enum PageGroup
-    {
-        Core,
-        Registry,
-        General,
-        Tweaks,
-        SSH,
-        Unlock,
-        Bottom
-    }
-
     public static class PageHelper
     {
         public static string GetIconForPageGroup(PageGroup group)
@@ -44,20 +31,5 @@ namespace InteropTools.CorePages
                 _ => "",
             };
         }
-    }
-
-    public abstract class ShellPage
-    {
-        public abstract PageGroup PageGroup { get; }
-        public abstract string PageName { get; }
-
-        public IRegistryProvider RegistryProvider
-        {
-            get => SessionManager.Sessions[viewid].Helper;
-
-            set => SessionManager.Sessions[viewid].Helper = value;
-        }
-
-        public int viewid => SessionManager.CurrentSession.Value;
     }
 }

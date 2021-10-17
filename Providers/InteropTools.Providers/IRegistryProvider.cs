@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InteropTools.Providers
@@ -53,35 +52,5 @@ namespace InteropTools.Providers
         Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data);
 
         Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser);
-    }
-
-    public class GetKeyLastModifiedTime
-    {
-        public DateTime LastModified { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class GetKeyValueReturn
-    {
-        public RegTypes regtype { get; set; }
-        public string regvalue { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class GetKeyValueReturn2
-    {
-        public uint regtype { get; set; }
-        public string regvalue { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public sealed class RegistryItem
-    {
-        public RegHives Hive { get; set; }
-        public string Key { get; set; }
-        public string Name { get; set; }
-        public RegistryItemType Type { get; set; }
-        public string Value { get; set; }
-        public RegTypes ValueType { get; set; }
     }
 }

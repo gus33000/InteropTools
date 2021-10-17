@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace InteropTools.Providers
 {
@@ -38,38 +37,5 @@ namespace InteropTools.Providers
         byte[] RegStringToBuffer(uint valtype, string val);
 
         Task<HelperErrorCodes> RegUnloadHive(string mountedname, bool InUser);
-    }
-
-    public class RegEnumKey
-    {
-        public IReadOnlyList<RegistryItemCustom> items { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class RegQueryKeyLastModifiedTime
-    {
-        public long LastModified { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class RegQueryValue
-    {
-        public RegTypes regtype { get; set; }
-        public string regvalue { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class RegQueryValue1
-    {
-        public uint regtype { get; set; }
-        public string regvalue { get; set; }
-        public HelperErrorCodes returncode { get; set; }
-    }
-
-    public class RegQueryValue2
-    {
-        public uint regtype { get; set; }
-        public byte[] regvalue { get; set; }
-        public HelperErrorCodes returncode { get; set; }
     }
 }

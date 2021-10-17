@@ -116,10 +116,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EApplicationsProvider.cs" />
+    <Compile Include="ApplicationsProvider.cs" />
+    <Compile Include="APPLICATIONS_STATUS.cs" />
+    <Compile Include="APPLICATIONS_OPERATION.cs" />
     <Compile Include="IApplicationsProvider.cs" />
     <Compile Include="ApplicationsProviderIntern.cs" />
-    <Compile Include="ApplicationsProviderOptions.cs" />
+    <Compile Include="OSRebootProviderOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

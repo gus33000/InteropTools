@@ -107,9 +107,13 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AbstractOption.cs" />
+    <Compile Include="IntOption.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="ApplicationProvidersWithOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringOption.cs" />
+    <Compile Include="TransfareOptions.cs" />
     <EmbeddedResource Include="Properties\InteropTools.Providers.Applications.Definition.rd.xml" />
   </ItemGroup>
   <ItemGroup>

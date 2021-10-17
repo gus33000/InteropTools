@@ -32,22 +32,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Management.Deployment;
 
 namespace InteropTools.Providers.Applications.WinRTProvider
 {
-    public sealed class ApplicationsProvider : IBackgroundTask
-    {
-        private readonly IBackgroundTask internalTask = new ApplicationsProviderIntern();
-
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
-    }
-
     internal class ApplicationsProviderIntern : ApplicationProvidersWithOptions
     {
         protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)

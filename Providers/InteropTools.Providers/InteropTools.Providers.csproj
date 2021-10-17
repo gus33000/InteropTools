@@ -108,12 +108,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CSampleRegistryProvider.cs" />
+    <Compile Include="GetKeyLastModifiedTime.cs" />
+    <Compile Include="GetKeyValueReturn.cs" />
+    <Compile Include="GetKeyValueReturn2.cs" />
     <Compile Include="IRegistryProvider.cs" />
-    <Compile Include="LegacyBridge\ERegProvider.cs" />
+    <Compile Include="LegacyBridge\RegistryItemCustom.cs" />
+    <Compile Include="LegacyBridge\HelperErrorCodes.cs" />
     <Compile Include="LegacyBridge\IRegProvider.cs" />
+    <Compile Include="LegacyBridge\KeyStatus.cs" />
     <Compile Include="LegacyBridge\LegacyBridgeRegistryProviderAuto.cs" />
+    <Compile Include="LegacyBridge\RegEnumKey.cs" />
+    <Compile Include="LegacyBridge\RegHives.cs" />
+    <Compile Include="LegacyBridge\RegistryItemType.cs" />
     <Compile Include="LegacyBridge\RegistryProvider.cs" />
+    <Compile Include="LegacyBridge\RegQueryKeyLastModifiedTime.cs" />
+    <Compile Include="LegacyBridge\RegQueryValue.cs" />
+    <Compile Include="LegacyBridge\RegQueryValue1.cs" />
+    <Compile Include="LegacyBridge\RegQueryValue2.cs" />
+    <Compile Include="LegacyBridge\RegTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistryItem.cs" />
     <EmbeddedResource Include="Properties\InteropTools.Providers.rd.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,25 +1,5 @@
 ﻿using InteropTools.CorePages;
 using InteropTools.Presentation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Management.Deployment;
-using Windows.System;
-using Windows.System.Threading;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -796,35 +776,5 @@ namespace InteropTools.ShellPages.AppManager
 
             public PackageVolume volume { get; set; }
         }
-    }
-
-    public class TypeDisplayitem
-    {
-        public PackageTypes? Type
-        {
-            get;
-            set;
-        }
-
-        public string TypeName => Type == null ? Resources.TextResources.ApplicationManager_AllTypes : Type.ToString();
-    }
-
-    public class VolumeDisplayitem
-    {
-        public string _MountPoint = Resources.TextResources.ApplicationManager_MountPoint;
-        public string _Name = Resources.TextResources.ApplicationManager_Name;
-        public string _Offline = Resources.TextResources.ApplicationManager_Offline;
-        public string _PackageStore = Resources.TextResources.ApplicationManager_PackageStore;
-        public string _SupportsHardLinks = Resources.TextResources.ApplicationManager_SupportsHardLinks;
-        public string _SystemVolume = Resources.TextResources.ApplicationManager_SystemVolume;
-        public Visibility AllVisibility => Volume == null ? Visibility.Visible : Visibility.Collapsed;
-
-        public PackageVolume Volume
-        {
-            get;
-            set;
-        }
-
-        public Visibility VolumeVisibility => Volume != null ? Visibility.Visible : Visibility.Collapsed;
     }
 }
