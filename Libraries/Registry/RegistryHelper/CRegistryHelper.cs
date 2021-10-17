@@ -62,7 +62,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -110,7 +109,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -156,7 +154,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -199,7 +196,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -242,7 +238,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -285,7 +280,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -328,7 +322,6 @@ namespace RegistryHelper
                 if (result == REG_KEY_STATUS.UNKNOWN)
                 {
                     hadunknown = true;
-                    continue;
                 }
             }
 
@@ -345,32 +338,6 @@ namespace RegistryHelper
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-        private static readonly uint[] _lookup32 = CreateLookup32();
-
-        private static uint[] CreateLookup32()
-        {
-            uint[] result = new uint[256];
-            for (int i = 0; i < 256; i++)
-            {
-                string s = i.ToString("X2");
-                result[i] = s[0] + ((uint)s[1] << 16);
-            }
-            return result;
-        }
-
-        private static string ByteArrayToHexViaLookup32(byte[] bytes)
-        {
-            uint[] lookup32 = _lookup32;
-            char[] result = new char[bytes.Length * 2];
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                uint val = lookup32[bytes[i]];
-                result[2 * i] = (char)val;
-                result[(2 * i) + 1] = (char)(val >> 16);
-            }
-            return new string(result);
-        }
-
         public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out string data)
         {
             bool hadaccessdenied = false;
@@ -381,77 +348,8 @@ namespace RegistryHelper
                 if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
-
-                    switch (valtypetmp)
-                    {
-                        case REG_VALUE_TYPE.REG_DWORD:
-                            {
-                                REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2.ToString();
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case REG_VALUE_TYPE.REG_QWORD:
-                            {
-                                REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2.ToString();
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case REG_VALUE_TYPE.REG_MULTI_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = string.Join("\n", datatmp2);
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case REG_VALUE_TYPE.REG_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2;
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case REG_VALUE_TYPE.REG_EXPAND_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2;
-                                    return result2;
-                                }
-                                break;
-                            }
-                        default:
-                            {
-                                try
-                                {
-                                    data = ByteArrayToHexViaLookup32(datatmp);
-                                }
-                                catch
-                                {
-                                    data = "";
-                                }
-                                return result;
-                            }
-                    }
+                    data = Convert.RegBufferToString((uint)valtypetmp, datatmp);
+                    return result;
                 }
 
                 REG_STATUS? singleresult = null;
@@ -561,7 +459,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -595,77 +492,8 @@ namespace RegistryHelper
                 if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
-
-                    switch (valtypetmp)
-                    {
-                        case (uint)REG_VALUE_TYPE.REG_DWORD:
-                            {
-                                REG_STATUS result2 = prov.RegQueryDword(hive, key, regvalue, out uint datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2.ToString();
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case (uint)REG_VALUE_TYPE.REG_QWORD:
-                            {
-                                REG_STATUS result2 = prov.RegQueryQword(hive, key, regvalue, out ulong datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2.ToString();
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = string.Join("\n", datatmp2);
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case (uint)REG_VALUE_TYPE.REG_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryString(hive, key, regvalue, out string datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2;
-                                    return result2;
-                                }
-                                break;
-                            }
-                        case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
-                            {
-                                REG_STATUS result2 = prov.RegQueryVariableString(hive, key, regvalue, out string datatmp2);
-
-                                if (result2 == REG_STATUS.SUCCESS)
-                                {
-                                    data = datatmp2;
-                                    return result2;
-                                }
-                                break;
-                            }
-                        default:
-                            {
-                                try
-                                {
-                                    data = ByteArrayToHexViaLookup32(datatmp);
-                                }
-                                catch
-                                {
-                                    data = "";
-                                }
-                                return result;
-                            }
-                    }
+                    data = Convert.RegBufferToString((uint)valtypetmp, datatmp);
+                    return result;
                 }
 
                 REG_STATUS? singleresult = null;
@@ -775,7 +603,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -861,7 +688,7 @@ namespace RegistryHelper
                             }
                         default:
                             {
-                                byte[] buffer = StringToByteArrayFastest(data);
+                                byte[] buffer = Convert.StringToRegBuffer((uint)valtype, data);
 
                                 result = prov.RegSetValue(hive, key, regvalue, valtype, buffer);
                                 if (result == REG_STATUS.SUCCESS)
@@ -886,7 +713,6 @@ namespace RegistryHelper
                     if (result == REG_STATUS.FAILED)
                     {
                         hadfailed = true;
-                        continue;
                     }
                 }
             }
@@ -906,34 +732,6 @@ namespace RegistryHelper
             }
 
             return REG_STATUS.FAILED;
-        }
-
-        private static byte[] StringToByteArrayFastest(string hex)
-        {
-            if (hex.Length % 2 == 1)
-            {
-                throw new Exception("The binary key cannot have an odd number of digits");
-            }
-
-            byte[] arr = new byte[hex.Length >> 1];
-
-            for (int i = 0; i < (hex.Length >> 1); ++i)
-            {
-                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
-            }
-
-            return arr;
-        }
-
-        private static int GetHexVal(char hex)
-        {
-            int val = hex;
-            //For uppercase A-F letters:
-            //return val - (val < 58 ? 48 : 55);
-            //For lowercase a-f letters:
-            //return val - (val < 58 ? 48 : 87);
-            //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
 
         [Windows.Foundation.Metadata.DefaultOverload()]
@@ -998,7 +796,7 @@ namespace RegistryHelper
                         }
                     default:
                         {
-                            byte[] buffer = StringToByteArrayFastest(data);
+                            byte[] buffer = Convert.StringToRegBuffer(valtype, data);
 
                             result = prov.RegSetValue(hive, key, regvalue, valtype, buffer);
                             if (result == REG_STATUS.SUCCESS)
@@ -1023,7 +821,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -1080,7 +877,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -1123,7 +919,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 
@@ -1166,7 +961,6 @@ namespace RegistryHelper
                 if (result == REG_STATUS.FAILED)
                 {
                     hadfailed = true;
-                    continue;
                 }
             }
 

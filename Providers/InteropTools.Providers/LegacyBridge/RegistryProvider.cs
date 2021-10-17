@@ -36,7 +36,7 @@ namespace InteropTools.Providers
             return arr;
         }
 
-        public async Task<REG_STATUS> RegAddKey(REG_HIVES hive, string key)
+        public async Task<HelperErrorCodes> RegAddKey(RegHives hive, string key)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst[0], true, out REG_STATUS status);
+                Enum.TryParse(lst[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -77,7 +77,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
@@ -85,15 +85,15 @@ namespace InteropTools.Providers
         {
             switch (valtype)
             {
-                case (uint)REG_VALUE_TYPE.REG_DWORD:
+                case (uint)RegTypes.REG_DWORD:
                     {
                         return data.Length == 0 ? "" : BitConverter.ToUInt32(data, 0).ToString();
                     }
-                case (uint)REG_VALUE_TYPE.REG_QWORD:
+                case (uint)RegTypes.REG_QWORD:
                     {
                         return data.Length == 0 ? "" : BitConverter.ToUInt64(data, 0).ToString();
                     }
-                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
+                case (uint)RegTypes.REG_MULTI_SZ:
                     {
                         string strNullTerminated = Encoding.Unicode.GetString(data);
                         if (strNullTerminated.Substring(strNullTerminated.Length - 2) == "\0\0")
@@ -111,11 +111,11 @@ namespace InteropTools.Providers
                         // Split by null terminator.
                         return string.Join("\n", strNullTerminated.Split('\0'));
                     }
-                case (uint)REG_VALUE_TYPE.REG_SZ:
+                case (uint)RegTypes.REG_SZ:
                     {
                         return Encoding.Unicode.GetString(data).TrimEnd('\0');
                     }
-                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
+                case (uint)RegTypes.REG_EXPAND_SZ:
                     {
                         return Encoding.Unicode.GetString(data).TrimEnd('\0');
                     }
@@ -126,7 +126,7 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<REG_STATUS> RegDeleteKey(REG_HIVES hive, string key, bool recursive)
+        public async Task<HelperErrorCodes> RegDeleteKey(RegHives hive, string key, bool recursive)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -168,11 +168,11 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
-        public async Task<REG_STATUS> RegDeleteValue(REG_HIVES hive, string key, string name)
+        public async Task<HelperErrorCodes> RegDeleteValue(RegHives hive, string key, string name)
         {
             try
             {
@@ -207,7 +207,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -215,11 +215,11 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
-        public async Task<RegEnumKey> RegEnumKey(REG_HIVES? hive, string key)
+        public async Task<RegEnumKey> RegEnumKey(RegHives? hive, string key)
         {
             RegEnumKey ret = new();
             try
@@ -254,44 +254,41 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 List<string>[] retitems = retarr.Skip(1).ToArray();
 
-                List<REG_ITEM> lstitems = new();
+                List<RegistryItemCustom> lstitems = new();
 
                 foreach (List<string> item in retitems)
                 {
-                    REG_ITEM itm = new();
+                    RegistryItemCustom itm = new();
 
+                    byte[] buffer = new byte[0];
                     if (!string.IsNullOrEmpty(item[0]))
                     {
                         string[] retbuf = item[0].Split('-');
 
-                        byte[] buffer = new byte[retbuf.Length];
+                        buffer = new byte[retbuf.Length];
                         for (int i = 0; i < retbuf.Length; i++)
                         {
                             buffer[i] = Convert.ToByte(retbuf[i], 16);
                         }
-
-                        itm.Data = buffer;
-                    }
-                    else
-                    {
-                        itm.Data = new byte[0];
                     }
 
-                    Enum.TryParse(item.ElementAt(1), true, out REG_HIVES hiv);
+                    Enum.TryParse(item.ElementAt(1), true, out RegHives hiv);
                     itm.Hive = hiv;
 
                     itm.Key = item.ElementAt(2);
                     itm.Name = item.ElementAt(3);
 
-                    Enum.TryParse(item.ElementAt(4), true, out REG_TYPE typ);
+                    Enum.TryParse(item.ElementAt(4), true, out RegistryItemType typ);
                     itm.Type = typ;
 
                     uint.TryParse(item.ElementAt(5), out uint valtyp);
                     itm.ValueType = valtyp;
+
+                    itm.Value = itm.RegBufferToString(itm.ValueType, buffer);
 
                     lstitems.Add(itm);
                 }
@@ -303,14 +300,14 @@ namespace InteropTools.Providers
             }
             catch
             {
-                ret.items = new List<REG_ITEM>();
-                ret.returncode = REG_STATUS.NOT_SUPPORTED;
+                ret.items = new List<RegistryItemCustom>();
+                ret.returncode = HelperErrorCodes.NotImplemented;
                 return ret;
             }
             return ret;
         }
 
-        public async Task<REG_STATUS> RegLoadHive(string hivepath, string mountedname, bool InUser)
+        public async Task<HelperErrorCodes> RegLoadHive(string hivepath, string mountedname, bool InUser)
         {
             try
             {
@@ -345,7 +342,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -353,11 +350,11 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
-        public async Task<RegQueryKeyLastModifiedTime> RegQueryKeyLastModifiedTime(REG_HIVES hive, string key)
+        public async Task<RegQueryKeyLastModifiedTime> RegQueryKeyLastModifiedTime(RegHives hive, string key)
         {
             RegQueryKeyLastModifiedTime ret = new();
             try
@@ -391,7 +388,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 long.TryParse(lst2.ElementAt(1), out long lastmodified);
 
@@ -405,12 +402,12 @@ namespace InteropTools.Providers
             catch
             {
                 ret.LastModified = long.MinValue;
-                ret.returncode = REG_STATUS.NOT_SUPPORTED;
+                ret.returncode = HelperErrorCodes.NotImplemented;
                 return ret;
             }
         }
 
-        public async Task<REG_KEY_STATUS> RegQueryKeyStatus(REG_HIVES hive, string key)
+        public async Task<KeyStatus> RegQueryKeyStatus(RegHives hive, string key)
         {
             try
             {
@@ -444,7 +441,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_KEY_STATUS status);
+                Enum.TryParse(lst2[0], true, out KeyStatus status);
 
                 regpluginlist.Dispose();
 
@@ -452,32 +449,32 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_KEY_STATUS.UNKNOWN;
+                return KeyStatus.Unknown;
             }
         }
 
-        public async Task<RegQueryValue> RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype)
+        public async Task<RegQueryValue> RegQueryValue(RegHives hive, string key, string regvalue, RegTypes valtype)
         {
             RegQueryValue rtn = new();
             RegQueryValue2 ret = await RegQueryValue1(hive, key, regvalue, (uint)valtype);
             rtn.regvalue = "";
-            rtn.regtype = REG_VALUE_TYPE.REG_ERROR;
-            if (ret.returncode == REG_STATUS.SUCCESS)
+            rtn.regtype = RegTypes.REG_ERROR;
+            if (ret.returncode == HelperErrorCodes.Success)
             {
                 rtn.regvalue = RegBufferToString(ret.regtype, ret.regvalue);
-                rtn.regtype = (REG_VALUE_TYPE)ret.regtype;
+                rtn.regtype = (RegTypes)ret.regtype;
             }
             rtn.returncode = ret.returncode;
             return rtn;
         }
 
-        public async Task<RegQueryValue1> RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype)
+        public async Task<RegQueryValue1> RegQueryValue(RegHives hive, string key, string regvalue, uint valtype)
         {
             RegQueryValue1 rtn = new();
             RegQueryValue2 ret = await RegQueryValue1(hive, key, regvalue, valtype);
             rtn.regvalue = "";
             rtn.regtype = 0;
-            if (ret.returncode == REG_STATUS.SUCCESS)
+            if (ret.returncode == HelperErrorCodes.Success)
             {
                 rtn.regvalue = RegBufferToString(ret.regtype, ret.regvalue);
                 rtn.regtype = ret.regtype;
@@ -486,7 +483,7 @@ namespace InteropTools.Providers
             return rtn;
         }
 
-        public async Task<RegQueryValue2> RegQueryValue1(REG_HIVES hive, string key, string regvalue, uint valtype)
+        public async Task<RegQueryValue2> RegQueryValue1(RegHives hive, string key, string regvalue, uint valtype)
         {
             RegQueryValue2 ret = new();
             try
@@ -522,7 +519,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 uint.TryParse(lst2.ElementAt(1), out uint outvaltype);
 
@@ -553,12 +550,12 @@ namespace InteropTools.Providers
             {
                 ret.regtype = 0;
                 ret.regvalue = new byte[0];
-                ret.returncode = REG_STATUS.NOT_SUPPORTED;
+                ret.returncode = HelperErrorCodes.NotImplemented;
                 return ret;
             }
         }
 
-        public async Task<REG_STATUS> RegRenameKey(REG_HIVES hive, string key, string newname)
+        public async Task<HelperErrorCodes> RegRenameKey(RegHives hive, string key, string newname)
         {
             try
             {
@@ -592,7 +589,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -600,11 +597,11 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
-        public async Task<REG_STATUS> RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data)
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype, byte[] data)
         {
             try
             {
@@ -641,7 +638,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -649,16 +646,16 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 
-        public async Task<REG_STATUS> RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, string data)
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, RegTypes valtype, string data)
         {
             return await RegSetValue(hive, key, regvalue, (uint)valtype, RegStringToBuffer((uint)valtype, data));
         }
 
-        public async Task<REG_STATUS> RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, string data)
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype, string data)
         {
             return await RegSetValue(hive, key, regvalue, valtype, RegStringToBuffer(valtype, data));
         }
@@ -667,23 +664,23 @@ namespace InteropTools.Providers
         {
             switch (valtype)
             {
-                case (uint)REG_VALUE_TYPE.REG_DWORD:
+                case (uint)RegTypes.REG_DWORD:
                     {
                         return BitConverter.GetBytes(uint.Parse(val));
                     }
-                case (uint)REG_VALUE_TYPE.REG_QWORD:
+                case (uint)RegTypes.REG_QWORD:
                     {
                         return BitConverter.GetBytes(ulong.Parse(val));
                     }
-                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
+                case (uint)RegTypes.REG_MULTI_SZ:
                     {
                         return Encoding.Unicode.GetBytes(string.Join("\0", val.Replace("\r", "\0").Split('\n')) + "\0\0");
                     }
-                case (uint)REG_VALUE_TYPE.REG_SZ:
+                case (uint)RegTypes.REG_SZ:
                     {
                         return Encoding.Unicode.GetBytes(val + '\0');
                     }
-                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
+                case (uint)RegTypes.REG_EXPAND_SZ:
                     {
                         return Encoding.Unicode.GetBytes(val + '\0');
                     }
@@ -696,7 +693,7 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<REG_STATUS> RegUnloadHive(string mountedname, bool InUser)
+        public async Task<HelperErrorCodes> RegUnloadHive(string mountedname, bool InUser)
         {
             try
             {
@@ -730,7 +727,7 @@ namespace InteropTools.Providers
 
                 string str = lst2[0];
 
-                Enum.TryParse(lst2[0], true, out REG_STATUS status);
+                Enum.TryParse(lst2[0], true, out HelperErrorCodes status);
 
                 regpluginlist.Dispose();
 
@@ -738,7 +735,7 @@ namespace InteropTools.Providers
             }
             catch
             {
-                return REG_STATUS.NOT_SUPPORTED;
+                return HelperErrorCodes.NotImplemented;
             }
         }
 

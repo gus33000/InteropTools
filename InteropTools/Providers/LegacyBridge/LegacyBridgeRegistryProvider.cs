@@ -15,8 +15,6 @@ namespace InteropTools.Providers
         public IRegProvider LocalProvider;
         private bool IsInitialized;
 
-        private static readonly uint[] _lookup32 = CreateLookup32();
-
         public async Task InitializeAsync()
         {
             IRegProvider result = null;
@@ -51,12 +49,12 @@ namespace InteropTools.Providers
             IsInitialized = true;
         }
 
-        public async Task<HelperErrorCodes> ExecuteAction(Func<IRegProvider, Task<REG_STATUS>> providerFunctionCall)
+        public async Task<HelperErrorCodes> ExecuteAction(Func<IRegProvider, Task<HelperErrorCodes>> providerFunctionCall)
         {
-            return await ExecuteAction(providerFunctionCall, RegStatusToHelperErrorCodes, (t) => t, (t) => t);
+            return await ExecuteAction(providerFunctionCall, (t) => t, (t) => t, (t) => t);
         }
 
-        public async Task<T1> ExecuteAction<T1,T2>(Func<IRegProvider, Task<T2>> providerFunctionCall, Func<T2, T1> typeConverterCall, Func<T2, REG_STATUS> typeStatusConverter, Func<HelperErrorCodes, T1> statusTypeConverter, bool SecondCall = false)
+        public async Task<T1> ExecuteAction<T1,T2>(Func<IRegProvider, Task<T2>> providerFunctionCall, Func<T2, T1> typeConverterCall, Func<T2, HelperErrorCodes> typeStatusConverter, Func<HelperErrorCodes, T1> statusTypeConverter, bool SecondCall = false)
         {
             try
             {
@@ -69,7 +67,7 @@ namespace InteropTools.Providers
                 {
                     T2 result = await providerFunctionCall(LocalProvider);
 
-                    if (typeStatusConverter(result) == REG_STATUS.NOT_SUPPORTED && !SecondCall)
+                    if (typeStatusConverter(result) == HelperErrorCodes.NotImplemented && !SecondCall)
                     {
                         await InitializeAsync();
                         return await ExecuteAction(providerFunctionCall, typeConverterCall, typeStatusConverter, statusTypeConverter, true);
@@ -92,24 +90,24 @@ namespace InteropTools.Providers
 
                             T2 result = await providerFunctionCall(provider);
 
-                            if (typeStatusConverter(result) == REG_STATUS.SUCCESS)
+                            if (typeStatusConverter(result) == HelperErrorCodes.Success)
                             {
                                 reglist.Dispose();
                                 return typeConverterCall(result);
                             }
 
-                            if (typeStatusConverter(result) == REG_STATUS.NOT_SUPPORTED)
+                            if (typeStatusConverter(result) == HelperErrorCodes.NotImplemented)
                             {
                                 continue;
                             }
 
-                            if (typeStatusConverter(result) == REG_STATUS.ACCESS_DENIED)
+                            if (typeStatusConverter(result) == HelperErrorCodes.AccessDenied)
                             {
                                 hadaccessdenied = true;
                                 continue;
                             }
 
-                            if (typeStatusConverter(result) == REG_STATUS.FAILED)
+                            if (typeStatusConverter(result) == HelperErrorCodes.Failed)
                             {
                                 hadfailed = true;
                                 continue;
@@ -135,154 +133,9 @@ namespace InteropTools.Providers
             return statusTypeConverter(HelperErrorCodes.Failed);
         }
 
-        public REG_HIVES ConvertToNewHive(RegHives hive)
-        {
-            return (REG_HIVES)Enum.Parse(typeof(REG_HIVES), hive.ToString());
-        }
-
-        public REG_VALUE_TYPE ConvertToNewType(RegTypes type)
-        {
-            return (REG_VALUE_TYPE)Enum.Parse(typeof(REG_VALUE_TYPE), type.ToString());
-        }
-
-        public REG_TYPE ConvertToNewValType(RegistryItemType type)
-        {
-            return (REG_TYPE)Enum.Parse(typeof(REG_TYPE), type.ToString());
-        }
-
-        public RegHives ConvertToOldHive(REG_HIVES hive)
-        {
-            return (RegHives)Enum.Parse(typeof(RegHives), hive.ToString());
-        }
-
-        public KeyStatus ConvertToOldKeyStatus(REG_KEY_STATUS status)
-        {
-            return (KeyStatus)Enum.Parse(typeof(KeyStatus), status.ToString());
-        }
-
-        public HelperErrorCodes RegStatusToHelperErrorCodes(REG_STATUS status)
-        {
-            return status switch
-            {
-                REG_STATUS.ACCESS_DENIED => HelperErrorCodes.AccessDenied,
-                REG_STATUS.FAILED => HelperErrorCodes.Failed,
-                REG_STATUS.NOT_SUPPORTED => HelperErrorCodes.NotImplemented,
-                REG_STATUS.SUCCESS => HelperErrorCodes.Success,
-                _ => HelperErrorCodes.NotImplemented,
-            };
-        }
-
-        public RegistryItemType ConvertToOldType(REG_TYPE type)
-        {
-            return (RegistryItemType)Enum.Parse(typeof(RegistryItemType), type.ToString());
-        }
-
-        public RegTypes ConvertToOldValType(REG_VALUE_TYPE type)
-        {
-            return (RegTypes)Enum.Parse(typeof(RegTypes), type.ToString());
-        }
-
-        public string RegBufferToString(uint valtype, byte[] data)
-        {
-            switch (valtype)
-            {
-                case (uint)REG_VALUE_TYPE.REG_DWORD:
-                    {
-                        return data.Length == 0 ? "" : BitConverter.ToUInt32(data, 0).ToString();
-                    }
-                case (uint)REG_VALUE_TYPE.REG_QWORD:
-                    {
-                        return data.Length == 0 ? "" : BitConverter.ToUInt64(data, 0).ToString();
-                    }
-                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
-                    {
-                        string strNullTerminated = Encoding.Unicode.GetString(data);
-                        if (strNullTerminated.Substring(strNullTerminated.Length - 2) == "\0\0")
-                        {
-                            // The REG_MULTI_SZ is properly terminated.
-                            // Remove the array terminator, and the final string terminator.
-                            strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 2);
-                        }
-                        else if (strNullTerminated.Substring(strNullTerminated.Length - 1) == "\0")
-                        {
-                            // The REG_MULTI_SZ is improperly terminated (only one terminator).
-                            // Remove it.
-                            strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 1);
-                        }
-                        // Split by null terminator.
-                        return string.Join("\n", strNullTerminated.Split('\0'));
-                    }
-                case (uint)REG_VALUE_TYPE.REG_SZ:
-                    {
-                        return Encoding.Unicode.GetString(data).TrimEnd('\0');
-                    }
-                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
-                    {
-                        return Encoding.Unicode.GetString(data).TrimEnd('\0');
-                    }
-                default:
-                    {
-                        return ByteArrayToHexViaLookup32(data);
-                    }
-            }
-        }
-
-        private static string ByteArrayToHexViaLookup32(byte[] bytes)
-        {
-            try
-            {
-                uint[] lookup32 = _lookup32;
-                char[] result = new char[bytes.Length * 2];
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    uint val = lookup32[bytes[i]];
-                    result[2 * i] = (char)val;
-                    result[(2 * i) + 1] = (char)(val >> 16);
-                }
-                return new string(result);
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-        private static uint[] CreateLookup32()
-        {
-            uint[] result = new uint[256];
-            for (int i = 0; i < 256; i++)
-            {
-                string s = i.ToString("X2");
-                result[i] = s[0] + ((uint)s[1] << 16);
-            }
-            return result;
-        }
-
-        private IReadOnlyList<RegistryItemCustom> ConvertFromNewToOldListItems(IReadOnlyList<REG_ITEM> items)
-        {
-            List<RegistryItemCustom> itemlist = new();
-
-            foreach (REG_ITEM item in items)
-            {
-                RegistryItemCustom itm = new()
-                {
-                    Hive = item.Hive.HasValue ? ConvertToOldHive(item.Hive.Value) : RegHives.HKEY_LOCAL_MACHINE,
-                    Key = item.Key,
-                    Name = item.Name,
-                    Type = item.Type.HasValue ? ConvertToOldType(item.Type.Value) : RegistryItemType.Hive,
-                    Value = RegBufferToString(item.ValueType ?? 0, item.Data),
-                    ValueType = item.ValueType ?? 0
-                };
-
-                itemlist.Add(itm);
-            }
-
-            return itemlist;
-        }
-
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            return await ExecuteAction((t) => t.RegAddKey(ConvertToNewHive(hive), key));
+            return await ExecuteAction((t) => t.RegAddKey(hive, key));
         }
 
         public bool AllowsRegistryEditing()
@@ -292,12 +145,12 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            return await ExecuteAction((t) => t.RegDeleteKey(ConvertToNewHive(hive), key, recursive));
+            return await ExecuteAction((t) => t.RegDeleteKey(hive, key, recursive));
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            return await ExecuteAction((t) => t.RegDeleteValue(ConvertToNewHive(hive), key, keyvalue));
+            return await ExecuteAction((t) => t.RegDeleteValue(hive, key, keyvalue));
         }
 
         public bool DoesFileExists(string path)
@@ -337,62 +190,62 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            return await ExecuteAction((t) => t.RegQueryKeyLastModifiedTime(ConvertToNewHive(hive), key), (t) => new Providers.GetKeyLastModifiedTime() {  LastModified = new DateTime(t.LastModified), returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(), returncode = t });
+            return await ExecuteAction((t) => t.RegQueryKeyLastModifiedTime(hive, key), (t) => new Providers.GetKeyLastModifiedTime() {  LastModified = new DateTime(t.LastModified), returncode = t.returncode }, (t) => t.returncode, (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(), returncode = t });
         }
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            return await ExecuteAction((t) => t.RegQueryKeyStatus(ConvertToNewHive(hive), key), ConvertToOldKeyStatus, (t) =>
+            return await ExecuteAction((Func<IRegProvider, Task<Providers.KeyStatus>>)((t) => (Task<Providers.KeyStatus>)t.RegQueryKeyStatus((RegHives)hive, (string)key)), (t) => t, (Func<Providers.KeyStatus, HelperErrorCodes>)((t) =>
             { 
                 switch (t)
                 {
-                    case REG_KEY_STATUS.FOUND:
-                        return REG_STATUS.SUCCESS;
-                    case REG_KEY_STATUS.NOT_FOUND:
-                        return REG_STATUS.FAILED;
-                    case REG_KEY_STATUS.ACCESS_DENIED:
-                        return REG_STATUS.ACCESS_DENIED;
-                    case REG_KEY_STATUS.UNKNOWN:
-                        return REG_STATUS.NOT_SUPPORTED;
+                    case Providers.KeyStatus.Found:
+                        return HelperErrorCodes.Success;
+                    case Providers.KeyStatus.NotFound:
+                        return HelperErrorCodes.Failed;
+                    case Providers.KeyStatus.AccessDenied:
+                        return HelperErrorCodes.AccessDenied;
+                    case Providers.KeyStatus.Unknown:
+                        return HelperErrorCodes.NotImplemented;
                 }
 
-                return REG_STATUS.NOT_SUPPORTED;
-            }, (t) =>
+                return HelperErrorCodes.NotImplemented;
+            }), (Func<HelperErrorCodes, KeyStatus>)((t) =>
             {
                 switch (t)
                 {
                     case HelperErrorCodes.Success:
-                        return KeyStatus.Found;
+                        return (KeyStatus)Providers.KeyStatus.Found;
                     case HelperErrorCodes.Failed:
-                        return KeyStatus.NotFound;
+                        return (KeyStatus)Providers.KeyStatus.NotFound;
                     case HelperErrorCodes.AccessDenied:
-                        return KeyStatus.AccessDenied;
+                        return (KeyStatus)Providers.KeyStatus.AccessDenied;
                     case HelperErrorCodes.NotImplemented:
-                        return KeyStatus.Unknown;
+                        return (KeyStatus)Providers.KeyStatus.Unknown;
                 }
 
-                return KeyStatus.Unknown;
-            });
+                return (KeyStatus)Providers.KeyStatus.Unknown;
+            }));
         }
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            return await ExecuteAction((t) => t.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type)), (t) => new Providers.GetKeyValueReturn() { regtype = ConvertToOldValType(t.regtype), regvalue = t.regvalue, returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn() { regtype = RegTypes.REG_ERROR, regvalue = "", returncode = t });
+            return await ExecuteAction((t) => t.RegQueryValue(hive, key, keyvalue, type), (t) => new Providers.GetKeyValueReturn() { regtype = t.regtype, regvalue = t.regvalue, returncode = t.returncode }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn() { regtype = RegTypes.REG_ERROR, regvalue = "", returncode = t });
         }
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            return await ExecuteAction((t) => t.RegQueryValue(ConvertToNewHive(hive), key, keyvalue, type), (t) => new Providers.GetKeyValueReturn2() { regtype = t.regtype, regvalue = t.regvalue, returncode = RegStatusToHelperErrorCodes(t.returncode) }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn2() { regtype = 0, regvalue = "", returncode = t });
+            return await ExecuteAction((t) => t.RegQueryValue(hive, key, keyvalue, type), (t) => new Providers.GetKeyValueReturn2() { regtype = t.regtype, regvalue = t.regvalue, returncode = t.returncode }, (t) => t.returncode, (t) => new Providers.GetKeyValueReturn2() { regtype = 0, regvalue = "", returncode = t });
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            return await ExecuteAction((t) => t.RegEnumKey(null, ""), (t) => ConvertFromNewToOldListItems(t.items), (t) => t.returncode, (t) => new List<RegistryItemCustom>());
+            return await ExecuteAction((t) => t.RegEnumKey(null, ""), (t) => t.items, (t) => t.returncode, (t) => new List<RegistryItemCustom>());
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
-            return await ExecuteAction((t) => t.RegEnumKey(ConvertToNewHive(hive), key), (t) => ConvertFromNewToOldListItems(t.items), (t) => t.returncode, (t) => new List<RegistryItemCustom>());
+            return await ExecuteAction((t) => t.RegEnumKey(hive, key), (t) => t.items, (t) => t.returncode, (t) => new List<RegistryItemCustom>());
         }
 
         public string GetSymbol()
@@ -417,17 +270,17 @@ namespace InteropTools.Providers
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            return await ExecuteAction((t) => t.RegRenameKey(ConvertToNewHive(hive), key, newname));
+            return await ExecuteAction((t) => t.RegRenameKey(hive, key, newname));
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
         {
-            return await ExecuteAction((t) => t.RegSetValue(ConvertToNewHive(hive), key, keyvalue, ConvertToNewType(type), data));
+            return await ExecuteAction((t) => t.RegSetValue(hive, key, keyvalue, type, data));
         }
 
         public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
         {
-            return await ExecuteAction((t) => t.RegSetValue(ConvertToNewHive(hive), key, keyvalue, type, data));
+            return await ExecuteAction((t) => t.RegSetValue(hive, key, keyvalue, type, data));
         }
 
         public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)

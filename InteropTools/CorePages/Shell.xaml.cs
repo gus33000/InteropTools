@@ -230,6 +230,8 @@ namespace InteropTools.CorePages
             Loaded += Shell_Loaded;
             ShellViewModel vm = new();
 
+            //vm.PropertyChanged += Vm_PropertyChanged;
+
             RootFrame.Navigated += RootFrame_Navigated;
             RootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -313,6 +315,7 @@ namespace InteropTools.CorePages
             Window.Current.Activated += Current_Activated;
             Redraw(true);
             Windows.Foundation.Rect size = Window.Current.Bounds;
+            //if (SplitView.IsPaneOpen)
             if (SplitView.IsSwipeablePaneOpen)
             {
                 SearchListButton.Visibility = Visibility.Collapsed;
@@ -649,6 +652,14 @@ namespace InteropTools.CorePages
             CheckAndUnlockSSH();
         }
 
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ViewModel.IsSplitViewPaneOpen))
+            {
+                SplitView_PaneOpenChanged(SplitView);
+            }
+        }
+
         public void Redraw(bool ignoresizecheck)
         {
             Windows.Foundation.Rect size = Window.Current.Bounds;
@@ -856,6 +867,7 @@ namespace InteropTools.CorePages
                     }
                 }
 
+                //if (SplitView.IsPaneOpen)
                 if (SplitView.IsSwipeablePaneOpen)
                 {
                     SearchListButton.Visibility = Visibility.Collapsed;
@@ -1331,6 +1343,7 @@ namespace InteropTools.CorePages
         {
             _ = Window.Current.Bounds;
 
+            //if (SplitView.IsPaneOpen)
             if (SplitView.IsSwipeablePaneOpen)
             {
                 SearchListButton.Visibility = Visibility.Collapsed;

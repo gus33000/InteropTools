@@ -114,7 +114,7 @@
     <Style BasedOn="{StaticResource GridViewItemRevealStyle}" TargetType="GridViewItem" />
     <Style BasedOn="{StaticResource ComboBoxItemRevealStyle}" TargetType="ComboBoxItem" />
     <Style BasedOn="{StaticResource SemanticZoomRevealStyle}" TargetType="SemanticZoom" />
-    
+
     <!--<Style BasedOn="{StaticResource AppBarToggleButtonRevealStyle}" TargetType="AppBarToggleButton" />
     <Style BasedOn="{StaticResource AppBarButtonRevealStyle}" TargetType="AppBarButton" />
     <Style BasedOn="{StaticResource CommandBarRevealStyle}" TargetType="CommandBar" />-->

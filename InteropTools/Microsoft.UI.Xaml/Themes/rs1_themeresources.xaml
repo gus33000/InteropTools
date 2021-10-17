@@ -1141,6 +1141,29 @@
                                                         Background="{TemplateBinding Background}"
                                                         BorderBrush="{TemplateBinding BorderBrush}"
                                                         BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <Grid.Children>
+                                                            <Grid Height="32" VerticalAlignment="Stretch">
+                                                                <Grid.Children>
+                                                                    <Rectangle
+                                                                        x:Name="NormalRectangle"
+                                                                        Width="20"
+                                                                        Height="20"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Fill="{ThemeResource CheckBoxCheckBackgroundFillUnchecked}"
+                                                                        Stroke="{ThemeResource CheckBoxCheckBackgroundStrokeUnchecked}"
+                                                                        StrokeThickness="{ThemeResource CheckBoxBorderThemeThickness}"
+                                                                        UseLayoutRounding="False" />
+                                                                    <FontIcon
+                                                                        x:Name="CheckGlyph"
+                                                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                                        FontSize="20"
+                                                                        Foreground="{ThemeResource CheckBoxCheckGlyphForegroundUnchecked}"
+                                                                        Glyph=""
+                                                                        Opacity="0" />
+                                                                </Grid.Children>
+                                                            </Grid>
+                                                        </Grid.Children>
                                                         <VisualStateManager.VisualStateGroups>
                                                             <VisualStateGroup x:Name="CombinedStates">
                                                                 <VisualStateGroup.States>
@@ -1316,29 +1339,6 @@
                                                                 </VisualStateGroup.States>
                                                             </VisualStateGroup>
                                                         </VisualStateManager.VisualStateGroups>
-                                                        <Grid.Children>
-                                                            <Grid Height="32" VerticalAlignment="Stretch">
-                                                                <Grid.Children>
-                                                                    <Rectangle
-                                                                        x:Name="NormalRectangle"
-                                                                        Width="20"
-                                                                        Height="20"
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        Fill="{ThemeResource CheckBoxCheckBackgroundFillUnchecked}"
-                                                                        Stroke="{ThemeResource CheckBoxCheckBackgroundStrokeUnchecked}"
-                                                                        StrokeThickness="{ThemeResource CheckBoxBorderThemeThickness}"
-                                                                        UseLayoutRounding="False" />
-                                                                    <FontIcon
-                                                                        x:Name="CheckGlyph"
-                                                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                                        FontSize="20"
-                                                                        Foreground="{ThemeResource CheckBoxCheckGlyphForegroundUnchecked}"
-                                                                        Glyph=""
-                                                                        Opacity="0" />
-                                                                </Grid.Children>
-                                                            </Grid>
-                                                        </Grid.Children>
                                                     </Grid>
                                                 </ControlTemplate>
                                             </Setter.Value>

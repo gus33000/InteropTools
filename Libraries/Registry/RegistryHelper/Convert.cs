@@ -1,70 +1,10 @@
 ﻿using System;
 using System.Text;
 
-namespace InteropTools.Providers
+namespace RegistryHelper
 {
-    public enum RegHives
+    internal class Convert
     {
-        HKEY_CLASSES_ROOT = int.MinValue,
-        HKEY_CURRENT_USER = -2147483647,
-        HKEY_LOCAL_MACHINE = -2147483646,
-        HKEY_USERS = -2147483645,
-        HKEY_PERFORMANCE_DATA = -2147483644,
-        HKEY_CURRENT_CONFIG = -2147483643,
-        HKEY_DYN_DATA = -2147483642,
-        HKEY_CURRENT_USER_LOCAL_SETTINGS = -2147483641
-    }
-
-    public enum KeyStatus
-    {
-        Found,
-        NotFound,
-        AccessDenied,
-        Unknown
-    }
-
-    public enum HelperErrorCodes
-    {
-        Success,
-        Failed,
-        AccessDenied,
-        NotImplemented
-    }
-
-    public enum RegistryItemType
-    {
-        Hive,
-        Key,
-        Value
-    }
-
-    public enum RegTypes
-    {
-        REG_ERROR = -1,
-        REG_NONE = 0,
-        REG_SZ = 1,
-        REG_EXPAND_SZ = 2,
-        REG_BINARY = 3,
-        REG_DWORD = 4,
-        REG_DWORD_BIG_ENDIAN = 5,
-        REG_LINK = 6,
-        REG_MULTI_SZ = 7,
-        REG_RESOURCE_LIST = 8,
-        REG_FULL_RESOURCE_DESCRIPTOR = 9,
-        REG_RESOURCE_REQUIREMENTS_LIST = 10,
-        REG_QWORD = 11
-    }
-
-    public sealed class RegistryItemCustom
-    {
-        public RegHives Hive { get; set; }
-        public string Key { get; set; }
-        public string Name { get; set; }
-        public RegistryItemType Type { get; set; }
-        public uint ValueType { get; set; }
-
-        public string Value { get; set; }
-
         private static readonly uint[] _lookup32 = CreateLookup32();
 
         private static string ByteArrayToHexViaLookup32(byte[] bytes)
@@ -98,22 +38,84 @@ namespace InteropTools.Providers
             return result;
         }
 
-        public string RegBufferToString(uint valtype, byte[] data)
+        private static byte[] StringToByteArrayFastest(string hex)
+        {
+            if (hex.Length % 2 == 1)
+            {
+                throw new Exception("The binary key cannot have an odd number of digits");
+            }
+
+            byte[] arr = new byte[hex.Length >> 1];
+
+            for (int i = 0; i < (hex.Length >> 1); ++i)
+            {
+                arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
+            }
+
+            return arr;
+        }
+
+        private static int GetHexVal(char hex)
+        {
+            int val = hex;
+            //For uppercase A-F letters:
+            //return val - (val < 58 ? 48 : 55);
+            //For lowercase a-f letters:
+            //return val - (val < 58 ? 48 : 87);
+            //Or the two combined, but a bit slower:
+            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+        }
+
+        public static byte[] StringToRegBuffer(uint valtype, string data)
         {
             if (data.Length == 0)
                 return null;
 
             switch (valtype)
             {
-                case (uint)RegTypes.REG_DWORD:
+                case (uint)REG_VALUE_TYPE.REG_DWORD:
+                    {
+                        return data.Length == 0 ? new byte[0] : BitConverter.GetBytes(uint.Parse(data));
+                    }
+                case (uint)REG_VALUE_TYPE.REG_QWORD:
+                    {
+                        return data.Length == 0 ? new byte[0] : BitConverter.GetBytes(ulong.Parse(data));
+                    }
+                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
+                    {
+                        return data.Length == 0 ? new byte[0] : Encoding.Unicode.GetBytes(string.Join("\0", data.Split('\n')) + "\0\0");
+                    }
+                case (uint)REG_VALUE_TYPE.REG_SZ:
+                    {
+                        return data.Length == 0 ? new byte[0] : Encoding.Unicode.GetBytes(data + '\0');
+                    }
+                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
+                    {
+                        return data.Length == 0 ? new byte[0] : Encoding.Unicode.GetBytes(data + '\0');
+                    }
+                default:
+                    {
+                        return StringToByteArrayFastest(data);
+                    }
+            }
+        }
+
+        public static string RegBufferToString(uint valtype, byte[] data)
+        {
+            if (data.Length == 0)
+                return null;
+
+            switch (valtype)
+            {
+                case (uint)REG_VALUE_TYPE.REG_DWORD:
                     {
                         return data.Length == 0 ? "" : BitConverter.ToUInt32(data, 0).ToString();
                     }
-                case (uint)RegTypes.REG_QWORD:
+                case (uint)REG_VALUE_TYPE.REG_QWORD:
                     {
                         return data.Length == 0 ? "" : BitConverter.ToUInt64(data, 0).ToString();
                     }
-                case (uint)RegTypes.REG_MULTI_SZ:
+                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
                     {
                         string strNullTerminated = Encoding.Unicode.GetString(data);
                         if (strNullTerminated.Substring(strNullTerminated.Length - 2) == "\0\0")
@@ -131,11 +133,11 @@ namespace InteropTools.Providers
                         // Split by null terminator.
                         return string.Join("\n", strNullTerminated.Split('\0'));
                     }
-                case (uint)RegTypes.REG_SZ:
+                case (uint)REG_VALUE_TYPE.REG_SZ:
                     {
                         return Encoding.Unicode.GetString(data).TrimEnd('\0');
                     }
-                case (uint)RegTypes.REG_EXPAND_SZ:
+                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
                     {
                         return Encoding.Unicode.GetString(data).TrimEnd('\0');
                     }

@@ -1,10 +1,10 @@
 ﻿<UserControl
     x:Class="InteropTools.ShellPages.AppManager.AppListControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InteropTools.ShellPages.AppManager"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -18,7 +18,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid x:Name="PackageListPanel">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -247,7 +247,10 @@
                                                 Source="{Binding logo}" />
                                         </Grid>
 
-                                        <Grid Margin="8,0,0,0" Grid.Column="1" VerticalAlignment="Center">
+                                        <Grid
+                                            Grid.Column="1"
+                                            Margin="8,0,0,0"
+                                            VerticalAlignment="Center">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />

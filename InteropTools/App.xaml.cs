@@ -43,7 +43,15 @@ namespace InteropTools
 
                 try
                 {
-                    await new MessageDialog(args.Exception?.ToString() ?? string.Empty, "Unhandled exception").ShowAsync();
+                    Exception e = args.Exception;
+                    string estr = e.Message + "\n" + e.StackTrace;
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                        estr += "\n" + e.Message + "\n" + e.StackTrace;
+                    }
+
+                    await new MessageDialog(estr, "Unhandled exception").ShowAsync();
                 }
                 catch { }
             };

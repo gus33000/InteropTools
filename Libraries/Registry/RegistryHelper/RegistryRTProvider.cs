@@ -96,6 +96,283 @@ namespace RegistryHelper
             }
         }
 
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out string data)
+        {
+            bool hadaccessdenied = false;
+            bool hadfailed = false;
+
+            REG_STATUS result = RegQueryValue(hive, key, regvalue, valtype, out REG_VALUE_TYPE valtypetmp, out byte[] datatmp);
+            if (result == REG_STATUS.SUCCESS)
+            {
+                outvaltype = valtypetmp;
+                data = Convert.RegBufferToString((uint)valtypetmp, datatmp);
+                return result;
+            }
+
+            REG_STATUS? singleresult = null;
+
+            switch (valtype)
+            {
+                case REG_VALUE_TYPE.REG_DWORD:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryDword(hive, key, regvalue, out uint datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2.ToString();
+                            return result2;
+                        }
+                        break;
+                    }
+                case REG_VALUE_TYPE.REG_QWORD:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryQword(hive, key, regvalue, out ulong datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2.ToString();
+                            return result2;
+                        }
+                        break;
+                    }
+                case REG_VALUE_TYPE.REG_MULTI_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = string.Join("\n", datatmp2);
+                            return result2;
+                        }
+                        break;
+                    }
+                case REG_VALUE_TYPE.REG_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryString(hive, key, regvalue, out string datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2;
+                            return result2;
+                        }
+                        break;
+                    }
+                case REG_VALUE_TYPE.REG_EXPAND_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryVariableString(hive, key, regvalue, out string datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2;
+                            return result2;
+                        }
+                        break;
+                    }
+            }
+
+            if (singleresult == REG_STATUS.NOT_IMPLEMENTED)
+            {
+
+            }
+
+            if (singleresult == REG_STATUS.ACCESS_DENIED)
+            {
+                hadaccessdenied = true;
+            }
+
+            if (singleresult == REG_STATUS.FAILED)
+            {
+                hadfailed = true;
+            }
+
+            if (result == REG_STATUS.NOT_IMPLEMENTED)
+            {
+
+            }
+
+            if (result == REG_STATUS.ACCESS_DENIED)
+            {
+                hadaccessdenied = true;
+            }
+
+            if (result == REG_STATUS.FAILED)
+            {
+                hadfailed = true;
+            }
+
+            if (hadaccessdenied)
+            {
+                outvaltype = REG_VALUE_TYPE.REG_NONE;
+                data = "";
+                return REG_STATUS.ACCESS_DENIED;
+            }
+
+            if (hadfailed)
+            {
+                outvaltype = REG_VALUE_TYPE.REG_NONE;
+                data = "";
+                return REG_STATUS.FAILED;
+            }
+
+            outvaltype = REG_VALUE_TYPE.REG_NONE;
+            data = "";
+            return REG_STATUS.FAILED;
+        }
+
+        [Windows.Foundation.Metadata.DefaultOverload()]
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out string data)
+        {
+            bool hadaccessdenied = false;
+            bool hadfailed = false;
+
+            REG_STATUS result = RegQueryValue(hive, key, regvalue, valtype, out uint valtypetmp, out byte[] datatmp);
+            if (result == REG_STATUS.SUCCESS)
+            {
+                outvaltype = valtypetmp;
+                data = Convert.RegBufferToString((uint)valtypetmp, datatmp);
+                return result;
+            }
+
+            REG_STATUS? singleresult = null;
+
+            switch (valtype)
+            {
+                case (uint)REG_VALUE_TYPE.REG_DWORD:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryDword(hive, key, regvalue, out uint datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2.ToString();
+                            return result2;
+                        }
+                        break;
+                    }
+                case (uint)REG_VALUE_TYPE.REG_QWORD:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryQword(hive, key, regvalue, out ulong datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2.ToString();
+                            return result2;
+                        }
+                        break;
+                    }
+                case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryMultiString(hive, key, regvalue, out string[] datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = string.Join("\n", datatmp2);
+                            return result2;
+                        }
+                        break;
+                    }
+                case (uint)REG_VALUE_TYPE.REG_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryString(hive, key, regvalue, out string datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2;
+                            return result2;
+                        }
+                        break;
+                    }
+                case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
+                    {
+                        data = "";
+                        outvaltype = valtype;
+                        REG_STATUS result2 = RegQueryVariableString(hive, key, regvalue, out string datatmp2);
+
+                        singleresult = result2;
+                        if (result2 == REG_STATUS.SUCCESS)
+                        {
+                            data = datatmp2;
+                            return result2;
+                        }
+                        break;
+                    }
+            }
+
+            if (singleresult == REG_STATUS.NOT_IMPLEMENTED)
+            {
+
+            }
+
+            if (singleresult == REG_STATUS.ACCESS_DENIED)
+            {
+                hadaccessdenied = true;
+            }
+
+            if (singleresult == REG_STATUS.FAILED)
+            {
+                hadfailed = true;
+            }
+
+            if (result == REG_STATUS.NOT_IMPLEMENTED)
+            {
+
+            }
+
+            if (result == REG_STATUS.ACCESS_DENIED)
+            {
+                hadaccessdenied = true;
+            }
+
+            if (result == REG_STATUS.FAILED)
+            {
+                hadfailed = true;
+            }
+
+            if (hadaccessdenied)
+            {
+                outvaltype = (uint)REG_VALUE_TYPE.REG_NONE;
+                data = "";
+                return REG_STATUS.ACCESS_DENIED;
+            }
+
+            if (hadfailed)
+            {
+                outvaltype = (uint)REG_VALUE_TYPE.REG_NONE;
+                data = "";
+                return REG_STATUS.FAILED;
+            }
+
+            outvaltype = (uint)REG_VALUE_TYPE.REG_NONE;
+            data = "";
+            return REG_STATUS.FAILED;
+        }
+
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
             List<REG_ITEM> list = new();
@@ -132,21 +409,17 @@ namespace RegistryHelper
                 {
                     foreach (string subval in subvalues)
                     {
-                        RegistryType type = helper.GetValueInfo(_hives[(REG_HIVES)hive], key, subval, 0);
-
-                        REG_VALUE_TYPE propertype = _valtypes.FirstOrDefault(x => x.Value == type).Key;
-
+                        REG_VALUE_TYPE valtype = REG_VALUE_TYPE.REG_NONE;
                         string data = "";
                         try
                         {
-                            CRegistryHelper helper = new();
-                            helper.RegQueryValue((REG_HIVES)hive, key, subval, propertype, out REG_VALUE_TYPE valtype, out data);
+                            RegQueryValue((REG_HIVES)hive, key, subval, REG_VALUE_TYPE.REG_NONE, out valtype, out data);
                         }
                         catch
                         {
                         }
 
-                        list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = propertype });
+                        list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = valtype });
                     }
                 }
 
@@ -200,19 +473,17 @@ namespace RegistryHelper
                 {
                     foreach (string subval in subvalues)
                     {
-                        uint type = helper.GetValueInfo2(_hives[(REG_HIVES)hive], key, subval, 0);
-
+                        uint valtype = 0;
                         string data = "";
                         try
                         {
-                            CRegistryHelper helper = new();
-                            helper.RegQueryValue((REG_HIVES)hive, key, subval, type, out uint valtype, out data);
+                            RegQueryValue((REG_HIVES)hive, key, subval, 0, out valtype, out data);
                         }
                         catch
                         {
                         }
 
-                        list.Add(new REG_ITEM_CUSTOM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = type });
+                        list.Add(new REG_ITEM_CUSTOM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, DataAsString = data, ValueType = valtype });
                     }
                 }
 

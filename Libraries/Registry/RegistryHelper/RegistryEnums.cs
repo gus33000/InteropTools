@@ -53,7 +53,6 @@
 
     public sealed class REG_ITEM
     {
-        public byte[] Data { get; internal set; }
         public string DataAsString { get; internal set; }
         public REG_HIVES Hive { get; internal set; }
         public string Key { get; internal set; }
@@ -64,7 +63,6 @@
 
     public sealed class REG_ITEM_CUSTOM
     {
-        public byte[] Data { get; internal set; }
         public string DataAsString { get; internal set; }
         public REG_HIVES Hive { get; internal set; }
         public string Key { get; internal set; }

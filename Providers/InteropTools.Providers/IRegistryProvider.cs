@@ -4,58 +4,6 @@ using System.Threading.Tasks;
 
 namespace InteropTools.Providers
 {
-    public enum HelperErrorCodes
-    {
-        Success,
-        Failed,
-        AccessDenied,
-        NotImplemented
-    }
-
-    public enum KeyStatus
-    {
-        Found,
-        NotFound,
-        AccessDenied,
-        Unknown
-    }
-
-    public enum RegHives
-    {
-        HKEY_CLASSES_ROOT = int.MinValue,
-        HKEY_CURRENT_USER = -2147483647,
-        HKEY_LOCAL_MACHINE = -2147483646,
-        HKEY_USERS = -2147483645,
-        HKEY_PERFORMANCE_DATA = -2147483644,
-        HKEY_CURRENT_CONFIG = -2147483643,
-        HKEY_DYN_DATA = -2147483642,
-        HKEY_CURRENT_USER_LOCAL_SETTINGS = -2147483641
-    }
-
-    public enum RegistryItemType
-    {
-        Hive,
-        Key,
-        Value
-    }
-
-    public enum RegTypes
-    {
-        REG_ERROR = -1,
-        REG_NONE = 0,
-        REG_SZ = 1,
-        REG_EXPAND_SZ = 2,
-        REG_BINARY = 3,
-        REG_DWORD = 4,
-        REG_DWORD_BIG_ENDIAN = 5,
-        REG_LINK = 6,
-        REG_MULTI_SZ = 7,
-        REG_RESOURCE_LIST = 8,
-        REG_FULL_RESOURCE_DESCRIPTOR = 9,
-        REG_RESOURCE_REQUIREMENTS_LIST = 10,
-        REG_QWORD = 11
-    }
-
     public interface IRegistryProvider
     {
         Task<HelperErrorCodes> AddKey(RegHives hive, string key);
@@ -135,15 +83,5 @@ namespace InteropTools.Providers
         public RegistryItemType Type { get; set; }
         public string Value { get; set; }
         public RegTypes ValueType { get; set; }
-    }
-
-    public sealed class RegistryItemCustom
-    {
-        public RegHives Hive { get; set; }
-        public string Key { get; set; }
-        public string Name { get; set; }
-        public RegistryItemType Type { get; set; }
-        public string Value { get; set; }
-        public uint ValueType { get; set; }
     }
 }

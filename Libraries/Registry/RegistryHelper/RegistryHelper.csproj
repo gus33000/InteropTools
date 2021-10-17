@@ -118,6 +118,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert.cs" />
     <Compile Include="CRegistryHelper.cs" />
     <Compile Include="IRegistryProvider.cs" />
     <Compile Include="RegistryEnums.cs" />
