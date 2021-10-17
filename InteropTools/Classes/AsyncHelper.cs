@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,7 +75,7 @@ namespace InteropTools.Classes
         private class ExclusiveSynchronizationContext : SynchronizationContext
         {
             private readonly Queue<Tuple<SendOrPostCallback, object>> items =
-              new();
+                new();
 
             private readonly AutoResetEvent workItemsWaiting = new(false);
             private bool done;
@@ -108,15 +111,9 @@ namespace InteropTools.Classes
                 }
             }
 
-            public override SynchronizationContext CreateCopy()
-            {
-                return this;
-            }
+            public override SynchronizationContext CreateCopy() => this;
 
-            public void EndMessageLoop()
-            {
-                Post(_ => done = true, null);
-            }
+            public void EndMessageLoop() => Post(_ => done = true, null);
 
             public override void Post(SendOrPostCallback d, object state)
             {
@@ -128,10 +125,8 @@ namespace InteropTools.Classes
                 workItemsWaiting.Set();
             }
 
-            public override void Send(SendOrPostCallback d, object state)
-            {
+            public override void Send(SendOrPostCallback d, object state) =>
                 throw new NotSupportedException("We cannot send to our same thread");
-            }
         }
     }
 }

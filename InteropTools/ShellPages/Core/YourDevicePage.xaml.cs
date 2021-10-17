@@ -1,4 +1,7 @@
-﻿using InteropTools.Classes;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using InteropTools.Classes;
 using InteropTools.CorePages;
 using Windows.UI.Xaml.Controls;
 

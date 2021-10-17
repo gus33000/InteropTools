@@ -1,7 +1,9 @@
-﻿using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using InteropTools.CorePages;
 using Windows.Foundation;
 using Windows.Management.Deployment;
 using Windows.Storage.Pickers;
@@ -25,9 +27,16 @@ namespace InteropTools.ShellPages.AppManager
         public string _DeploymentModeDesc3 = InteropTools.Resources.TextResources.ApplicationManager_DeploymentModeDesc3;
         public string _DeploymentOptions = InteropTools.Resources.TextResources.ApplicationManager_DeploymentOptions;
         public string _ForceApplicationShutdown = InteropTools.Resources.TextResources.ApplicationManager_ForceApplicationShutdown;
-        public string _ForceApplicationShutdownDesc = InteropTools.Resources.TextResources.ApplicationManager_ForceApplicationShutdownDesc;
-        public string _ForceTargetApplicationShutdown = InteropTools.Resources.TextResources.ApplicationManager_ForceTargetApplicationShutdown;
-        public string _ForceTargetApplicationShutdownDesc = InteropTools.Resources.TextResources.ApplicationManager_ForceTargetApplicationShutdownDesc;
+
+        public string _ForceApplicationShutdownDesc =
+            InteropTools.Resources.TextResources.ApplicationManager_ForceApplicationShutdownDesc;
+
+        public string _ForceTargetApplicationShutdown =
+            InteropTools.Resources.TextResources.ApplicationManager_ForceTargetApplicationShutdown;
+
+        public string _ForceTargetApplicationShutdownDesc =
+            InteropTools.Resources.TextResources.ApplicationManager_ForceTargetApplicationShutdownDesc;
+
         public string _Install = InteropTools.Resources.TextResources.ApplicationManager_Install;
         public string _InstallAllResources = InteropTools.Resources.TextResources.ApplicationManager_InstallAllResources;
         public string _InstallAllResourcesDesc1 = InteropTools.Resources.TextResources.ApplicationManager_InstallAllResourcesDesc1;
@@ -54,32 +63,23 @@ namespace InteropTools.ShellPages.AppManager
         public string _UpdatePrimaryButton = InteropTools.Resources.TextResources.ApplicationManager_UpdatePrimaryButton;
         public string _UpdateStatusReady = InteropTools.Resources.TextResources.ApplicationManager_UpdateStatusReady;
 
-        public AppManagerPage()
-        {
-            InitializeComponent();
-        }
+        public AppManagerPage() => InitializeComponent();
 
         public PageGroup PageGroup => PageGroup.General;
         public string PageName => "Applications";
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async Task RunInUiThread(Action function)
-        {
+        private async Task RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private async void BrowseMainPackageButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             FileOpenPicker picker = new()
             {
-                ViewMode = PickerViewMode.List,
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
+                ViewMode = PickerViewMode.List, SuggestedStartLocation = PickerLocationId.ComputerFolder
             };
             picker.FileTypeFilter.Add(".appxbundle");
             picker.FileTypeFilter.Add(".appx");
@@ -96,8 +96,7 @@ namespace InteropTools.ShellPages.AppManager
         {
             FileOpenPicker picker = new()
             {
-                ViewMode = PickerViewMode.List,
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
+                ViewMode = PickerViewMode.List, SuggestedStartLocation = PickerLocationId.ComputerFolder
             };
             picker.FileTypeFilter.Add(".xml");
             Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
@@ -112,8 +111,7 @@ namespace InteropTools.ShellPages.AppManager
         {
             FileOpenPicker picker = new()
             {
-                ViewMode = PickerViewMode.List,
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
+                ViewMode = PickerViewMode.List, SuggestedStartLocation = PickerLocationId.ComputerFolder
             };
             picker.FileTypeFilter.Add(".appxbundle");
             picker.FileTypeFilter.Add(".appx");
@@ -140,18 +138,15 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-                else
-                    if (ForceApplicationShutdown.IsChecked == true)
+                else if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-                else
-                        if (ForceTargetApplicationShutdown.IsChecked == true)
+                else if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-                else
-                            if (InstallAllResources.IsChecked == true)
+                else if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
@@ -160,18 +155,23 @@ namespace InteropTools.ShellPages.AppManager
                     depOptions = DeploymentOptions.None;
                 }
 
-                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask = new PackageManager().AddPackageAsync(new Uri(MainPackagePath.Text), null, depOptions);
+                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask =
+                    new PackageManager().AddPackageAsync(new Uri(MainPackagePath.Text), null, depOptions);
                 await installTask.AsTask(new Progress<DeploymentProgress>(progress =>
                 {
                     InstallPackageProgress.Value = progress.percentage;
-                    InstallPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallInProgress, progress.percentage);
+                    InstallPackageStatus.Text =
+                        string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallInProgress,
+                            progress.percentage);
                 }));
 
                 switch (installTask.Status)
                 {
                     case AsyncStatus.Error:
                         DeploymentResult deploymentResult = installTask.GetResults();
-                        InstallPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallError, deploymentResult.ErrorText);
+                        InstallPackageStatus.Text =
+                            string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallError,
+                                deploymentResult.ErrorText);
                         break;
 
                     case AsyncStatus.Canceled:
@@ -185,8 +185,9 @@ namespace InteropTools.ShellPages.AppManager
             }
             catch (Exception caughtEx)
             {
-                InstallPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallError, "0x" + string.Format("{0:x}", caughtEx.HResult) + " " +
-                                            caughtEx.Message);
+                InstallPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_InstallError,
+                    "0x" + string.Format("{0:x}", caughtEx.HResult) + " " +
+                    caughtEx.Message);
             }
             finally
             {
@@ -210,18 +211,15 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-                else
-                    if (ForceApplicationShutdown.IsChecked == true)
+                else if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-                else
-                        if (ForceTargetApplicationShutdown.IsChecked == true)
+                else if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-                else
-                            if (InstallAllResources.IsChecked == true)
+                else if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
@@ -230,19 +228,24 @@ namespace InteropTools.ShellPages.AppManager
                     depOptions = DeploymentOptions.None;
                 }
 
-                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask = new PackageManager().RegisterPackageAsync(new Uri(MainUnpackedPackagePath.Text), null,
-                    depOptions);
+                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask =
+                    new PackageManager().RegisterPackageAsync(new Uri(MainUnpackedPackagePath.Text), null,
+                        depOptions);
                 await installTask.AsTask(new Progress<DeploymentProgress>(progress =>
                 {
                     RegisterPackageProgress.Value = progress.percentage;
-                    RegisterPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterInProgress, progress.percentage);
+                    RegisterPackageStatus.Text =
+                        string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterInProgress,
+                            progress.percentage);
                 }));
 
                 switch (installTask.Status)
                 {
                     case AsyncStatus.Error:
                         DeploymentResult deploymentResult = installTask.GetResults();
-                        RegisterPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterError, deploymentResult.ErrorText);
+                        RegisterPackageStatus.Text =
+                            string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterError,
+                                deploymentResult.ErrorText);
                         break;
 
                     case AsyncStatus.Canceled:
@@ -256,8 +259,9 @@ namespace InteropTools.ShellPages.AppManager
             }
             catch (Exception caughtEx)
             {
-                RegisterPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterError, "0x" + string.Format("{0:x}", caughtEx.HResult) +
-                                             " " + caughtEx.Message);
+                RegisterPackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_RegisterError,
+                    "0x" + string.Format("{0:x}", caughtEx.HResult) +
+                    " " + caughtEx.Message);
             }
             finally
             {
@@ -281,18 +285,15 @@ namespace InteropTools.ShellPages.AppManager
                 {
                     depOptions = DeploymentOptions.DevelopmentMode;
                 }
-                else
-                    if (ForceApplicationShutdown.IsChecked == true)
+                else if (ForceApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceApplicationShutdown;
                 }
-                else
-                        if (ForceTargetApplicationShutdown.IsChecked == true)
+                else if (ForceTargetApplicationShutdown.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.ForceTargetApplicationShutdown;
                 }
-                else
-                            if (InstallAllResources.IsChecked == true)
+                else if (InstallAllResources.IsChecked == true)
                 {
                     depOptions = DeploymentOptions.InstallAllResources;
                 }
@@ -301,19 +302,22 @@ namespace InteropTools.ShellPages.AppManager
                     depOptions = DeploymentOptions.None;
                 }
 
-                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask = new PackageManager().UpdatePackageAsync(new Uri(UpdatePackagePath.Text), null,
-                    depOptions);
+                IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> installTask =
+                    new PackageManager().UpdatePackageAsync(new Uri(UpdatePackagePath.Text), null,
+                        depOptions);
                 await installTask.AsTask(new Progress<DeploymentProgress>(progress =>
                 {
                     UpdatePackageProgress.Value = progress.percentage;
-                    UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateInProgress, progress.percentage);
+                    UpdatePackageStatus.Text =
+                        string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateInProgress, progress.percentage);
                 }));
 
                 switch (installTask.Status)
                 {
                     case AsyncStatus.Error:
                         DeploymentResult deploymentResult = installTask.GetResults();
-                        UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateError, deploymentResult.ErrorText);
+                        UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateError,
+                            deploymentResult.ErrorText);
                         break;
 
                     case AsyncStatus.Canceled:
@@ -327,7 +331,8 @@ namespace InteropTools.ShellPages.AppManager
             }
             catch (Exception caughtEx)
             {
-                UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateError, "0x" + string.Format("{0:x}", caughtEx.HResult) + " " + caughtEx.Message);
+                UpdatePackageStatus.Text = string.Format(InteropTools.Resources.TextResources.ApplicationManager_UpdateError,
+                    "0x" + string.Format("{0:x}", caughtEx.HResult) + " " + caughtEx.Message);
             }
             finally
             {

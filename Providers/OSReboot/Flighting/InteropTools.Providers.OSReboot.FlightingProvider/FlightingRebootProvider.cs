@@ -1,4 +1,7 @@
-﻿/*++
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+/*++
 
 Copyright (c) 2016  Interop Tools Development Team
 Copyright (c) 2017  Gustave M.
@@ -33,10 +36,7 @@ namespace InteropTools.Providers.OSReboot.FlightingProvider
         [DllImport("FlightingClientDll.dll")]
         public static extern int Reboot();
 
-        public bool IsSupported(REBOOT_OPERATION operation)
-        {
-            return true;
-        }
+        public bool IsSupported(REBOOT_OPERATION operation) => true;
 
         public REBOOT_STATUS SystemReboot()
         {

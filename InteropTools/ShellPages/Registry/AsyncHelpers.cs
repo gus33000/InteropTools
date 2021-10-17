@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -91,6 +94,7 @@ namespace InteropTools.ShellPages.Registry
                             task = items.Dequeue();
                         }
                     }
+
                     if (task != null)
                     {
                         task.Item1(task.Item2);
@@ -106,15 +110,9 @@ namespace InteropTools.ShellPages.Registry
                 }
             }
 
-            public override SynchronizationContext CreateCopy()
-            {
-                return this;
-            }
+            public override SynchronizationContext CreateCopy() => this;
 
-            public void EndMessageLoop()
-            {
-                Post(_ => done = true, null);
-            }
+            public void EndMessageLoop() => Post(_ => done = true, null);
 
             public override void Post(SendOrPostCallback d, object state)
             {
@@ -122,13 +120,12 @@ namespace InteropTools.ShellPages.Registry
                 {
                     items.Enqueue(Tuple.Create(d, state));
                 }
+
                 workItemsWaiting.Set();
             }
 
-            public override void Send(SendOrPostCallback d, object state)
-            {
+            public override void Send(SendOrPostCallback d, object state) =>
                 throw new NotSupportedException("We cannot send to our same thread");
-            }
         }
     }
 }

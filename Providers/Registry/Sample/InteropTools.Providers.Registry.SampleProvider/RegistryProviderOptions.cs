@@ -1,5 +1,8 @@
-﻿using InteropTools.Providers.Registry.Definition;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using InteropTools.Providers.Registry.Definition;
 
 namespace InteropTools.Providers.Registry.SampleProvider
 {
@@ -9,12 +12,8 @@ namespace InteropTools.Providers.Registry.SampleProvider
 
         private readonly AbstractOption[] abstractOption;
 
-        public RegistryProviderOptions()
-        {
-            abstractOption = new AbstractOption[]
-            {
-            };
-        }
+        public RegistryProviderOptions() =>
+            abstractOption = new AbstractOption[] { };
 
         public RegistryProviderOptions(Options o)
         {
@@ -28,9 +27,6 @@ namespace InteropTools.Providers.Registry.SampleProvider
 
         public override Guid OptionsIdentifier => ID;
 
-        protected override AbstractOption[] GetSettings()
-        {
-            return abstractOption;
-        }
+        protected override AbstractOption[] GetSettings() => abstractOption;
     }
 }

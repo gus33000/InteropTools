@@ -1,4 +1,7 @@
-﻿/*++
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+/*++
 
 Copyright (c) 2016  Interop Tools Development Team
 Copyright (c) 2017  Gustave M.
@@ -32,30 +35,30 @@ namespace InteropTools.Providers.Registry.NDTKProvider
     {
         private static readonly Dictionary<REG_HIVES, uint> _ndtkhives = new()
         {
-            { REG_HIVES.HKEY_CLASSES_ROOT, 0 },
-            { REG_HIVES.HKEY_CURRENT_USER, 2 },
-            { REG_HIVES.HKEY_LOCAL_MACHINE, 1 },
-            { REG_HIVES.HKEY_USERS, 4 },
-            { REG_HIVES.HKEY_PERFORMANCE_DATA, 5 },
-            { REG_HIVES.HKEY_CURRENT_CONFIG, 3 },
-            { REG_HIVES.HKEY_DYN_DATA, 6 },
-            { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7 }
+            {REG_HIVES.HKEY_CLASSES_ROOT, 0},
+            {REG_HIVES.HKEY_CURRENT_USER, 2},
+            {REG_HIVES.HKEY_LOCAL_MACHINE, 1},
+            {REG_HIVES.HKEY_USERS, 4},
+            {REG_HIVES.HKEY_PERFORMANCE_DATA, 5},
+            {REG_HIVES.HKEY_CURRENT_CONFIG, 3},
+            {REG_HIVES.HKEY_DYN_DATA, 6},
+            {REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7}
         };
 
         private static readonly Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new()
         {
-            { REG_VALUE_TYPE.REG_NONE, 0 },
-            { REG_VALUE_TYPE.REG_SZ, 1 },
-            { REG_VALUE_TYPE.REG_EXPAND_SZ, 2 },
-            { REG_VALUE_TYPE.REG_BINARY, 3 },
-            { REG_VALUE_TYPE.REG_DWORD, 4 },
-            { REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, 5 },
-            { REG_VALUE_TYPE.REG_LINK, 6 },
-            { REG_VALUE_TYPE.REG_MULTI_SZ, 7 },
-            { REG_VALUE_TYPE.REG_RESOURCE_LIST, 8 },
-            { REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, 9 },
-            { REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, 10 },
-            { REG_VALUE_TYPE.REG_QWORD, 11 }
+            {REG_VALUE_TYPE.REG_NONE, 0},
+            {REG_VALUE_TYPE.REG_SZ, 1},
+            {REG_VALUE_TYPE.REG_EXPAND_SZ, 2},
+            {REG_VALUE_TYPE.REG_BINARY, 3},
+            {REG_VALUE_TYPE.REG_DWORD, 4},
+            {REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, 5},
+            {REG_VALUE_TYPE.REG_LINK, 6},
+            {REG_VALUE_TYPE.REG_MULTI_SZ, 7},
+            {REG_VALUE_TYPE.REG_RESOURCE_LIST, 8},
+            {REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, 9},
+            {REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, 10},
+            {REG_VALUE_TYPE.REG_QWORD, 11}
         };
 
         private NRPC _nrpc;
@@ -89,45 +92,31 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                         return false;
                     }
             }
+
             return true;
         }
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
-        {
-            throw new NotImplementedException();
-        }
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key) => throw new NotImplementedException();
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
-        {
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive) =>
             throw new NotImplementedException();
-        }
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
-        {
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name) =>
             throw new NotImplementedException();
-        }
 
-        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
-        {
+        public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items) =>
             throw new NotImplementedException();
-        }
 
-        public REG_STATUS RegLoadHive(string hivepath, string mountedname, bool InUser)
-        {
+        public REG_STATUS RegLoadHive(string hivepath, string mountedname, bool InUser) =>
             throw new NotImplementedException();
-        }
 
-        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
-        {
+        public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified) =>
             throw new NotImplementedException();
-        }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
-        {
-            throw new NotImplementedException();
-        }
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key) => throw new NotImplementedException();
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data)
         {
             if (!IsSupported(REG_OPERATION.RegQueryValue))
             {
@@ -160,8 +149,9 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                             return REG_STATUS.FAILED;
                         }
                     }
+
                     // throw if an error occured that's not ERROR_MORE_DATA
-                    if ((returncode != 0) && (returncode != 0x800700ea))
+                    if (returncode != 0 && returncode != 0x800700ea)
                     {
                         data = new byte[0];
                         outvaltype = 0;
@@ -182,10 +172,8 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             }
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
-        {
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname) =>
             throw new NotImplementedException();
-        }
 
         public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data)
         {
@@ -207,6 +195,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider
                 catch
                 {
                 }
+
                 return REG_STATUS.SUCCESS;
             }
             catch
@@ -215,9 +204,6 @@ namespace InteropTools.Providers.Registry.NDTKProvider
             }
         }
 
-        public REG_STATUS RegUnloadHive(string mountedname, bool InUser)
-        {
-            throw new NotImplementedException();
-        }
+        public REG_STATUS RegUnloadHive(string mountedname, bool InUser) => throw new NotImplementedException();
     }
 }

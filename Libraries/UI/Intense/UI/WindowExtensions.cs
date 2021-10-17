@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -20,31 +23,32 @@ namespace Intense.UI
             {
                 throw new ArgumentNullException(nameof(window));
             }
+
             if (eventSink == null)
             {
                 throw new ArgumentNullException(nameof(eventSink));
             }
 
-            window.Activated += new WeakEventHandler<IWindowEventSink, Window, object, WindowActivatedEventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnActivated(o, e),
-                Detach = (h, w) => w.Activated -= h.OnEvent
-            }.OnEvent;
+            window.Activated +=
+                new WeakEventHandler<IWindowEventSink, Window, object, WindowActivatedEventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnActivated(o, e), Detach = (h, w) => w.Activated -= h.OnEvent
+                }.OnEvent;
             window.Closed += new WeakEventHandler<IWindowEventSink, Window, object, CoreWindowEventArgs>(eventSink)
             {
-                Handle = (t, o, e) => t.OnClosed(o, e),
-                Detach = (h, w) => w.Closed -= h.OnEvent
+                Handle = (t, o, e) => t.OnClosed(o, e), Detach = (h, w) => w.Closed -= h.OnEvent
             }.OnEvent;
-            window.SizeChanged += new WeakEventHandler<IWindowEventSink, Window, object, WindowSizeChangedEventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnSizeChanged(o, e),
-                Detach = (h, w) => w.SizeChanged -= h.OnEvent
-            }.OnEvent;
-            window.VisibilityChanged += new WeakEventHandler<IWindowEventSink, Window, object, VisibilityChangedEventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnVisibilityChanged(o, e),
-                Detach = (h, w) => w.VisibilityChanged -= h.OnEvent
-            }.OnEvent;
+            window.SizeChanged +=
+                new WeakEventHandler<IWindowEventSink, Window, object, WindowSizeChangedEventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnSizeChanged(o, e), Detach = (h, w) => w.SizeChanged -= h.OnEvent
+                }.OnEvent;
+            window.VisibilityChanged +=
+                new WeakEventHandler<IWindowEventSink, Window, object, VisibilityChangedEventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnVisibilityChanged(o, e),
+                    Detach = (h, w) => w.VisibilityChanged -= h.OnEvent
+                }.OnEvent;
         }
     }
 }

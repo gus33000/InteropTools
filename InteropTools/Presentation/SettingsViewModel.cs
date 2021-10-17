@@ -1,11 +1,14 @@
-﻿using Intense.Presentation;
-using Intense.UI;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Intense.Presentation;
+using Intense.UI;
 using Windows.ApplicationModel.Core;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
@@ -44,65 +47,72 @@ namespace InteropTools.Presentation
             ApplicationData applicationData = ApplicationData.Current;
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
-            if ((localSettings.Values["useSystemAccentColor"] == null) || (localSettings.Values["useSystemAccentColor"].GetType() != typeof(bool)))
+            if (localSettings.Values["useSystemAccentColor"] == null ||
+                localSettings.Values["useSystemAccentColor"].GetType() != typeof(bool))
             {
                 localSettings.Values["useSystemAccentColor"] = true;
             }
 
             useSystemAccentColor = (bool)localSettings.Values["useSystemAccentColor"];
 
-            if ((localSettings.Values["requireAuthAtStartUp"] == null) || (localSettings.Values["requireAuthAtStartUp"].GetType() != typeof(bool)))
+            if (localSettings.Values["requireAuthAtStartUp"] == null ||
+                localSettings.Values["requireAuthAtStartUp"].GetType() != typeof(bool))
             {
                 localSettings.Values["requireAuthAtStartUp"] = true;
             }
 
             requireAuthAtStartUp = (bool)localSettings.Values["requireAuthAtStartUp"];
 
-            if ((localSettings.Values["useMDL2"] == null) || (localSettings.Values["useMDL2"].GetType() != typeof(bool)))
+            if (localSettings.Values["useMDL2"] == null || localSettings.Values["useMDL2"].GetType() != typeof(bool))
             {
                 localSettings.Values["useMDL2"] = false;
             }
 
             useMDL2 = (bool)localSettings.Values["useMDL2"];
 
-            if ((localSettings.Values["useTimeStamps"] == null) || (localSettings.Values["useTimeStamps"].GetType() != typeof(bool)))
+            if (localSettings.Values["useTimeStamps"] == null ||
+                localSettings.Values["useTimeStamps"].GetType() != typeof(bool))
             {
                 localSettings.Values["useTimeStamps"] = false;
             }
 
             useTimeStamps = (bool)localSettings.Values["useTimeStamps"];
 
-            if ((localSettings.Values["selectedBrush"] == null) || localSettings.Values["selectedBrush"].GetType() != typeof(string))
+            if (localSettings.Values["selectedBrush"] == null ||
+                localSettings.Values["selectedBrush"].GetType() != typeof(string))
             {
                 localSettings.Values["selectedBrush"] = null;
                 selectedBrush = new SolidColorBrush(AppearanceManager.SystemAccentColor);
             }
             else
             {
-                int argb = int.Parse(((string)localSettings.Values["selectedBrush"]).Replace("#", ""), NumberStyles.HexNumber);
+                int argb = int.Parse(((string)localSettings.Values["selectedBrush"]).Replace("#", ""),
+                    NumberStyles.HexNumber);
                 Color color = Color.FromArgb((byte)((argb & -16777216) >> 0x18),
-                                             (byte)((argb & 0xff0000) >> 0x10),
-                                             (byte)((argb & 0xff00) >> 8),
-                                             (byte)(argb & 0xff));
+                    (byte)((argb & 0xff0000) >> 0x10),
+                    (byte)((argb & 0xff00) >> 8),
+                    (byte)(argb & 0xff));
                 SelectedBrush = new SolidColorBrush(color);
             }
 
             Brushes.AddRange(AccentColors.Windows10.Select(c => new SolidColorBrush(c)));
             Themes = ImmutableList.Create(
-                            new DisplayableTheme("Default", null),
-                            new DisplayableTheme("Dark", ApplicationTheme.Dark),
-                            new DisplayableTheme("Light", ApplicationTheme.Light));
+                new DisplayableTheme("Default", null),
+                new DisplayableTheme("Dark", ApplicationTheme.Dark),
+                new DisplayableTheme("Light", ApplicationTheme.Light));
             // ensure viewmodel state reflects actual appearance
             AppearanceManager manager = AppearanceManager.GetForCurrentView();
 
-            if ((localSettings.Values["selectedTheme"] == null) || (localSettings.Values["selectedTheme"].GetType() != typeof(string)))
+            if (localSettings.Values["selectedTheme"] == null ||
+                localSettings.Values["selectedTheme"].GetType() != typeof(string))
             {
                 localSettings.Values["selectedTheme"] = null;
                 selectedTheme = Themes[0];
             }
             else
             {
-                selectedTheme = Themes.FirstOrDefault(t => t.Theme.ToString() == (string)localSettings.Values["selectedTheme"]);
+                selectedTheme =
+                    Themes.FirstOrDefault(t => t.Theme.ToString() == (string)localSettings.Values["selectedTheme"]);
             }
 
             if (selectedTheme != null && manager != null)
@@ -188,20 +198,20 @@ namespace InteropTools.Presentation
             get => requireAuthAtStartUp;
 
             set => RunInThreadPool(async () =>
-                   {
-                       await RunInUiThread(async () =>
-                       {
-                           if (await AskCreds())
-                           {
-                               if (Set(ref requireAuthAtStartUp, value))
-                               {
-                                   ApplicationData applicationData = ApplicationData.Current;
-                                   ApplicationDataContainer localSettings = applicationData.LocalSettings;
-                                   localSettings.Values["requireAuthAtStartUp"] = value;
-                               }
-                           }
-                       });
-                   });
+            {
+                await RunInUiThread(async () =>
+                {
+                    if (await AskCreds())
+                    {
+                        if (Set(ref requireAuthAtStartUp, value))
+                        {
+                            ApplicationData applicationData = ApplicationData.Current;
+                            ApplicationDataContainer localSettings = applicationData.LocalSettings;
+                            localSettings.Values["requireAuthAtStartUp"] = value;
+                        }
+                    }
+                });
+            });
         }
 
         public bool UseMDL2
@@ -238,8 +248,7 @@ namespace InteropTools.Presentation
                     {
                         AppearanceManager.AccentColor = null;
                     }
-                    else
-                        if (SelectedBrush != null)
+                    else if (SelectedBrush != null)
                     {
                         AppearanceManager.AccentColor = SelectedBrush.Color;
                     }
@@ -262,17 +271,12 @@ namespace InteropTools.Presentation
             }
         }
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async static Task RunInUiThread(Action function)
-        {
+        private static async Task RunInUiThread(Action function) =>
             await
-            CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private async Task<bool> AskCreds()
         {
@@ -287,9 +291,9 @@ namespace InteropTools.Presentation
                 if (result.Credential != null)
                 {
                     KeyCredentialOperationResult signResult =
-                      await
-                      result.Credential.RequestSignAsync(CryptographicBuffer.ConvertStringToBinary("LoginAuth",
-                                                         BinaryStringEncoding.Utf8));
+                        await
+                            result.Credential.RequestSignAsync(CryptographicBuffer.ConvertStringToBinary("LoginAuth",
+                                BinaryStringEncoding.Utf8));
 
                     if (signResult.Status == KeyCredentialStatus.Success)
                     {
@@ -301,9 +305,9 @@ namespace InteropTools.Presentation
                 else
                 {
                     KeyCredentialRetrievalResult creationResult =
-                      await
-                      KeyCredentialManager.RequestCreateAsync("MyAppCredentials",
-                          KeyCredentialCreationOption.ReplaceExisting);
+                        await
+                            KeyCredentialManager.RequestCreateAsync("MyAppCredentials",
+                                KeyCredentialCreationOption.ReplaceExisting);
 
                     if (creationResult.Status == KeyCredentialStatus.Success)
                     {

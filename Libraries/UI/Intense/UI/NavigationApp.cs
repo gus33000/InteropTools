@@ -1,7 +1,10 @@
-﻿using Intense.Presentation;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using Intense.Presentation;
 using Intense.Resources;
 using Intense.UI.Controls;
-using System;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -41,7 +44,7 @@ namespace Intense.UI
                 frame.NavigationFailed += OnFrameNavigationFailed;
 
                 // add frame commands to global resources
-                Resources.Add("FrameCommands", new FrameCommands { Frame = frame });
+                Resources.Add("FrameCommands", new FrameCommands {Frame = frame});
 
                 Window.Current.Content = frame;
 
@@ -55,6 +58,7 @@ namespace Intense.UI
                 // navigate to the master page providing the navigation structure
                 frame.Navigate(typeof(MasterNavigationPage), NavigationStructure);
             }
+
             Window.Current.Activate();
         }
 
@@ -68,15 +72,10 @@ namespace Intense.UI
             }
         }
 
-        private void OnFrameNavigated(object sender, NavigationEventArgs e)
-        {
-            UpdateBackButtonVisibility();
-        }
+        private void OnFrameNavigated(object sender, NavigationEventArgs e) => UpdateBackButtonVisibility();
 
-        private void OnFrameNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        private void OnFrameNavigationFailed(object sender, NavigationFailedEventArgs e) =>
             throw new Exception(ResourceHelper.GetString("LoadPageFailed", e.SourcePageType.FullName));
-        }
 
         private void UpdateBackButtonVisibility()
         {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Linq;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Xaml;
@@ -43,12 +46,13 @@ namespace InteropTools.ContentDialogs.Core
 
         public class DisplayItem
         {
-            public DisplayItem(Session session)
-            {
-                this.session = session;
-            }
+            public DisplayItem(Session session) => this.session = session;
 
-            public string Description => session.Helper.GetTitle() + ResourceManager.Current.MainResourceMap.GetValue("Resources/_connected_to_", ResourceContext.GetForCurrentView()).ValueAsString + session.Helper.GetHostName();
+            public string Description => session.Helper.GetTitle() +
+                                         ResourceManager.Current.MainResourceMap.GetValue("Resources/_connected_to_",
+                                             ResourceContext.GetForCurrentView()).ValueAsString +
+                                         session.Helper.GetHostName();
+
             public string DisplayName => session.Helper.GetFriendlyName() + " (" + session.CreationDate + ")";
 
             public object Preview

@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -9,9 +12,6 @@ namespace InteropTools.ShellPages.Store
     /// </summary>
     public sealed partial class StorePage : Page
     {
-        public StorePage()
-        {
-            InitializeComponent();
-        }
+        public StorePage() => InitializeComponent();
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Intense.Presentation
@@ -18,10 +21,8 @@ namespace Intense.Presentation
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// Updates specified value, and raises the <see cref="PropertyChanged"/> event when the value has changed.
@@ -39,6 +40,7 @@ namespace Intense.Presentation
                 OnPropertyChanged(propertyName);
                 return true;
             }
+
             return false;
         }
     }

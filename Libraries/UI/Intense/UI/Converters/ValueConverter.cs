@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.UI.Xaml.Data;
 
 namespace Intense.UI.Converters
@@ -16,10 +19,7 @@ namespace Intense.UI.Converters
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TTarget Convert(TSource value)
-        {
-            return Convert(value, null, null);
-        }
+        public TTarget Convert(TSource value) => Convert(value, null, null);
 
         /// <summary>
         /// Modifies the source data before passing it to the target for display in the UI.
@@ -29,21 +29,16 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
+        public object Convert(object value, Type targetType, object parameter, string language) =>
             // CastExceptions will occur when invalid value, or target type provided.
-            return Convert((TSource)value, parameter, language);
-        }
+            Convert((TSource)value, parameter, language);
 
         /// <summary>
         /// Converts a target value back to the source type.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TSource ConvertBack(TTarget value)
-        {
-            return ConvertBack(value, null, null);
-        }
+        public TSource ConvertBack(TTarget value) => ConvertBack(value, null, null);
 
         /// <summary>
         /// Modifies the target data before passing it to the source object. This method is called only in TwoWay bindings.
@@ -53,11 +48,9 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, string language) =>
             // CastExceptions will occur when invalid value, or target type provided.
-            return ConvertBack((TTarget)value, parameter, language);
-        }
+            ConvertBack((TTarget)value, parameter, language);
 
         /// <summary>
         /// Converts a source value to the target type.
@@ -66,10 +59,8 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        protected virtual TTarget Convert(TSource value, object parameter, string language)
-        {
+        protected virtual TTarget Convert(TSource value, object parameter, string language) =>
             throw new NotSupportedException();
-        }
 
         /// <summary>
         /// Converts a target value back to the source type.
@@ -78,9 +69,7 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        protected virtual TSource ConvertBack(TTarget value, object parameter, string language)
-        {
+        protected virtual TSource ConvertBack(TTarget value, object parameter, string language) =>
             throw new NotSupportedException();
-        }
     }
 }

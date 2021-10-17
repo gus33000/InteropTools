@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Windows.Input;
 
 namespace Intense.Presentation
@@ -23,6 +26,7 @@ namespace Intense.Presentation
             {
                 throw new ArgumentNullException(nameof(execute));
             }
+
             this.execute = o => execute();
             if (canExecute != null)
             {
@@ -50,10 +54,7 @@ namespace Intense.Presentation
         /// </summary>
         /// <param name="parameter">Data used by the command.</param>
         /// <returns></returns>
-        public override bool CanExecute(object parameter)
-        {
-            return canExecute(parameter);
-        }
+        public override bool CanExecute(object parameter) => canExecute(parameter);
 
         /// <summary>
         /// Defines the method to be called when the command is invoked.
@@ -65,6 +66,7 @@ namespace Intense.Presentation
             {
                 return;
             }
+
             execute(parameter);
         }
     }

@@ -1,10 +1,13 @@
-﻿using InteropTools.Presentation;
-using InteropTools.Providers;
-using InteropTools.RemoteClasses.Client;
-using Microsoft.Toolkit.Uwp.UI.Animations;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using InteropTools.Presentation;
+using InteropTools.Providers;
+using InteropTools.RemoteClasses.Client;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
@@ -34,14 +37,31 @@ namespace InteropTools.ContentDialogs.Core
 
             //#if !STORE
             CNativeRegistryProvider nativeprov2 = new();
-            _itemsList.Add(new ProviderItem { Title = nativeprov2.GetTitle(), Description = nativeprov2.GetDescription(), Provider = nativeprov2, Symbol = nativeprov2.GetSymbol(), AllowsRegistryEditing = nativeprov2.AllowsRegistryEditing(), IsLocal = nativeprov2.IsLocal() });
+            _itemsList.Add(new ProviderItem
+            {
+                Title = nativeprov2.GetTitle(),
+                Description = nativeprov2.GetDescription(),
+                Provider = nativeprov2,
+                Symbol = nativeprov2.GetSymbol(),
+                AllowsRegistryEditing = nativeprov2.AllowsRegistryEditing(),
+                IsLocal = nativeprov2.IsLocal()
+            });
             WarningText.Visibility = Visibility.Collapsed;
             //#endif
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.AppExtensions.AppExtensionCatalog", "Open"))
+            if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(
+                "Windows.ApplicationModel.AppExtensions.AppExtensionCatalog", "Open"))
             {
                 LegacyBridgeRegistryProvider nativeprov = new();
-                _itemsList.Add(new ProviderItem { Title = nativeprov.GetTitle(), Description = nativeprov.GetDescription(), Provider = nativeprov, Symbol = nativeprov.GetSymbol(), AllowsRegistryEditing = nativeprov.AllowsRegistryEditing(), IsLocal = nativeprov.IsLocal() });
+                _itemsList.Add(new ProviderItem
+                {
+                    Title = nativeprov.GetTitle(),
+                    Description = nativeprov.GetDescription(),
+                    Provider = nativeprov,
+                    Symbol = nativeprov.GetSymbol(),
+                    AllowsRegistryEditing = nativeprov.AllowsRegistryEditing(),
+                    IsLocal = nativeprov.IsLocal()
+                });
             }
             else
             {
@@ -61,9 +81,13 @@ namespace InteropTools.ContentDialogs.Core
 
             _itemsList.Add(new ProviderItem
             {
-                Title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Remote_Device", ResourceContext.GetForCurrentView()).ValueAsString,
+                Title = ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Remote_Device", ResourceContext.GetForCurrentView()).ValueAsString,
                 Description =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Connects_to_a_remote_device_which_has_remote_access_enabled__Level_of_access_is_subject_to_the_remote_device", ResourceContext.GetForCurrentView()).ValueAsString,
+                    ResourceManager.Current.MainResourceMap
+                        .GetValue(
+                            "Resources/Connects_to_a_remote_device_which_has_remote_access_enabled__Level_of_access_is_subject_to_the_remote_device",
+                            ResourceContext.GetForCurrentView()).ValueAsString,
                 Symbol = "",
                 Provider = null,
                 AllowsRegistryEditing = true,
@@ -81,7 +105,8 @@ namespace InteropTools.ContentDialogs.Core
                 ApplicationData applicationData = ApplicationData.Current;
                 ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
-                if ((localSettings.Values["requireAuthAtStartUp"] == null) || (localSettings.Values["requireAuthAtStartUp"].GetType() != typeof(bool)))
+                if (localSettings.Values["requireAuthAtStartUp"] == null ||
+                    localSettings.Values["requireAuthAtStartUp"].GetType() != typeof(bool))
                 {
                     localSettings.Values["requireAuthAtStartUp"] = true;
                 }
@@ -110,9 +135,9 @@ namespace InteropTools.ContentDialogs.Core
                 if (result.Credential != null)
                 {
                     KeyCredentialOperationResult signResult =
-                      await
-                      result.Credential.RequestSignAsync(CryptographicBuffer.ConvertStringToBinary("LoginAuth",
-                                                         BinaryStringEncoding.Utf8));
+                        await
+                            result.Credential.RequestSignAsync(CryptographicBuffer.ConvertStringToBinary("LoginAuth",
+                                BinaryStringEncoding.Utf8));
 
                     if (signResult.Status == KeyCredentialStatus.Success)
                     {
@@ -124,9 +149,9 @@ namespace InteropTools.ContentDialogs.Core
                 else
                 {
                     KeyCredentialRetrievalResult creationResult =
-                      await
-                      KeyCredentialManager.RequestCreateAsync("MyAppCredentials",
-                          KeyCredentialCreationOption.ReplaceExisting);
+                        await
+                            KeyCredentialManager.RequestCreateAsync("MyAppCredentials",
+                                KeyCredentialCreationOption.ReplaceExisting);
 
                     if (creationResult.Status == KeyCredentialStatus.Success)
                     {
@@ -191,17 +216,17 @@ namespace InteropTools.ContentDialogs.Core
 
         private void Client_OnAuthentificated()
         {
-            StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Connection_accepted", ResourceContext.GetForCurrentView()).ValueAsString;
+            StatusText.Text = ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Connection_accepted", ResourceContext.GetForCurrentView()).ValueAsString;
             CRemoteRegistryProvider Helper = new(_remoteip, _remoteport);
             App.RegistryHelper = Helper;
             doNotClose = false;
             Hide();
         }
 
-        private void Client_OnConnected()
-        {
-            StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Waiting_for_permission_from_the_remote_server", ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        private void Client_OnConnected() => StatusText.Text = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Waiting_for_permission_from_the_remote_server", ResourceContext.GetForCurrentView())
+            .ValueAsString;
 
         private void Client_OnError(string message)
         {
@@ -211,7 +236,8 @@ namespace InteropTools.ContentDialogs.Core
 
         private void Client_OnNotAuthentificated()
         {
-            StatusText.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Connection_refused", ResourceContext.GetForCurrentView()).ValueAsString;
+            StatusText.Text = ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Connection_refused", ResourceContext.GetForCurrentView()).ValueAsString;
             GoBackCreds();
         }
 
@@ -223,7 +249,8 @@ namespace InteropTools.ContentDialogs.Core
             }
         }
 
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender,
+            ContentDialogButtonClickEventArgs args)
         {
             ProviderItem selectedItem = (ProviderItem)MainComboBox.SelectedItem;
             IRegistryProvider tmpHelper = selectedItem.Provider;
@@ -261,10 +288,7 @@ namespace InteropTools.ContentDialogs.Core
             }
         }
 
-        private void DialogLoaded(object sender, RoutedEventArgs e)
-        {
-            new SettingsViewModel();
-        }
+        private void DialogLoaded(object sender, RoutedEventArgs e) => new SettingsViewModel();
 
         private async void GoBackCreds()
         {

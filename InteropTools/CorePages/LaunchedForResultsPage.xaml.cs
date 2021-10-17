@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -17,10 +20,7 @@ namespace InteropTools.CorePages
         private Windows.System.ProtocolForResultsOperation _operation;
         private ProtocolForResultsActivatedEventArgs protocolForResultsArgs;
 
-        public LaunchedForResultsPage()
-        {
-            InitializeComponent();
-        }
+        public LaunchedForResultsPage() => InitializeComponent();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -28,7 +28,9 @@ namespace InteropTools.CorePages
             // Set the ProtocolForResultsOperation field.
             _operation = protocolForResultsArgs.ProtocolForResultsOperation;
 
-            Title1.Text = "To access the following priviledged APIs, " + protocolForResultsArgs.CallerPackageFamilyName + " needs your permission in order to prevent unwanted modifications to your device.";
+            Title1.Text = "To access the following priviledged APIs, " +
+                          protocolForResultsArgs.CallerPackageFamilyName +
+                          " needs your permission in order to prevent unwanted modifications to your device.";
             Title2.Text = protocolForResultsArgs.CallerPackageFamilyName + " wants to access the following APIs";
         }
 
@@ -39,10 +41,7 @@ namespace InteropTools.CorePages
                 _ = protocolForResultsArgs.Data["TestData"] as string;
             }
 
-            ValueSet result = new()
-            {
-                ["ReturnedData"] = "The returned result"
-            };
+            ValueSet result = new() {["ReturnedData"] = "The returned result"};
             _operation.ReportCompleted(result);
         }
 
@@ -53,10 +52,7 @@ namespace InteropTools.CorePages
                 _ = protocolForResultsArgs.Data["TestData"] as string;
             }
 
-            ValueSet result = new()
-            {
-                ["ReturnedData"] = "The returned result"
-            };
+            ValueSet result = new() {["ReturnedData"] = "The returned result"};
             _operation.ReportCompleted(result);
         }
 

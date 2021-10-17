@@ -1,5 +1,8 @@
-﻿using InteropTools.Providers.OSReboot.Definition;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using InteropTools.Providers.OSReboot.Definition;
 
 namespace InteropTools.Providers.OSReboot.NDTKProvider
 {
@@ -9,12 +12,8 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 
         private readonly AbstractOption[] abstractOption;
 
-        public OSRebootProviderOptions()
-        {
-            abstractOption = new AbstractOption[]
-            {
-            };
-        }
+        public OSRebootProviderOptions() =>
+            abstractOption = new AbstractOption[] { };
 
         public OSRebootProviderOptions(Options o)
         {
@@ -28,9 +27,6 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
 
         public override Guid OptionsIdentifier => ID;
 
-        protected override AbstractOption[] GetSettings()
-        {
-            return abstractOption;
-        }
+        protected override AbstractOption[] GetSettings() => abstractOption;
     }
 }

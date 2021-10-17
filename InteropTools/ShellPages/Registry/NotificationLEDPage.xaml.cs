@@ -1,12 +1,14 @@
-﻿using InteropTools.CorePages;
-using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using InteropTools.CorePages;
+using InteropTools.Providers;
 using Windows.Devices.Enumeration;
 using Windows.System.Threading;
 using Windows.UI.Core;
@@ -38,22 +40,25 @@ namespace InteropTools.ShellPages.Registry
         public PageGroup PageGroup => PageGroup.Tweaks;
         public string PageName => "Notification LED";
 
-        public ObservableCollection<DeviceInformationDisplay> ResultCollection
-        {
-            get;
-            private set;
-        }
+        public ObservableCollection<DeviceInformationDisplay> ResultCollection { get; private set; }
 
         public async void Initialize()
         {
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (string.IsNullOrEmpty(regvalue))
             {
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD, "100");
-                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                    "Intensity", RegTypes.REG_DWORD, "100");
+                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD);
+                regtype = ret.regtype;
+                regvalue = ret.regvalue;
             }
 
             try
@@ -64,12 +69,19 @@ namespace InteropTools.ShellPages.Registry
             {
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "Period", RegTypes.REG_DWORD);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (string.IsNullOrEmpty(regvalue))
             {
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD, "2000");
-                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                    "Period", RegTypes.REG_DWORD, "2000");
+                ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Period", RegTypes.REG_DWORD);
+                regtype = ret.regtype;
+                regvalue = ret.regvalue;
             }
 
             try
@@ -102,34 +114,33 @@ namespace InteropTools.ShellPages.Registry
         private async void DeviceGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Id.Text = ((sender as GridView)?.SelectedItem as DeviceInformationDisplay)?.Id;
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "HardwareId", RegTypes.REG_SZ, string.Join(@"\",
-                                ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "InstanceId", RegTypes.REG_DWORD,
-                                ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "LedHwAvailable", RegTypes.REG_DWORD, "1");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Dutycycle", RegTypes.REG_DWORD, "60");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Cyclecount", RegTypes.REG_DWORD, uint.MaxValue.ToString());
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "HardwareId", RegTypes.REG_SZ, string.Join(@"\",
+                    ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Take(2)));
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "InstanceId", RegTypes.REG_DWORD,
+                ((sender as GridView)?.SelectedItem as DeviceInformationDisplay).Id.Split('\\').ToList().Last());
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "LedHwAvailable", RegTypes.REG_DWORD, "1");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "Dutycycle", RegTypes.REG_DWORD, "60");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert",
+                "Cyclecount", RegTypes.REG_DWORD, uint.MaxValue.ToString());
         }
 
-        private async void IntensitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity", RegTypes.REG_DWORD, e.NewValue.ToString());
-        }
+        private async void IntensitySlider_ValueChanged(object sender,
+            Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e) => await _helper.SetKeyValue(
+            RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\Shell\Nocontrol\LedAlert", "Intensity",
+            RegTypes.REG_DWORD, e.NewValue.ToString());
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async Task RunInUIThread(Action function)
-        {
+        private async Task RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args)
-        {
+        private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args) =>
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
@@ -138,10 +149,8 @@ namespace InteropTools.ShellPages.Registry
                     ResultCollection.Add(new DeviceInformationDisplay(args));
                 }
             });
-        }
 
-        private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
+        private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args) =>
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
@@ -155,10 +164,8 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             });
-        }
 
-        private async void Watcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
+        private async void Watcher_Updated(DeviceWatcher sender, DeviceInformationUpdate args) =>
             // Since we have the collection databound to a UI element, we need to update the collection on the UI thread.
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
@@ -174,7 +181,6 @@ namespace InteropTools.ShellPages.Registry
                     }
                 }
             });
-        }
 
         public class DeviceInformationDisplay : INotifyPropertyChanged
         {
@@ -189,11 +195,7 @@ namespace InteropTools.ShellPages.Registry
             public bool CanPair => DeviceInformation.Pairing.CanPair;
             public DeviceInformation DeviceInformation { get; }
 
-            public BitmapImage GlyphBitmapImage
-            {
-                get;
-                private set;
-            }
+            public BitmapImage GlyphBitmapImage { get; private set; }
 
             public string Id => DeviceInformation.Id;
             public bool IsPaired => DeviceInformation.Pairing.IsPaired;
@@ -213,10 +215,8 @@ namespace InteropTools.ShellPages.Registry
                 UpdateGlyphBitmapImage();
             }
 
-            protected void OnPropertyChanged(string name)
-            {
+            protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
 
             private async void UpdateGlyphBitmapImage()
             {

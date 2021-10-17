@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace RegistryHelper
@@ -32,11 +35,13 @@ namespace RegistryHelper
 
         REG_STATUS RegQueryString(REG_HIVES hive, string key, string regvalue, out string data);
 
-        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data);
+        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            out REG_VALUE_TYPE outvaltype, out byte[] data);
 
         // Customs
         [Windows.Foundation.Metadata.DefaultOverload()]
-        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data);
+        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data);
 
         REG_STATUS RegQueryVariableString(REG_HIVES hive, string key, string regvalue, out string data);
 
@@ -50,7 +55,8 @@ namespace RegistryHelper
 
         REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data);
 
-        REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data);
+        REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            [ReadOnlyArray] byte[] data);
 
         [Windows.Foundation.Metadata.DefaultOverload()]
         REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, [ReadOnlyArray] byte[] data);

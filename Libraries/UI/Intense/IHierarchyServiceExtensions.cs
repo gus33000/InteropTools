@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -95,6 +98,7 @@ namespace Intense
             {
                 return service.GetChildren(parent).SkipWhile(c => c != o).Skip(1);
             }
+
             return Enumerable.Empty<T>();
         }
 
@@ -113,6 +117,7 @@ namespace Intense
             {
                 return service.GetChildren(parent).TakeWhile(c => c != o);
             }
+
             return Enumerable.Empty<T>();
         }
 
@@ -175,6 +180,7 @@ namespace Intense
             {
                 throw new ArgumentNullException(nameof(service));
             }
+
             if (o == null)
             {
                 throw new ArgumentNullException(nameof(o));

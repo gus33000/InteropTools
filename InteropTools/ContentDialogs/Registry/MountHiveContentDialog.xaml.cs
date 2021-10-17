@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
@@ -12,10 +15,7 @@ namespace InteropTools.ContentDialogs.Registry
 
         private bool inUser;
 
-        public MountHiveContentDialog()
-        {
-            InitializeComponent();
-        }
+        public MountHiveContentDialog() => InitializeComponent();
 
         public async Task MountHive(string FilePath, bool inUser)
         {
@@ -24,10 +24,9 @@ namespace InteropTools.ContentDialogs.Registry
             await ShowAsync();
         }
 
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender,
+            ContentDialogButtonClickEventArgs args) =>
             await App.MainRegistryHelper.LoadHive(FilePath, NewName.Text, inUser);
-        }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {

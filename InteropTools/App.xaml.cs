@@ -1,10 +1,13 @@
-﻿using InteropTools.Classes;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using InteropTools.Classes;
 using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.Resources;
 using Microsoft.HockeyApp;
 using Microsoft.Toolkit.Uwp.Notifications;
-using System;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -42,7 +45,15 @@ namespace InteropTools
 
                 try
                 {
-                    await new MessageDialog(args.Exception?.ToString() ?? string.Empty, "Unhandled exception").ShowAsync();
+                    Exception e = args.Exception;
+                    string estr = e.Message + "\n" + e.StackTrace;
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                        estr += "\n" + e.Message + "\n" + e.StackTrace;
+                    }
+
+                    await new MessageDialog(estr, "Unhandled exception").ShowAsync();
                 }
                 catch { }
             };

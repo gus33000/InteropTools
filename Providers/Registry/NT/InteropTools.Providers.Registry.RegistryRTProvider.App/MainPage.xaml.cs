@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -10,14 +13,9 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        public MainPage() => InitializeComponent();
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        private async void ListView_ItemClick(object sender, ItemClickEventArgs e) =>
             await Windows.System.Launcher.LaunchUriAsync(new Uri("interoptools:"));
-        }
     }
 }

@@ -1,9 +1,15 @@
 ﻿using AppPlugin.PluginList;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Background;
 using Windows.Foundation.Collections;
 
 namespace AppPlugin
@@ -17,6 +23,8 @@ namespace AppPlugin
     /// <typeparam name="TProgress">The type that will be used to report progress. (Must have a valid <seealso cref="DataContractAttribute"/> )</typeparam>
     public abstract class AbstractPlugin<TIn, TOut, TOption, TProgress> : AbstractBasePlugin<TOut>
     {
+
+
         /// <summary>
         /// Instanziate the Plugin.
         /// </summary>
@@ -26,6 +34,7 @@ namespace AppPlugin
         /// <param name="useSyncronisationContext">Discrips if the code should be called using a SyncronisationContext.</param>
         public AbstractPlugin(bool useSyncronisationContext = true) : base(useSyncronisationContext)
         {
+
         }
 
         /// <summary>
@@ -38,54 +47,12 @@ namespace AppPlugin
         /// the length of <paramref name="pluginName"/> is 40 or greater.
         /// </exception>
         /// <param name="pluginName">The Plugin name defined in the appmanifest.</param>
-        /// <returns>The <see cref="PluginList<,,,>"/></returns
+        /// <returns>The <see cref="AppPlugin.PluginList<,,,>"/></returns
         public static async Task<PluginList<TIn, TOut, TOption, TProgress>> ListAsync(string pluginName)
         {
-            PluginList<TIn, TOut, TOption, TProgress> pluginList = new(pluginName);
+            var pluginList = new PluginList<TIn, TOut, TOption, TProgress>(pluginName);
             await pluginList.InitAsync();
             return pluginList;
-        }
-
-        internal override async Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource)
-        {
-            string inputString = args.Request.Message[START_KEY] as string;
-            string optionString = args.Request.Message[OPTION_KEY] as string;
-
-            TIn input = Helper.DeSerilize<TIn>(inputString);
-            TOption options = Helper.DeSerilize<TOption>(optionString);
-
-            Progress<TProgress> progress = new(async r =>
-            {
-                string data = Helper.Serilize(r);
-                ValueSet dataSet = new()
-                {
-                    { PROGRESS_KEY, data },
-                    { ID_KEY, id }
-                };
-                await sender.SendMessageAsync(dataSet);
-            });
-
-            TOut output = await ExecuteAsync(input, options, progress, cancellationTokenSource.Token);
-            return output;
-        }
-
-        internal override async Task RequestRecivedAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            if (args.Request.Message.ContainsKey(OPTIONS_REQUEST_KEY))
-            {
-                TOption options = await GetDefaultOptionsAsync();
-
-                string optionString = Helper.Serilize(options);
-                ValueSet valueSet = new()
-                {
-                    { RESULT_KEY, optionString }
-                };
-                await args.Request.SendResponseAsync(valueSet);
-            }
-            else
-            {
-                await base.RequestRecivedAsync(sender, args);
-            }
         }
 
         /// <summary>
@@ -103,5 +70,46 @@ namespace AppPlugin
         /// </summary>
         /// <returns>The prototype options.</returns>
         protected abstract Task<TOption> GetDefaultOptionsAsync();
+
+
+        internal override async Task RequestRecivedAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+
+            if (args.Request.Message.ContainsKey(OPTIONS_REQUEST_KEY))
+            {
+                var options = await GetDefaultOptionsAsync();
+
+                var optionString = Helper.Serilize(options);
+                var valueSet = new ValueSet();
+                valueSet.Add(RESULT_KEY, optionString);
+                await args.Request.SendResponseAsync(valueSet);
+
+            }
+            else
+                await base.RequestRecivedAsync(sender, args);
+        }
+
+
+        internal override async Task<TOut> PerformStartAsync(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args, Guid? id, CancellationTokenSource cancellationTokenSource)
+        {
+            var inputString = args.Request.Message[START_KEY] as String;
+            var optionString = args.Request.Message[OPTION_KEY] as String;
+
+            var input = Helper.DeSerilize<TIn>(inputString);
+            var options = Helper.DeSerilize<TOption>(optionString);
+
+            var progress = new Progress<TProgress>(async r =>
+            {
+                var data = Helper.Serilize(r);
+                var dataSet = new ValueSet();
+                dataSet.Add(PROGRESS_KEY, data);
+                dataSet.Add(ID_KEY, id);
+                await sender.SendMessageAsync(dataSet);
+            });
+
+            var output = await ExecuteAsync(input, options, progress, cancellationTokenSource.Token);
+            return output;
+        }
+
     }
 }

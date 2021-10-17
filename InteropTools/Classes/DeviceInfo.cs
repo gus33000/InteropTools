@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
 using Windows.Security.ExchangeActiveSyncProvisioning;
@@ -40,17 +43,12 @@ namespace InteropTools.Classes
             }
             catch
             {
-                CollectionLevel = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                CollectionLevel = ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
             }
         }
 
-        public static DeviceInfo Instance
-        {
-            get
-            {
-                return _Instance ??= new DeviceInfo();
-            }
-        }
+        public static DeviceInfo Instance => _Instance ??= new DeviceInfo();
 
         public string CollectionLevel { get; }
         public string DeviceFamily { get; }
@@ -75,8 +73,9 @@ namespace InteropTools.Classes
             {
                 uint val = lookup32[bytes[i]];
                 result[2 * i] = (char)val;
-                result[(2 * i) + 1] = (char)(val >> 16);
+                result[2 * i + 1] = (char)(val >> 16);
             }
+
             return new string(result);
         }
 
@@ -88,6 +87,7 @@ namespace InteropTools.Classes
                 string s = i.ToString("X2");
                 result[i] = s[0] + ((uint)s[1] << 16);
             }
+
             return result;
         }
 

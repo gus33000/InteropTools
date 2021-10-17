@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,7 +22,7 @@ namespace InteropTools.ContentDialogs.Certificates
         private readonly ObservableCollection<Certificate> certlist = new();
 
         private readonly ObservableCollection<DisplayCertificate> chainCertList =
-          new();
+            new();
 
         public CertificateDetailsContentDialog(Certificate cert, ObservableCollection<Certificate> certlist)
         {
@@ -303,10 +306,7 @@ namespace InteropTools.ContentDialogs.Certificates
             int counter = 0;
             foreach (Certificate cert2 in certlist)
             {
-                DisplayCertificate dispcert = new(cert2)
-                {
-                    Index = chainCertList.Count().ToString()
-                };
+                DisplayCertificate dispcert = new(cert2) {Index = chainCertList.Count().ToString()};
                 int padding = counter * 16;
                 dispcert.Padding = new GridLength(padding);
                 counter++;
@@ -321,32 +321,36 @@ namespace InteropTools.ContentDialogs.Certificates
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
         {
             TextBlock SelectedItem = (TextBlock)e.OriginalSource;
-            DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+            DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             Hide();
             await
-            new Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + "\nThe above value was copied to your clipboard", "Certificate Info");
+                new Core.MessageDialogContentDialog().ShowMessageDialog(
+                    SelectedItem.Text + "\nThe above value was copied to your clipboard", "Certificate Info");
             await ShowAsync();
         }
 
         public class DisplayCertificate
         {
-            public DisplayCertificate(Certificate cert)
-            {
-                this.cert = cert;
-            }
+            public DisplayCertificate(Certificate cert) => this.cert = cert;
 
             public Certificate cert { get; }
             public string FriendlyName => cert.FriendlyName;
 
-            public string HasPrivateKey => cert.HasPrivateKey ? ResourceManager.Current.MainResourceMap.GetValue("Resources/Yes",
-                           ResourceContext.GetForCurrentView()).ValueAsString : ResourceManager.Current.MainResourceMap.GetValue("Resources/No", ResourceContext.GetForCurrentView()).ValueAsString;
+            public string HasPrivateKey => cert.HasPrivateKey
+                ? ResourceManager.Current.MainResourceMap.GetValue("Resources/Yes",
+                    ResourceContext.GetForCurrentView()).ValueAsString
+                : ResourceManager.Current.MainResourceMap.GetValue("Resources/No", ResourceContext.GetForCurrentView())
+                    .ValueAsString;
 
             public string Index { get; internal set; }
 
-            public string IsSecurityDeviceBound => cert.IsSecurityDeviceBound ? ResourceManager.Current.MainResourceMap.GetValue("Resources/Yes",
-                           ResourceContext.GetForCurrentView()).ValueAsString : ResourceManager.Current.MainResourceMap.GetValue("Resources/No", ResourceContext.GetForCurrentView()).ValueAsString;
+            public string IsSecurityDeviceBound => cert.IsSecurityDeviceBound
+                ? ResourceManager.Current.MainResourceMap.GetValue("Resources/Yes",
+                    ResourceContext.GetForCurrentView()).ValueAsString
+                : ResourceManager.Current.MainResourceMap.GetValue("Resources/No", ResourceContext.GetForCurrentView())
+                    .ValueAsString;
 
             public string Issuer => cert.Issuer;
             public GridLength Padding { get; internal set; }
@@ -355,18 +359,20 @@ namespace InteropTools.ContentDialogs.Certificates
             {
                 get
                 {
-                    if ((cert.ValidFrom < DateTime.Now) && (cert.ValidTo > DateTime.Now))
+                    if (cert.ValidFrom < DateTime.Now && cert.ValidTo > DateTime.Now)
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Okay", ResourceContext.GetForCurrentView()).ValueAsString;
+                    }
+                    else if (cert.ValidFrom > DateTime.Now)
+                    {
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
                     else
-                        if (cert.ValidFrom > DateTime.Now)
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_yet_valid", ResourceContext.GetForCurrentView()).ValueAsString;
-                    }
-                    else
-                    {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Expired", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
                 }
             }

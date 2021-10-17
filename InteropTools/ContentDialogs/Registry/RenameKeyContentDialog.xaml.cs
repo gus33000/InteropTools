@@ -1,7 +1,9 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Linq;
-using Windows.ApplicationModel.Core;
+using InteropTools.Providers;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.System.Threading;
 using Windows.UI.Core;
@@ -36,20 +38,21 @@ namespace InteropTools.ContentDialogs.Registry
             NewName.Text = currentkey;
         }
 
-        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender,
+            ContentDialogButtonClickEventArgs args)
         {
             HelperErrorCodes result = await helper.RenameKey(hive, key, NewName.Text);
             RunInUIThread(() =>
             {
                 switch (result)
                 {
-                    case HelperErrorCodes.ACCESS_DENIED:
+                    case HelperErrorCodes.AccessDenied:
                         {
                             ShowAccessDeniedMessageBox();
                             break;
                         }
 
-                    case HelperErrorCodes.FAILED:
+                    case HelperErrorCodes.Failed:
                         {
                             ShowFailedMessageBox();
                             break;
@@ -62,32 +65,27 @@ namespace InteropTools.ContentDialogs.Registry
         {
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUIThread(Action function)
-        {
+        private async void RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private async void ShowAccessDeniedMessageBox()
-        {
+        private async void ShowAccessDeniedMessageBox() =>
             await new Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_rename_the_specified_key_because_its_access_is_denied__no_changes_to_the_phone_registry_were_made",
-                  ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap.GetValue(
+                    "Resources/We_couldn_t_rename_the_specified_key_because_its_access_is_denied__no_changes_to_the_phone_registry_were_made",
+                    ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
 
-        private async void ShowFailedMessageBox()
-        {
+        private async void ShowFailedMessageBox() =>
             await new Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_rename_the_specified_key_due_to_an_unknown_error__no_changes_to_the_phone_registry_were_made",
-                  ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap.GetValue(
+                    "Resources/We_couldn_t_rename_the_specified_key_due_to_an_unknown_error__no_changes_to_the_phone_registry_were_made",
+                    ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
     }
 }

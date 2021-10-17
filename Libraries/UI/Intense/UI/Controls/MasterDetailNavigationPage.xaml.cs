@@ -1,5 +1,8 @@
-﻿using Intense.Presentation;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System.Linq;
+using Intense.Presentation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -26,10 +29,7 @@ namespace Intense.UI.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailNavigationPage"/> class.
         /// </summary>
-        public MasterDetailNavigationPage()
-        {
-            InitializeComponent();
-        }
+        public MasterDetailNavigationPage() => InitializeComponent();
 
         /// <summary>
         /// Invoked when this page is no longer the current page.
@@ -44,6 +44,7 @@ namespace Intense.UI.Controls
             {
                 ContentFrame.SourcePageType = typeof(Page);
             }
+
             ContentFrame.BackStack.Clear();
             ContentFrame.ForwardStack.Clear();
             lastSelectedItem = null;
@@ -93,6 +94,7 @@ namespace Intense.UI.Controls
             {
                 return;
             }
+
             lastSelectedItem = newValue;
 
             if (NavigationItem != newValue && (!newValue.IsLeaf() || WindowState == WindowStateNarrow))
@@ -178,7 +180,9 @@ namespace Intense.UI.Controls
         private void OnContentFrameNavigated(object sender, NavigationEventArgs e)
         {
             // try sync selected item
-            NavigationItem item = NavigationItem.Items.FirstOrDefault(i => i.PageType == e.SourcePageType && i.PageParameter == e.Parameter);
+            NavigationItem item =
+                NavigationItem.Items.FirstOrDefault(i =>
+                    i.PageType == e.SourcePageType && i.PageParameter == e.Parameter);
             if (item != null)
             {
                 SelectedItem = item;

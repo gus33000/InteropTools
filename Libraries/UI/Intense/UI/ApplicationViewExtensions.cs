@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.UI.ViewManagement;
 
 namespace Intense.UI
@@ -19,22 +22,25 @@ namespace Intense.UI
             {
                 throw new ArgumentNullException(nameof(appView));
             }
+
             if (eventSink == null)
             {
                 throw new ArgumentNullException(nameof(eventSink));
             }
 
-            appView.Consolidated += new WeakEventHandler<IApplicationViewEventSink, ApplicationView, ApplicationView, ApplicationViewConsolidatedEventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnConsolidated(o, e),
-                Detach = (h, v) => v.Consolidated -= h.OnEvent
-            }.OnEvent;
+            appView.Consolidated +=
+                new WeakEventHandler<IApplicationViewEventSink, ApplicationView, ApplicationView,
+                    ApplicationViewConsolidatedEventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnConsolidated(o, e), Detach = (h, v) => v.Consolidated -= h.OnEvent
+                }.OnEvent;
 
-            appView.VisibleBoundsChanged += new WeakEventHandler<IApplicationViewEventSink, ApplicationView, ApplicationView, object>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnVisibleBoundsChanged(o, e),
-                Detach = (h, v) => v.VisibleBoundsChanged -= h.OnEvent
-            }.OnEvent;
+            appView.VisibleBoundsChanged +=
+                new WeakEventHandler<IApplicationViewEventSink, ApplicationView, ApplicationView, object>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnVisibleBoundsChanged(o, e),
+                    Detach = (h, v) => v.VisibleBoundsChanged -= h.OnEvent
+                }.OnEvent;
         }
     }
 }

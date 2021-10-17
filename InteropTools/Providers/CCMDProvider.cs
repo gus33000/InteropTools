@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -20,10 +23,7 @@ namespace InteropTools.Providers
             return await natprov.AddKey(hive, key);
         }
 
-        public bool AllowsRegistryEditing()
-        {
-            return true;
-        }
+        public bool AllowsRegistryEditing() => true;
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
@@ -45,30 +45,18 @@ namespace InteropTools.Providers
             return await natprov.DeleteValue(hive, key, keyvalue);
         }
 
-        public bool DoesFileExists(string path)
-        {
-            return SessionManager.SshClient.RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
-        }
+        public bool DoesFileExists(string path) => SessionManager.SshClient
+            .RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
 
-        public string GetAppInstallationPath()
-        {
-            return Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-        }
+        public string GetAppInstallationPath() => Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
 
-        public string GetDescription()
-        {
-            return "Provides SYSTEM registry access through the command line";
-        }
+        public string GetDescription() => "Provides SYSTEM registry access through the command line";
 
-        public string GetFriendlyName()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1" ? "This device" : SessionManager.SshClient.ConnectionInfo.Host;
-        }
+        public string GetFriendlyName() => SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1"
+            ? "This device"
+            : SessionManager.SshClient.ConnectionInfo.Host;
 
-        public string GetHostName()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host;
-        }
+        public string GetHostName() => SessionManager.SshClient.ConnectionInfo.Host;
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
@@ -119,7 +107,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT (HKCR)",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -128,7 +116,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG (HKCC)",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -137,7 +125,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER (HKCU)",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -146,7 +134,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -155,7 +143,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA (HKDD)",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -164,7 +152,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE (HKLM)",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -173,7 +161,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA (HKPD)",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 },
@@ -182,7 +170,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS (HKU)",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = RegTypes.REG_ERROR
                 }
@@ -199,7 +187,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CLASSES_ROOT (HKCR)",
                     Hive = RegHives.HKEY_CLASSES_ROOT,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -208,7 +196,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_CONFIG (HKCC)",
                     Hive = RegHives.HKEY_CURRENT_CONFIG,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -217,7 +205,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER (HKCU)",
                     Hive = RegHives.HKEY_CURRENT_USER,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -226,7 +214,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
                     Hive = RegHives.HKEY_CURRENT_USER_LOCAL_SETTINGS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -235,7 +223,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_DYN_DATA (HKDD)",
                     Hive = RegHives.HKEY_DYN_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -244,7 +232,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_LOCAL_MACHINE (HKLM)",
                     Hive = RegHives.HKEY_LOCAL_MACHINE,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -253,7 +241,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_PERFORMANCE_DATA (HKPD)",
                     Hive = RegHives.HKEY_PERFORMANCE_DATA,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 },
@@ -262,7 +250,7 @@ namespace InteropTools.Providers
                     Name = "HKEY_USERS (HKU)",
                     Hive = RegHives.HKEY_USERS,
                     Key = null,
-                    Type = RegistryItemType.HIVE,
+                    Type = RegistryItemType.Hive,
                     Value = null,
                     ValueType = 0
                 }
@@ -300,7 +288,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = temparray.Last(),
-                                Type = RegistryItemType.KEY,
+                                Type = RegistryItemType.Key,
                                 Value = null,
                                 ValueType = RegTypes.REG_ERROR
                             });
@@ -308,7 +296,7 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                        string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                         string valuename = temparray[0];
                         RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
                         if (temparray.Length == 3)
@@ -329,7 +317,7 @@ namespace InteropTools.Providers
                                 valuedata = valuedata.Replace(@"\0", "\n");
                             }
 
-                            if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                            if (valuename == "(Default)" && valuedata == "(value not set)")
                             {
                                 valuedata = "";
                             }
@@ -344,7 +332,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = valuename,
-                                Type = RegistryItemType.VALUE,
+                                Type = RegistryItemType.Value,
                                 Value = valuedata,
                                 ValueType = regtype
                             });
@@ -353,9 +341,10 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient
+                .RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
+            if (output.ToUpper().Contains('\n') && output.ToUpper().Split('\n').Length != 0)
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -367,7 +356,7 @@ namespace InteropTools.Providers
                         {
                             if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
-                                string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                                string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
                                 if (temparray.Length == 3)
@@ -375,12 +364,14 @@ namespace InteropTools.Providers
                                     string valuedata = temparray[2];
                                     if (regtype == RegTypes.REG_DWORD)
                                     {
-                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == RegTypes.REG_QWORD)
                                     {
-                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == RegTypes.REG_MULTI_SZ)
@@ -388,7 +379,7 @@ namespace InteropTools.Providers
                                         valuedata = valuedata.Replace(@"\0", "\n");
                                     }
 
-                                    if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                                    if (valuename == "(Default)" && valuedata == "(value not set)")
                                     {
                                         valuedata = "";
                                     }
@@ -403,7 +394,7 @@ namespace InteropTools.Providers
                                         Hive = hive,
                                         Key = key,
                                         Name = valuename,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = valuedata,
                                         ValueType = regtype
                                     });
@@ -447,14 +438,14 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = temparray.Last(),
-                                Type = RegistryItemType.KEY,
+                                Type = RegistryItemType.Key,
                                 Value = null
                             });
                         }
                     }
                     else
                     {
-                        string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                        string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                         string valuename = temparray[0];
                         uint regtype = uint.Parse(temparray[1]);
                         if (temparray.Length == 3)
@@ -475,7 +466,7 @@ namespace InteropTools.Providers
                                 valuedata = valuedata.Replace(@"\0", "\n");
                             }
 
-                            if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                            if (valuename == "(Default)" && valuedata == "(value not set)")
                             {
                                 valuedata = "";
                             }
@@ -490,7 +481,7 @@ namespace InteropTools.Providers
                                 Hive = hive,
                                 Key = key,
                                 Name = valuename,
-                                Type = RegistryItemType.VALUE,
+                                Type = RegistryItemType.Value,
                                 Value = valuedata,
                                 ValueType = regtype
                             });
@@ -499,9 +490,10 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient
+                .RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
+            if (output.ToUpper().Contains('\n') && output.ToUpper().Split('\n').Length != 0)
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -513,7 +505,7 @@ namespace InteropTools.Providers
                         {
                             if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
-                                string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                                string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 uint regtype = uint.Parse(temparray[1]);
                                 if (temparray.Length == 3)
@@ -521,12 +513,14 @@ namespace InteropTools.Providers
                                     string valuedata = temparray[2];
                                     if (regtype == 4)
                                     {
-                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == 11)
                                     {
-                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == 7)
@@ -534,7 +528,7 @@ namespace InteropTools.Providers
                                         valuedata = valuedata.Replace(@"\0", "\n");
                                     }
 
-                                    if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                                    if (valuename == "(Default)" && valuedata == "(value not set)")
                                     {
                                         valuedata = "";
                                     }
@@ -549,7 +543,7 @@ namespace InteropTools.Providers
                                         Hive = hive,
                                         Key = key,
                                         Name = valuename,
-                                        Type = RegistryItemType.VALUE,
+                                        Type = RegistryItemType.Value,
                                         Value = valuedata,
                                         ValueType = regtype
                                     });
@@ -563,25 +557,14 @@ namespace InteropTools.Providers
             return ItemsList;
         }
 
-        public string GetSymbol()
-        {
-            return "";
-        }
+        public string GetSymbol() => "";
 
-        public string GetTitle()
-        {
-            return "Command Line Provider";
-        }
+        public string GetTitle() => "Command Line Provider";
 
-        public bool IsLocal()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1";
-        }
+        public bool IsLocal() => SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1";
 
-        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
-        {
+        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser) =>
             throw new NotImplementedException();
-        }
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
@@ -593,7 +576,8 @@ namespace InteropTools.Providers
             return await natprov.RenameKey(hive, key, newname);
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data)
         {
             if (natprov == null)
             {
@@ -603,7 +587,8 @@ namespace InteropTools.Providers
             return await natprov.SetKeyValue(hive, key, keyvalue, type, data);
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data)
         {
             if (natprov == null)
             {
@@ -613,9 +598,6 @@ namespace InteropTools.Providers
             return await natprov.SetKeyValue(hive, key, keyvalue, type, data);
         }
 
-        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser) => throw new NotImplementedException();
     }
 }

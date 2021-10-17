@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -29,9 +32,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public DependencyObject GetParent(DependencyObject o)
-        {
-            return VisualTreeHelper.GetParent(o);
-        }
+        public DependencyObject GetParent(DependencyObject o) => VisualTreeHelper.GetParent(o);
     }
 }

@@ -1,6 +1,9 @@
-﻿using Intense.UI;
-using Intense.UI.Converters;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using Intense.UI;
+using Intense.UI.Converters;
 using Windows.UI.Xaml;
 
 namespace Intense.Presentation
@@ -21,9 +24,14 @@ namespace Intense.Presentation
             AppearanceManager manager = AppearanceManager.GetForCurrentView();
 
             SetAccentColorCommand = new RelayCommand(o => AppearanceManager.AccentColor = converter.ConvertBack(o));
-            SetDarkThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Dark, o => manager.Theme == ApplicationTheme.Light);
-            SetLightThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Light, o => manager.Theme == ApplicationTheme.Dark);
-            ToggleThemeCommand = new RelayCommand(o => manager.Theme = manager.Theme == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
+            SetDarkThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Dark,
+                o => manager.Theme == ApplicationTheme.Light);
+            SetLightThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Light,
+                o => manager.Theme == ApplicationTheme.Dark);
+            ToggleThemeCommand = new RelayCommand(o =>
+                manager.Theme = manager.Theme == ApplicationTheme.Dark
+                    ? ApplicationTheme.Light
+                    : ApplicationTheme.Dark);
 
             manager.RegisterEventSink(this);
         }

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -16,10 +19,7 @@ namespace InteropTools.ShellPages.Registry
             typeof(BreadCrumbControl),
             new PropertyMetadata(null, OnItemsSourcePropertyChanged));
 
-        public BreadCrumbControl()
-        {
-            InitializeComponent();
-        }
+        public BreadCrumbControl() => InitializeComponent();
 
         public delegate void ItemClickEvent(object sender, ItemClickEventArgs e);
 
@@ -34,7 +34,7 @@ namespace InteropTools.ShellPages.Registry
 
         private static double GetRealRenderedTextLength(string text)
         {
-            TextBlock tb = new() { Text = text };
+            TextBlock tb = new() {Text = text};
             tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             return tb.DesiredSize.Width;
         }
@@ -67,16 +67,16 @@ namespace InteropTools.ShellPages.Registry
                     lastsize = 89;
                 }
 
-                if (lastsize + firstsize + (2 * 89) > breadcrumbs.BreadCrumb.ActualWidth)
+                if (lastsize + firstsize + 2 * 89 > breadcrumbs.BreadCrumb.ActualWidth)
                 {
                     List<BreadCrumbItem> newlist = new()
                     {
-                        new BreadCrumbItem() { DisplayName = "...", ItemObject = true },
-                        lastitem
+                        new BreadCrumbItem() {DisplayName = "...", ItemObject = true}, lastitem
                     };
                     List<BreadCrumbItem> tmplist = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                    if ((tmplist != null) && (tmplist.Count == newlist.Count) && (tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1]))
+                    if (tmplist != null && tmplist.Count == newlist.Count &&
+                        tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1])
                     {
                         return;
                     }
@@ -86,10 +86,7 @@ namespace InteropTools.ShellPages.Registry
                 else
                 {
                     double sizenow = lastsize + firstsize;
-                    List<BreadCrumbItem> newlist = new()
-                    {
-                        firstitem
-                    };
+                    List<BreadCrumbItem> newlist = new() {firstitem};
                     List<BreadCrumbItem> tmplist = new();
                     bool addplaceholder = false;
 
@@ -104,7 +101,7 @@ namespace InteropTools.ShellPages.Registry
 
                         sizenow += length;
 
-                        if (sizenow + 89 + (2 * 89) > breadcrumbs.BreadCrumb.ActualWidth)
+                        if (sizenow + 89 + 2 * 89 > breadcrumbs.BreadCrumb.ActualWidth)
                         {
                             if (i != 1)
                             {
@@ -118,7 +115,7 @@ namespace InteropTools.ShellPages.Registry
 
                     if (addplaceholder)
                     {
-                        tmplist.Add(new BreadCrumbItem() { DisplayName = "...", ItemObject = true });
+                        tmplist.Add(new BreadCrumbItem() {DisplayName = "...", ItemObject = true});
                     }
 
                     for (int i = tmplist.Count - 1; i >= 0; i--)
@@ -129,7 +126,8 @@ namespace InteropTools.ShellPages.Registry
                     newlist.Add(lastitem);
                     List<BreadCrumbItem> tmplist2 = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                    if ((tmplist2 != null) && (tmplist2.Count == newlist.Count) && (tmplist2[tmplist2.Count - 1] == newlist[newlist.Count - 1]))
+                    if (tmplist2 != null && tmplist2.Count == newlist.Count &&
+                        tmplist2[tmplist2.Count - 1] == newlist[newlist.Count - 1])
                     {
                         return;
                     }
@@ -139,13 +137,11 @@ namespace InteropTools.ShellPages.Registry
             }
             else
             {
-                List<BreadCrumbItem> newlist = new()
-                {
-                    firstitem
-                };
+                List<BreadCrumbItem> newlist = new() {firstitem};
                 List<BreadCrumbItem> tmplist = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                if ((tmplist != null) && (tmplist.Count == newlist.Count) && (tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1]))
+                if (tmplist != null && tmplist.Count == newlist.Count &&
+                    tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1])
                 {
                     return;
                 }
@@ -160,8 +156,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 UpdateItemClick((e.ClickedItem as BreadCrumbItem)?.ItemObject);
             }
-            else
-                if ((e.ClickedItem as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
+            else if ((e.ClickedItem as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
             {
                 // Display menu here
             }
@@ -199,16 +194,16 @@ namespace InteropTools.ShellPages.Registry
                     lastsize = 89;
                 }
 
-                if (lastsize + firstsize + (2 * 89) > breadcrumbs.BreadCrumb.ActualWidth)
+                if (lastsize + firstsize + 2 * 89 > breadcrumbs.BreadCrumb.ActualWidth)
                 {
                     List<BreadCrumbItem> newlist = new()
                     {
-                        new BreadCrumbItem() { DisplayName = "...", ItemObject = true },
-                        lastitem
+                        new BreadCrumbItem() {DisplayName = "...", ItemObject = true}, lastitem
                     };
                     List<BreadCrumbItem> tmplist = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                    if ((tmplist != null) && (tmplist.Count == newlist.Count) && (tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1]))
+                    if (tmplist != null && tmplist.Count == newlist.Count &&
+                        tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1])
                     {
                         return;
                     }
@@ -218,10 +213,7 @@ namespace InteropTools.ShellPages.Registry
                 else
                 {
                     double sizenow = lastsize + firstsize;
-                    List<BreadCrumbItem> newlist = new()
-                    {
-                        firstitem
-                    };
+                    List<BreadCrumbItem> newlist = new() {firstitem};
                     List<BreadCrumbItem> tmplist = new();
                     bool addplaceholder = false;
 
@@ -236,7 +228,7 @@ namespace InteropTools.ShellPages.Registry
 
                         sizenow += length;
 
-                        if (sizenow + 89 + (2 * 89) > breadcrumbs.BreadCrumb.ActualWidth)
+                        if (sizenow + 89 + 2 * 89 > breadcrumbs.BreadCrumb.ActualWidth)
                         {
                             if (i != 1)
                             {
@@ -250,7 +242,7 @@ namespace InteropTools.ShellPages.Registry
 
                     if (addplaceholder)
                     {
-                        tmplist.Add(new BreadCrumbItem() { DisplayName = "...", ItemObject = true });
+                        tmplist.Add(new BreadCrumbItem() {DisplayName = "...", ItemObject = true});
                     }
 
                     for (int i = tmplist.Count - 1; i >= 0; i--)
@@ -261,7 +253,8 @@ namespace InteropTools.ShellPages.Registry
                     newlist.Add(lastitem);
                     List<BreadCrumbItem> tmplist2 = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                    if ((tmplist2 != null) && (tmplist2.Count == newlist.Count) && (tmplist2[tmplist2.Count - 1] == newlist[newlist.Count - 1]))
+                    if (tmplist2 != null && tmplist2.Count == newlist.Count &&
+                        tmplist2[tmplist2.Count - 1] == newlist[newlist.Count - 1])
                     {
                         return;
                     }
@@ -271,13 +264,11 @@ namespace InteropTools.ShellPages.Registry
             }
             else
             {
-                List<BreadCrumbItem> newlist = new()
-                {
-                    firstitem
-                };
+                List<BreadCrumbItem> newlist = new() {firstitem};
                 List<BreadCrumbItem> tmplist = (List<BreadCrumbItem>)breadcrumbs.BreadCrumb.ItemsSource;
 
-                if ((tmplist != null) && (tmplist.Count == newlist.Count) && (tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1]))
+                if (tmplist != null && tmplist.Count == newlist.Count &&
+                    tmplist[tmplist.Count - 1] == newlist[newlist.Count - 1])
                 {
                     return;
                 }
@@ -290,7 +281,8 @@ namespace InteropTools.ShellPages.Registry
         {
             object a = ((FrameworkElement)e.OriginalSource).DataContext;
 
-            if (((a as BreadCrumbItem)?.ItemObject != null) && (a as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
+            if ((a as BreadCrumbItem)?.ItemObject != null &&
+                (a as BreadCrumbItem)?.ItemObject.GetType() == typeof(bool))
             {
                 // Display menu here
                 ItemCollection list = BreadCrumb.Items;
@@ -353,10 +345,7 @@ namespace InteropTools.ShellPages.Registry
 
         public class ItemClickEventArgs
         {
-            public ItemClickEventArgs(object item)
-            {
-                ClickedItem = item;
-            }
+            public ItemClickEventArgs(object item) => ClickedItem = item;
 
             public object ClickedItem { get; internal set; }
         }

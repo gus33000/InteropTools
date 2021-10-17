@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using Windows.UI.Xaml;
 
 namespace Intense.Themes
 {
@@ -10,9 +13,6 @@ namespace Intense.Themes
         /// <summary>
         /// Initializes a new instance of the <see cref="Navigation"/> class.
         /// </summary>
-        public Navigation()
-        {
-            InitializeComponent();
-        }
+        public Navigation() => InitializeComponent();
     }
 }

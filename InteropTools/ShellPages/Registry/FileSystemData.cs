@@ -1,4 +1,7 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using InteropTools.Providers;
 
 namespace InteropTools.ShellPages.Registry
 {
@@ -6,16 +9,13 @@ namespace InteropTools.ShellPages.Registry
     {
         private readonly string name;
 
-        public FileSystemData(string name)
-        {
-            this.name = name;
-        }
+        public FileSystemData(string name) => this.name = name;
 
         public bool HasMore => true;
 
-        public bool IsFolder => RegItem?.Type == RegistryItemType.KEY;
+        public bool IsFolder => RegItem?.Type == RegistryItemType.Key;
 
-        public bool IsHive => RegItem?.Type == RegistryItemType.HIVE;
+        public bool IsHive => RegItem?.Type == RegistryItemType.Hive;
 
         public bool IsNothing => !(IsHive || IsFolder);
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -56,6 +59,7 @@ namespace InteropTools.Providers.Registry.SampleProvider.App
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -66,10 +70,8 @@ namespace InteropTools.Providers.Registry.SampleProvider.App
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) =>
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

@@ -1,7 +1,10 @@
-﻿using Intense.Presentation;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Linq;
 using System.Windows.Input;
+using Intense.Presentation;
 using Windows.UI.Xaml;
 
 namespace InteropTools.Presentation
@@ -19,7 +22,7 @@ namespace InteropTools.Presentation
             IsSplitViewPaneOpen = IsWideState();
         }
 
-        public NavigationItemCollection BottomItems { get; } = new NavigationItemCollection();
+        public NavigationItemCollection BottomItems { get; } = new();
 
         public bool IsSplitViewPaneOpen
         {
@@ -34,7 +37,7 @@ namespace InteropTools.Presentation
 
             set
             {
-                if (Set(ref selectedBottomItem, value) && (value != null))
+                if (Set(ref selectedBottomItem, value) && value != null)
                 {
                     OnSelectedItemChanged(selectedBottomItem);
                 }
@@ -70,7 +73,7 @@ namespace InteropTools.Presentation
 
             set
             {
-                if (Set(ref selectedTopItem, value) && (value != null))
+                if (Set(ref selectedTopItem, value) && value != null)
                 {
                     OnSelectedItemChanged(selectedTopItem);
                 }
@@ -78,7 +81,7 @@ namespace InteropTools.Presentation
         }
 
         public ICommand ToggleSplitViewPaneCommand { get; }
-        public NavigationItemCollection TopItems { get; } = new NavigationItemCollection();
+        public NavigationItemCollection TopItems { get; } = new();
 
         public void ChangeSelectedItemWithoutUpdatingThePage(NavigationItem SelectedItem)
         {
@@ -89,8 +92,7 @@ namespace InteropTools.Presentation
             {
                 selectedBottomItem = null;
             }
-            else
-                if (SelectedItem == SelectedBottomItem)
+            else if (SelectedItem == SelectedBottomItem)
             {
                 selectedTopItem = null;
             }
@@ -100,10 +102,7 @@ namespace InteropTools.Presentation
 
         // a Helper determining whether we are in a wide window state
         // mvvm purists probably don't appreciate this approach
-        private bool IsWideState()
-        {
-            return Window.Current.Bounds.Width >= 1024;
-        }
+        private bool IsWideState() => Window.Current.Bounds.Width >= 1024;
 
         private void OnSelectedItemChanged(NavigationItem item)
         {
@@ -111,8 +110,7 @@ namespace InteropTools.Presentation
             {
                 SelectedBottomItem = null;
             }
-            else
-                if (item == SelectedBottomItem)
+            else if (item == SelectedBottomItem)
             {
                 SelectedTopItem = null;
             }

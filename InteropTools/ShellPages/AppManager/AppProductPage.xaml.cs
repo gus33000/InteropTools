@@ -1,7 +1,10 @@
-﻿using InteropTools.ContentDialogs.AppManager;
-using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.ObjectModel;
+using InteropTools.ContentDialogs.AppManager;
+using InteropTools.CorePages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;

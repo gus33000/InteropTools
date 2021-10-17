@@ -1,4 +1,7 @@
-﻿/*++
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+/*++
 
 Copyright (c) 2016  Interop Tools Development Team
 Copyright (c) 2017  Gustave M.
@@ -23,8 +26,8 @@ Revision History:
 
 --*/
 
-using RegistryRT;
 using System.Collections.Generic;
+using RegistryRT;
 
 namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
@@ -32,30 +35,30 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
     {
         private static readonly Dictionary<REG_HIVES, RegistryHive> _hives = new()
         {
-            { REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT },
-            { REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER },
-            { REG_HIVES.HKEY_LOCAL_MACHINE, RegistryHive.HKEY_LOCAL_MACHINE },
-            { REG_HIVES.HKEY_USERS, RegistryHive.HKEY_USERS },
+            {REG_HIVES.HKEY_CLASSES_ROOT, RegistryHive.HKEY_CLASSES_ROOT},
+            {REG_HIVES.HKEY_CURRENT_USER, RegistryHive.HKEY_CURRENT_USER},
+            {REG_HIVES.HKEY_LOCAL_MACHINE, RegistryHive.HKEY_LOCAL_MACHINE},
+            {REG_HIVES.HKEY_USERS, RegistryHive.HKEY_USERS},
             //{ REG_HIVES.HKEY_PERFORMANCE_DATA, REG_HIVES.HKEY_PERFORMANCE_DATA },
-            { REG_HIVES.HKEY_CURRENT_CONFIG, RegistryHive.HKEY_CURRENT_CONFIG },
+            {REG_HIVES.HKEY_CURRENT_CONFIG, RegistryHive.HKEY_CURRENT_CONFIG},
             //{ REG_HIVES.HKEY_DYN_DATA, REG_HIVES.HKEY_DYN_DATA },
-            { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS }
+            {REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, RegistryHive.HKEY_CURRENT_USER_LOCAL_SETTINGS}
         };
 
         private static readonly Dictionary<REG_VALUE_TYPE, RegistryType> _valtypes = new()
         {
-            { REG_VALUE_TYPE.REG_NONE, RegistryType.None },
-            { REG_VALUE_TYPE.REG_SZ, RegistryType.String },
-            { REG_VALUE_TYPE.REG_EXPAND_SZ, RegistryType.VariableString },
-            { REG_VALUE_TYPE.REG_BINARY, RegistryType.Binary },
-            { REG_VALUE_TYPE.REG_DWORD, RegistryType.Integer },
-            { REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, RegistryType.IntegerBigEndian },
-            { REG_VALUE_TYPE.REG_LINK, RegistryType.SymbolicLink },
-            { REG_VALUE_TYPE.REG_MULTI_SZ, RegistryType.MultiString },
-            { REG_VALUE_TYPE.REG_RESOURCE_LIST, RegistryType.ResourceList },
-            { REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, RegistryType.HardwareResourceList },
-            { REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, RegistryType.ResourceRequirement },
-            { REG_VALUE_TYPE.REG_QWORD, RegistryType.Long }
+            {REG_VALUE_TYPE.REG_NONE, RegistryType.None},
+            {REG_VALUE_TYPE.REG_SZ, RegistryType.String},
+            {REG_VALUE_TYPE.REG_EXPAND_SZ, RegistryType.VariableString},
+            {REG_VALUE_TYPE.REG_BINARY, RegistryType.Binary},
+            {REG_VALUE_TYPE.REG_DWORD, RegistryType.Integer},
+            {REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, RegistryType.IntegerBigEndian},
+            {REG_VALUE_TYPE.REG_LINK, RegistryType.SymbolicLink},
+            {REG_VALUE_TYPE.REG_MULTI_SZ, RegistryType.MultiString},
+            {REG_VALUE_TYPE.REG_RESOURCE_LIST, RegistryType.ResourceList},
+            {REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, RegistryType.HardwareResourceList},
+            {REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, RegistryType.ResourceRequirement},
+            {REG_VALUE_TYPE.REG_QWORD, RegistryType.Long}
         };
 
         private readonly RegistryRT.Registry helper = new();
@@ -69,6 +72,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             catch
             {
             }
+
             return true;
         }
 
@@ -119,14 +123,39 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
             if (hive == null)
             {
-                list.Add(new REG_ITEM { Name = "HKEY_CLASSES_ROOT (HKCR)", Hive = REG_HIVES.HKEY_CLASSES_ROOT, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_CONFIG (HKCC)", Hive = REG_HIVES.HKEY_CURRENT_CONFIG, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_USER (HKCU)", Hive = REG_HIVES.HKEY_CURRENT_USER, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)", Hive = REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_DYN_DATA (HKDD)", Hive = REG_HIVES.HKEY_DYN_DATA, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_LOCAL_MACHINE (HKLM)", Hive = REG_HIVES.HKEY_LOCAL_MACHINE, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_PERFORMANCE_DATA (HKPD)", Hive = REG_HIVES.HKEY_PERFORMANCE_DATA, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_USERS (HKU)", Hive = REG_HIVES.HKEY_USERS, Type = REG_TYPE.HIVE });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CLASSES_ROOT (HKCR)", Hive = REG_HIVES.HKEY_CLASSES_ROOT, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_CONFIG (HKCC)", Hive = REG_HIVES.HKEY_CURRENT_CONFIG, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_USER (HKCU)", Hive = REG_HIVES.HKEY_CURRENT_USER, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
+                    Hive = REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS,
+                    Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_DYN_DATA (HKDD)", Hive = REG_HIVES.HKEY_DYN_DATA, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_LOCAL_MACHINE (HKLM)", Hive = REG_HIVES.HKEY_LOCAL_MACHINE, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_PERFORMANCE_DATA (HKPD)",
+                    Hive = REG_HIVES.HKEY_PERFORMANCE_DATA,
+                    Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM {Name = "HKEY_USERS (HKU)", Hive = REG_HIVES.HKEY_USERS, Type = REG_TYPE.HIVE});
 
                 items = list;
                 return REG_STATUS.SUCCESS;
@@ -141,7 +170,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                 {
                     foreach (string subkey in subkeys)
                     {
-                        list.Add(new REG_ITEM { Name = subkey, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY });
+                        list.Add(new REG_ITEM {Name = subkey, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.KEY});
                     }
                 }
 
@@ -156,11 +185,27 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                         try
                         {
                             RegQueryValue((REG_HIVES)hive, key, subval, type, out valtype, out byte[] data);
-                            list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, Data = data, ValueType = valtype });
+                            list.Add(new REG_ITEM
+                            {
+                                Name = subval,
+                                Hive = (REG_HIVES)hive,
+                                Key = key,
+                                Type = REG_TYPE.VALUE,
+                                Data = data,
+                                ValueType = valtype
+                            });
                         }
                         catch
                         {
-                            list.Add(new REG_ITEM { Name = subval, Hive = (REG_HIVES)hive, Key = key, Type = REG_TYPE.VALUE, Data = null, ValueType = type });
+                            list.Add(new REG_ITEM
+                            {
+                                Name = subval,
+                                Hive = (REG_HIVES)hive,
+                                Key = key,
+                                Type = REG_TYPE.VALUE,
+                                Data = null,
+                                ValueType = type
+                            });
                         }
                     }
                 }
@@ -225,10 +270,12 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
             catch
             {
             }
+
             return REG_KEY_STATUS.NOT_FOUND;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data)
         {
             try
             {
@@ -238,6 +285,7 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
                     outvaltype = uint.MinValue;
                     return REG_STATUS.FAILED;
                 }
+
                 outvaltype = valtypetmp;
                 return REG_STATUS.SUCCESS;
             }

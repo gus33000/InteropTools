@@ -1,9 +1,11 @@
-﻿using InteropTools.ContentDialogs.SSH;
-using InteropTools.CorePages;
-using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using InteropTools.ContentDialogs.SSH;
+using InteropTools.CorePages;
+using InteropTools.Providers;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -26,22 +28,23 @@ namespace InteropTools.ShellPages.SSH
         public PageGroup PageGroup => PageGroup.SSH;
         public string PageName => "SSH Account Manager";
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private async Task AddUser(string username)
         {
             _initialized = false;
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh", "user-list",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             bool add
-                  = true;
+                = true;
 
             if (regvalue.Contains(";"))
             {
@@ -50,7 +53,7 @@ namespace InteropTools.ShellPages.SSH
                     if (string.Equals(user, username, StringComparison.OrdinalIgnoreCase))
                     {
                         add
-                              = false;
+                            = false;
                     }
                 }
             }
@@ -59,42 +62,57 @@ namespace InteropTools.ShellPages.SSH
                 if (string.Equals(regvalue, username, StringComparison.OrdinalIgnoreCase))
                 {
                     add
-                          = false;
+                        = false;
                 }
             }
 
             if (add)
             {
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                    RegTypes.REG_SZ, regvalue + ";" + username);
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "user-name", RegTypes.REG_SZ, "LocalSystem");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "auth-method", RegTypes.REG_SZ, "mac@microsoft.com,publickey");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "subsystems", RegTypes.REG_SZ, "default,sftp");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\WpConAppDev.exe");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-env", RegTypes.REG_SZ, "currentdir,async,autoexec");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-mkdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-open-dir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools(\\\\.*)*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-read-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-remove-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-rmdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-stat-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-write-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                    "user-list",
+                    RegTypes.REG_SZ, regvalue + ";" + username);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-name", RegTypes.REG_SZ, "LocalSystem");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "auth-method", RegTypes.REG_SZ, "mac@microsoft.com,publickey");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "subsystems", RegTypes.REG_SZ, "default,sftp");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\WpConAppDev.exe");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-env", RegTypes.REG_SZ, "currentdir,async,autoexec");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-mkdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-open-dir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools(\\\\.*)*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-read-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-remove-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-rmdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-stat-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-write-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
             }
 
             await RefreshUserList();
@@ -121,10 +139,12 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-home-dir", RegTypes.REG_SZ, @"C:\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, @"C:\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
             }
 
             await RefreshSelected();
@@ -138,10 +158,12 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-home-dir", RegTypes.REG_SZ, @"C:\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                    "default-shell", RegTypes.REG_SZ, @"%SystemDrive%\data\users\public\documents\cmd.exe");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, @"C:\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "default-shell", RegTypes.REG_SZ, @"%SystemDrive%\data\users\public\documents\cmd.exe");
             }
 
             await RefreshSelected();
@@ -152,22 +174,30 @@ namespace InteropTools.ShellPages.SSH
         {
             _initialized = false;
             string username = UserList.SelectedItem.ToString();
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-home-dir", RegTypes.REG_SZ, "C:\\");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-mkdir-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-open-dir-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-read-file-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-remove-file-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-rmdir-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-stat-rex", RegTypes.REG_SZ, ".*");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                "sftp-write-file-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-home-dir", RegTypes.REG_SZ, "C:\\");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-mkdir-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-open-dir-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-read-file-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-remove-file-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-rmdir-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-stat-rex", RegTypes.REG_SZ, ".*");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                "System\\Currentcontrolset\\control\\ssh\\" + username,
+                "sftp-write-file-rex", RegTypes.REG_SZ, ".*");
             await RefreshSelected();
             _initialized = true;
         }
@@ -184,24 +214,19 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                    "auth-method", RegTypes.REG_SZ,
-                                    AuthMethod.SelectedIndex == 0 ? "mac@microsoft.com,publickey" : "password");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "auth-method", RegTypes.REG_SZ,
+                    AuthMethod.SelectedIndex == 0 ? "mac@microsoft.com,publickey" : "password");
             }
 
             await RefreshSelected();
             _initialized = true;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            await RestoreSelectedDefaults();
-        }
+        private async void Button_Click(object sender, RoutedEventArgs e) => await RestoreSelectedDefaults();
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            await ApplyFullSFTPSelectedUser();
-        }
+        private async void Button_Click_1(object sender, RoutedEventArgs e) => await ApplyFullSFTPSelectedUser();
 
         private async void Button_Click_10(object sender, RoutedEventArgs e)
         {
@@ -215,8 +240,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-rmdir-rex", RegTypes.REG_SZ, sftprmdirrex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-rmdir-rex", RegTypes.REG_SZ, sftprmdirrex.Text);
             }
 
             await RefreshSelected();
@@ -235,8 +261,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-open-dir-rex", RegTypes.REG_SZ, sftpopendirrex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-open-dir-rex", RegTypes.REG_SZ, sftpopendirrex.Text);
             }
 
             await RefreshSelected();
@@ -255,8 +282,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-remove-file-rex", RegTypes.REG_SZ, sftpremovefilerex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-remove-file-rex", RegTypes.REG_SZ, sftpremovefilerex.Text);
             }
 
             await RefreshSelected();
@@ -275,8 +303,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-write-file-rex", RegTypes.REG_SZ, sftpwritefilerex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-write-file-rex", RegTypes.REG_SZ, sftpwritefilerex.Text);
             }
 
             await RefreshSelected();
@@ -295,8 +324,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-stat-rex", RegTypes.REG_SZ, sftpstatrex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-stat-rex", RegTypes.REG_SZ, sftpstatrex.Text);
             }
 
             await RefreshSelected();
@@ -315,23 +345,18 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-read-file-rex", RegTypes.REG_SZ, sftpreadfilerex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-read-file-rex", RegTypes.REG_SZ, sftpreadfilerex.Text);
             }
 
             await RefreshSelected();
             _initialized = true;
         }
 
-        private async void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            await ApplyCMDAccessTempSelectedUser();
-        }
+        private async void Button_Click_2(object sender, RoutedEventArgs e) => await ApplyCMDAccessTempSelectedUser();
 
-        private async void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            await ApplyCMDAccessSelectedUser();
-        }
+        private async void Button_Click_3(object sender, RoutedEventArgs e) => await ApplyCMDAccessSelectedUser();
 
         private async void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -345,8 +370,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "user-pin", RegTypes.REG_SZ, pass.Password);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-pin", RegTypes.REG_SZ, pass.Password);
             }
 
             await RefreshSelected();
@@ -365,8 +391,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "user-name", RegTypes.REG_SZ, user_name.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-name", RegTypes.REG_SZ, user_name.Text);
             }
 
             await RefreshSelected();
@@ -385,8 +412,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-shell", RegTypes.REG_SZ, defaultshell.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-shell", RegTypes.REG_SZ, defaultshell.Text);
             }
 
             await RefreshSelected();
@@ -405,8 +433,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-home-dir", RegTypes.REG_SZ, defaulthomedir.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, defaulthomedir.Text);
             }
 
             await RefreshSelected();
@@ -425,8 +454,9 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-home-dir", RegTypes.REG_SZ, sftphomedir.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-home-dir", RegTypes.REG_SZ, sftphomedir.Text);
             }
 
             await RefreshSelected();
@@ -445,40 +475,49 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-mkdir-rex", RegTypes.REG_SZ, sftpmkdirrex.Text);
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-mkdir-rex", RegTypes.REG_SZ, sftpmkdirrex.Text);
             }
 
             await RefreshSelected();
             _initialized = true;
         }
 
-        private void Reboot()
-        {
+        private void Reboot() =>
             RunInUiThread(
-              async () =>
-            {
-                await
-                new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/To_complete_this_operation__you_ll_need_to_reboot_your_device_", ResourceContext.GetForCurrentView()).ValueAsString,
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/Reboot_required", ResourceContext.GetForCurrentView()).ValueAsString);
-            });
-        }
+                async () =>
+                {
+                    await
+                        new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                            ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/To_complete_this_operation__you_ll_need_to_reboot_your_device_",
+                                    ResourceContext.GetForCurrentView()).ValueAsString,
+                            ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Reboot_required", ResourceContext.GetForCurrentView())
+                                .ValueAsString);
+                });
 
         private async Task Refresh()
         {
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-shell",
-                                RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-env",
-                                RegTypes.REG_SZ, "currentdir,async,autoexec");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "default-shell",
+                RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "default-env",
+                RegTypes.REG_SZ, "currentdir,async,autoexec");
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh", "user-list",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
-            if ((regvalue == null) || (regvalue?.Length == 0))
+            if (regvalue == null || regvalue?.Length == 0)
             {
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                    RegTypes.REG_SZ, "Sirepuser");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                    "user-list",
+                    RegTypes.REG_SZ, "Sirepuser");
             }
 
             await RefreshUMCI();
@@ -513,8 +552,11 @@ namespace InteropTools.ShellPages.SSH
             sftpstatrex.Text = "";
             sftpwritefilerex.Text = "";
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "subsystems", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "subsystems", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue.Contains(","))
             {
@@ -544,8 +586,11 @@ namespace InteropTools.ShellPages.SSH
                 }
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "auth-method", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "auth-method", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue == "mac@microsoft.com,publickey")
             {
@@ -559,96 +604,132 @@ namespace InteropTools.ShellPages.SSH
                 PassPanel.Visibility = Visibility.Visible;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "user-pin", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "user-pin", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 pass.Password = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "default-shell", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "default-shell", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 defaultshell.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "user-name", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "user-name", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 user_name.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-home-dir", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-home-dir", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftphomedir.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "default-home-dir", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "default-home-dir", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 defaulthomedir.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-mkdir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-mkdir-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftpmkdirrex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-open-dir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-open-dir-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftpopendirrex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-read-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-read-file-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftpreadfilerex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-remove-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-remove-file-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftpremovefilerex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-rmdir-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-rmdir-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftprmdirrex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-stat-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-stat-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
                 sftpstatrex.Text = regvalue;
             }
 
-            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                "sftp-write-file-rex", RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "sftp-write-file-rex", RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != null)
             {
@@ -669,8 +750,11 @@ namespace InteropTools.ShellPages.SSH
         private async Task RefreshUMCI()
         {
             string value;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                                RegTypes.REG_DWORD); _ = ret.regtype; value = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            value = ret.regvalue;
             UMCIAuditModeBox.IsChecked = value == "1";
         }
 
@@ -687,8 +771,11 @@ namespace InteropTools.ShellPages.SSH
             }
 
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh", "user-list",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue.Contains(";"))
             {
@@ -715,34 +802,48 @@ namespace InteropTools.ShellPages.SSH
             if (UserList.SelectedItem != null)
             {
                 string username = UserList.SelectedItem.ToString();
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "user-name", RegTypes.REG_SZ, "LocalSystem");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "auth-method", RegTypes.REG_SZ, "mac@microsoft.com,publickey");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "subsystems", RegTypes.REG_SZ, "default,sftp");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\WpConAppDev.exe");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-env", RegTypes.REG_SZ, "currentdir,async,autoexec");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "default-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-mkdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-open-dir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools(\\\\.*)*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-read-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-remove-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-rmdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-stat-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
-                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                    "sftp-write-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-name", RegTypes.REG_SZ, "LocalSystem");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "auth-method", RegTypes.REG_SZ, "mac@microsoft.com,publickey");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "subsystems", RegTypes.REG_SZ, "default,sftp");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\WpConAppDev.exe");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-env", RegTypes.REG_SZ, "currentdir,async,autoexec");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-home-dir", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\PhoneTools\\");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-mkdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-open-dir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools(\\\\.*)*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-read-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-remove-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-rmdir-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-stat-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
+                await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "sftp-write-file-rex", RegTypes.REG_SZ, "%FOLDERID_SharedData%\\\\PhoneTools\\\\.*");
             }
 
             await RefreshSelected();
@@ -762,28 +863,29 @@ namespace InteropTools.ShellPages.SSH
             {
                 string username = UserList.SelectedItem.ToString();
 
-                if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == true))
+                if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default,sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-                else
-                    if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default");
                 }
-                else
-                        if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-                else
-                            if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "");
                 }
             }
 
@@ -804,28 +906,29 @@ namespace InteropTools.ShellPages.SSH
             {
                 string username = UserList.SelectedItem.ToString();
 
-                if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == true))
+                if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default,sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-                else
-                    if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default");
                 }
-                else
-                        if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-                else
-                            if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "");
                 }
             }
 
@@ -846,28 +949,29 @@ namespace InteropTools.ShellPages.SSH
             {
                 string username = UserList.SelectedItem.ToString();
 
-                if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == true))
+                if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default,sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-                else
-                    if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default");
                 }
-                else
-                        if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-                else
-                            if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "");
                 }
             }
 
@@ -888,28 +992,29 @@ namespace InteropTools.ShellPages.SSH
             {
                 string username = UserList.SelectedItem.ToString();
 
-                if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == true))
+                if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default,sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default,sftp");
                 }
-                else
-                    if ((sxsDefault.IsChecked == true) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == true && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "default");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "default");
                 }
-                else
-                        if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == true))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == true)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "sftp");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "sftp");
                 }
-                else
-                            if ((sxsDefault.IsChecked == false) && (sxsSFTP.IsChecked == false))
+                else if (sxsDefault.IsChecked == false && sxsSFTP.IsChecked == false)
                 {
-                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                        "subsystems", RegTypes.REG_SZ, "");
+                    await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                        @"system\CurrentControlSet\control\ssh\" + username,
+                        "subsystems", RegTypes.REG_SZ, "");
                 }
             }
 
@@ -925,8 +1030,9 @@ namespace InteropTools.ShellPages.SSH
             }
 
             _initialized = false;
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                                RegTypes.REG_DWORD, "1");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI",
+                "UMCIAuditMode",
+                RegTypes.REG_DWORD, "1");
             await RefreshUMCI();
             Reboot();
             _initialized = true;
@@ -940,8 +1046,9 @@ namespace InteropTools.ShellPages.SSH
             }
 
             _initialized = false;
-            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                                RegTypes.REG_DWORD, "0");
+            await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI",
+                "UMCIAuditMode",
+                RegTypes.REG_DWORD, "0");
             await RefreshUMCI();
             Reboot();
             _initialized = true;

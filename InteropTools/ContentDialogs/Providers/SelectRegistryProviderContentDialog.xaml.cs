@@ -1,7 +1,10 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using InteropTools.Providers;
 using Windows.UI.Xaml.Controls;
 using static InteropTools.ContentDialogs.Providers.Viewmodel;
 
@@ -83,6 +86,7 @@ namespace InteropTools.ContentDialogs.Providers
                 {
                     IsPrimaryButtonEnabled = true;
                 }
+
                 IsSecondaryButtonEnabled = true;
             }
         }

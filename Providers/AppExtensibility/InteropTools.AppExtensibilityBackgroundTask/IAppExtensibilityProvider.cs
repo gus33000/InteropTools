@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 
 namespace InteropTools.AppExtensibilityBackgroundTask
 {
@@ -20,7 +23,8 @@ namespace InteropTools.AppExtensibilityBackgroundTask
         REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key);
 
         [Windows.Foundation.Metadata.DefaultOverload()]
-        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data);
+        REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data);
 
         REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname);
 

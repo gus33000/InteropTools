@@ -1,6 +1,8 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
-using Windows.ApplicationModel.Core;
+using InteropTools.Providers;
 using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
@@ -19,24 +21,23 @@ namespace InteropTools.ShellPages.Registry
             Refresh();
         }
 
-        private void Refresh()
-        {
+        private void Refresh() =>
             RunInThreadPool(async () =>
             {
                 string compiledate;
                 GetKeyValueReturn ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\Versions",
-                  "TimeStamp",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\Versions",
+                    "TimeStamp",
+                    RegTypes.REG_SZ
                 );
                 compiledate = ret.regvalue;
                 string sourceosversion;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\Setup\BuildUpdate",
-                  "SourceOSVersion",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\Setup\BuildUpdate",
+                    "SourceOSVersion",
+                    RegTypes.REG_SZ
                 );
                 sourceosversion = ret.regvalue;
 
@@ -56,186 +57,186 @@ namespace InteropTools.ShellPages.Registry
 
                 string builder;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\Versions",
-                  "Builder",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\Versions",
+                    "Builder",
+                    RegTypes.REG_SZ
                 );
                 builder = ret.regvalue;
                 string osproductpfn;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\ProductOptions",
-                  "OSProductPfn",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\ProductOptions",
+                    "OSProductPfn",
+                    RegTypes.REG_SZ
                 );
                 osproductpfn = ret.regvalue;
                 string productsuite;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\ProductOptions",
-                  "ProductSuite",
-                  RegTypes.REG_MULTI_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\ProductOptions",
+                    "ProductSuite",
+                    RegTypes.REG_MULTI_SZ
                 );
                 productsuite = ret.regvalue;
                 string producttype;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\ProductOptions",
-                  "ProductType",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\ProductOptions",
+                    "ProductType",
+                    RegTypes.REG_SZ
                 );
                 producttype = ret.regvalue;
                 string componentizedbuild;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\Windows",
-                  "ComponentizedBuild",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\Windows",
+                    "ComponentizedBuild",
+                    RegTypes.REG_DWORD
                 );
                 componentizedbuild = ret.regvalue;
                 string csdbuildnumber;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\Windows",
-                  "CSDBuildNumber",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\Windows",
+                    "CSDBuildNumber",
+                    RegTypes.REG_DWORD
                 );
                 csdbuildnumber = ret.regvalue;
                 string csdreleasetype;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\Windows",
-                  "CSDReleaseType",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\Windows",
+                    "CSDReleaseType",
+                    RegTypes.REG_DWORD
                 );
                 csdreleasetype = ret.regvalue;
                 string csdversion;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SYSTEM\CurrentControlSet\Control\Windows",
-                  "CSDVersion",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SYSTEM\CurrentControlSet\Control\Windows",
+                    "CSDVersion",
+                    RegTypes.REG_DWORD
                 );
                 csdversion = ret.regvalue;
                 string productid;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\DefaultProductKey",
-                  "ProductId",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\DefaultProductKey",
+                    "ProductId",
+                    RegTypes.REG_SZ
                 );
                 productid = ret.regvalue;
                 string buildbranch;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "BuildBranch",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "BuildBranch",
+                    RegTypes.REG_SZ
                 );
                 buildbranch = ret.regvalue;
                 string buildguid;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "BuildGUID",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "BuildGUID",
+                    RegTypes.REG_SZ
                 );
                 buildguid = ret.regvalue;
                 string buildlab;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "BuildLab",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "BuildLab",
+                    RegTypes.REG_SZ
                 );
                 buildlab = ret.regvalue;
                 string buildlabex;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "BuildLabEx",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "BuildLabEx",
+                    RegTypes.REG_SZ
                 );
                 buildlabex = ret.regvalue;
                 string currentbuildnumber;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "CurrentBuildNumber",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "CurrentBuildNumber",
+                    RegTypes.REG_SZ
                 );
                 currentbuildnumber = ret.regvalue;
                 string major;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  "Software\\Microsoft\\Windows NT\\CurrentVersion",
-                  "CurrentMajorVersionNumber",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    "Software\\Microsoft\\Windows NT\\CurrentVersion",
+                    "CurrentMajorVersionNumber",
+                    RegTypes.REG_DWORD
                 );
                 major = ret.regvalue;
                 string minor;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  "Software\\Microsoft\\Windows NT\\CurrentVersion",
-                  "CurrentMinorVersionNumber",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    "Software\\Microsoft\\Windows NT\\CurrentVersion",
+                    "CurrentMinorVersionNumber",
+                    RegTypes.REG_DWORD
                 );
                 minor = ret.regvalue;
                 string currenttype;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "CurrentType",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "CurrentType",
+                    RegTypes.REG_SZ
                 );
                 currenttype = ret.regvalue;
                 string editionid;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "EditionID",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "EditionID",
+                    RegTypes.REG_SZ
                 );
                 editionid = ret.regvalue;
                 string installationtype;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "InstallationType",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "InstallationType",
+                    RegTypes.REG_SZ
                 );
                 installationtype = ret.regvalue;
                 string productname;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "ProductName",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "ProductName",
+                    RegTypes.REG_SZ
                 );
                 productname = ret.regvalue;
                 string releaseid;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "ReleaseId",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "ReleaseId",
+                    RegTypes.REG_SZ
                 );
                 releaseid = ret.regvalue;
                 string systemroot;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "SystemRoot",
-                  RegTypes.REG_SZ
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "SystemRoot",
+                    RegTypes.REG_SZ
                 );
                 systemroot = ret.regvalue;
                 string ubr;
                 ret = await helper.GetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  @"Software\Microsoft\Windows NT\CurrentVersion",
-                  "UBR",
-                  RegTypes.REG_DWORD
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    @"Software\Microsoft\Windows NT\CurrentVersion",
+                    "UBR",
+                    RegTypes.REG_DWORD
                 );
                 ubr = ret.regvalue;
                 RunInUIThread(() =>
@@ -305,18 +306,12 @@ namespace InteropTools.ShellPages.Registry
                     }
                 });
             });
-        }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUIThread(Action function)
-        {
+        private async void RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
     }
 }

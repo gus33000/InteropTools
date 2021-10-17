@@ -1,4 +1,7 @@
-﻿using Windows.ApplicationModel.Resources;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using Windows.ApplicationModel.Resources;
 
 namespace Intense.Resources
 {
@@ -19,12 +22,10 @@ namespace Intense.Resources
             {
                 value = string.Format(value, args);
             }
+
             return value;
         }
 
-        private static ResourceLoader GetLoader()
-        {
-            return loader ??= ResourceLoader.GetForCurrentView("Intense/Resources");
-        }
+        private static ResourceLoader GetLoader() => loader ??= ResourceLoader.GetForCurrentView("Intense/Resources");
     }
 }

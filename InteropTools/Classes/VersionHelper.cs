@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.IO;
 using System.Reflection;
 using Windows.ApplicationModel;
@@ -21,10 +24,7 @@ namespace InteropTools.Classes
             return new StreamReader(resource).ReadLine().Replace("\r", "");
         }
 
-        public static string GetBuildString()
-        {
-            return $"{GetVersion()} ({GetBranch()}.{GetBuildDate()})";
-        }
+        public static string GetBuildString() => $"{GetVersion()} ({GetBranch()}.{GetBuildDate()})";
 
         public static string GetVersion()
         {

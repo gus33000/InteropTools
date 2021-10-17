@@ -1,7 +1,10 @@
-﻿using Microsoft.Toolkit.Uwp;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 
@@ -53,10 +56,7 @@ namespace InteropTools.Providers
             SetKeyValue
         }
 
-        public bool IsLocal()
-        {
-            return App.RegistryHelper.IsLocal();
-        }
+        public bool IsLocal() => App.RegistryHelper.IsLocal();
 
         public bool AllowsRegistryEditing()
         {
@@ -70,34 +70,19 @@ namespace InteropTools.Providers
             }
         }
 
-        public string GetFriendlyName()
-        {
-            return App.RegistryHelper.GetFriendlyName();
-        }
+        public string GetFriendlyName() => App.RegistryHelper.GetFriendlyName();
 
-        public string GetHostName()
-        {
-            return App.RegistryHelper.GetHostName();
-        }
+        public string GetHostName() => App.RegistryHelper.GetHostName();
 
-        public string GetTitle()
-        {
-            return App.RegistryHelper.GetTitle();
-        }
+        public string GetTitle() => App.RegistryHelper.GetTitle();
 
-        public string GetDescription()
-        {
-            return App.RegistryHelper.GetDescription();
-        }
+        public string GetDescription() => App.RegistryHelper.GetDescription();
 
-        public string GetSymbol()
-        {
-            return App.RegistryHelper.GetSymbol();
-        }
+        public string GetSymbol() => App.RegistryHelper.GetSymbol();
 
         private bool ProgressShown;
 
-        private async void ShowStatusBarInfo(string text, bool show)
+        private async Task ShowStatusBarInfoAsync(string text, bool show)
         {
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
@@ -115,7 +100,8 @@ namespace InteropTools.Providers
                 {
                     if (isinuithread)
                     {
-                        Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                        Windows.UI.ViewManagement.StatusBar currentView =
+                            Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
 
                         await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
@@ -128,7 +114,8 @@ namespace InteropTools.Providers
                     {
                         await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                         {
-                            Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                            Windows.UI.ViewManagement.StatusBar currentView =
+                                Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
 
                             await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
@@ -147,7 +134,9 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.HideAsync());
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator
+                                .HideAsync());
                     }
                 }
 
@@ -157,7 +146,7 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
-            ShowStatusBarInfo("GetKeyValue", true);
+            await ShowStatusBarInfoAsync("GetKeyValue", true);
 
             GetKeyValueReturn ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
             _ = new HistoryItem()
@@ -172,160 +161,156 @@ namespace InteropTools.Providers
                 RetErrorCode = ret.returncode
             };
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data)
         {
-            ShowStatusBarInfo("SetKeyValue", true);
+            await ShowStatusBarInfoAsync("SetKeyValue", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<GetKeyValueReturn2> GetKeyValue(RegHives hive, string key, string keyvalue, uint type)
         {
-            ShowStatusBarInfo("GetKeyValue", true);
+            await ShowStatusBarInfoAsync("GetKeyValue", true);
 
             GetKeyValueReturn2 ret = await App.RegistryHelper.GetKeyValue(hive, key, keyvalue, type);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data)
         {
-            ShowStatusBarInfo("SetKeyValue", true);
+            await ShowStatusBarInfoAsync("SetKeyValue", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.SetKeyValue(hive, key, keyvalue, type, data);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
         {
-            ShowStatusBarInfo("DeleteValue", true);
+            await ShowStatusBarInfoAsync("DeleteValue", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.DeleteValue(hive, key, keyvalue);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
-            ShowStatusBarInfo("GetKeyStatus", true);
+            await ShowStatusBarInfoAsync("GetKeyStatus", true);
 
             KeyStatus ret = await App.RegistryHelper.GetKeyStatus(hive, key);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
         {
-            ShowStatusBarInfo("AddKey", true);
+            await ShowStatusBarInfoAsync("AddKey", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.AddKey(hive, key);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            ShowStatusBarInfo("GetKeyLastModifiedTime", true);
+            await ShowStatusBarInfoAsync("GetKeyLastModifiedTime", true);
 
             GetKeyLastModifiedTime ret = await App.RegistryHelper.GetKeyLastModifiedTime(hive, key);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
-            ShowStatusBarInfo("DeleteKey", true);
+            await ShowStatusBarInfoAsync("DeleteKey", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.DeleteKey(hive, key, recursive);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
-            ShowStatusBarInfo("RenameKey", true);
+            await ShowStatusBarInfoAsync("RenameKey", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.RenameKey(hive, key, newname);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
-            ShowStatusBarInfo("GetRegistryHives2", true);
+            await ShowStatusBarInfoAsync("GetRegistryHives2", true);
 
             IReadOnlyList<RegistryItemCustom> ret = await App.RegistryHelper.GetRegistryHives2();
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryItems2(RegHives hive, string key)
         {
-            ShowStatusBarInfo("GetRegistryItems2", true);
+            await ShowStatusBarInfoAsync("GetRegistryItems2", true);
 
             IReadOnlyList<RegistryItemCustom> ret = await App.RegistryHelper.GetRegistryItems2(hive, key);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
-        public bool DoesFileExists(string path)
-        {
-            return App.RegistryHelper.DoesFileExists(path);
-        }
+        public bool DoesFileExists(string path) => App.RegistryHelper.DoesFileExists(path);
 
-        public string GetAppInstallationPath()
-        {
-            return App.RegistryHelper.GetAppInstallationPath();
-        }
+        public string GetAppInstallationPath() => App.RegistryHelper.GetAppInstallationPath();
 
         public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
         {
-            ShowStatusBarInfo("LoadHive", true);
+            await ShowStatusBarInfoAsync("LoadHive", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.LoadHive(FileName, mountpoint, inUser);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }
 
         public async Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
         {
-            ShowStatusBarInfo("UnloadHive", true);
+            await ShowStatusBarInfoAsync("UnloadHive", true);
 
             HelperErrorCodes ret = await App.RegistryHelper.UnloadHive(mountpoint, inUser);
 
-            ShowStatusBarInfo(null, false);
+            await ShowStatusBarInfoAsync(null, false);
 
             return ret;
         }

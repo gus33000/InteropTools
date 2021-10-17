@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 
 namespace Intense
 {
@@ -19,15 +22,13 @@ namespace Intense
         /// Initializes a new instance of the <see cref="WeakEventHandler{TEventTarget, TEventTypedSource, TEventSource, TEventArgs}"/>.
         /// </summary>
         /// <param name="target"></param>
-        public WeakEventHandler(TEventTarget target)
-        {
-            reference = new WeakReference<TEventTarget>(target);
-        }
+        public WeakEventHandler(TEventTarget target) => reference = new WeakReference<TEventTarget>(target);
 
         /// <summary>
         /// The method for detaching the event handler.
         /// </summary>
-        public Action<WeakEventHandler<TEventTarget, TEventTypedSource, TEventSource, TEventArgs>, TEventTypedSource> Detach { get; set; }
+        public Action<WeakEventHandler<TEventTarget, TEventTypedSource, TEventSource, TEventArgs>, TEventTypedSource>
+            Detach { get; set; }
 
         /// <summary>
         /// The event handler of the target.

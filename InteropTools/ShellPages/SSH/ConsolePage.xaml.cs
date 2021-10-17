@@ -1,11 +1,13 @@
-﻿using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using System.Text;
+using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.ShellPages.Core;
 using Renci.SshNet;
 using Renci.SshNet.Common;
-using System;
-using System.Text;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.System.Threading;
@@ -35,22 +37,15 @@ namespace InteropTools.ShellPages.SSH
         public string PageName => "System Console";
         public ShellStream ShellStream { get; set; }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedFrom(NavigationEventArgs e) =>
             Window.Current.CoreWindow.CharacterReceived -= CoreWindow_CharacterReceived;
-        }
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
@@ -60,12 +55,12 @@ namespace InteropTools.ShellPages.SSH
 
         private void ConsoleBox_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+            MenuFlyout flyout = new() {Placement = FlyoutPlacementMode.Top};
             MenuFlyoutItem flyoutitem = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Paste",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Paste",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
             flyoutitem.Click += async (sender_, e_) =>
             {
@@ -92,8 +87,8 @@ namespace InteropTools.ShellPages.SSH
             MenuFlyoutItem flyoutitem2 = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Select_All",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Select_All",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
             flyoutitem2.Click += (sender_, e_) => ConsoleBox.SelectAll();
 
@@ -146,8 +141,10 @@ namespace InteropTools.ShellPages.SSH
             if (!await SessionManager.IsCMDSupported())
             {
                 await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page", ResourceContext.GetForCurrentView()).ValueAsString,
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now", ResourceContext.GetForCurrentView()).ValueAsString);
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now",
+                        ResourceContext.GetForCurrentView()).ValueAsString);
                 Shell shell = (Shell)App.AppContent;
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 return;
@@ -155,14 +152,19 @@ namespace InteropTools.ShellPages.SSH
 
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
-                                RegTypes.REG_DWORD); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"System\CurrentControlSet\Control\CI", "UMCIAuditMode",
+                RegTypes.REG_DWORD);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
                 await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page", ResourceContext.GetForCurrentView()).ValueAsString,
-                  ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now", ResourceContext.GetForCurrentView()).ValueAsString);
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/In_order_to_use_this_page",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/You_can_t_use_this_right_now",
+                        ResourceContext.GetForCurrentView()).ValueAsString);
                 Shell shell = (Shell)App.AppContent;
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 return;
@@ -173,8 +175,8 @@ namespace InteropTools.ShellPages.SSH
 
         private void ShowKeybHack_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
-            if (!ConsoleBox.Text.EndsWith(ShowKeybHack.Text) && (ShowKeybHack.Text != "") &&
-                (ShowKeybHack.Text.Length > 1))
+            if (!ConsoleBox.Text.EndsWith(ShowKeybHack.Text) && ShowKeybHack.Text != "" &&
+                ShowKeybHack.Text.Length > 1)
             {
                 if (ShellStream != null)
                 {
@@ -188,8 +190,7 @@ namespace InteropTools.ShellPages.SSH
             ShowKeybHack.Text = "";
         }
 
-        private void Start()
-        {
+        private void Start() =>
             RunInThreadPool(() =>
             {
                 try
@@ -200,10 +201,10 @@ namespace InteropTools.ShellPages.SSH
                 }
                 catch (Exception ex)
                 {
-                    RunInUiThread(async () => await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message));
+                    RunInUiThread(async () =>
+                        await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ex.Message));
                 }
             });
-        }
 
         private void Stream_DataReceived(object sender, ShellDataEventArgs e)
         {

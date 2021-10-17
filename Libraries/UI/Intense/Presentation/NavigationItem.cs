@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using Windows.UI.Xaml.Markup;
 
 namespace Intense.Presentation
@@ -8,7 +11,7 @@ namespace Intense.Presentation
     /// </summary>
     [ContentProperty(Name = "Items")]
     public class NavigationItem
-         : Displayable
+        : Displayable
     {
         private readonly NavigationItemCollection items;
         private string description;
@@ -22,10 +25,7 @@ namespace Intense.Presentation
         /// <summary>
         /// Initializes a new instance of the <see cref="NavigationItem"/> class.
         /// </summary>
-        public NavigationItem()
-        {
-            items = new NavigationItemCollection(this);
-        }
+        public NavigationItem() => items = new NavigationItemCollection(this);
 
         /// <summary>
         /// Gets or sets a description of the item.

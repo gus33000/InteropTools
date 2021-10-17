@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.UI.Xaml.Documents;
@@ -22,6 +25,7 @@ namespace Intense.UI
             {
                 return paragraph.Inlines;
             }
+
             if (o is Span span)
             {
                 return span.Inlines;
@@ -35,9 +39,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public TextElement GetParent(TextElement o)
-        {
-            throw new NotSupportedException();
-        }
+        public TextElement GetParent(TextElement o) => throw new NotSupportedException();
     }
 }

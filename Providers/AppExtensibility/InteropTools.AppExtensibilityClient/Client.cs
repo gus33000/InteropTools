@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Linq;
 using System.Threading.Tasks;
 using Plugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider;
 
@@ -10,7 +13,9 @@ namespace InteropTools.AppExtensibilityClient
 
         public async Task<bool> Initialize()
         {
-            AppPlugin.PluginList.PluginList<string, string, double> plugins = await AppExtensibilityDefinition.AppExtensibilityDefinition.ListAsync(AppExtensibilityDefinition.AppExtensibilityDefinition.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> plugins =
+                await AppExtensibilityDefinition.AppExtensibilityDefinition.ListAsync(AppExtensibilityDefinition
+                    .AppExtensibilityDefinition.PLUGIN_NAME);
 
             if (plugins.Plugins.Count() != 0)
             {

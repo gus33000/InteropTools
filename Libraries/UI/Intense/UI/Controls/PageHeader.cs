@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,40 +16,44 @@ namespace Intense.UI.Controls
         /// <summary>
         /// Identifies the IconButtonStyle dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconButtonStyleProperty = DependencyProperty.Register("IconButtonStyle", typeof(Style), typeof(PageHeader), null);
+        public static readonly DependencyProperty IconButtonStyleProperty =
+            DependencyProperty.Register("IconButtonStyle", typeof(Style), typeof(PageHeader), null);
 
         /// <summary>
         /// Identifies the IconCommand dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconCommandProperty = DependencyProperty.Register("IconCommand", typeof(ICommand), typeof(PageHeader), null);
+        public static readonly DependencyProperty IconCommandProperty =
+            DependencyProperty.Register("IconCommand", typeof(ICommand), typeof(PageHeader), null);
 
         /// <summary>
         /// Identifies the Icon dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(string), typeof(PageHeader), null);
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(string), typeof(PageHeader), null);
 
         /// <summary>
         /// Identifies the IsSearchBoxVisible dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsSearchBoxVisibleProperty = DependencyProperty.Register("IsSearchBoxVisible", typeof(bool), typeof(PageHeader), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsSearchBoxVisibleProperty =
+            DependencyProperty.Register("IsSearchBoxVisible", typeof(bool), typeof(PageHeader),
+                new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the SearchTerm dependency property.
         /// </summary>
-        public static readonly DependencyProperty SearchTermProperty = DependencyProperty.Register("SearchTerm", typeof(string), typeof(PageHeader), null);
+        public static readonly DependencyProperty SearchTermProperty =
+            DependencyProperty.Register("SearchTerm", typeof(string), typeof(PageHeader), null);
 
         /// <summary>
         /// Identifies the Title dependency property.
         /// </summary>
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(PageHeader), null);
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(PageHeader), null);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PageHeader"/> control.
         /// </summary>
-        public PageHeader()
-        {
-            DefaultStyleKey = typeof(PageHeader);
-        }
+        public PageHeader() => DefaultStyleKey = typeof(PageHeader);
 
         /// <summary>
         /// Gets or sets the icon.

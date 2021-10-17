@@ -118,11 +118,18 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert.cs" />
     <Compile Include="CRegistryHelper.cs" />
     <Compile Include="IRegistryProvider.cs" />
-    <Compile Include="RegistryEnums.cs" />
+    <Compile Include="REG_ITEM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryRTProvider.cs" />
+    <Compile Include="REG_HIVES.cs" />
+    <Compile Include="REG_ITEM_CUSTOM.cs" />
+    <Compile Include="REG_KEY_STATUS.cs" />
+    <Compile Include="REG_STATUS.cs" />
+    <Compile Include="REG_TYPE.cs" />
+    <Compile Include="REG_VALUE_TYPE.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RegistryRT\RegistryRT.vcxproj">
