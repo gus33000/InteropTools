@@ -1,5 +1,8 @@
-﻿using Intense.UI;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using Intense.UI;
 using Windows.UI.Xaml;
 
 namespace Intense.Presentation

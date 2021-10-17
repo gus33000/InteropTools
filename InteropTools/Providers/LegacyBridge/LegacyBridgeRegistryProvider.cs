@@ -1,10 +1,12 @@
-﻿using InteropTools.ContentDialogs.Providers;
-using Microsoft.Toolkit.Uwp;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
+using InteropTools.ContentDialogs.Providers;
+using Microsoft.Toolkit.Uwp;
 using Windows.UI.Core;
 
 namespace InteropTools.Providers
@@ -54,7 +56,7 @@ namespace InteropTools.Providers
             return await ExecuteAction(providerFunctionCall, (t) => t, (t) => t, (t) => t);
         }
 
-        public async Task<T1> ExecuteAction<T1,T2>(Func<IRegProvider, Task<T2>> providerFunctionCall, Func<T2, T1> typeConverterCall, Func<T2, HelperErrorCodes> typeStatusConverter, Func<HelperErrorCodes, T1> statusTypeConverter, bool SecondCall = false)
+        public async Task<T1> ExecuteAction<T1, T2>(Func<IRegProvider, Task<T2>> providerFunctionCall, Func<T2, T1> typeConverterCall, Func<T2, HelperErrorCodes> typeStatusConverter, Func<HelperErrorCodes, T1> statusTypeConverter, bool SecondCall = false)
         {
             try
             {
@@ -190,13 +192,13 @@ namespace InteropTools.Providers
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            return await ExecuteAction((t) => t.RegQueryKeyLastModifiedTime(hive, key), (t) => new Providers.GetKeyLastModifiedTime() {  LastModified = new DateTime(t.LastModified), returncode = t.returncode }, (t) => t.returncode, (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(), returncode = t });
+            return await ExecuteAction((t) => t.RegQueryKeyLastModifiedTime(hive, key), (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(t.LastModified), returncode = t.returncode }, (t) => t.returncode, (t) => new Providers.GetKeyLastModifiedTime() { LastModified = new DateTime(), returncode = t });
         }
 
         public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
         {
             return await ExecuteAction((Func<IRegProvider, Task<Providers.KeyStatus>>)((t) => (Task<Providers.KeyStatus>)t.RegQueryKeyStatus((RegHives)hive, (string)key)), (t) => t, (Func<Providers.KeyStatus, HelperErrorCodes>)((t) =>
-            { 
+            {
                 switch (t)
                 {
                     case Providers.KeyStatus.Found:

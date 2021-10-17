@@ -1,9 +1,12 @@
-﻿using InteropTools.CorePages;
-using InteropTools.Presentation;
-using InteropTools.RemoteClasses.Server;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.IO;
 using System.Reflection;
+using InteropTools.CorePages;
+using InteropTools.Presentation;
+using InteropTools.RemoteClasses.Server;
 using Windows.ApplicationModel;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;

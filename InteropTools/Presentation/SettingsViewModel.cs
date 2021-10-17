@@ -1,11 +1,14 @@
-﻿using Intense.Presentation;
-using Intense.UI;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Intense.Presentation;
+using Intense.UI;
 using Windows.ApplicationModel.Core;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;

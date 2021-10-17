@@ -1,10 +1,13 @@
-﻿using InteropTools.Presentation;
-using InteropTools.Providers;
-using InteropTools.RemoteClasses.Client;
-using Microsoft.Toolkit.Uwp.UI.Animations;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using InteropTools.Presentation;
+using InteropTools.Providers;
+using InteropTools.RemoteClasses.Client;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Security.Credentials;
 using Windows.Security.Cryptography;

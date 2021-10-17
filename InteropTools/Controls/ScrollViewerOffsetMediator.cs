@@ -1,4 +1,7 @@
-﻿namespace InteropTools.Controls
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+namespace InteropTools.Controls
 {
     /// <summary>
     /// Mediator that forwards Offset property changes on to a ScrollViewer

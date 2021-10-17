@@ -1,11 +1,14 @@
-﻿using InteropTools.Classes;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using InteropTools.Classes;
 using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.Resources;
 using Microsoft.HockeyApp;
 using Microsoft.Services.Store.Engagement;
 using Microsoft.Toolkit.Uwp.Notifications;
-using System;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;

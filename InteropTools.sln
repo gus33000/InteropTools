@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31521.260
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{0F35CF07-AF90-4A1B-A7BB-EC69BF5CA1A5}"
 EndProject
@@ -134,6 +134,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteropTools.Providers.Registry.SampleProvider.App", "Providers\Registry\Sample\InteropTools.Providers.Registry.SampleProvider.App\InteropTools.Providers.Registry.SampleProvider.App.csproj", "{7DD8C7D1-E8AA-465F-8674-3C53D5DA2488}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteropTools", "InteropTools\InteropTools.csproj", "{3E508259-5704-4194-8F99-B6B25CA477D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AC9F650-09BA-4975-AA8D-3528CF73CC39}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

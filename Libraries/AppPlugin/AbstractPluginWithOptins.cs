@@ -1,8 +1,11 @@
-﻿using AppPlugin.PluginList;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using AppPlugin.PluginList;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 

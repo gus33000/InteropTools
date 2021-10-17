@@ -1,5 +1,8 @@
-﻿using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using InteropTools.CorePages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static InteropTools.ShellPages.Core.Viewmodel;

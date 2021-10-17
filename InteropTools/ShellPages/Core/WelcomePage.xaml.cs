@@ -1,7 +1,10 @@
-﻿using Intense.Presentation;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using Intense.Presentation;
 using InteropTools.Classes;
 using InteropTools.CorePages;
-using System;
 using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI.StartScreen;

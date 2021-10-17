@@ -1,10 +1,13 @@
-﻿using InteropTools.RemoteClasses.Client;
-using Newtonsoft.Json;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using InteropTools.RemoteClasses.Client;
+using Newtonsoft.Json;
 using Windows.ApplicationModel.Resources.Core;
 
 namespace InteropTools.Providers

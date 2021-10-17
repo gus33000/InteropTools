@@ -1,9 +1,11 @@
-﻿using InteropTools.ContentDialogs.SSH;
-using InteropTools.CorePages;
-using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
+using InteropTools.ContentDialogs.SSH;
+using InteropTools.CorePages;
+using InteropTools.Providers;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

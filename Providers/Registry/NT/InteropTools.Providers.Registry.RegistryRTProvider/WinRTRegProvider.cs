@@ -1,4 +1,7 @@
-﻿/*++
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+/*++
 
 Copyright (c) 2016  Interop Tools Development Team
 Copyright (c) 2017  Gustave M.
@@ -23,7 +26,6 @@ Revision History:
 
 --*/
 
-using RegistryRT;
 using System.Collections.Generic;
 
 namespace InteropTools.Providers.Registry.RegistryRTProvider

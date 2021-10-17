@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 

@@ -1,4 +1,7 @@
-﻿using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using InteropTools.CorePages;
 using InteropTools.Providers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;

@@ -1,14 +1,16 @@
-﻿using InteropTools.ContentDialogs.Registry;
-using InteropTools.CorePages;
-using InteropTools.Providers;
-using InteropTools.ShellPages.Core;
-using Microsoft.Toolkit.Uwp.UI.Animations;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using Windows.ApplicationModel.Core;
+using InteropTools.ContentDialogs.Registry;
+using InteropTools.CorePages;
+using InteropTools.Providers;
+using InteropTools.ShellPages.Core;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
 using Windows.Phone.UI.Input;

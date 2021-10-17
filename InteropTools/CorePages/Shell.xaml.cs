@@ -1,4 +1,11 @@
-﻿using Intense.Presentation;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Intense.Presentation;
 using InteropTools.ContentDialogs.Core;
 using InteropTools.ContentDialogs.Registry;
 using InteropTools.Presentation;
@@ -9,11 +16,6 @@ using InteropTools.ShellPages.Core;
 using InteropTools.ShellPages.Registry;
 using InteropTools.ShellPages.SSH;
 using InteropTools.ShellPages.Store;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TreeViewControl;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;

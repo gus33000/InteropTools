@@ -1,8 +1,11 @@
-﻿using InteropTools.Providers;
-using Renci.SshNet;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using InteropTools.Providers;
+using Renci.SshNet;
 using Windows.ApplicationModel;
 using Windows.Storage;
 

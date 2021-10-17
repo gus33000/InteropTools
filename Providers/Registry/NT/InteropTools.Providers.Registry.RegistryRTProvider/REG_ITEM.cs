@@ -1,4 +1,7 @@
-﻿namespace InteropTools.Providers.Registry.RegistryRTProvider
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+namespace InteropTools.Providers.Registry.RegistryRTProvider
 {
     internal sealed class REG_ITEM
     {

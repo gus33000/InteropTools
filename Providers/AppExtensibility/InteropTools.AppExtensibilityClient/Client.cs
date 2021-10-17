@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Linq;
 using System.Threading.Tasks;
 using Plugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider;
 

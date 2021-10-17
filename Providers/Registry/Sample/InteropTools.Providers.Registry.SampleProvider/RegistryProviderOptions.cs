@@ -1,5 +1,8 @@
-﻿using InteropTools.Providers.Registry.Definition;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
+using InteropTools.Providers.Registry.Definition;
 
 namespace InteropTools.Providers.Registry.SampleProvider
 {

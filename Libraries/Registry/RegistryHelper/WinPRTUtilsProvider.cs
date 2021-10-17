@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 #if ARM
@@ -73,7 +76,7 @@ namespace RegistryHelper
 #endif
             return REG_STATUS.NOT_IMPLEMENTED;
         }
-        
+
         public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out string data)
         {
             bool hadaccessdenied = false;

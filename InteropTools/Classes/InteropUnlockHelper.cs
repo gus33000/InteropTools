@@ -1,7 +1,10 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using InteropTools.Providers;
 
 namespace InteropTools.Classes
 {

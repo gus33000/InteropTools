@@ -1,4 +1,6 @@
-﻿using InteropTools.Providers;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using InteropTools.Providers;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

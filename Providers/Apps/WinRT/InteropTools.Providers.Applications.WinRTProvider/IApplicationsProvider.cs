@@ -1,4 +1,7 @@
-﻿using Windows.Management.Deployment;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using Windows.Management.Deployment;
 
 namespace InteropTools.Providers.Applications.WinRTProvider
 {

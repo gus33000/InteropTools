@@ -1,4 +1,7 @@
-﻿namespace InteropTools.ContentDialogs.Core
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+namespace InteropTools.ContentDialogs.Core
 {
     [TemplatePart(Name = "listviewRows", Type = typeof(ListView))]
     [ContentProperty(Name = "Items")]

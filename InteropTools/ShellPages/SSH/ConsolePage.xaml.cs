@@ -1,11 +1,13 @@
-﻿using InteropTools.CorePages;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
+using System;
+using System.Text;
+using InteropTools.CorePages;
 using InteropTools.Providers;
 using InteropTools.ShellPages.Core;
 using Renci.SshNet;
 using Renci.SshNet.Common;
-using System;
-using System.Text;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.System.Threading;

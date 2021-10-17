@@ -1,8 +1,6 @@
-﻿using InteropTools.ContentDialogs.Core;
-using InteropTools.ContentDialogs.Registry;
-using InteropTools.Presentation;
-using InteropTools.Providers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿// Copyright 2015-2021 (c) Interop Tools Development Team
+// This file is licensed to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,7 +8,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using Windows.ApplicationModel.Core;
+using InteropTools.ContentDialogs.Core;
+using InteropTools.ContentDialogs.Registry;
+using InteropTools.Presentation;
+using InteropTools.Providers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
