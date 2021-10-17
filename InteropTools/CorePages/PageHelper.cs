@@ -5,9 +5,8 @@ namespace InteropTools.CorePages
 {
     public static class PageHelper
     {
-        public static string GetIconForPageGroup(PageGroup group)
-        {
-            return group switch
+        public static string GetIconForPageGroup(PageGroup group) =>
+            group switch
             {
                 PageGroup.Bottom => "",
                 PageGroup.Core => "",
@@ -16,23 +15,20 @@ namespace InteropTools.CorePages
                 PageGroup.SSH => "",
                 PageGroup.Tweaks => "",
                 PageGroup.Unlock => "",
-                _ => "",
+                _ => ""
             };
-        }
 
-        public static string GetNameForPageGroup(PageGroup group)
-        {
-            return group switch
+        public static string GetNameForPageGroup(PageGroup group) =>
+            group switch
             {
                 PageGroup.Bottom => "",
                 PageGroup.Core => "Core",
-                PageGroup.General => Resources.TextResources.Shell_GeneralGroupName,
-                PageGroup.Registry => Resources.TextResources.Shell_RegistryGroupName,
-                PageGroup.SSH => Resources.TextResources.Shell_SSHGroupName,
-                PageGroup.Tweaks => Resources.TextResources.Shell_TweakGroupName,
-                PageGroup.Unlock => Resources.TextResources.Shell_UnlockGroupName,
-                _ => "",
+                PageGroup.General => InteropTools.Resources.TextResources.Shell_GeneralGroupName,
+                PageGroup.Registry => InteropTools.Resources.TextResources.Shell_RegistryGroupName,
+                PageGroup.SSH => InteropTools.Resources.TextResources.Shell_SSHGroupName,
+                PageGroup.Tweaks => InteropTools.Resources.TextResources.Shell_TweakGroupName,
+                PageGroup.Unlock => InteropTools.Resources.TextResources.Shell_UnlockGroupName,
+                _ => ""
             };
-        }
     }
 }

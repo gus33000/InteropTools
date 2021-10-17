@@ -12,10 +12,12 @@ namespace InteropTools.Resources
         public static string AddUser = "Add user";
 
         //SSHAccountManager
-        public static string AllowUMCI = "Allow running apps in a non signed environment (UMCI Audit Mode) (Redstone and higher) (Required to access CMD)";
+        public static string AllowUMCI =
+            "Allow running apps in a non signed environment (UMCI Audit Mode) (Redstone and higher) (Required to access CMD)";
 
         // App
-        public static string App_SuspendingDescription = "Remote Access requires the app to stay working in the background to work properly.";
+        public static string App_SuspendingDescription =
+            "Remote Access requires the app to stay working in the background to work properly.";
 
         public static string AppDesc = "Interop Tools (Preview)";
 
@@ -25,11 +27,14 @@ namespace InteropTools.Resources
 
         public static string ApplicationManager_DeploymentMode = "Deployment Mode";
 
-        public static string ApplicationManager_DeploymentModeDesc1 = "When you set this option, the app is installed in development mode.";
+        public static string ApplicationManager_DeploymentModeDesc1 =
+            "When you set this option, the app is installed in development mode.";
 
-        public static string ApplicationManager_DeploymentModeDesc2 = "Use this option to enable key app development scenarios.";
+        public static string ApplicationManager_DeploymentModeDesc2 =
+            "Use this option to enable key app development scenarios.";
 
-        public static string ApplicationManager_DeploymentModeDesc3 = "You can't use this option in conjunction with a bundle package.";
+        public static string ApplicationManager_DeploymentModeDesc3 =
+            "You can't use this option in conjunction with a bundle package.";
 
         // Application Manager
         public static string ApplicationManager_DeploymentOptions = "Deployment Options";
@@ -38,25 +43,37 @@ namespace InteropTools.Resources
         public static string ApplicationManager_ForceApplicationShutdown = "Force Application Shutdown";
 
         public static string ApplicationManager_ForceApplicationShutdownDesc =
-          "If the package, or any package that depends on this package, is currently in use, the processes associated with the package are shut down forcibly so that registration can continue.";
+            "If the package, or any package that depends on this package, is currently in use, the processes associated with the package are shut down forcibly so that registration can continue.";
 
         public static string ApplicationManager_ForceTargetApplicationShutdown = "Force Target Application Shutdown";
 
         public static string ApplicationManager_ForceTargetApplicationShutdownDesc =
-          "If the package is currently in use, the processes associated with the package are shut down forcibly so that registration can continue.";
+            "If the package is currently in use, the processes associated with the package are shut down forcibly so that registration can continue.";
 
         public static string ApplicationManager_Install = "Install";
         public static string ApplicationManager_InstallAllResources = "Install All Resources";
-        public static string ApplicationManager_InstallAllResourcesDesc1 = "When you set this option, the app is instructed to skip resource applicability checks.";
-        public static string ApplicationManager_InstallAllResourcesDesc2 = "This effectively stages or registers all resource packages, which forces applicability for all packages contained in a bundle.";
-        public static string ApplicationManager_InstallAllResourcesDesc3 = "If the package is a bundle, all contained resource packages will be registered.";
+
+        public static string ApplicationManager_InstallAllResourcesDesc1 =
+            "When you set this option, the app is instructed to skip resource applicability checks.";
+
+        public static string ApplicationManager_InstallAllResourcesDesc2 =
+            "This effectively stages or registers all resource packages, which forces applicability for all packages contained in a bundle.";
+
+        public static string ApplicationManager_InstallAllResourcesDesc3 =
+            "If the package is a bundle, all contained resource packages will be registered.";
 
         public static string ApplicationManager_InstallBrowseButton = "Browse";
         public static string ApplicationManager_InstallCanceled = "Installation Canceled";
-        public static string ApplicationManager_InstallDesc = "Please browse to the package you want to install, then press install to install it";
+
+        public static string ApplicationManager_InstallDesc =
+            "Please browse to the package you want to install, then press install to install it";
+
         public static string ApplicationManager_InstallError = "Error: {0}";
         public static string ApplicationManager_InstallInProgress = "Installing... {0}%";
-        public static string ApplicationManager_InstallPlaceHolderPath = @"Example: C:\Data\Users\Documents\Test.appxbundle";
+
+        public static string ApplicationManager_InstallPlaceHolderPath =
+            @"Example: C:\Data\Users\Documents\Test.appxbundle";
+
         public static string ApplicationManager_InstallPrimaryButton = "Install Package";
         public static string ApplicationManager_InstallStatusReady = "Ready";
         public static string ApplicationManager_InstallSucceeded = "Installation Succeeded";
@@ -78,10 +95,16 @@ namespace InteropTools.Resources
         public static string ApplicationManager_Register = "Register";
         public static string ApplicationManager_RegisterBrowseButton = "Browse";
         public static string ApplicationManager_RegisterCanceled = "Registration Canceled";
-        public static string ApplicationManager_RegisterDesc = "Please browse to the package you want to register, then press register to register it";
+
+        public static string ApplicationManager_RegisterDesc =
+            "Please browse to the package you want to register, then press register to register it";
+
         public static string ApplicationManager_RegisterError = "Error: {0}";
         public static string ApplicationManager_RegisterInProgress = "Registering... {0}%";
-        public static string ApplicationManager_RegisterPlaceHolderPath = @"Example: C:\Data\Users\Documents\TestPackage\AppxManifest.xml";
+
+        public static string ApplicationManager_RegisterPlaceHolderPath =
+            @"Example: C:\Data\Users\Documents\TestPackage\AppxManifest.xml";
+
         public static string ApplicationManager_RegisterPrimaryButton = "Register Package";
         public static string ApplicationManager_RegisterStatusReady = "Ready";
         public static string ApplicationManager_RegisterSucceeded = "Registration Succeeded";
@@ -90,10 +113,16 @@ namespace InteropTools.Resources
         public static string ApplicationManager_Update = "Update";
         public static string ApplicationManager_UpdateBrowseButton = "Browse";
         public static string ApplicationManager_UpdateCanceled = "Update Canceled";
-        public static string ApplicationManager_UpdateDesc = "Please browse to the package you want to update, then press update to update it";
+
+        public static string ApplicationManager_UpdateDesc =
+            "Please browse to the package you want to update, then press update to update it";
+
         public static string ApplicationManager_UpdateError = "Error: {0}";
         public static string ApplicationManager_UpdateInProgress = "Updating... {0}%";
-        public static string ApplicationManager_UpdatePlaceHolderPath = @"Example: C:\Data\Users\Documents\Test.appxbundle";
+
+        public static string ApplicationManager_UpdatePlaceHolderPath =
+            @"Example: C:\Data\Users\Documents\Test.appxbundle";
+
         public static string ApplicationManager_UpdatePrimaryButton = "Update Package";
         public static string ApplicationManager_UpdateStatusReady = "Ready";
         public static string ApplicationManager_UpdateSucceeded = "Update Succeeded";
@@ -141,7 +170,8 @@ namespace InteropTools.Resources
         //DeviceInfoPage
         public static string DeviceName = "Device name";
 
-        public static string Disclaimer = "To use that page you need MS_WEH_LEDALERT installed on the mobile device, the feature needs to match your OS version for best results and to have working delta/differential updates with Windows Update. Future OS updates will upgrade the feature automatically as Microsoft provisions that feature through Windows Update.";
+        public static string Disclaimer =
+            "To use that page you need MS_WEH_LEDALERT installed on the mobile device, the feature needs to match your OS version for best results and to have working delta/differential updates with Windows Update. Future OS updates will upgrade the feature automatically as Microsoft provisions that feature through Windows Update.";
 
         public static string ExtensionsDesc = "Install, remove and lookup extensions.";
 
@@ -177,7 +207,8 @@ namespace InteropTools.Resources
 
         public static string HardwareVersion = "Hardware Version:";
 
-        public static string HistoryEmpty = "Your history list is empty. Read or write to a registry value to fill this space in.";
+        public static string HistoryEmpty =
+            "Your history list is empty. Read or write to a registry value to fill this space in.";
 
         public static string HistoryPagesSeeMore = "See more items";
 
@@ -376,7 +407,8 @@ namespace InteropTools.Resources
         public static string WhatsNewDesc = "Discover what's new, changed and fixed in this release.";
 
         //Settings page
-        public static string WindowsHelloDesc = "Require authentication at startup (requires Windows Hello or a PIN to be setup on the device).";
+        public static string WindowsHelloDesc =
+            "Require authentication at startup (requires Windows Hello or a PIN to be setup on the device).";
 
         //Registry Editor Locs
         public static string WriteValue = "Write value";
@@ -388,7 +420,9 @@ namespace InteropTools.Resources
         //SystemConsole
         public static string YouCantUseThisRightNow = "You can't use this right now";
 
-        public static string YouCantUseThisRightNowDesc = @"In order to use this page, you need to have properly configured cmd access already via the SSH Account Manager, please enable UMCI and provision the cmd files before attempting to use this page. Note: To use this page directly on the phone, you need to set HKLM\System\ControlSet001\Services\MpsSvc Start value to 4, doing this will break all application deployments, so be sure to set it back to 2 after being done.";
+        public static string YouCantUseThisRightNowDesc =
+            @"In order to use this page, you need to have properly configured cmd access already via the SSH Account Manager, please enable UMCI and provision the cmd files before attempting to use this page. Note: To use this page directly on the phone, you need to set HKLM\System\ControlSet001\Services\MpsSvc Start value to 4, doing this will break all application deployments, so be sure to set it back to 2 after being done.";
+
         public static string YourDeviceDesc = "Lookup information about your device.";
         public static string YourDeviceTitle = "Your device";
     }

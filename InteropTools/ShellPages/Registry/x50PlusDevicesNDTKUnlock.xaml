@@ -16,7 +16,8 @@
                     Text="Lumia x50 System Access Unlocker"
                     Visibility="{Binding PageTitleVisibility}" />
                 <TextBlock Style="{StaticResource ParagraphTextBlockStyle}">
-                    <Run Text="This page should only be used to get fully working registry system access on Lumia x50+ devices. Lumia x50+ devices have a newer version of the Nokia Development toolkit service installed that actually doesn't allow registry editing in some locations. This page will help you getting an older version of that service installed. This operation requires:" />
+                    <Run
+                        Text="This page should only be used to get fully working registry system access on Lumia x50+ devices. Lumia x50+ devices have a newer version of the Nokia Development toolkit service installed that actually doesn't allow registry editing in some locations. This page will help you getting an older version of that service installed. This operation requires:" />
                     <LineBreak />
                     <LineBreak />
                     <Run Text="• Some files to be downloaded off the XDA thread" />
@@ -25,11 +26,13 @@
                     <LineBreak />
                     <Run Text="• Patience (can take about 45 mins)" />
                     <LineBreak />
-                    <Run Text="• Rebooting your device multiple times and open back Interop Tools to complete the process." />
+                    <Run
+                        Text="• Rebooting your device multiple times and open back Interop Tools to complete the process." />
                     <LineBreak />
                     <LineBreak />
                     <LineBreak />
-                    <Run Text="If you don't want to run into any of this, wait until you want to or don't start this process" />
+                    <Run
+                        Text="If you don't want to run into any of this, wait until you want to or don't start this process" />
                 </TextBlock>
                 <Button
                     Margin="0,0,0,12"

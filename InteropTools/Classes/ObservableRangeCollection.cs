@@ -29,7 +29,7 @@ namespace InteropTools
         /// <param name="collection">collection: The collection from which the elements are copied.</param>
         /// <exception cref="ArgumentNullException">The collection parameter cannot be null.</exception>
         public ObservableRangeCollection(IEnumerable<T> collection)
-        : base(collection)
+            : base(collection)
         {
         }
 
@@ -78,10 +78,7 @@ namespace InteropTools
         /// <summary>
         ///     Clears the current collection and replaces it with the specified item.
         /// </summary>
-        public void Replace(T item)
-        {
-            ReplaceRange(new[] { item });
-        }
+        public void Replace(T item) => ReplaceRange(new[] {item});
 
         /// <summary>
         ///     Clears the current collection and replaces it with the specified collection.

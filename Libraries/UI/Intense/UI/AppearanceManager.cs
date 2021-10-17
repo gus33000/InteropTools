@@ -18,20 +18,17 @@ namespace Intense.UI
 
         private static readonly Uri AccentBrushesSource = new("ms-appx:///Intense/Themes/AccentBrushes.xaml");
 
-        private static readonly DependencyProperty AppearanceManagerProperty = DependencyProperty.RegisterAttached("AppearanceManager", typeof(AppearanceManager), typeof(AppearanceManager), null);
+        private static readonly DependencyProperty AppearanceManagerProperty =
+            DependencyProperty.RegisterAttached("AppearanceManager", typeof(AppearanceManager),
+                typeof(AppearanceManager), null);
 
         private readonly FrameworkElement root;
 
-        static AppearanceManager()
-        {
+        static AppearanceManager() =>
             // initialize SystemAccentBrush
             GetSystemAccentBrush();
-        }
 
-        private AppearanceManager(FrameworkElement root)
-        {
-            this.root = root;
-        }
+        private AppearanceManager(FrameworkElement root) => this.root = root;
 
         /// <summary>
         /// Occurs when the application accent color has changed.
@@ -91,12 +88,14 @@ namespace Intense.UI
 
                 root.SetValue(AppearanceManagerProperty, manager);
             }
+
             return manager;
         }
 
         private static Color? GetAccentColor()
         {
-            ResourceDictionary dict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
+            ResourceDictionary dict =
+                Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
             if (dict != null)
             {
                 SolidColorBrush brush = dict.Values.OfType<SolidColorBrush>().FirstOrDefault();
@@ -121,23 +120,16 @@ namespace Intense.UI
             return brush;
         }
 
-        private static void OnAccentColorChanged()
-        {
-            AccentColorChanged?.Invoke(null, EventArgs.Empty);
-        }
+        private static void OnAccentColorChanged() => AccentColorChanged?.Invoke(null, EventArgs.Empty);
 
-        private static void OnSystemAccentColorChanged(DependencyObject o, DependencyProperty property)
-        {
+        private static void OnSystemAccentColorChanged(DependencyObject o, DependencyProperty property) =>
             SystemAccentColorChanged?.Invoke(null, EventArgs.Empty);
-        }
 
-        private static void ResetAllViews()
-        {
+        private static void ResetAllViews() =>
             // TODO: reset for all views
             _ = GetForCurrentView();
-            //manager.Reset();
-        }
 
+        //manager.Reset();
         private static void SetAccentColor(Color? color)
         {
             if (AccentColor == color)
@@ -146,7 +138,8 @@ namespace Intense.UI
             }
 
             // clear current accent brushes dictionary
-            ResourceDictionary currentDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
+            ResourceDictionary currentDict =
+                Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.Source == AccentBrushesSource);
             if (currentDict != null)
             {
                 Application.Current.Resources.MergedDictionaries.Remove(currentDict);
@@ -154,11 +147,12 @@ namespace Intense.UI
 
             if (color != null)
             {
-                ResourceDictionary dict = new() { Source = AccentBrushesSource };
+                ResourceDictionary dict = new() {Source = AccentBrushesSource};
                 foreach (SolidColorBrush brush in dict.Values.OfType<SolidColorBrush>())
                 {
                     brush.Color = color.Value;
                 }
+
                 Application.Current.Resources.MergedDictionaries.Add(dict);
             }
 
@@ -174,17 +168,16 @@ namespace Intense.UI
             {
                 return Application.Current.RequestedTheme;
             }
+
             if (root.RequestedTheme == ElementTheme.Dark)
             {
                 return ApplicationTheme.Dark;
             }
+
             return ApplicationTheme.Light;
         }
 
-        private void OnThemeChanged()
-        {
-            ThemeChanged?.Invoke(this, EventArgs.Empty);
-        }
+        private void OnThemeChanged() => ThemeChanged?.Invoke(this, EventArgs.Empty);
 
         private void Reset()
         {
@@ -213,6 +206,7 @@ namespace Intense.UI
                     elementTheme = ElementTheme.Dark;
                 }
             }
+
             root.RequestedTheme = elementTheme;
             if (raiseEvent && oldTheme != Theme)
             {

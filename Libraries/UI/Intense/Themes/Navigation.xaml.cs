@@ -13,9 +13,6 @@ namespace Intense.Themes
         /// <summary>
         /// Initializes a new instance of the <see cref="Navigation"/> class.
         /// </summary>
-        public Navigation()
-        {
-            InitializeComponent();
-        }
+        public Navigation() => InitializeComponent();
     }
 }

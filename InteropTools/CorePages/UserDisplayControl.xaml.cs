@@ -29,8 +29,9 @@ namespace InteropTools.CorePages
             {
                 IReadOnlyList<User> users = await User.FindAllAsync();
 
-                User current = users.FirstOrDefault(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
-                                            p.Type == UserType.LocalUser);
+                User current = users.FirstOrDefault(p =>
+                    p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                    p.Type == UserType.LocalUser);
 
                 // user may have username
                 object data = await current.GetPropertyAsync(KnownUserProperties.AccountName);
@@ -55,7 +56,8 @@ namespace InteropTools.CorePages
                 }
 
                 // user may have profile pic
-                Windows.Storage.Streams.IRandomAccessStreamReference datapic = await current.GetPictureAsync(UserPictureSize.Size64x64);
+                Windows.Storage.Streams.IRandomAccessStreamReference datapic =
+                    await current.GetPictureAsync(UserPictureSize.Size64x64);
 
                 if (datapic != null)
                 {
@@ -63,10 +65,7 @@ namespace InteropTools.CorePages
                     BitmapImage pic = new();
                     pic.SetSource(await datapic.OpenReadAsync());
 
-                    ImageBrush imgbrush = new()
-                    {
-                        ImageSource = pic
-                    };
+                    ImageBrush imgbrush = new() {ImageSource = pic};
 
                     Image.Background = imgbrush;
                     PicImage.ProfilePicture = pic;

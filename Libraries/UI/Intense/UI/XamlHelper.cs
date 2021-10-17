@@ -16,9 +16,7 @@ namespace Intense.UI
         /// </summary>
         /// <param name="colorAttr"></param>
         /// <returns></returns>
-        public static SolidColorBrush CreateSolidColorBrush(string colorAttr)
-        {
-            return (SolidColorBrush)XamlReader.Load($"<SolidColorBrush Color=\"{colorAttr}\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"/>");
-        }
+        public static SolidColorBrush CreateSolidColorBrush(string colorAttr) => (SolidColorBrush)XamlReader.Load(
+            $"<SolidColorBrush Color=\"{colorAttr}\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"/>");
     }
 }

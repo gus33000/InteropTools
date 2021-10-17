@@ -98,7 +98,8 @@
                     Header="Use the system accent color"
                     IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}" />
 
-                <StackPanel Visibility="{x:Bind ViewModel.UseSystemAccentColor, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
+                <StackPanel
+                    Visibility="{x:Bind ViewModel.UseSystemAccentColor, Mode=OneWay, Converter={StaticResource FalseToVisibleConverter}}">
 
                     <RadioButton
                         x:Name="PaletteRadio"

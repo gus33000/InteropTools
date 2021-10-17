@@ -32,9 +32,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public DependencyObject GetParent(DependencyObject o)
-        {
-            return VisualTreeHelper.GetParent(o);
-        }
+        public DependencyObject GetParent(DependencyObject o) => VisualTreeHelper.GetParent(o);
     }
 }

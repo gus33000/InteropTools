@@ -12,12 +12,8 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
         private readonly AbstractOption[] abstractOption;
 
-        public RegistryProviderOptions()
-        {
-            abstractOption = new AbstractOption[]
-            {
-            };
-        }
+        public RegistryProviderOptions() =>
+            abstractOption = new AbstractOption[] { };
 
         public RegistryProviderOptions(Options o)
         {
@@ -31,9 +27,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
 
         public override Guid OptionsIdentifier => ID;
 
-        protected override AbstractOption[] GetSettings()
-        {
-            return abstractOption;
-        }
+        protected override AbstractOption[] GetSettings() => abstractOption;
     }
 }

@@ -21,7 +21,8 @@
             <SolidColorBrush x:Key="SwipeItemUnexecutedBackground" Color="#FFA9A9A9" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="RefreshContainerForegroundBrush" Color="{ThemeResource SystemColorHighlightTextColor}" />
+            <SolidColorBrush x:Key="RefreshContainerForegroundBrush"
+                             Color="{ThemeResource SystemColorHighlightTextColor}" />
             <SolidColorBrush x:Key="SwipeItemBackground" Color="{ThemeResource SystemAccentColor}" />
             <SolidColorBrush x:Key="RefreshContainerBackgroundBrush" Color="{ThemeResource SystemColorHighlightColor}" />
             <SolidColorBrush x:Key="SwipeItemUnexecutedBackground" Color="#FFA9A9A9" />
@@ -162,32 +163,38 @@
                                 <VisualStateGroup.States>
                                     <VisualState x:Name="Disabled">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlDisabledSelectedForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlDisabledSelectedForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Placeholder">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlPlaceholderForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlPlaceholderForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverPlaceholder">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlPointerOverPlaceholderForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlPointerOverPlaceholderForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverUnselected">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlPointerOverUnselectedForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlPointerOverUnselectedForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Set">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlSelectedForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlSelectedForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PointerOverSet">
                                         <VisualState.Setters>
-                                            <Setter Target="ForegroundContentPresenter.Foreground" Value="{ThemeResource RatingControlSelectedForeground}" />
+                                            <Setter Target="ForegroundContentPresenter.Foreground"
+                                                    Value="{ThemeResource RatingControlSelectedForeground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup.States>
@@ -342,7 +349,8 @@
                                     <VisualState x:Name="Compact" />
                                     <VisualState x:Name="Expanded">
                                         <VisualState.Setters>
-                                            <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
+                                            <Setter Target="RootSplitView.PaneBackground"
+                                                    Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Minimal">
@@ -526,7 +534,8 @@
                                     <VisualState x:Name="FocusDisengaged" />
                                     <VisualState x:Name="FocusEngaged">
                                         <VisualState.Setters>
-                                            <Setter Target="SelectionEllipse.(Control.IsTemplateFocusTarget)" Value="True" />
+                                            <Setter Target="SelectionEllipse.(Control.IsTemplateFocusTarget)"
+                                                    Value="True" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup.States>
@@ -556,7 +565,8 @@
                                                 <Grid.Resources>
                                                     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                                         <Setter Property="BorderThickness" Value="0" />
-                                                        <Setter Property="Background" Value="{ThemeResource ColorPickerSliderThumbBackground}" />
+                                                        <Setter Property="Background"
+                                                                Value="{ThemeResource ColorPickerSliderThumbBackground}" />
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="Thumb">
@@ -628,7 +638,8 @@
                                                                         DataContext="{TemplateBinding Value}"
                                                                         Style="{StaticResource SliderThumbStyle}">
                                                                         <ToolTipService.ToolTip>
-                                                                            <ToolTip x:Name="ToolTip" VerticalOffset="20" />
+                                                                            <ToolTip x:Name="ToolTip"
+                                                                                VerticalOffset="20" />
                                                                         </ToolTipService.ToolTip>
                                                                     </Thumb>
                                                                 </Grid.Children>
@@ -642,18 +653,22 @@
                                                             <VisualState x:Name="Normal" />
                                                             <VisualState x:Name="Pressed">
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="HorizontalThumb.Background" Value="{ThemeResource ColorPickerSliderThumbBackgroundPressed}" />
+                                                                    <Setter Target="HorizontalThumb.Background"
+                                                                            Value="{ThemeResource ColorPickerSliderThumbBackgroundPressed}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="Disabled">
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                                                    <Setter Target="HorizontalThumb.Background" Value="{ThemeResource ColorPickerSliderThumbBackgroundDisabled}" />
+                                                                    <Setter Target="HeaderContentPresenter.Foreground"
+                                                                            Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                                    <Setter Target="HorizontalThumb.Background"
+                                                                            Value="{ThemeResource ColorPickerSliderThumbBackgroundDisabled}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="PointerOver">
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="HorizontalThumb.Background" Value="{ThemeResource ColorPickerSliderThumbBackgroundPointerOver}" />
+                                                                    <Setter Target="HorizontalThumb.Background"
+                                                                            Value="{ThemeResource ColorPickerSliderThumbBackgroundPointerOver}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                         </VisualStateGroup.States>
@@ -663,14 +678,22 @@
                                                             <VisualState x:Name="FocusDisengaged" />
                                                             <VisualState x:Name="FocusEngagedHorizontal">
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="SliderContainer.(Control.IsTemplateFocusTarget)" Value="False" />
-                                                                    <Setter Target="HorizontalThumb.(Control.IsTemplateFocusTarget)" Value="True" />
+                                                                    <Setter
+                                                                        Target="SliderContainer.(Control.IsTemplateFocusTarget)"
+                                                                        Value="False" />
+                                                                    <Setter
+                                                                        Target="HorizontalThumb.(Control.IsTemplateFocusTarget)"
+                                                                        Value="True" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="FocusEngagedVertical">
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="SliderContainer.(Control.IsTemplateFocusTarget)" Value="False" />
-                                                                    <Setter Target="VerticalThumb.(Control.IsTemplateFocusTarget)" Value="True" />
+                                                                    <Setter
+                                                                        Target="SliderContainer.(Control.IsTemplateFocusTarget)"
+                                                                        Value="False" />
+                                                                    <Setter
+                                                                        Target="VerticalThumb.(Control.IsTemplateFocusTarget)"
+                                                                        Value="True" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                         </VisualStateGroup.States>
@@ -727,7 +750,8 @@
                                                         Grid.ColumnSpan="2"
                                                         VerticalAlignment="Stretch">
                                                         <Rectangle.Fill>
-                                                            <ImageBrush x:Name="ColorPreviewRectangleCheckeredBackgroundImageBrush" />
+                                                            <ImageBrush
+                                                                x:Name="ColorPreviewRectangleCheckeredBackgroundImageBrush" />
                                                         </Rectangle.Fill>
                                                     </Rectangle>
                                                     <Rectangle
@@ -819,13 +843,16 @@
                                         <Button.Resources>
                                             <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#00FFFFFF" />
                                             <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource SystemBaseMediumLowColor}" />
+                                            <SolidColorBrush x:Key="ButtonForegroundPressed"
+                                                             Color="{ThemeResource SystemBaseMediumLowColor}" />
                                             <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#00FFFFFF" />
                                             <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemBaseMediumColor}" />
+                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver"
+                                                             Color="{ThemeResource SystemBaseMediumColor}" />
                                             <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#00FFFFFF" />
                                             <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="#00FFFFFF" />
-                                            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource SystemBaseMediumLowColor}" />
+                                            <SolidColorBrush x:Key="ButtonForegroundDisabled"
+                                                             Color="{ThemeResource SystemBaseMediumLowColor}" />
                                         </Button.Resources>
                                     </Button>
                                     <Grid x:Name="TextEntryGrid" Visibility="Collapsed">
@@ -857,7 +884,8 @@
                                                         <StackPanel.Children>
                                                             <StackPanel x:Name="RgbPanel">
                                                                 <StackPanel.Children>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="RedTextBox"
@@ -871,7 +899,8 @@
                                                                                 Text="Red" />
                                                                         </StackPanel.Children>
                                                                     </StackPanel>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="GreenTextBox"
@@ -885,7 +914,8 @@
                                                                                 Text="Green" />
                                                                         </StackPanel.Children>
                                                                     </StackPanel>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="BlueTextBox"
@@ -906,7 +936,8 @@
                                                                 Grid.Row="1"
                                                                 Visibility="Collapsed">
                                                                 <StackPanel.Children>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="HueTextBox"
@@ -920,7 +951,8 @@
                                                                                 Text="Hue" />
                                                                         </StackPanel.Children>
                                                                     </StackPanel>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="SaturationTextBox"
@@ -934,7 +966,8 @@
                                                                                 Text="Saturation" />
                                                                         </StackPanel.Children>
                                                                     </StackPanel>
-                                                                    <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel Margin="0,12,0,0"
+                                                                        Orientation="Horizontal">
                                                                         <StackPanel.Children>
                                                                             <TextBox
                                                                                 x:Name="ValueTextBox"
@@ -1263,7 +1296,8 @@
                                     <VisualState x:Name="BadgeWithImageSource">
                                         <VisualState.Setters>
                                             <Setter Target="BadgeGrid.Visibility" Value="Visible" />
-                                            <Setter Target="BadgingEllipse.Opacity" Value="{ThemeResource PersonPictureEllipseBadgeImageSourceStrokeOpacity}" />
+                                            <Setter Target="BadgingEllipse.Opacity"
+                                                    Value="{ThemeResource PersonPictureEllipseBadgeImageSourceStrokeOpacity}" />
                                             <Setter Target="BadgingEllipse.Fill">
                                                 <Setter.Value>
                                                     <ImageBrush x:Name="BadgeImageBrush" Stretch="UniformToFill" />

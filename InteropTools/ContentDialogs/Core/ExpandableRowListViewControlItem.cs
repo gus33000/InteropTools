@@ -1,22 +1,28 @@
 ﻿// Copyright 2015-2021 (c) Interop Tools Development Team
 // This file is licensed to you under the MIT license.
 
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
+
 namespace InteropTools.ContentDialogs.Core
 {
     [TemplatePart(Name = "gridRowHeader", Type = typeof(Grid))]
     [ContentProperty(Name = "Content")]
     public sealed class ExpandableRowListViewControlItem : ContentControl
     {
-        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(ExpandableRowListViewControlItem), new PropertyMetadata(false, IsExpanded_OnChanged));
-        public static readonly DependencyProperty RowHeaderProperty = DependencyProperty.Register(nameof(RowHeader), typeof(object), typeof(ExpandableRowListViewControlItem), null);
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(nameof(IsExpanded),
+            typeof(bool), typeof(ExpandableRowListViewControlItem), new PropertyMetadata(false, IsExpanded_OnChanged));
+
+        public static readonly DependencyProperty RowHeaderProperty = DependencyProperty.Register(nameof(RowHeader),
+            typeof(object), typeof(ExpandableRowListViewControlItem), null);
+
         private const string VISUALSTATES_COLLAPSED = "Collapsed";
         private const string VISUALSTATES_EXPANDED = "Expanded";
 
         public ExpandableRowListViewControlItem()
-            : base()
-        {
+            : base() =>
             DefaultStyleKey = typeof(ExpandableRowListViewControlItem);
-        }
 
         public bool IsExpanded
         {

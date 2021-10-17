@@ -31,12 +31,14 @@ namespace MySampleProvider
             devicePortalConnection.RequestReceived += DevicePortalConnection_RequestReceived;
         }
 
-        private void DevicePortalConnection_Closed(DevicePortalConnection sender, DevicePortalConnectionClosedEventArgs args)
+        private void DevicePortalConnection_Closed(DevicePortalConnection sender,
+            DevicePortalConnectionClosedEventArgs args)
         {
         }
 
         // Sample RequestReceived echo handler: respond with an HTML page including the query and some additional process information.
-        private void DevicePortalConnection_RequestReceived(DevicePortalConnection sender, DevicePortalConnectionRequestReceivedEventArgs args)
+        private void DevicePortalConnection_RequestReceived(DevicePortalConnection sender,
+            DevicePortalConnectionRequestReceivedEventArgs args)
         {
             HttpRequestMessage req = args.RequestMessage;
             HttpResponseMessage res = args.ResponseMessage;
@@ -45,8 +47,10 @@ namespace MySampleProvider
             {
                 // construct an html response message
                 string con = "<h1>" + req.RequestUri.AbsoluteUri + "</h1><br/>";
-                Windows.System.Diagnostics.ProcessDiagnosticInfo proc = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess();
-                con += string.Format("This process is consuming {0} bytes (Working Set)<br/>", proc.MemoryUsage.GetReport().WorkingSetSizeInBytes);
+                Windows.System.Diagnostics.ProcessDiagnosticInfo proc =
+                    Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess();
+                con += string.Format("This process is consuming {0} bytes (Working Set)<br/>",
+                    proc.MemoryUsage.GetReport().WorkingSetSizeInBytes);
                 con += string.Format("The process PID is {0}<br/>", proc.ProcessId);
                 con += string.Format("The executable filename is {0}", proc.ExecutableFileName);
                 res.Content = new HttpStringContent(con);

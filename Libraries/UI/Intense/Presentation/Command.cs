@@ -33,9 +33,6 @@ namespace Intense.Presentation
         /// <summary>
         /// Raises the <see cref="CanExecuteChanged"/> event.
         /// </summary>
-        public virtual void OnCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
+        public virtual void OnCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -12,7 +12,6 @@ namespace InteropTools.AppExtensibilityDefinition
         {
         }
 
-        [DataMember]
-        public string Value { get; set; }
+        [DataMember] public string Value { get; set; }
     }
 }

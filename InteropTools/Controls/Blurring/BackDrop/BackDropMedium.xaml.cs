@@ -7,9 +7,6 @@ namespace InteropTools.Controls.Blurring.BackDrop
 {
     public sealed partial class BackDropMedium : UserControl
     {
-        public BackDropMedium()
-        {
-            InitializeComponent();
-        }
+        public BackDropMedium() => InitializeComponent();
     }
 }

@@ -59,6 +59,7 @@ namespace InteropTools.Providers.Registry.NDTKProvider.App
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -69,10 +70,8 @@ namespace InteropTools.Providers.Registry.NDTKProvider.App
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) =>
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

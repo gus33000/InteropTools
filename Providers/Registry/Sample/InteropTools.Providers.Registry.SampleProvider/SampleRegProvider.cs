@@ -32,25 +32,13 @@ namespace InteropTools.Providers.Registry.SampleProvider
 {
     internal class SampleRegProvider : IRegProvider
     {
-        public bool IsSupported(REG_OPERATION operation)
-        {
-            return true;
-        }
+        public bool IsSupported(REG_OPERATION operation) => true;
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key) => REG_STATUS.SUCCESS;
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive) => REG_STATUS.SUCCESS;
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name) => REG_STATUS.SUCCESS;
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
@@ -58,14 +46,39 @@ namespace InteropTools.Providers.Registry.SampleProvider
 
             if (hive == null)
             {
-                list.Add(new REG_ITEM { Name = "HKEY_CLASSES_ROOT (HKCR)", Hive = REG_HIVES.HKEY_CLASSES_ROOT, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_CONFIG (HKCC)", Hive = REG_HIVES.HKEY_CURRENT_CONFIG, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_USER (HKCU)", Hive = REG_HIVES.HKEY_CURRENT_USER, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)", Hive = REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_DYN_DATA (HKDD)", Hive = REG_HIVES.HKEY_DYN_DATA, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_LOCAL_MACHINE (HKLM)", Hive = REG_HIVES.HKEY_LOCAL_MACHINE, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_PERFORMANCE_DATA (HKPD)", Hive = REG_HIVES.HKEY_PERFORMANCE_DATA, Type = REG_TYPE.HIVE });
-                list.Add(new REG_ITEM { Name = "HKEY_USERS (HKU)", Hive = REG_HIVES.HKEY_USERS, Type = REG_TYPE.HIVE });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CLASSES_ROOT (HKCR)", Hive = REG_HIVES.HKEY_CLASSES_ROOT, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_CONFIG (HKCC)", Hive = REG_HIVES.HKEY_CURRENT_CONFIG, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_USER (HKCU)", Hive = REG_HIVES.HKEY_CURRENT_USER, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_CURRENT_USER_LOCAL_SETTINGS (HKCULS)",
+                    Hive = REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS,
+                    Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_DYN_DATA (HKDD)", Hive = REG_HIVES.HKEY_DYN_DATA, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_LOCAL_MACHINE (HKLM)", Hive = REG_HIVES.HKEY_LOCAL_MACHINE, Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM
+                {
+                    Name = "HKEY_PERFORMANCE_DATA (HKPD)",
+                    Hive = REG_HIVES.HKEY_PERFORMANCE_DATA,
+                    Type = REG_TYPE.HIVE
+                });
+                list.Add(new REG_ITEM {Name = "HKEY_USERS (HKU)", Hive = REG_HIVES.HKEY_USERS, Type = REG_TYPE.HIVE});
 
                 items = list;
                 return REG_STATUS.SUCCESS;
@@ -73,7 +86,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
 
             items = new List<REG_ITEM>
             {
-                new REG_ITEM
+                new()
                 {
                     Name = "Test 1",
                     Hive = hive,
@@ -82,7 +95,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "est 2",
                     Hive = hive,
@@ -91,7 +104,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "st 3",
                     Hive = hive,
@@ -100,7 +113,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "t 4",
                     Hive = hive,
@@ -109,7 +122,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "Test 5",
                     Hive = hive,
@@ -118,7 +131,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "est 6",
                     Hive = hive,
@@ -127,7 +140,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = null,
                     ValueType = (uint)REG_VALUE_TYPE.REG_NONE
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "st 7",
                     Hive = hive,
@@ -136,7 +149,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = System.Text.Encoding.Unicode.GetBytes("Test value"),
                     ValueType = (uint)REG_VALUE_TYPE.REG_SZ
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "t 8",
                     Hive = hive,
@@ -145,7 +158,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = System.Text.Encoding.Unicode.GetBytes("Test value"),
                     ValueType = (uint)REG_VALUE_TYPE.REG_SZ
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "Test 9",
                     Hive = hive,
@@ -154,7 +167,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = System.Text.Encoding.Unicode.GetBytes("Test value"),
                     ValueType = (uint)REG_VALUE_TYPE.REG_SZ
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "est 10",
                     Hive = hive,
@@ -163,7 +176,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = System.Text.Encoding.Unicode.GetBytes("Test value"),
                     ValueType = (uint)REG_VALUE_TYPE.REG_SZ
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "st 11",
                     Hive = hive,
@@ -172,7 +185,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
                     Data = System.Text.Encoding.Unicode.GetBytes("Test value"),
                     ValueType = (uint)REG_VALUE_TYPE.REG_SZ
                 },
-                new REG_ITEM
+                new()
                 {
                     Name = "t 12",
                     Hive = hive,
@@ -185,10 +198,7 @@ namespace InteropTools.Providers.Registry.SampleProvider
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_STATUS RegLoadHive(string hivepath, string mountedname, bool InUser)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegLoadHive(string hivepath, string mountedname, bool InUser) => REG_STATUS.SUCCESS;
 
         public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
@@ -196,31 +206,21 @@ namespace InteropTools.Providers.Registry.SampleProvider
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
-        {
-            return REG_KEY_STATUS.FOUND;
-        }
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key) => REG_KEY_STATUS.FOUND;
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data)
         {
             outvaltype = (uint)REG_VALUE_TYPE.REG_SZ;
             data = System.Text.Encoding.Unicode.GetBytes("Test value");
             return REG_STATUS.SUCCESS;
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname) => REG_STATUS.SUCCESS;
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, byte[] data) =>
+            REG_STATUS.SUCCESS;
 
-        public REG_STATUS RegUnloadHive(string mountedname, bool InUser)
-        {
-            return REG_STATUS.SUCCESS;
-        }
+        public REG_STATUS RegUnloadHive(string mountedname, bool InUser) => REG_STATUS.SUCCESS;
     }
 }

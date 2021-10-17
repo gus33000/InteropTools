@@ -7,9 +7,6 @@ namespace InteropTools.Controls.Keyboards
 {
     public sealed partial class Carret : UserControl
     {
-        public Carret()
-        {
-            InitializeComponent();
-        }
+        public Carret() => InitializeComponent();
     }
 }

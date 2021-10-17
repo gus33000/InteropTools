@@ -11,73 +11,41 @@ namespace InteropTools.Providers
 {
     public sealed class CSampleRegistryProvider : IRegistryProvider
     {
-        public async Task<HelperErrorCodes> AddKey(RegHives hive, string key)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> AddKey(RegHives hive, string key) => HelperErrorCodes.Success;
 
-        public bool AllowsRegistryEditing()
-        {
-            return true;
-        }
+        public bool AllowsRegistryEditing() => true;
 
-        public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive) =>
+            HelperErrorCodes.Success;
 
-        public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> DeleteValue(RegHives hive, string key, string keyvalue) =>
+            HelperErrorCodes.Success;
 
-        public bool DoesFileExists(string path)
-        {
-            return true;
-        }
+        public bool DoesFileExists(string path) => true;
 
-        public string GetAppInstallationPath()
-        {
-            return Package.Current.InstalledLocation.Path;
-        }
+        public string GetAppInstallationPath() => Package.Current.InstalledLocation.Path;
 
-        public string GetDescription()
-        {
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/For_testing_purposes_only", ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        public string GetDescription() => ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/For_testing_purposes_only", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public string GetFriendlyName()
-        {
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Fake_device", ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        public string GetFriendlyName() => ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Fake_device", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public string GetHostName()
-        {
-            return "127.0.0.1";
-        }
+        public string GetHostName() => "127.0.0.1";
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
-            GetKeyLastModifiedTime ret = new()
-            {
-                LastModified = DateTime.Now,
-                returncode = HelperErrorCodes.Success
-            };
+            GetKeyLastModifiedTime ret = new() {LastModified = DateTime.Now, returncode = HelperErrorCodes.Success};
             return ret;
         }
 
-        public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key)
-        {
-            return KeyStatus.Found;
-        }
+        public async Task<KeyStatus> GetKeyStatus(RegHives hive, string key) => KeyStatus.Found;
 
         public async Task<GetKeyValueReturn> GetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type)
         {
             GetKeyValueReturn ret = new()
             {
-                regtype = RegTypes.REG_SZ,
-                regvalue = "Test",
-                returncode = HelperErrorCodes.Success
+                regtype = RegTypes.REG_SZ, regvalue = "Test", returncode = HelperErrorCodes.Success
             };
             return ret;
         }
@@ -86,9 +54,7 @@ namespace InteropTools.Providers
         {
             GetKeyValueReturn2 ret = new()
             {
-                regtype = (uint)RegTypes.REG_SZ,
-                regvalue = "Test",
-                returncode = HelperErrorCodes.Success
+                regtype = (uint)RegTypes.REG_SZ, regvalue = "Test", returncode = HelperErrorCodes.Success
             };
             return ret;
         }
@@ -485,44 +451,25 @@ namespace InteropTools.Providers
             return itemList;
         }
 
-        public string GetSymbol()
-        {
-            return "";
-        }
+        public string GetSymbol() => "";
 
-        public string GetTitle()
-        {
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Test_Provider", ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        public string GetTitle() => ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Test_Provider", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public bool IsLocal()
-        {
-            return true;
-        }
+        public bool IsLocal() => true;
 
-        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
-        {
+        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser) =>
             throw new NotImplementedException();
-        }
 
-        public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname) =>
+            HelperErrorCodes.Success;
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data) => HelperErrorCodes.Success;
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
-        {
-            return HelperErrorCodes.Success;
-        }
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data) => HelperErrorCodes.Success;
 
-        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser) => throw new NotImplementedException();
     }
 }

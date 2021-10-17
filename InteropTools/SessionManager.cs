@@ -28,13 +28,15 @@ namespace InteropTools
 
         public static readonly DisplayRequest DisplayRequest = new();
 
-        public static readonly string RemoteAllowLoc = ResourceManager.Current.MainResourceMap.GetValue("Resources/Allow", ResourceContext.GetForCurrentView()).ValueAsString;
+        public static readonly string RemoteAllowLoc = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Allow", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public static readonly string RemoteDenyLoc = ResourceManager.Current.MainResourceMap.GetValue("Resources/Deny", ResourceContext.GetForCurrentView()).ValueAsString;
+        public static readonly string RemoteDenyLoc = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Deny", ResourceContext.GetForCurrentView()).ValueAsString;
 
         public static readonly string RemoteLoc = ResourceManager.Current.MainResourceMap.GetValue(
-                                                      "Resources/The_following_Remote_device_wants_to_access_your_phone_Registry",
-              ResourceContext.GetForCurrentView()).ValueAsString;
+            "Resources/The_following_Remote_device_wants_to_access_your_phone_Registry",
+            ResourceContext.GetForCurrentView()).ValueAsString;
 
         // External stuff
         public static readonly RemoteServer Server = new();
@@ -42,6 +44,7 @@ namespace InteropTools
         public static readonly string SessionId = RandomString(10);
         public static readonly ObservableRangeCollection<Session> Sessions = new();
         public static int? CurrentSession;
+
         public static SshClient SshClient { get; set; }
         // End of external stuff
 
@@ -50,7 +53,7 @@ namespace InteropTools
             Session session = new()
             {
                 Helper = null,
-                WindowContent = new Shell(args),//new SelectProviderPage(args),
+                WindowContent = new Shell(args), //new SelectProviderPage(args),
                 CreationDate = DateTime.Now
             };
             Sessions.Add(session);
@@ -62,7 +65,10 @@ namespace InteropTools
             IRegistryProvider helper = App.MainRegistryHelper;
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD); _ = ret.regtype; _ = ret.regvalue;
+            GetKeyValueReturn ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"SYSTEM\ControlSet001\Services\MpsSvc", "Start", RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            _ = ret.regvalue;
 
             //if (regvalue != "2") return false;
 
@@ -71,24 +77,33 @@ namespace InteropTools
                 return true;
             }
 
-            await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-shell",
-                               RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
-            await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "default-env",
-                               RegTypes.REG_SZ, "currentdir,async,autoexec");
-            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "default-shell",
+                RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
+            await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "default-env",
+                RegTypes.REG_SZ, "currentdir,async,autoexec");
+            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "user-list",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
-            if ((regvalue == null) || (regvalue?.Length == 0))
+            if (regvalue == null || regvalue?.Length == 0)
             {
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                   RegTypes.REG_SZ, "Sirepuser");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                    "user-list",
+                    RegTypes.REG_SZ, "Sirepuser");
             }
 
             bool add = true;
 
             const string username = "InteropTools";
-            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                               RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                "user-list",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue.Contains(";"))
             {
@@ -110,40 +125,58 @@ namespace InteropTools
 
             if (add)
             {
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh", "user-list",
-                                   RegTypes.REG_SZ, regvalue + ";" + username);
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "user-name", RegTypes.REG_SZ, "LocalSystem");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "auth-method", RegTypes.REG_SZ, "password");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "user-pin", RegTypes.REG_SZ, SessionId);
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "subsystems", RegTypes.REG_SZ, "default,sftp");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                                   "default-home-dir", RegTypes.REG_SZ, @"%SystemRoot%\system32\");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-home-dir", RegTypes.REG_SZ, "C:\\");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-mkdir-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-open-dir-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-read-file-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-remove-file-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-rmdir-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-stat-rex", RegTypes.REG_SZ, ".*");
-                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, "System\\Currentcontrolset\\control\\ssh\\" + username,
-                                   "sftp-write-file-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh",
+                    "user-list",
+                    RegTypes.REG_SZ, regvalue + ";" + username);
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-name", RegTypes.REG_SZ, "LocalSystem");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "auth-method", RegTypes.REG_SZ, "password");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "user-pin", RegTypes.REG_SZ, SessionId);
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "subsystems", RegTypes.REG_SZ, "default,sftp");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"system\CurrentControlSet\control\ssh\" + username,
+                    "default-home-dir", RegTypes.REG_SZ, @"%SystemRoot%\system32\");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "default-shell", RegTypes.REG_SZ, @"%SystemRoot%\system32\cmd.exe");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-home-dir", RegTypes.REG_SZ, "C:\\");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-mkdir-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-open-dir-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-read-file-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-remove-file-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-rmdir-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-stat-rex", RegTypes.REG_SZ, ".*");
+                await helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    "System\\Currentcontrolset\\control\\ssh\\" + username,
+                    "sftp-write-file-rex", RegTypes.REG_SZ, ".*");
             }
 
-            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"system\CurrentControlSet\control\ssh\" + username,
-                               "user-pin", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+            ret = await helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"system\CurrentControlSet\control\ssh\" + username,
+                "user-pin", RegTypes.REG_SZ);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             try
             {
@@ -152,16 +185,13 @@ namespace InteropTools
                 string Password = regvalue;
                 PasswordConnectionInfo coninfo = new(Server, Username, Password)
                 {
-                    Timeout = new TimeSpan(0, 0, 5),
-                    RetryAttempts = 1
+                    Timeout = new TimeSpan(0, 0, 5), RetryAttempts = 1
                 };
-                SftpClient sclient = new(coninfo)
-                {
-                    OperationTimeout = new TimeSpan(0, 0, 5)
-                };
+                SftpClient sclient = new(coninfo) {OperationTimeout = new TimeSpan(0, 0, 5)};
                 sclient.Connect();
                 sclient.BufferSize = 4 * 1024;
-                IAsyncOperation<StorageFile> op = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//cmd.exe", UriKind.Absolute));
+                IAsyncOperation<StorageFile> op =
+                    StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//cmd.exe", UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
@@ -175,8 +205,8 @@ namespace InteropTools
 
                 Stream cmd = op2.Result;
                 op =
-                  StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//cmd.exe.mui",
-                      UriKind.Absolute));
+                    StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//cmd.exe.mui",
+                        UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
@@ -203,8 +233,8 @@ namespace InteropTools
 
                 Stream reg = op2.Result;
                 op =
-                  StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//reg.exe.mui",
-                      UriKind.Absolute));
+                    StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//reg.exe.mui",
+                        UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
@@ -218,8 +248,8 @@ namespace InteropTools
 
                 Stream regmui = op2.Result;
                 op =
-                  StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//CheckNetIsolation.exe",
-                      UriKind.Absolute));
+                    StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//CheckNetIsolation.exe",
+                        UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
@@ -233,8 +263,9 @@ namespace InteropTools
 
                 Stream netisol = op2.Result;
                 op =
-                  StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SSH//en-US//CheckNetIsolation.exe.mui",
-                      UriKind.Absolute));
+                    StorageFile.GetFileFromApplicationUriAsync(new Uri(
+                        "ms-appx:///SSH//en-US//CheckNetIsolation.exe.mui",
+                        UriKind.Absolute));
 
                 while (op.Status == AsyncStatus.Started)
                 {
@@ -291,7 +322,7 @@ namespace InteropTools
             else
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                  AppViewBackButtonVisibility.Collapsed;
+                    AppViewBackButtonVisibility.Collapsed;
             }
 
             CurrentSession = Sessions.IndexOf(session);

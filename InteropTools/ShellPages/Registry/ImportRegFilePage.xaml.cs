@@ -31,8 +31,7 @@ namespace InteropTools.ShellPages.Registry
         {
             FileOpenPicker picker = new()
             {
-                ViewMode = PickerViewMode.List,
-                SuggestedStartLocation = PickerLocationId.ComputerFolder
+                ViewMode = PickerViewMode.List, SuggestedStartLocation = PickerLocationId.ComputerFolder
             };
             picker.FileTypeFilter.Add(".reg");
             picker.FileTypeFilter.Add(".itreg");
@@ -54,9 +53,6 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private void ImportRegFilePage_Loaded(object sender, RoutedEventArgs e)
-        {
-            OpenFile();
-        }
+        private void ImportRegFilePage_Loaded(object sender, RoutedEventArgs e) => OpenFile();
     }
 }

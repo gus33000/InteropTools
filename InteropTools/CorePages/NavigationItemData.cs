@@ -13,7 +13,9 @@ namespace InteropTools.CorePages
             get
             {
                 if (IsGroup)
-                { return GroupItem.DisplayName; }
+                {
+                    return GroupItem.DisplayName;
+                }
 
                 return NavigationItem.Description;
             }
@@ -26,7 +28,9 @@ namespace InteropTools.CorePages
             get
             {
                 if (IsGroup)
-                { return GroupItem.Icon; }
+                {
+                    return GroupItem.Icon;
+                }
 
                 return NavigationItem.Icon;
             }
@@ -39,7 +43,9 @@ namespace InteropTools.CorePages
             get
             {
                 if (IsGroup)
-                { return GroupItem.DisplayName; }
+                {
+                    return GroupItem.DisplayName;
+                }
 
                 return NavigationItem.DisplayName;
             }
@@ -63,7 +69,7 @@ namespace InteropTools.CorePages
 
             if (Name != null)
             {
-                hash = (hash * 31) + Name.GetHashCode() + Icon.GetHashCode();
+                hash = hash * 31 + Name.GetHashCode() + Icon.GetHashCode();
             }
 
             return hash;

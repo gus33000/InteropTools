@@ -14,10 +14,7 @@ namespace InteropTools.CorePages
     /// </summary>
     internal sealed partial class CoreFrame : Page
     {
-        public CoreFrame()
-        {
-            InitializeComponent();
-        }
+        public CoreFrame() => InitializeComponent();
 
         public delegate void CurrentContentChangedEvent(object sender);
 

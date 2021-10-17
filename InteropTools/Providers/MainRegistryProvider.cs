@@ -56,10 +56,7 @@ namespace InteropTools.Providers
             SetKeyValue
         }
 
-        public bool IsLocal()
-        {
-            return App.RegistryHelper.IsLocal();
-        }
+        public bool IsLocal() => App.RegistryHelper.IsLocal();
 
         public bool AllowsRegistryEditing()
         {
@@ -73,30 +70,15 @@ namespace InteropTools.Providers
             }
         }
 
-        public string GetFriendlyName()
-        {
-            return App.RegistryHelper.GetFriendlyName();
-        }
+        public string GetFriendlyName() => App.RegistryHelper.GetFriendlyName();
 
-        public string GetHostName()
-        {
-            return App.RegistryHelper.GetHostName();
-        }
+        public string GetHostName() => App.RegistryHelper.GetHostName();
 
-        public string GetTitle()
-        {
-            return App.RegistryHelper.GetTitle();
-        }
+        public string GetTitle() => App.RegistryHelper.GetTitle();
 
-        public string GetDescription()
-        {
-            return App.RegistryHelper.GetDescription();
-        }
+        public string GetDescription() => App.RegistryHelper.GetDescription();
 
-        public string GetSymbol()
-        {
-            return App.RegistryHelper.GetSymbol();
-        }
+        public string GetSymbol() => App.RegistryHelper.GetSymbol();
 
         private bool ProgressShown;
 
@@ -118,7 +100,8 @@ namespace InteropTools.Providers
                 {
                     if (isinuithread)
                     {
-                        Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                        Windows.UI.ViewManagement.StatusBar currentView =
+                            Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
 
                         await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
@@ -131,7 +114,8 @@ namespace InteropTools.Providers
                     {
                         await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
                         {
-                            Windows.UI.ViewManagement.StatusBar currentView = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+                            Windows.UI.ViewManagement.StatusBar currentView =
+                                Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
 
                             await currentView.ProgressIndicator.ShowAsync();
 #if DEBUG
@@ -150,7 +134,9 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () => await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.HideAsync());
+                        await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+                            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator
+                                .HideAsync());
                     }
                 }
 
@@ -180,7 +166,8 @@ namespace InteropTools.Providers
             return ret;
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data)
         {
             await ShowStatusBarInfoAsync("SetKeyValue", true);
 
@@ -202,7 +189,8 @@ namespace InteropTools.Providers
             return ret;
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data)
         {
             await ShowStatusBarInfoAsync("SetKeyValue", true);
 
@@ -301,15 +289,9 @@ namespace InteropTools.Providers
             return ret;
         }
 
-        public bool DoesFileExists(string path)
-        {
-            return App.RegistryHelper.DoesFileExists(path);
-        }
+        public bool DoesFileExists(string path) => App.RegistryHelper.DoesFileExists(path);
 
-        public string GetAppInstallationPath()
-        {
-            return App.RegistryHelper.GetAppInstallationPath();
-        }
+        public string GetAppInstallationPath() => App.RegistryHelper.GetAppInstallationPath();
 
         public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
         {

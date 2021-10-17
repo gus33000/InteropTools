@@ -18,10 +18,7 @@ namespace InteropToolsAppExtensibilityTestingApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        public MainPage() => InitializeComponent();
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -37,10 +34,7 @@ namespace InteropToolsAppExtensibilityTestingApp
                 TargetApplicationPackageFamilyName = "52346ITDevTeam.InteropToolsPreview_feeqnmc1868va"
             };
 
-            ValueSet inputData = new()
-            {
-                ["TestData"] = "Test data"
-            };
+            ValueSet inputData = new() {["TestData"] = "Test data"};
 
             string theResult = "";
             LaunchUriResult result = await Launcher.LaunchUriForResultsAsync(testAppUri, options, inputData);
@@ -50,6 +44,7 @@ namespace InteropToolsAppExtensibilityTestingApp
                 ValueSet theValues = result.Result;
                 theResult = theValues["ReturnedData"] as string;
             }
+
             return theResult;
         }
     }

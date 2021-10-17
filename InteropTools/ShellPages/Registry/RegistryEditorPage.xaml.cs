@@ -20,13 +20,13 @@ namespace InteropTools.ShellPages.Registry
         private readonly IRegistryProvider _helper;
 
         private readonly ObservableCollection<RegistryHistoryItem> _registryHistoryList =
-          new();
+            new();
 
         private readonly ObservableCollection<SuggestionItem> _suggestionList =
-          new();
+            new();
 
         private readonly ObservableCollection<SuggestionItem> _valSuggestionList =
-          new();
+            new();
 
         private bool initialized;
 
@@ -53,54 +53,53 @@ namespace InteropTools.ShellPages.Registry
             //For lowercase a-f letters:
             //return val - (val < 58 ? 48 : 87);
             //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+            return val - (val < 58 ? 48 : val < 97 ? 55 : 87);
         }
 
-        private static string GetRegistryHiveName(RegHives hive)
-        {
-            return Enum.GetName(typeof(RegHives), hive);
-        }
+        private static string GetRegistryHiveName(RegHives hive) => Enum.GetName(typeof(RegHives), hive);
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private static async void ShowDebugMessageBox(string s)
-        {
-            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s, ResourceManager.Current.MainResourceMap.GetValue("Resources/Debug",
-                ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+        private static async void ShowDebugMessageBox(string s) =>
+            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s,
+                ResourceManager.Current.MainResourceMap.GetValue("Resources/Debug",
+                    ResourceContext.GetForCurrentView()).ValueAsString);
 
-        private static async void ShowKeyUnableToAddMessageBox()
-        {
+        private static async void ShowKeyUnableToAddMessageBox() =>
             await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap
+                    .GetValue(
+                        "Resources/We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
 
-        private static async void ShowKeyUnableToDeleteMessageBox()
-        {
+        private static async void ShowKeyUnableToDeleteMessageBox() =>
             await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_delete_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap
+                    .GetValue(
+                        "Resources/We_couldn_t_delete_the_specified_key__no_changes_to_the_phone_registry_were_made_",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
 
-        private static async void ShowNotYetImplementedMessageBox()
-        {
-            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_implemented",
-                ResourceContext.GetForCurrentView()).ValueAsString, ResourceManager.Current.MainResourceMap.GetValue("Resources/Coming_soon", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+        private static async void ShowNotYetImplementedMessageBox() =>
+            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current
+                    .MainResourceMap.GetValue("Resources/Not_implemented",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Coming_soon", ResourceContext.GetForCurrentView()).ValueAsString);
 
-        private static async void ShowReadFailedMessageBox()
-        {
+        private static async void ShowReadFailedMessageBox() =>
             await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_read_the_specified_registry_value__no_changes_to_the_phone_registry_were_made_",
-                  ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap.GetValue(
+                    "Resources/We_couldn_t_read_the_specified_registry_value__no_changes_to_the_phone_registry_were_made_",
+                    ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
 
         private static byte[] StringToByteArrayFastest(string hex)
         {
@@ -111,7 +110,7 @@ namespace InteropTools.ShellPages.Registry
 
             byte[] arr = new byte[hex.Length >> 1];
 
-            for (int i = 0; i < (hex.Length >> 1); ++i)
+            for (int i = 0; i < hex.Length >> 1; ++i)
             {
                 arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
@@ -153,23 +152,28 @@ namespace InteropTools.ShellPages.Registry
 
         private async void AddKey(RegHives hive, string keypath)
         {
-            string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView()).ValueAsString;
+            string title = ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView())
+                .ValueAsString;
             string content = "We will add " + keypath + " to the phone registry.";
-            bool command = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
-                          ResourceManager.Current.MainResourceMap.GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
-                          ResourceManager.Current.MainResourceMap.GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
+            bool command = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title,
+                content,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
 
             if (command)
             {
                 RunInThreadPool(async () =>
-            {
-                HelperErrorCodes status = await _helper.AddKey(hive, keypath);
-
-                if (status == HelperErrorCodes.Failed)
                 {
-                    RunInUiThread(ShowKeyUnableToAddMessageBox);
-                }
-            });
+                    HelperErrorCodes status = await _helper.AddKey(hive, keypath);
+
+                    if (status == HelperErrorCodes.Failed)
+                    {
+                        RunInUiThread(ShowKeyUnableToAddMessageBox);
+                    }
+                });
             }
         }
 
@@ -224,10 +228,8 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private async void DeleteKey(RegHives hive, string keypath)
-        {
+        private async void DeleteKey(RegHives hive, string keypath) =>
             await new DeleteRegKeyContentDialog(hive, keypath).ShowAsync();
-        }
 
         private RegHives GetSelectedHive()
         {
@@ -433,6 +435,7 @@ namespace InteropTools.ShellPages.Registry
             {
                 ValueDataInput.Text = selectedRegistryHistoryItem.ValueData;
             }
+
             ValueNameInput.Text = selectedRegistryHistoryItem.ValueName;
         }
 
@@ -510,15 +513,9 @@ namespace InteropTools.ShellPages.Registry
             });
         }
 
-        private void PathInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-        {
-            UpdateSuggestions();
-        }
+        private void PathInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args) => UpdateSuggestions();
 
-        private void ReadButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReadRegistryValueFromUi();
-        }
+        private void ReadButton_Click(object sender, RoutedEventArgs e) => ReadRegistryValueFromUi();
 
         private void ReadRegistryValueFromUi()
         {
@@ -536,7 +533,9 @@ namespace InteropTools.ShellPages.Registry
 
             RunInThreadPool(async () =>
             {
-                GetKeyValueReturn2 ret = await _helper.GetKeyValue(selectedhive, key, value, selectedtype); type = ret.regtype; data = ret.regvalue;
+                GetKeyValueReturn2 ret = await _helper.GetKeyValue(selectedhive, key, value, selectedtype);
+                type = ret.regtype;
+                data = ret.regvalue;
                 HelperErrorCodes result = ret.returncode;
                 RunInUiThread(async () =>
                 {
@@ -546,7 +545,7 @@ namespace InteropTools.ShellPages.Registry
                         ValueTypeInput.Text = "";
                     }
 
-                    if ((await _helper.GetKeyStatus(selectedhive, key)) == KeyStatus.Found)
+                    if (await _helper.GetKeyStatus(selectedhive, key) == KeyStatus.Found)
                     {
                         if (ValueNameSelector.SelectedIndex != 1)
                         {
@@ -633,6 +632,7 @@ namespace InteropTools.ShellPages.Registry
                                             ValueTypeInput.Visibility = Visibility.Visible;
                                             ValueTypeInput.Text = type.ToString();
                                         }
+
                                         break;
                                     }
                             }
@@ -648,6 +648,7 @@ namespace InteropTools.ShellPages.Registry
                                 {
                                     ValueDataInput.Text = data;
                                 }
+
                                 break;
                             }
 
@@ -737,15 +738,9 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private void RegistryEditorPage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Bindings.Update();
-        }
+        private void RegistryEditorPage_SizeChanged(object sender, SizeChangedEventArgs e) => Bindings.Update();
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
         private void Suggestions_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -804,7 +799,8 @@ namespace InteropTools.ShellPages.Registry
             {
                 RunInThreadPool(async () =>
                 {
-                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList = await _helper.GetRegistryItems2(hive, key);
+                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList =
+                        await _helper.GetRegistryItems2(hive, key);
                     RunInUiThread(() =>
                     {
                         foreach (RegistryItemCustom item in itemList)
@@ -813,7 +809,7 @@ namespace InteropTools.ShellPages.Registry
                             {
                                 case RegistryItemType.Key:
                                     {
-                                        _suggestionList.Add(new SuggestionItem { DisplayName = item.Name, Symbol = "" });
+                                        _suggestionList.Add(new SuggestionItem {DisplayName = item.Name, Symbol = ""});
                                         break;
                                     }
                             }
@@ -836,7 +832,8 @@ namespace InteropTools.ShellPages.Registry
 
                 RunInThreadPool(async () =>
                 {
-                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList = await _helper.GetRegistryItems2(hive, prevkey);
+                    System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList =
+                        await _helper.GetRegistryItems2(hive, prevkey);
                     RunInUiThread(() =>
                     {
                         foreach (RegistryItemCustom item in itemList)
@@ -847,7 +844,10 @@ namespace InteropTools.ShellPages.Registry
                                     {
                                         if (item.Name.StartsWith(current, StringComparison.OrdinalIgnoreCase))
                                         {
-                                            _suggestionList.Add(new SuggestionItem { DisplayName = item.Name, Symbol = "" });
+                                            _suggestionList.Add(new SuggestionItem
+                                            {
+                                                DisplayName = item.Name, Symbol = ""
+                                            });
                                         }
 
                                         break;
@@ -871,7 +871,8 @@ namespace InteropTools.ShellPages.Registry
             string current = ValueNameInput.Text;
             RunInThreadPool(async () =>
             {
-                System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList = await _helper.GetRegistryItems2(hive, key);
+                System.Collections.Generic.IReadOnlyList<RegistryItemCustom> itemList =
+                    await _helper.GetRegistryItems2(hive, key);
                 RunInUiThread(() =>
                 {
                     foreach (RegistryItemCustom item in itemList)
@@ -881,9 +882,12 @@ namespace InteropTools.ShellPages.Registry
                             case RegistryItemType.Value:
                                 {
                                     if (item.Name.StartsWith(current, StringComparison.OrdinalIgnoreCase) &&
-                                        (item.ValueType == GetSelectedType()))
+                                        item.ValueType == GetSelectedType())
                                     {
-                                        _valSuggestionList.Add(new SuggestionItem { DisplayName = item.Name, Symbol = "" });
+                                        _valSuggestionList.Add(new SuggestionItem
+                                        {
+                                            DisplayName = item.Name, Symbol = ""
+                                        });
                                     }
 
                                     break;
@@ -995,10 +999,8 @@ namespace InteropTools.ShellPages.Registry
             UpdateValueSuggestions();
         }
 
-        private void ValueNameInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-        {
+        private void ValueNameInput_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args) =>
             UpdateValueSuggestions();
-        }
 
         private void ValueNameSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1017,10 +1019,7 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private void WriteButton_Click(object sender, RoutedEventArgs e)
-        {
-            WriteRegistryValueFromUi();
-        }
+        private void WriteButton_Click(object sender, RoutedEventArgs e) => WriteRegistryValueFromUi();
 
         private void WriteRegistryValueFromUi()
         {

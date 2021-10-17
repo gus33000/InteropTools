@@ -16,10 +16,7 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        protected override object Convert(T value, object parameter, string language)
-        {
-            return value;
-        }
+        protected override object Convert(T value, object parameter, string language) => value;
 
         /// <summary>
         /// Converts a target value back to the source type.
@@ -28,9 +25,6 @@ namespace Intense.UI.Converters
         /// <param name="parameter"></param>
         /// <param name="language"></param>
         /// <returns></returns>
-        protected override T ConvertBack(object value, object parameter, string language)
-        {
-            return (T)value;
-        }
+        protected override T ConvertBack(object value, object parameter, string language) => (T)value;
     }
 }

@@ -33,10 +33,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = SessionManager.SessionId,
-                Operation = "AddKey",
-                Hive = hive.ToString(),
-                Key = key
+                SessionId = SessionManager.SessionId, Operation = "AddKey", Hive = hive.ToString(), Key = key
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
@@ -56,10 +53,7 @@ namespace InteropTools.Providers
             }
         }
 
-        public bool AllowsRegistryEditing()
-        {
-            return true;
-        }
+        public bool AllowsRegistryEditing() => true;
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
@@ -121,9 +115,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = SessionManager.SessionId,
-                Operation = "DoesFileExists",
-                Path = path
+                SessionId = SessionManager.SessionId, Operation = "DoesFileExists", Path = path
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
@@ -145,11 +137,7 @@ namespace InteropTools.Providers
 
         public string GetAppInstallationPath()
         {
-            RootObject jsonObject = new()
-            {
-                SessionId = SessionManager.SessionId,
-                Operation = "GetAppInstallationPath"
-            };
+            RootObject jsonObject = new() {SessionId = SessionManager.SessionId, Operation = "GetAppInstallationPath"};
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
@@ -168,22 +156,14 @@ namespace InteropTools.Providers
             }
         }
 
-        public string GetDescription()
-        {
-            return
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Connects_to_a_remote_device_which_has_remote_access_enabled__Level_of_access_is_subject_to_the_remote_device",
-                  ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        public string GetDescription() =>
+            ResourceManager.Current.MainResourceMap.GetValue(
+                "Resources/Connects_to_a_remote_device_which_has_remote_access_enabled__Level_of_access_is_subject_to_the_remote_device",
+                ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public string GetFriendlyName()
-        {
-            return _hostname + ":" + _portnumber;
-        }
+        public string GetFriendlyName() => _hostname + ":" + _portnumber;
 
-        public string GetHostName()
-        {
-            return _hostname;
-        }
+        public string GetHostName() => _hostname;
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
@@ -223,10 +203,7 @@ namespace InteropTools.Providers
         {
             RootObject jsonObject = new()
             {
-                SessionId = SessionManager.SessionId,
-                Operation = "GetKeyStatus",
-                Hive = hive.ToString(),
-                Key = key
+                SessionId = SessionManager.SessionId, Operation = "GetKeyStatus", Hive = hive.ToString(), Key = key
             };
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
@@ -327,11 +304,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItem>> GetRegistryHives()
         {
             List<RegistryItem> itemList = new();
-            RootObject jsonObject = new()
-            {
-                SessionId = SessionManager.SessionId,
-                Operation = "GetRegistryHives"
-            };
+            RootObject jsonObject = new() {SessionId = SessionManager.SessionId, Operation = "GetRegistryHives"};
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
@@ -363,11 +336,7 @@ namespace InteropTools.Providers
         public async Task<IReadOnlyList<RegistryItemCustom>> GetRegistryHives2()
         {
             List<RegistryItemCustom> itemList = new();
-            RootObject jsonObject = new()
-            {
-                SessionId = SessionManager.SessionId,
-                Operation = "GetRegistryHives2"
-            };
+            RootObject jsonObject = new() {SessionId = SessionManager.SessionId, Operation = "GetRegistryHives2"};
             string replydata = AsyncHelper.RunSync(() => _client.GetData(JsonConvert.SerializeObject(jsonObject)));
 
             if (replydata == null)
@@ -496,20 +465,12 @@ namespace InteropTools.Providers
             return itemList;
         }
 
-        public string GetSymbol()
-        {
-            return "";
-        }
+        public string GetSymbol() => "";
 
-        public string GetTitle()
-        {
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Remote_Device", ResourceContext.GetForCurrentView()).ValueAsString;
-        }
+        public string GetTitle() => ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Remote_Device", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        public bool IsLocal()
-        {
-            return false;
-        }
+        public bool IsLocal() => false;
 
         public async Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
         {
@@ -567,7 +528,8 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data)
         {
             RootObject jsonObject = new()
             {
@@ -597,7 +559,8 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data)
         {
             RootObject jsonObject = new()
             {
@@ -657,19 +620,17 @@ namespace InteropTools.Providers
         private static class AsyncHelper
         {
             private static readonly TaskFactory MyTaskFactory = new
-(CancellationToken.None,
-                        TaskCreationOptions.None,
-                        TaskContinuationOptions.None,
-                        TaskScheduler.Default);
+            (CancellationToken.None,
+                TaskCreationOptions.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default);
 
-            public static TResult RunSync<TResult>(Func<Task<TResult>> func)
-            {
-                return MyTaskFactory
-                       .StartNew(func)
-                       .Unwrap()
-                       .GetAwaiter()
-                       .GetResult();
-            }
+            public static TResult RunSync<TResult>(Func<Task<TResult>> func) =>
+                MyTaskFactory
+                    .StartNew(func)
+                    .Unwrap()
+                    .GetAwaiter()
+                    .GetResult();
         }
 
         private class Item

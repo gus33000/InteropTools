@@ -30,10 +30,12 @@ namespace Intense.UI
                 {
                     return Application.Current.RequestedTheme;
                 }
+
                 if (root.RequestedTheme == ElementTheme.Dark)
                 {
                     return ApplicationTheme.Dark;
                 }
+
                 return ApplicationTheme.Light;
             }
             set
@@ -49,6 +51,7 @@ namespace Intense.UI
                         elementTheme = ElementTheme.Dark;
                     }
                 }
+
                 FrameworkElement root = GetRoot();
                 root.RequestedTheme = elementTheme;
 
@@ -62,14 +65,9 @@ namespace Intense.UI
             }
         }
 
-        private static FrameworkElement GetRoot()
-        {
-            return Window.Current.Content.GetAncestorsAndSelf().OfType<FrameworkElement>().Last();
-        }
+        private static FrameworkElement GetRoot() =>
+            Window.Current.Content.GetAncestorsAndSelf().OfType<FrameworkElement>().Last();
 
-        private static void OnThemeChanged()
-        {
-            ThemeChanged?.Invoke(null, EventArgs.Empty);
-        }
+        private static void OnThemeChanged() => ThemeChanged?.Invoke(null, EventArgs.Empty);
     }
 }

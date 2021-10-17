@@ -23,10 +23,7 @@ namespace Intense.Presentation
         {
         }
 
-        internal NavigationItemCollection(NavigationItem parent)
-        {
-            this.parent = parent;
-        }
+        internal NavigationItemCollection(NavigationItem parent) => this.parent = parent;
 
         /// <summary>
         /// Removes all items from the collection.

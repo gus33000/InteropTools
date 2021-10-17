@@ -13,12 +13,10 @@ namespace InteropTools.ContentDialogs.Core
     {
         private bool Reply;
 
-        public DualMessageDialogContentDialog()
-        {
-            InitializeComponent();
-        }
+        public DualMessageDialogContentDialog() => InitializeComponent();
 
-        public async Task<bool> ShowDualMessageDialog(string Title, string Description, string PrimaryButtonText = "Yes", string SecondaryButtonText = "No")
+        public async Task<bool> ShowDualMessageDialog(string Title, string Description,
+            string PrimaryButtonText = "Yes", string SecondaryButtonText = "No")
         {
             this.Title = Title;
             this.Description.Text = Description;
@@ -28,14 +26,10 @@ namespace InteropTools.ContentDialogs.Core
             return Reply;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
             Reply = true;
-        }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
             Reply = false;
-        }
     }
 }

@@ -44,7 +44,7 @@ namespace Intense.UI
                 frame.NavigationFailed += OnFrameNavigationFailed;
 
                 // add frame commands to global resources
-                Resources.Add("FrameCommands", new FrameCommands { Frame = frame });
+                Resources.Add("FrameCommands", new FrameCommands {Frame = frame});
 
                 Window.Current.Content = frame;
 
@@ -58,6 +58,7 @@ namespace Intense.UI
                 // navigate to the master page providing the navigation structure
                 frame.Navigate(typeof(MasterNavigationPage), NavigationStructure);
             }
+
             Window.Current.Activate();
         }
 
@@ -71,15 +72,10 @@ namespace Intense.UI
             }
         }
 
-        private void OnFrameNavigated(object sender, NavigationEventArgs e)
-        {
-            UpdateBackButtonVisibility();
-        }
+        private void OnFrameNavigated(object sender, NavigationEventArgs e) => UpdateBackButtonVisibility();
 
-        private void OnFrameNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        private void OnFrameNavigationFailed(object sender, NavigationFailedEventArgs e) =>
             throw new Exception(ResourceHelper.GetString("LoadPageFailed", e.SourcePageType.FullName));
-        }
 
         private void UpdateBackButtonVisibility()
         {

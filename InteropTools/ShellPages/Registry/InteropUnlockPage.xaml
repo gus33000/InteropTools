@@ -171,7 +171,8 @@
                     Style="{StaticResource TitleTextBlockStyle3}"
                     Text="TROUBLESHOOT" />
                 <StackPanel Margin="0,0,0,12">
-                    <TextBlock Text="Q: My values keep reverting to off and 'Restore NDTKSvc' was never enabled" TextWrapping="Wrap" />
+                    <TextBlock Text="Q: My values keep reverting to off and 'Restore NDTKSvc' was never enabled"
+                               TextWrapping="Wrap" />
                     <TextBlock
                         Margin="0,6,0,0"
                         Text="A: Make sure you are using a lumia which is not part of the 50 line up, then turn on 'Restore NDTKSvc' and reboot, now you should be able to turn on other options"

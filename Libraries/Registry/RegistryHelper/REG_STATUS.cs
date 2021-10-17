@@ -8,6 +8,6 @@ namespace RegistryHelper
         SUCCESS,
         FAILED,
         ACCESS_DENIED,
-        NOT_IMPLEMENTED,
+        NOT_IMPLEMENTED
     }
 }

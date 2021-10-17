@@ -23,10 +23,7 @@ namespace InteropTools.Providers
             return await natprov.AddKey(hive, key);
         }
 
-        public bool AllowsRegistryEditing()
-        {
-            return true;
-        }
+        public bool AllowsRegistryEditing() => true;
 
         public async Task<HelperErrorCodes> DeleteKey(RegHives hive, string key, bool recursive)
         {
@@ -48,30 +45,18 @@ namespace InteropTools.Providers
             return await natprov.DeleteValue(hive, key, keyvalue);
         }
 
-        public bool DoesFileExists(string path)
-        {
-            return SessionManager.SshClient.RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
-        }
+        public bool DoesFileExists(string path) => SessionManager.SshClient
+            .RunCommand("if EXIST \"" + path + "\" echo True").Execute().Contains("True");
 
-        public string GetAppInstallationPath()
-        {
-            return Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-        }
+        public string GetAppInstallationPath() => Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
 
-        public string GetDescription()
-        {
-            return "Provides SYSTEM registry access through the command line";
-        }
+        public string GetDescription() => "Provides SYSTEM registry access through the command line";
 
-        public string GetFriendlyName()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1" ? "This device" : SessionManager.SshClient.ConnectionInfo.Host;
-        }
+        public string GetFriendlyName() => SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1"
+            ? "This device"
+            : SessionManager.SshClient.ConnectionInfo.Host;
 
-        public string GetHostName()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host;
-        }
+        public string GetHostName() => SessionManager.SshClient.ConnectionInfo.Host;
 
         public async Task<GetKeyLastModifiedTime> GetKeyLastModifiedTime(RegHives hive, string key)
         {
@@ -311,7 +296,7 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                        string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                         string valuename = temparray[0];
                         RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
                         if (temparray.Length == 3)
@@ -332,7 +317,7 @@ namespace InteropTools.Providers
                                 valuedata = valuedata.Replace(@"\0", "\n");
                             }
 
-                            if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                            if (valuename == "(Default)" && valuedata == "(value not set)")
                             {
                                 valuedata = "";
                             }
@@ -356,9 +341,10 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient
+                .RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
+            if (output.ToUpper().Contains('\n') && output.ToUpper().Split('\n').Length != 0)
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -370,7 +356,7 @@ namespace InteropTools.Providers
                         {
                             if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
-                                string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                                string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 RegTypes regtype = (RegTypes)Enum.Parse(typeof(RegTypes), temparray[1]);
                                 if (temparray.Length == 3)
@@ -378,12 +364,14 @@ namespace InteropTools.Providers
                                     string valuedata = temparray[2];
                                     if (regtype == RegTypes.REG_DWORD)
                                     {
-                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == RegTypes.REG_QWORD)
                                     {
-                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == RegTypes.REG_MULTI_SZ)
@@ -391,7 +379,7 @@ namespace InteropTools.Providers
                                         valuedata = valuedata.Replace(@"\0", "\n");
                                     }
 
-                                    if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                                    if (valuename == "(Default)" && valuedata == "(value not set)")
                                     {
                                         valuedata = "";
                                     }
@@ -457,7 +445,7 @@ namespace InteropTools.Providers
                     }
                     else
                     {
-                        string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                        string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                         string valuename = temparray[0];
                         uint regtype = uint.Parse(temparray[1]);
                         if (temparray.Length == 3)
@@ -478,7 +466,7 @@ namespace InteropTools.Providers
                                 valuedata = valuedata.Replace(@"\0", "\n");
                             }
 
-                            if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                            if (valuename == "(Default)" && valuedata == "(value not set)")
                             {
                                 valuedata = "";
                             }
@@ -502,9 +490,10 @@ namespace InteropTools.Providers
                 }
             }
 
-            output = SessionManager.SshClient.RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
+            output = SessionManager.SshClient
+                .RunCommand("%SystemRoot%\\system32\\reg.exe query \"" + querystr + "\" /ve").Execute();
 
-            if (output.ToUpper().Contains('\n') && (output.ToUpper().Split('\n').Length != 0))
+            if (output.ToUpper().Contains('\n') && output.ToUpper().Split('\n').Length != 0)
             {
                 foreach (string line in output.Split('\n'))
                 {
@@ -516,7 +505,7 @@ namespace InteropTools.Providers
                         {
                             if (str.IndexOf(querystr, StringComparison.OrdinalIgnoreCase) < 0)
                             {
-                                string[] temparray = str.Split(new[] { "    " }, StringSplitOptions.None);
+                                string[] temparray = str.Split(new[] {"    "}, StringSplitOptions.None);
                                 string valuename = temparray[0];
                                 uint regtype = uint.Parse(temparray[1]);
                                 if (temparray.Length == 3)
@@ -524,12 +513,14 @@ namespace InteropTools.Providers
                                     string valuedata = temparray[2];
                                     if (regtype == 4)
                                     {
-                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = int.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == 11)
                                     {
-                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber).ToString();
+                                        valuedata = long.Parse(valuedata.Remove(0, 2), NumberStyles.HexNumber)
+                                            .ToString();
                                     }
 
                                     if (regtype == 7)
@@ -537,7 +528,7 @@ namespace InteropTools.Providers
                                         valuedata = valuedata.Replace(@"\0", "\n");
                                     }
 
-                                    if ((valuename == "(Default)") && (valuedata == "(value not set)"))
+                                    if (valuename == "(Default)" && valuedata == "(value not set)")
                                     {
                                         valuedata = "";
                                     }
@@ -566,25 +557,14 @@ namespace InteropTools.Providers
             return ItemsList;
         }
 
-        public string GetSymbol()
-        {
-            return "";
-        }
+        public string GetSymbol() => "";
 
-        public string GetTitle()
-        {
-            return "Command Line Provider";
-        }
+        public string GetTitle() => "Command Line Provider";
 
-        public bool IsLocal()
-        {
-            return SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1";
-        }
+        public bool IsLocal() => SessionManager.SshClient.ConnectionInfo.Host == "127.0.0.1";
 
-        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser)
-        {
+        public Task<HelperErrorCodes> LoadHive(string FileName, string mountpoint, bool inUser) =>
             throw new NotImplementedException();
-        }
 
         public async Task<HelperErrorCodes> RenameKey(RegHives hive, string key, string newname)
         {
@@ -596,7 +576,8 @@ namespace InteropTools.Providers
             return await natprov.RenameKey(hive, key, newname);
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, uint type,
+            string data)
         {
             if (natprov == null)
             {
@@ -606,7 +587,8 @@ namespace InteropTools.Providers
             return await natprov.SetKeyValue(hive, key, keyvalue, type, data);
         }
 
-        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type, string data)
+        public async Task<HelperErrorCodes> SetKeyValue(RegHives hive, string key, string keyvalue, RegTypes type,
+            string data)
         {
             if (natprov == null)
             {
@@ -616,9 +598,6 @@ namespace InteropTools.Providers
             return await natprov.SetKeyValue(hive, key, keyvalue, type, data);
         }
 
-        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<HelperErrorCodes> UnloadHive(string mountpoint, bool inUser) => throw new NotImplementedException();
     }
 }

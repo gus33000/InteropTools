@@ -184,7 +184,8 @@
                                         FontSize="21"
                                         Text="">
                                         <TextBlock.RenderTransform>
-                                            <RotateTransform x:Name="RefreshRotation" Angle="0" CenterX="11" CenterY="11" />
+                                            <RotateTransform x:Name="RefreshRotation" Angle="0" CenterX="11"
+                                                             CenterY="11" />
                                         </TextBlock.RenderTransform>
                                     </TextBlock>
                                 </StackPanel>

@@ -8,17 +8,14 @@ namespace Intense.THemes
 {
     public class TextBoxBehaviors
     {
-        public static readonly DependencyProperty IsUppercaseOnlyProperty = DependencyProperty.RegisterAttached("IsUppercaseOnly", typeof(bool), typeof(TextBoxBehaviors), new PropertyMetadata(false, OnIsUpercaseOnlyChanged));
+        public static readonly DependencyProperty IsUppercaseOnlyProperty =
+            DependencyProperty.RegisterAttached("IsUppercaseOnly", typeof(bool), typeof(TextBoxBehaviors),
+                new PropertyMetadata(false, OnIsUpercaseOnlyChanged));
 
-        public static bool GetIsUppercaseOnly(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(IsUppercaseOnlyProperty);
-        }
+        public static bool GetIsUppercaseOnly(DependencyObject obj) => (bool)obj.GetValue(IsUppercaseOnlyProperty);
 
-        public static void SetIsUppercaseOnly(DependencyObject obj, bool value)
-        {
+        public static void SetIsUppercaseOnly(DependencyObject obj, bool value) =>
             obj.SetValue(IsUppercaseOnlyProperty, value);
-        }
 
         private static void OnIsUpercaseOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

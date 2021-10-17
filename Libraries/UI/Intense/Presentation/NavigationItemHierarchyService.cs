@@ -23,6 +23,7 @@ namespace Intense.Presentation
             {
                 throw new ArgumentNullException(nameof(o));
             }
+
             return o.Items;
         }
 
@@ -37,6 +38,7 @@ namespace Intense.Presentation
             {
                 throw new ArgumentNullException(nameof(o));
             }
+
             return o.Parent;
         }
     }

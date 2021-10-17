@@ -25,15 +25,9 @@ namespace InteropTools.Providers.Registry.Definition
 
         public AbstractOption this[int index] => Settings[index];
 
-        public IEnumerator<AbstractOption> GetEnumerator()
-        {
-            return Settings.Where(f => f != null).GetEnumerator();
-        }
+        public IEnumerator<AbstractOption> GetEnumerator() => Settings.Where(f => f != null).GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Settings.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => Settings.GetEnumerator();
 
         protected abstract AbstractOption[] GetSettings();
     }

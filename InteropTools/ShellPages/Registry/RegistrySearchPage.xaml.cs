@@ -29,29 +29,54 @@ namespace InteropTools.ShellPages.Registry
         private static readonly ObservableRangeCollection<Item> _itemsList = new();
         private readonly ObservableCollection<FilterItem> _filterItemsList = new();
         private readonly IRegistryProvider _helper;
-        private readonly string _resourcesBinary = ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesHardwareResourceList = ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesBinary = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesHardwareResourceList = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
 
         private readonly string _resourcesHive =
-          ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive",
-              ResourceContext.GetForCurrentView()).ValueAsString;
+            ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive",
+                ResourceContext.GetForCurrentView()).ValueAsString;
 
-        private readonly string _resourcesInteger = ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesIntegerBigEndian = ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
+        private readonly string _resourcesInteger = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesIntegerBigEndian = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
 
         private readonly string _resourcesKey =
-          ResourceManager.Current.MainResourceMap.GetValue("Resources/Key",
-              ResourceContext.GetForCurrentView()).ValueAsString;
+            ResourceManager.Current.MainResourceMap.GetValue("Resources/Key",
+                ResourceContext.GetForCurrentView()).ValueAsString;
 
-        private readonly string _resourcesLong = ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesMultiString = ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesNone = ResourceManager.Current.MainResourceMap.GetValue("Resources/None", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesResourceList = ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesResourceRequirement = ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesString = ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesSymbolicLink = ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesUnknown = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
-        private readonly string _resourcesVariableString = ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+        private readonly string _resourcesLong = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesMultiString = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesNone = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/None", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesResourceList = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesResourceRequirement = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesString = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesSymbolicLink = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesUnknown = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+
+        private readonly string _resourcesVariableString = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+
         private RegHives _currentHive = RegHives.HKEY_CLASSES_ROOT;
         private string _currentKey = "";
         private bool _paused;
@@ -123,7 +148,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (string.Equals(item.Name, filter.FilterText, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(item.Name, filter.FilterText,
+                                            StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -134,7 +160,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Name.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                                        if (item.Name.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >=
+                                            0)
                                         {
                                             result = true;
                                         }
@@ -187,7 +214,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (string.Equals(item.Value, filter.FilterText, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(item.Value, filter.FilterText,
+                                            StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -198,7 +226,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Value.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                                        if (item.Value.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >=
+                                            0)
                                         {
                                             result = true;
                                         }
@@ -240,7 +269,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Strict (Case insensitive)
                                 case 2:
                                     {
-                                        if (string.Equals(item.Key, filter.FilterText, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(item.Key, filter.FilterText,
+                                            StringComparison.OrdinalIgnoreCase))
                                         {
                                             result = true;
                                         }
@@ -251,7 +281,8 @@ namespace InteropTools.ShellPages.Registry
                                 //Partial (Case insensitive)
                                 case 3:
                                     {
-                                        if (item.Key.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                                        if (item.Key.IndexOf(filter.FilterText, StringComparison.OrdinalIgnoreCase) >=
+                                            0)
                                         {
                                             result = true;
                                         }
@@ -403,8 +434,7 @@ namespace InteropTools.ShellPages.Registry
             return RegTypes.REG_ERROR;
         }
 
-        private void AddFilter_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddFilter_Click(object sender, RoutedEventArgs e) =>
             _filterItemsList.Add(new FilterItem
             {
                 FilterTypeIndex = 0,
@@ -414,7 +444,6 @@ namespace InteropTools.ShellPages.Registry
                 ValueTypeIndex = 9,
                 HiveIndex = 5
             });
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -427,30 +456,30 @@ namespace InteropTools.ShellPages.Registry
             List<FilterItem> filterlist = _filterItemsList.ToList();
             //With fuzzy option
             //Key Name is
-            List<FilterItem> keyNameIs = filterlist.FindAll(x => (x.FilterTypeIndex == 0) && (x.FilterModeIndex == 0));
+            List<FilterItem> keyNameIs = filterlist.FindAll(x => x.FilterTypeIndex == 0 && x.FilterModeIndex == 0);
             //Key Name is not
-            List<FilterItem> keyNameIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 0) && (x.FilterModeIndex == 1));
+            List<FilterItem> keyNameIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 0 && x.FilterModeIndex == 1);
             //Value Name is
-            List<FilterItem> valueNameIs = filterlist.FindAll(x => (x.FilterTypeIndex == 1) && (x.FilterModeIndex == 0));
+            List<FilterItem> valueNameIs = filterlist.FindAll(x => x.FilterTypeIndex == 1 && x.FilterModeIndex == 0);
             //Value Name is not
-            List<FilterItem> valueNameIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 1) && (x.FilterModeIndex == 1));
+            List<FilterItem> valueNameIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 1 && x.FilterModeIndex == 1);
             //Value Data is
-            List<FilterItem> valueDataIs = filterlist.FindAll(x => (x.FilterTypeIndex == 3) && (x.FilterModeIndex == 0));
+            List<FilterItem> valueDataIs = filterlist.FindAll(x => x.FilterTypeIndex == 3 && x.FilterModeIndex == 0);
             //Value Data is not
-            List<FilterItem> valueDataIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 3) && (x.FilterModeIndex == 1));
+            List<FilterItem> valueDataIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 3 && x.FilterModeIndex == 1);
             //Path is
-            List<FilterItem> pathIs = filterlist.FindAll(x => (x.FilterTypeIndex == 4) && (x.FilterModeIndex == 0));
+            List<FilterItem> pathIs = filterlist.FindAll(x => x.FilterTypeIndex == 4 && x.FilterModeIndex == 0);
             //Path is not
-            List<FilterItem> pathIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 4) && (x.FilterModeIndex == 1));
+            List<FilterItem> pathIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 4 && x.FilterModeIndex == 1);
             //No fuzzy option
             //Value Type is
-            List<FilterItem> valueTypeIs = filterlist.FindAll(x => (x.FilterTypeIndex == 2) && (x.FilterModeIndex == 0));
+            List<FilterItem> valueTypeIs = filterlist.FindAll(x => x.FilterTypeIndex == 2 && x.FilterModeIndex == 0);
             //Value Type is not
-            List<FilterItem> valueTypeIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 2) && (x.FilterModeIndex == 1));
+            List<FilterItem> valueTypeIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 2 && x.FilterModeIndex == 1);
             //Hive is
-            List<FilterItem> hiveIs = filterlist.FindAll(x => (x.FilterTypeIndex == 5) && (x.FilterModeIndex == 0));
+            List<FilterItem> hiveIs = filterlist.FindAll(x => x.FilterTypeIndex == 5 && x.FilterModeIndex == 0);
             //Hive is not
-            List<FilterItem> hiveIsNot = filterlist.FindAll(x => (x.FilterTypeIndex == 5) && (x.FilterModeIndex == 1));
+            List<FilterItem> hiveIsNot = filterlist.FindAll(x => x.FilterTypeIndex == 5 && x.FilterModeIndex == 1);
 
             switch (item.Type)
             {
@@ -459,7 +488,9 @@ namespace InteropTools.ShellPages.Registry
                         if (FindHive.IsChecked != null && (bool)FindHive.IsChecked)
                         {
                             if (CheckFilter(hiveIs, item, false) && CheckFilter(hiveIsNot, item, true))
-                            { return true; }
+                            {
+                                return true;
+                            }
                         }
 
                         break;
@@ -489,7 +520,9 @@ namespace InteropTools.ShellPages.Registry
                                 CheckFilter(pathIs, item, false) && CheckFilter(pathIsNot, item, true) &&
                                 CheckFilter(valueTypeIs, item, false) && CheckFilter(valueTypeIsNot, item, true) &&
                                 CheckFilter(hiveIs, item, false) && CheckFilter(hiveIsNot, item, true))
-                            { return true; }
+                            {
+                                return true;
+                            }
                         }
 
                         break;
@@ -512,8 +545,7 @@ namespace InteropTools.ShellPages.Registry
                 valueTypeFilter.Visibility = Visibility.Visible;
                 hiveFilter.Visibility = Visibility.Collapsed;
             }
-            else
-                if (((ComboBox)sender).SelectedIndex == 5)
+            else if (((ComboBox)sender).SelectedIndex == 5)
             {
                 textFilter.Visibility = Visibility.Collapsed;
                 valueTypeFilter.Visibility = Visibility.Collapsed;
@@ -564,7 +596,8 @@ namespace InteropTools.ShellPages.Registry
                         }
                     }
 
-                    List<RegistryItemCustom> tmpitems = (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, newkey);
+                    List<RegistryItemCustom> tmpitems =
+                        (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, newkey);
                     List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.Key);
 
                     if (tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == lastkey)) + 1 == tmpkeys.Count)
@@ -584,7 +617,8 @@ namespace InteropTools.ShellPages.Registry
                 }
 
                 {
-                    List<RegistryItemCustom> tmpitems = (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, "");
+                    List<RegistryItemCustom> tmpitems =
+                        (List<RegistryItemCustom>)await _helper.GetRegistryItems2(hive, "");
                     List<RegistryItemCustom> tmpkeys = tmpitems.FindAll(i => i.Type == RegistryItemType.Key);
 
                     if (tmpkeys.IndexOf(tmpkeys.Find(i => i.Name == key)) + 1 == tmpkeys.Count)
@@ -688,20 +722,14 @@ namespace InteropTools.ShellPages.Registry
         {
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private void Search()
-        {
+        private void Search() =>
             RunInThreadPool(async () =>
             {
                 List<RegistryItemCustom> items = (List<RegistryItemCustom>)await _helper.GetRegistryHives2();
@@ -742,10 +770,8 @@ namespace InteropTools.ShellPages.Registry
                     await SearchHive(item.Hive);
                 }
             });
-        }
 
-        private void Search(string key)
-        {
+        private void Search(string key) =>
             RunInThreadPool(async () =>
             {
                 List<RegistryItemCustom> items = (List<RegistryItemCustom>)await _helper.GetRegistryHives2();
@@ -758,7 +784,7 @@ namespace InteropTools.ShellPages.Registry
                         break;
                     }
 
-                    if (!In && (item.Hive != _currentHive))
+                    if (!In && item.Hive != _currentHive)
                     {
                         continue;
                     }
@@ -792,7 +818,6 @@ namespace InteropTools.ShellPages.Registry
                     In = true;
                 }
             });
-        }
 
         private async Task SearchHive(RegHives hive)
         {
@@ -1044,18 +1069,14 @@ namespace InteropTools.ShellPages.Registry
                         parse = false;
                     }
                 }
-                else
-                    if (key != null)
+                else if (key != null)
                 {
                     key = keys[0].Key + "\\" + keys[0].Name;
                 }
             }
         }
 
-        private void SearchPause_Checked(object sender, RoutedEventArgs e)
-        {
-            _paused = true;
-        }
+        private void SearchPause_Checked(object sender, RoutedEventArgs e) => _paused = true;
 
         private void SearchPause_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -1111,59 +1132,59 @@ namespace InteropTools.ShellPages.Registry
         {
             StackPanel sndr = (StackPanel)sender;
             Item item = (Item)sndr.DataContext;
-            MenuFlyout flyout = new() { Placement = FlyoutPlacementMode.Top };
+            MenuFlyout flyout = new() {Placement = FlyoutPlacementMode.Top};
             MenuFlyoutItem flyoutitem = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_name",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_name",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
             flyoutitem.Click += (sender_, e_) =>
             {
-                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
                 dataPackage.SetText(item.Name);
                 Clipboard.SetContent(dataPackage);
             };
             MenuFlyoutItem flyoutitem2 = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_key_location",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_key_location",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
 
-            if ((item.Key == null) || (item.Key?.Length == 0))
+            if (item.Key == null || item.Key?.Length == 0)
             {
                 flyoutitem2.IsEnabled = false;
             }
 
             flyoutitem2.Click += (sender_, e_) =>
             {
-                if ((item.Key == null) || (item.Key?.Length == 0))
+                if (item.Key == null || item.Key?.Length == 0)
                 {
                     return;
                 }
 
-                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
                 dataPackage.SetText(item.Key);
                 Clipboard.SetContent(dataPackage);
             };
             MenuFlyoutItem flyoutitem3 = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_hive_name",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_hive_name",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
             flyoutitem3.Click += (sender_, e_) =>
             {
-                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
                 dataPackage.SetText(item.Hive.ToString());
                 Clipboard.SetContent(dataPackage);
             };
             MenuFlyoutItem flyoutitem4 = new()
             {
                 Text =
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_full_details",
-                ResourceContext.GetForCurrentView()).ValueAsString
+                    ResourceManager.Current.MainResourceMap.GetValue("Resources/Copy_full_details",
+                        ResourceContext.GetForCurrentView()).ValueAsString
             };
             flyoutitem4.Click += (sender_, e_) =>
             {
@@ -1180,14 +1201,14 @@ namespace InteropTools.ShellPages.Registry
                     case RegistryItemType.Key:
                         {
                             str =
-                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}";
+                                $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}";
                             break;
                         }
 
                     case RegistryItemType.Value:
                         {
                             str =
-                              $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}\r\nValue Type: {item.ValueType}\r\nValue: {item.Value}";
+                                $"[{item.Key}]\r\nName: {item.Name}\r\nType: {item.Type}\r\nHive: {item.Hive}\r\nValue Type: {item.ValueType}\r\nValue: {item.Value}";
                             break;
                         }
                 }
@@ -1197,7 +1218,7 @@ namespace InteropTools.ShellPages.Registry
                     return;
                 }
 
-                DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+                DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
                 dataPackage.SetText(str);
                 Clipboard.SetContent(dataPackage);
             };
@@ -1223,8 +1244,9 @@ namespace InteropTools.ShellPages.Registry
             public int FilterTypeIndex { get; set; } // 0 -> 5
             public int FuzzynessModeIndex { get; set; } // 0 -> 3
             public int HiveIndex { get; set; }
+
             public int ValueTypeIndex { get; set; } // 0 -> 11
-                                                    // 0 -> 7
+            // 0 -> 7
         }
 
         public class Item

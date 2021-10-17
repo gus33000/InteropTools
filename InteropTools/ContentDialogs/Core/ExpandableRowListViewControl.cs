@@ -1,6 +1,10 @@
 ﻿// Copyright 2015-2021 (c) Interop Tools Development Team
 // This file is licensed to you under the MIT license.
 
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
+
 namespace InteropTools.ContentDialogs.Core
 {
     [TemplatePart(Name = "listviewRows", Type = typeof(ListView))]
@@ -8,10 +12,8 @@ namespace InteropTools.ContentDialogs.Core
     public sealed class ExpandableRowListViewControl : ItemsControl
     {
         public ExpandableRowListViewControl()
-            : base()
-        {
+            : base() =>
             DefaultStyleKey = typeof(ExpandableRowListViewControl);
-        }
 
         protected override void OnApplyTemplate()
         {
@@ -23,7 +25,7 @@ namespace InteropTools.ContentDialogs.Core
                 while (Items.Count > 0)
                 {
                     object item = Items[0];
-                    Items.RemoveAt(0);  // This item cannot be in two different 'ItemCollection's
+                    Items.RemoveAt(0); // This item cannot be in two different 'ItemCollection's
                     listviewRows.Items.Add(item);
                 }
             }

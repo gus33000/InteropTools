@@ -9,10 +9,7 @@ namespace InteropTools.ShellPages.Registry
     {
         private readonly string name;
 
-        public FileSystemData(string name)
-        {
-            this.name = name;
-        }
+        public FileSystemData(string name) => this.name = name;
 
         public bool HasMore => true;
 

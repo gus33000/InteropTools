@@ -13,12 +13,12 @@ namespace InteropTools.Providers.OSReboot.Definition
     {
         public const string PLUGIN_NAME = "InteropTools.Providers.OSReboot";
 
-        protected sealed override Task<string> Execute(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)
-        {
-            return ExecuteAsync(sender, input, progress, cancelToken);
-        }
+        protected sealed override Task<string> Execute(AppServiceConnection sender, string input,
+            IProgress<double> progress, CancellationToken cancelToken) =>
+            ExecuteAsync(sender, input, progress, cancelToken);
 
-        protected abstract Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken);
+        protected abstract Task<string> ExecuteAsync(AppServiceConnection sender, string input,
+            IProgress<double> progress, CancellationToken cancelToken);
 
         protected abstract Task<Options> GetOptions();
 

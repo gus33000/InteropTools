@@ -1,74 +1,115 @@
-﻿// Copyright 2015-2021 (c) Interop Tools Development Team
-// This file is licensed to you under the MIT license.
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Xml;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace AppPlugin.PluginList
 {
+
     public class PluginList<TIn, TOut, TProgress> : AbstractPluginList<TOut, PluginList<TIn, TOut, TProgress>.PluginProvider>
     {
+
         internal PluginList(string pluginName) : base(pluginName)
         {
+
         }
 
         internal override PluginProvider CreatePluginProvider(AppExtension ext, string serviceName)
-        {
-            return new PluginProvider(ext, serviceName);
-        }
+            => new PluginProvider(ext, serviceName);
 
         public new sealed class PluginProvider : AbstractPluginList<TOut, PluginProvider>.PluginProvider, IPlugin<TIn, TOut, TProgress>
         {
+
             internal PluginProvider(AppExtension ext, string serviceName) : base(ext, serviceName)
             {
             }
 
-            public async Task<TOut> ExecuteAsync(TIn input, IProgress<TProgress> progress = null, CancellationToken cancelTokem = default)
+            private Task<PluginConnection> GetPluginConnection(IProgress<TProgress> progress, CancellationToken cancelTokem) => PluginConnection.CreateAsync(this.ServiceName, this.Extension, progress, cancelTokem);
+
+            public async Task<TOut> ExecuteAsync(TIn input, IProgress<TProgress> progress = null, CancellationToken cancelTokem = default(CancellationToken))
             {
-                using (PluginConnection plugin = await GetPluginConnection(progress, cancelTokem))
-                {
+                using (var plugin = await GetPluginConnection(progress, cancelTokem))
                     return await plugin.ExecuteAsync(input);
-                }
             }
 
-            private Task<PluginConnection> GetPluginConnection(IProgress<TProgress> progress, CancellationToken cancelTokem)
-            {
-                return PluginConnection.CreateAsync(ServiceName, Extension, progress, cancelTokem);
-            }
         }
 
         private sealed class PluginConnection : IDisposable
         {
-            private readonly CancellationToken cancelTokem;
             private readonly AppServiceConnection connection;
-            private readonly Guid id = Guid.NewGuid();
-            private readonly IProgress<TProgress> progress;
             private bool isDisposed;
+            private readonly IProgress<TProgress> progress;
+            private readonly CancellationToken cancelTokem;
+            private readonly Guid id = Guid.NewGuid();
 
-            private PluginConnection(AppServiceConnection connection, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
+            private PluginConnection(AppServiceConnection connection, IProgress<TProgress> progress, CancellationToken cancelTokem = default(CancellationToken))
             {
                 this.connection = connection;
-                connection.ServiceClosed += Connection_ServiceClosed;
-                connection.RequestReceived += Connection_RequestReceived;
+                connection.ServiceClosed += this.Connection_ServiceClosed;
+                connection.RequestReceived += this.Connection_RequestReceived;
                 this.progress = progress;
                 this.cancelTokem = cancelTokem;
-                cancelTokem.Register(Canceld);
+                cancelTokem.Register(this.Canceld);
             }
 
-            public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default)
+            private async void Canceld()
             {
-                AppServiceConnection connection = new()
-                {
-                    AppServiceName = serviceName,
-                    PackageFamilyName = appExtension.Package.Id.FamilyName
-                };
+                var valueSet = new ValueSet();
 
-                PluginConnection pluginConnection = new(connection, progress, cancelTokem);
-                AppServiceConnectionStatus status = await connection.OpenAsync();
+                valueSet.Add(AbstractPlugin<object, object, object>.ID_KEY, this.id);
+                valueSet.Add(AbstractPlugin<object, object, object>.CANCEL_KEY, true);
+
+                await this.connection.SendMessageAsync(valueSet);
+            }
+
+            private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+            {
+                if (!args.Request.Message.ContainsKey(AbstractPlugin<object, object, object>.PROGRESS_KEY))
+                    return;
+                if (!args.Request.Message.ContainsKey(AbstractPlugin<object, object, object>.ID_KEY))
+                    return;
+
+                var id = (Guid)args.Request.Message[AbstractPlugin<object, object, object>.ID_KEY];
+                if (this.id != id)
+                    return;
+
+                var progressString = args.Request.Message[AbstractPlugin<object, object, object>.PROGRESS_KEY] as string;
+
+                var progress = Helper.DeSerilize<TProgress>(progressString);
+
+
+                this.progress?.Report(progress);
+                await args.Request.SendResponseAsync(new ValueSet());
+            }
+
+            private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+            {
+                Dispose();
+            }
+
+            public static async Task<PluginConnection> CreateAsync(string serviceName, AppExtension appExtension, IProgress<TProgress> progress, CancellationToken cancelTokem = default(CancellationToken))
+            {
+                var connection = new AppServiceConnection();
+
+                var pluginConnection = new PluginConnection(connection, progress, cancelTokem);
+                connection.AppServiceName = serviceName;
+                connection.PackageFamilyName = appExtension.Package.Id.FamilyName;
+                var status = await connection.OpenAsync();
+
+
 
                 //If the new connection opened successfully we're done here
                 if (status == AppServiceConnectionStatus.Success)
@@ -78,106 +119,48 @@ namespace AppPlugin.PluginList
                 else
                 {
                     //Clean up before we go
-                    Exceptions.ConnectionFailureException exception = new(status, connection);
+                    var exception = new Exceptions.ConnectionFailureException(status, connection);
                     connection.Dispose();
+                    connection = null;
                     throw exception;
                 }
             }
 
             public void Dispose()
             {
-                if (isDisposed)
-                {
+                if (this.isDisposed)
                     return;
-                }
-
-                connection.Dispose();
-                isDisposed = true;
+                this.connection.Dispose();
+                this.isDisposed = true;
             }
 
             public async Task<TOut> ExecuteAsync(TIn input)
             {
-                if (isDisposed)
-                {
-                    throw new ObjectDisposedException(ToString());
-                }
+                if (this.isDisposed)
+                    throw new ObjectDisposedException(this.ToString());
 
                 string inputString = Helper.Serilize(input);
 
-                ValueSet inputs = new()
-                {
-                    { AbstractPlugin<object, object, object>.START_KEY, inputString },
-                    { AbstractPlugin<object, object, object>.ID_KEY, id }
-                };
-                AppServiceResponse response = await connection.SendMessageAsync(inputs);
+                var inputs = new ValueSet();
+                inputs.Add(AbstractPlugin<object, object, object>.START_KEY, inputString);
+                inputs.Add(AbstractPlugin<object, object, object>.ID_KEY, this.id);
+                var response = await this.connection.SendMessageAsync(inputs);
 
                 if (response.Status != AppServiceResponseStatus.Success)
-                {
                     throw new Exceptions.ConnectionFailureException(response.Status);
-                }
-
                 if (response.Message.ContainsKey(AbstractPlugin<object, object, object>.ERROR_KEY))
-                {
                     throw new Exceptions.PluginException(response.Message[AbstractPlugin<object, object, object>.ERROR_KEY] as string);
-                }
-
                 if (!response.Message.ContainsKey(AbstractPlugin<object, object, object>.RESULT_KEY))
-                {
-                    return default;
-                }
+                    return default(TOut);
+                var outputString = response.Message[AbstractPlugin<object, object, object>.RESULT_KEY] as string;
 
-                string outputString = response.Message[AbstractPlugin<object, object, object>.RESULT_KEY] as string;
+                if (String.IsNullOrWhiteSpace(outputString))
+                    return default(TOut);
 
-                if (string.IsNullOrWhiteSpace(outputString))
-                {
-                    return default;
-                }
-
-                TOut output = Helper.DeSerilize<TOut>(outputString);
+                var output = Helper.DeSerilize<TOut>(outputString);
 
                 return output;
-            }
 
-            private async void Canceld()
-            {
-                ValueSet valueSet = new()
-                {
-                    { AbstractPlugin<object, object, object>.ID_KEY, id },
-                    { AbstractPlugin<object, object, object>.CANCEL_KEY, true }
-                };
-
-                await connection.SendMessageAsync(valueSet);
-            }
-
-            private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-            {
-                if (!args.Request.Message.ContainsKey(AbstractPlugin<object, object, object>.PROGRESS_KEY))
-                {
-                    return;
-                }
-
-                if (!args.Request.Message.ContainsKey(AbstractPlugin<object, object, object>.ID_KEY))
-                {
-                    return;
-                }
-
-                Guid id = (Guid)args.Request.Message[AbstractPlugin<object, object, object>.ID_KEY];
-                if (this.id != id)
-                {
-                    return;
-                }
-
-                string progressString = args.Request.Message[AbstractPlugin<object, object, object>.PROGRESS_KEY] as string;
-
-                TProgress progress = Helper.DeSerilize<TProgress>(progressString);
-
-                this.progress?.Report(progress);
-                await args.Request.SendResponseAsync(new ValueSet());
-            }
-
-            private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-            {
-                Dispose();
             }
         }
     }

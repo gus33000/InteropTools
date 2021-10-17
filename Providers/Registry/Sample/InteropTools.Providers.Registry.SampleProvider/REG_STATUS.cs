@@ -8,6 +8,6 @@ namespace InteropTools.Providers.Registry.SampleProvider
         SUCCESS,
         FAILED,
         ACCESS_DENIED,
-        NOT_SUPPORTED,
+        NOT_SUPPORTED
     }
 }

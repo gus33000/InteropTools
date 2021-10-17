@@ -30,7 +30,7 @@ namespace InteropTools.CorePages
     public sealed partial class ExtendedSplashScreen : Page
     {
         private object arguments;
-        private Rect splashImageRect;       // Rect to store splash screen image coordinates.
+        private Rect splashImageRect; // Rect to store splash screen image coordinates.
         private SplashScreen splashScreen; // Variable to hold the splash screen object.
 
         public ExtendedSplashScreen()
@@ -48,7 +48,7 @@ namespace InteropTools.CorePages
 
         public static event Dismissed OnDismissed = null;
 
-        public SettingsViewModel ViewModel { get; } = new SettingsViewModel();
+        public SettingsViewModel ViewModel { get; } = new();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -105,10 +105,7 @@ namespace InteropTools.CorePages
             SessionManager.AddNewSession(arguments);
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Exit();
-        }
+        private void Button_Click_3(object sender, RoutedEventArgs e) => Application.Current.Exit();
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
@@ -122,9 +119,11 @@ namespace InteropTools.CorePages
 
             PackageVersion appver = Package.Current.Id.Version;
 
-            if ((localSettings.Values["LastVersion"] as string) != string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision))
+            if (localSettings.Values["LastVersion"] as string != string.Format("{0}.{1}.{2}.{3}", appver.Major,
+                appver.Minor, appver.Build, appver.Revision))
             {
-                localSettings.Values["LastVersion"] = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
+                localSettings.Values["LastVersion"] = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor,
+                    appver.Build, appver.Revision);
                 LoadingPanel.Visibility = Visibility.Collapsed;
                 OOBEFlipView.Visibility = Visibility.Visible;
                 OOBEFlipView.SelectedIndex = 0;
@@ -190,8 +189,10 @@ namespace InteropTools.CorePages
 
         private void PositionRing()
         {
-            splashProgressRing.SetValue(Canvas.LeftProperty, splashImageRect.X + (splashImageRect.Width * 0.5) - (splashProgressRing.Width * 0.5));
-            splashProgressRing.SetValue(Canvas.TopProperty, splashImageRect.Y + splashImageRect.Height + (splashImageRect.Height * 0.1));
+            splashProgressRing.SetValue(Canvas.LeftProperty,
+                splashImageRect.X + splashImageRect.Width * 0.5 - splashProgressRing.Width * 0.5);
+            splashProgressRing.SetValue(Canvas.TopProperty,
+                splashImageRect.Y + splashImageRect.Height + splashImageRect.Height * 0.1);
         }
 
         private void SetupTitleBar()
@@ -203,7 +204,7 @@ namespace InteropTools.CorePages
 
             ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             ApplicationViewTitleBar titlebar = ApplicationView.GetForCurrentView().TitleBar;
-            SolidColorBrush transparentColorBrush = new() { Opacity = 0 };
+            SolidColorBrush transparentColorBrush = new() {Opacity = 0};
             Windows.UI.Color transparentColor = transparentColorBrush.Color;
             titlebar.BackgroundColor = transparentColor;
             titlebar.ButtonBackgroundColor = transparentColor;
@@ -220,13 +221,16 @@ namespace InteropTools.CorePages
                 titlebar.ForegroundColor = colorBrush.Color;
             }
 
-            Windows.UI.Color hovercolor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
+            Windows.UI.Color hovercolor =
+                (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color ?? default;
             hovercolor.A = 32;
             titlebar.ButtonHoverBackgroundColor = hovercolor;
-            titlebar.ButtonHoverForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
+            titlebar.ButtonHoverForegroundColor =
+                (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
             hovercolor.A = 64;
             titlebar.ButtonPressedBackgroundColor = hovercolor;
-            titlebar.ButtonPressedForegroundColor = (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
+            titlebar.ButtonPressedForegroundColor =
+                (Application.Current.Resources["ApplicationForegroundThemeBrush"] as SolidColorBrush)?.Color;
 
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
@@ -244,12 +248,12 @@ namespace InteropTools.CorePages
             ApplicationData applicationData = ApplicationData.Current;
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
 
-            if ((localSettings.Values["EULAAccepted"] as bool?) != true)
+            if (localSettings.Values["EULAAccepted"] as bool? != true)
             {
                 LoadingPanel.Visibility = Visibility.Collapsed;
                 EULAFlipView.Visibility = Visibility.Visible;
             }
-            else if ((localSettings.Values["LastVersion"] as string) != buildString)
+            else if (localSettings.Values["LastVersion"] as string != buildString)
             {
                 localSettings.Values["LastVersion"] = buildString;
                 LoadingPanel.Visibility = Visibility.Collapsed;

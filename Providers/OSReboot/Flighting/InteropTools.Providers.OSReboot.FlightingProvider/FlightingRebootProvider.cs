@@ -36,10 +36,7 @@ namespace InteropTools.Providers.OSReboot.FlightingProvider
         [DllImport("FlightingClientDll.dll")]
         public static extern int Reboot();
 
-        public bool IsSupported(REBOOT_OPERATION operation)
-        {
-            return true;
-        }
+        public bool IsSupported(REBOOT_OPERATION operation) => true;
 
         public REBOOT_STATUS SystemReboot()
         {

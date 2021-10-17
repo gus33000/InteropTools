@@ -28,30 +28,20 @@ namespace InteropTools.CorePages
 
         public event OpenStateChangedEvent OnOpenStateChanged;
 
-        private void CreateNewTab_Click(object sender, RoutedEventArgs e)
-        {
-            AddNewSession("");
-        }
+        private void CreateNewTab_Click(object sender, RoutedEventArgs e) => AddNewSession("");
 
-        private void Sessions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
+        private void Sessions_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
             TabsListView.ItemsSource = Sessions.Select(x => new DisplayItem(x));
-        }
 
-        private void TabsControl_OnCurrentContentChanged(object sender)
-        {
+        private void TabsControl_OnCurrentContentChanged(object sender) =>
             TabsListView.ItemsSource = Sessions.Select(x => new DisplayItem(x));
-        }
 
-        private void TabsControl_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            TabsListView.MaxWidth = e.NewSize.Width - (2 * (32 + 4));
-        }
+        private void TabsControl_SizeChanged(object sender, SizeChangedEventArgs e) =>
+            TabsListView.MaxWidth = e.NewSize.Width - 2 * (32 + 4);
 
-        private void TabsListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        private void TabsListView_ItemClick(object sender, ItemClickEventArgs e) =>
             SwitchSession((e.ClickedItem as DisplayItem)?.session);
-        }
 
         private void UpdateOpenStateChanged()
         {
@@ -82,12 +72,13 @@ namespace InteropTools.CorePages
 
         public class DisplayItem
         {
-            public DisplayItem(Session session)
-            {
-                this.session = session;
-            }
+            public DisplayItem(Session session) => this.session = session;
 
-            public string Description => session.Helper.GetTitle() + ResourceManager.Current.MainResourceMap.GetValue("Resources/_connected_to_", ResourceContext.GetForCurrentView()).ValueAsString + session.Helper.GetHostName();
+            public string Description => session.Helper.GetTitle() +
+                                         ResourceManager.Current.MainResourceMap.GetValue("Resources/_connected_to_",
+                                             ResourceContext.GetForCurrentView()).ValueAsString +
+                                         session.Helper.GetHostName();
+
             public string DisplayName => session.Helper.GetFriendlyName() + " (" + session.CreationDate + ")";
 
             public object Preview

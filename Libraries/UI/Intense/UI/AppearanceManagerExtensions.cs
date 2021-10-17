@@ -21,28 +21,31 @@ namespace Intense.UI
             {
                 throw new ArgumentNullException(nameof(manager));
             }
+
             if (eventSink == null)
             {
                 throw new ArgumentNullException(nameof(eventSink));
             }
 
-            AppearanceManager.AccentColorChanged += new WeakEventHandler<IAppearanceManagerEventSink, object, object, EventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnAccentColorChanged(o, e),
-                Detach = (h, m) => AppearanceManager.AccentColorChanged -= h.OnEvent
-            }.OnEvent;
+            AppearanceManager.AccentColorChanged +=
+                new WeakEventHandler<IAppearanceManagerEventSink, object, object, EventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnAccentColorChanged(o, e),
+                    Detach = (h, m) => AppearanceManager.AccentColorChanged -= h.OnEvent
+                }.OnEvent;
 
-            AppearanceManager.SystemAccentColorChanged += new WeakEventHandler<IAppearanceManagerEventSink, object, object, EventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnSystemAccentColorChanged(o, e),
-                Detach = (h, m) => AppearanceManager.SystemAccentColorChanged -= h.OnEvent
-            }.OnEvent;
+            AppearanceManager.SystemAccentColorChanged +=
+                new WeakEventHandler<IAppearanceManagerEventSink, object, object, EventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnSystemAccentColorChanged(o, e),
+                    Detach = (h, m) => AppearanceManager.SystemAccentColorChanged -= h.OnEvent
+                }.OnEvent;
 
-            manager.ThemeChanged += new WeakEventHandler<IAppearanceManagerEventSink, AppearanceManager, object, EventArgs>(eventSink)
-            {
-                Handle = (t, o, e) => t.OnThemeChanged(o, e),
-                Detach = (h, m) => m.ThemeChanged -= h.OnEvent
-            }.OnEvent;
+            manager.ThemeChanged +=
+                new WeakEventHandler<IAppearanceManagerEventSink, AppearanceManager, object, EventArgs>(eventSink)
+                {
+                    Handle = (t, o, e) => t.OnThemeChanged(o, e), Detach = (h, m) => m.ThemeChanged -= h.OnEvent
+                }.OnEvent;
         }
     }
 }

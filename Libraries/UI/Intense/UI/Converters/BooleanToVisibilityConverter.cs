@@ -30,6 +30,7 @@ namespace Intense.UI.Converters
             {
                 value = !value;
             }
+
             return value ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -47,6 +48,7 @@ namespace Intense.UI.Converters
             {
                 result = !result;
             }
+
             return result;
         }
     }

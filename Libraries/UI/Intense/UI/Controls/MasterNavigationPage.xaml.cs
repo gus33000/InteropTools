@@ -30,15 +30,13 @@ namespace Intense.UI.Controls
         /// <summary>
         /// Identifies the NavigationListViewStyle dependency property.
         /// </summary>
-        public static readonly DependencyProperty NavigationListViewStyleProperty = DependencyProperty.Register("NavigationListViewStyle", typeof(Style), typeof(MasterNavigationPage), null);
+        public static readonly DependencyProperty NavigationListViewStyleProperty =
+            DependencyProperty.Register("NavigationListViewStyle", typeof(Style), typeof(MasterNavigationPage), null);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterNavigationPage"/> class.
         /// </summary>
-        public MasterNavigationPage()
-        {
-            InitializeComponent();
-        }
+        public MasterNavigationPage() => InitializeComponent();
 
         /// <summary>
         /// Gets or sets the style of the navigation list view.
@@ -79,7 +77,8 @@ namespace Intense.UI.Controls
             if (oldValue == WindowStateNarrow && newValue == WindowStateWide && IsMasterDetailCandidate(NavigationItem))
             {
                 // navigate without transition
-                Frame.Navigate(typeof(MasterDetailNavigationPage), NavigationItem, new SuppressNavigationTransitionInfo());
+                Frame.Navigate(typeof(MasterDetailNavigationPage), NavigationItem,
+                    new SuppressNavigationTransitionInfo());
 
                 // and clear the most recent backstack entry
                 Frame.BackStack.RemoveAt(Frame.BackStackDepth - 1);

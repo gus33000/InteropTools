@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RegPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
+using RegPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
 
 namespace InteropTools.Providers
 {
@@ -17,10 +19,7 @@ namespace InteropTools.Providers
         //private RegPlugin p;
         private readonly string pid;
 
-        public RegistryProvider(RegPlugin regplugin)
-        {
-            pid = regplugin.UniqueId;
-        }
+        public RegistryProvider(RegPlugin regplugin) => pid = regplugin.UniqueId;
 
         public static byte[] StringToByteArrayFastest(string hex)
         {
@@ -31,7 +30,7 @@ namespace InteropTools.Providers
 
             byte[] arr = new byte[hex.Length >> 1];
 
-            for (int i = 0; i < (hex.Length >> 1); ++i)
+            for (int i = 0; i < hex.Length >> 1; ++i)
             {
                 arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
@@ -43,7 +42,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new()
@@ -54,13 +55,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -111,6 +112,7 @@ namespace InteropTools.Providers
                             // Remove it.
                             strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 1);
                         }
+
                         // Split by null terminator.
                         return string.Join("\n", strNullTerminated.Split('\0'));
                     }
@@ -133,7 +135,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new()
@@ -145,13 +149,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -179,7 +183,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -192,13 +198,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -227,7 +233,9 @@ namespace InteropTools.Providers
             RegEnumKey ret = new();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -239,13 +247,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -307,6 +315,7 @@ namespace InteropTools.Providers
                 ret.returncode = HelperErrorCodes.NotImplemented;
                 return ret;
             }
+
             return ret;
         }
 
@@ -314,7 +323,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -327,13 +338,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -362,7 +373,9 @@ namespace InteropTools.Providers
             RegQueryKeyLastModifiedTime ret = new();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new()
@@ -373,13 +386,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -414,7 +427,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -426,13 +441,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -467,6 +482,7 @@ namespace InteropTools.Providers
                 rtn.regvalue = RegBufferToString(ret.regtype, ret.regvalue);
                 rtn.regtype = (RegTypes)ret.regtype;
             }
+
             rtn.returncode = ret.returncode;
             return rtn;
         }
@@ -482,6 +498,7 @@ namespace InteropTools.Providers
                 rtn.regvalue = RegBufferToString(ret.regtype, ret.regvalue);
                 rtn.regtype = ret.regtype;
             }
+
             rtn.returncode = ret.returncode;
             return rtn;
         }
@@ -491,7 +508,9 @@ namespace InteropTools.Providers
             RegQueryValue2 ret = new();
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new()
@@ -504,13 +523,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -535,6 +554,7 @@ namespace InteropTools.Providers
                     {
                         buffer[i] = Convert.ToByte(retbuf[i], 16);
                     }
+
                     ret.regvalue = buffer;
                 }
                 else
@@ -562,7 +582,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
                 //var o = await p.PrototypeOptions;
                 List<string> lst = new()
@@ -574,13 +596,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -604,11 +626,14 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype, byte[] data)
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype,
+            byte[] data)
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -623,13 +648,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -653,15 +678,12 @@ namespace InteropTools.Providers
             }
         }
 
-        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, RegTypes valtype, string data)
-        {
-            return await RegSetValue(hive, key, regvalue, (uint)valtype, RegStringToBuffer((uint)valtype, data));
-        }
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, RegTypes valtype,
+            string data) =>
+            await RegSetValue(hive, key, regvalue, (uint)valtype, RegStringToBuffer((uint)valtype, data));
 
-        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype, string data)
-        {
-            return await RegSetValue(hive, key, regvalue, valtype, RegStringToBuffer(valtype, data));
-        }
+        public async Task<HelperErrorCodes> RegSetValue(RegHives hive, string key, string regvalue, uint valtype,
+            string data) => await RegSetValue(hive, key, regvalue, valtype, RegStringToBuffer(valtype, data));
 
         public byte[] RegStringToBuffer(uint valtype, string val)
         {
@@ -677,7 +699,8 @@ namespace InteropTools.Providers
                     }
                 case (uint)RegTypes.REG_MULTI_SZ:
                     {
-                        return Encoding.Unicode.GetBytes(string.Join("\0", val.Replace("\r", "\0").Split('\n')) + "\0\0");
+                        return Encoding.Unicode.GetBytes(
+                            string.Join("\0", val.Replace("\r", "\0").Split('\n')) + "\0\0");
                     }
                 case (uint)RegTypes.REG_SZ:
                     {
@@ -700,7 +723,9 @@ namespace InteropTools.Providers
         {
             try
             {
-                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist = await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                AppPlugin.PluginList.PluginList<string, string, double> regpluginlist =
+                    await Registry.Definition.RegistryProvidersWithOptions.ListAsync(Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 RegPlugin p = regpluginlist.Plugins.First(x => x.UniqueId == pid);
 
                 //var o = await p.PrototypeOptions;
@@ -712,13 +737,13 @@ namespace InteropTools.Providers
                 };
 
                 string args = string.Join("_", lst);
-                string result = await p.ExecuteAsync(args);//, o);
+                string result = await p.ExecuteAsync(args); //, o);
                 List<List<string>> retarr = new();
 
-                foreach (string arg in result.Split(new string[] { "_" }, StringSplitOptions.None))
+                foreach (string arg in result.Split(new string[] {"_"}, StringSplitOptions.None))
                 {
                     List<string> newlst = new();
-                    foreach (string arg2 in arg.Split(new string[] { " " }, StringSplitOptions.None))
+                    foreach (string arg2 in arg.Split(new string[] {" "}, StringSplitOptions.None))
                     {
                         newlst.Add(Encoding.UTF8.GetString(Convert.FromBase64String(arg2)));
                     }
@@ -750,8 +775,9 @@ namespace InteropTools.Providers
             {
                 uint val = lookup32[bytes[i]];
                 result[2 * i] = (char)val;
-                result[(2 * i) + 1] = (char)(val >> 16);
+                result[2 * i + 1] = (char)(val >> 16);
             }
+
             return new string(result);
         }
 
@@ -763,6 +789,7 @@ namespace InteropTools.Providers
                 string s = i.ToString("X2");
                 result[i] = s[0] + ((uint)s[1] << 16);
             }
+
             return result;
         }
 
@@ -774,7 +801,7 @@ namespace InteropTools.Providers
             //For lowercase a-f letters:
             //return val - (val < 58 ? 48 : 87);
             //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+            return val - (val < 58 ? 48 : val < 97 ? 55 : 87);
         }
     }
 }

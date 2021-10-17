@@ -12,12 +12,8 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
         private readonly AbstractOption[] abstractOption;
 
-        public OSRebootProviderOptions()
-        {
-            abstractOption = new AbstractOption[]
-            {
-            };
-        }
+        public OSRebootProviderOptions() =>
+            abstractOption = new AbstractOption[] { };
 
         public OSRebootProviderOptions(Options o)
         {
@@ -31,9 +27,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
         public override Guid OptionsIdentifier => ID;
 
-        protected override AbstractOption[] GetSettings()
-        {
-            return abstractOption;
-        }
+        protected override AbstractOption[] GetSettings() => abstractOption;
     }
 }

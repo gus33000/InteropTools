@@ -9,9 +9,6 @@ namespace InteropTools.Providers.Registry.SampleProvider
     {
         private readonly IBackgroundTask internalTask = new RegistryProviderIntern();
 
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
+        public void Run(IBackgroundTaskInstance taskInstance) => internalTask.Run(taskInstance);
     }
 }

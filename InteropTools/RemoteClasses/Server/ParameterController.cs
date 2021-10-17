@@ -1,7 +1,16 @@
 ﻿// Copyright 2015-2021 (c) Interop Tools Development Team
 // This file is licensed to you under the MIT license.
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 using InteropTools.Providers;
+using Restup.Webserver.Attributes;
+using Restup.Webserver.Models.Contracts;
+using Restup.Webserver.Models.Schemas;
+using Windows.ApplicationModel;
 
 namespace InteropTools.RemoteClasses.Server
 {
@@ -52,7 +61,8 @@ namespace InteropTools.RemoteClasses.Server
             Stream resource = assembly.GetManifestResourceStream("InteropTools.Resources.BuildDate.txt");
             string builddate = new StreamReader(resource).ReadLine().Replace("\r", "");
             PackageVersion appver = Package.Current.Id.Version;
-            string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build, appver.Revision);
+            string appverstr = string.Format("{0}.{1}.{2}.{3}", appver.Major, appver.Minor, appver.Build,
+                appver.Revision);
             string buildString = appverstr + " (fbl_prerelease(gustavem)";
             Type myType = Type.GetType("InteropTools.ShellPages.Private.YourWindowsBuildPage");
 
@@ -172,8 +182,10 @@ namespace InteropTools.RemoteClasses.Server
                 resp);
         }
 
-        [UriFormat("/registry/setkeyvalue?hive={hive2}&key={key}&valuename={valuename}&type={type2}&valuedata={valuedata}")]
-        public async Task<IGetResponse> SetKeyValue(string hive2, string key, string valuename, string type2, string valuedata)
+        [UriFormat(
+            "/registry/setkeyvalue?hive={hive2}&key={key}&valuename={valuename}&type={type2}&valuedata={valuedata}")]
+        public async Task<IGetResponse> SetKeyValue(string hive2, string key, string valuename, string type2,
+            string valuedata)
         {
             Enum.TryParse(hive2, out RegHives hive);
             Enum.TryParse(type2, out RegTypes type);
@@ -185,8 +197,10 @@ namespace InteropTools.RemoteClasses.Server
                 resp);
         }
 
-        [UriFormat("/registry/setkeyvalue2?hive={hive2}&key={key}&valuename={valuename}&type={type2}&valuedata={valuedata}")]
-        public async Task<IGetResponse> SetKeyValue2(string hive2, string key, string valuename, string type2, string valuedata)
+        [UriFormat(
+            "/registry/setkeyvalue2?hive={hive2}&key={key}&valuename={valuename}&type={type2}&valuedata={valuedata}")]
+        public async Task<IGetResponse> SetKeyValue2(string hive2, string key, string valuename, string type2,
+            string valuedata)
         {
             Enum.TryParse(hive2, out RegHives hive);
             uint.TryParse(type2, out uint type);

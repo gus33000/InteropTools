@@ -7,9 +7,6 @@ namespace InteropTools.Controls.Blurring.Acrylic
 {
     public sealed partial class AcrylicLow : UserControl
     {
-        public AcrylicLow()
-        {
-            InitializeComponent();
-        }
+        public AcrylicLow() => InitializeComponent();
     }
 }

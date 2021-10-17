@@ -2,7 +2,6 @@
 // This file is licensed to you under the MIT license.
 
 using System.Collections.Generic;
-
 using System.Globalization;
 using System.Linq;
 using Windows.Globalization.Collation;
@@ -15,10 +14,7 @@ namespace InteropTools.Presentation
         ///     Public constructor.
         /// </summary>
         /// <param name="key">The key for this group.</param>
-        private AlphaKeyGroup(string key)
-        {
-            Key = key;
-        }
+        private AlphaKeyGroup(string key) => Key = key;
 
         /// <summary>
         ///     The delegate that is used to get the key information.
@@ -82,9 +78,8 @@ namespace InteropTools.Presentation
         /// </summary>
         /// <param name="slg">The </param>
         /// <returns>Theitems source for a LongListSelector</returns>
-        private static List<AlphaKeyGroup<T>> CreateGroups(CharacterGroupings slg)
-        {
-            return (from key in slg where !string.IsNullOrWhiteSpace(key.Label) select new AlphaKeyGroup<T>(key.Label)).ToList();
-        }
+        private static List<AlphaKeyGroup<T>> CreateGroups(CharacterGroupings slg) => (from key in slg
+            where !string.IsNullOrWhiteSpace(key.Label)
+            select new AlphaKeyGroup<T>(key.Label)).ToList();
     }
 }

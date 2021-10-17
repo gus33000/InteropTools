@@ -30,22 +30,26 @@ namespace Intense.UI.Controls
         /// <summary>
         /// Identifies the NavigationItem dependency property.
         /// </summary>
-        public static readonly DependencyProperty NavigationItemProperty = DependencyProperty.Register("NavigationItem", typeof(NavigationItem), typeof(NavigationPage), new PropertyMetadata(null, OnNavigationItemChanged));
+        public static readonly DependencyProperty NavigationItemProperty = DependencyProperty.Register("NavigationItem",
+            typeof(NavigationItem), typeof(NavigationPage), new PropertyMetadata(null, OnNavigationItemChanged));
 
         /// <summary>
         /// Identifies the RootItem dependency property.
         /// </summary>
-        public static readonly DependencyProperty RootItemProperty = DependencyProperty.Register("RootItem", typeof(NavigationItem), typeof(NavigationPage), null);
+        public static readonly DependencyProperty RootItemProperty =
+            DependencyProperty.Register("RootItem", typeof(NavigationItem), typeof(NavigationPage), null);
 
         /// <summary>
         /// Identifies the SelectedItem dependency property.
         /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(NavigationItem), typeof(NavigationPage), new PropertyMetadata(null, OnSelectedItemChanged));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem",
+            typeof(NavigationItem), typeof(NavigationPage), new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
         /// Identifies the WindowState dependency property.
         /// </summary>
-        public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState", typeof(string), typeof(NavigationPage), new PropertyMetadata(null, OnWindowStateChanged));
+        public static readonly DependencyProperty WindowStateProperty = DependencyProperty.Register("WindowState",
+            typeof(string), typeof(NavigationPage), new PropertyMetadata(null, OnWindowStateChanged));
 
         /// <summary>
         /// Gets or sets the navigation item associated with this instance.
@@ -88,10 +92,9 @@ namespace Intense.UI.Controls
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        protected bool IsMasterDetailCandidate(NavigationItem item)
-        {
-            return !item.IsRoot() && (item.IsLeaf() || (!item.HasGrandchildren() && WindowState == WindowStateWide));
-        }
+        protected bool IsMasterDetailCandidate(NavigationItem item) => !item.IsRoot() &&
+                                                                       (item.IsLeaf() || !item.HasGrandchildren() &&
+                                                                           WindowState == WindowStateWide);
 
         /// <summary>
         /// Immediately invoked after the page is unloaded and is no longer the current source of a parent <see cref="Frame"/>.
@@ -120,11 +123,9 @@ namespace Intense.UI.Controls
         /// </summary>
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>
-        protected virtual void OnNavigationItemChanged(NavigationItem oldValue, NavigationItem newValue)
-        {
+        protected virtual void OnNavigationItemChanged(NavigationItem oldValue, NavigationItem newValue) =>
             // update rootitem
             RootItem = newValue?.GetAncestorsAndSelf().LastOrDefault();
-        }
 
         /// <summary>
         /// Occurs when the selected item has changed.
@@ -169,7 +170,10 @@ namespace Intense.UI.Controls
             //  5) two way SelectedItem binding result in SelectedItem to be result to null
 
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            Task.Delay(10).ContinueWith(t => page.OnNavigationItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue), scheduler);
+            Task.Delay(10)
+                .ContinueWith(
+                    t => page.OnNavigationItemChanged((NavigationItem)args.OldValue, (NavigationItem)args.NewValue),
+                    scheduler);
         }
 
         private static void OnSelectedItemChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
@@ -182,9 +186,7 @@ namespace Intense.UI.Controls
             }
         }
 
-        private static void OnWindowStateChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
-        {
+        private static void OnWindowStateChanged(DependencyObject o, DependencyPropertyChangedEventArgs args) =>
             ((NavigationPage)o).OnWindowStateChanged((string)args.OldValue, (string)args.NewValue);
-        }
     }
 }

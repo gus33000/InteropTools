@@ -25,16 +25,19 @@ namespace Intense.UI.Converters
             {
                 return null;
             }
+
             Color? color = value as Color?;
             if (color != null)
             {
                 return color;
             }
+
             if (value is string str)
             {
                 SolidColorBrush brush = XamlHelper.CreateSolidColorBrush(str);
                 return brush.Color;
             }
+
             // no other conversions supported
             return null;
         }

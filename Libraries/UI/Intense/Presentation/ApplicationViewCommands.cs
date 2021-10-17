@@ -21,7 +21,8 @@ namespace Intense.Presentation
         {
             ApplicationView view = ApplicationView.GetForCurrentView();
 
-            EnterFullScreenModeCommand = new RelayCommand(o => view.TryEnterFullScreenMode(), o => !view.IsFullScreenMode);
+            EnterFullScreenModeCommand =
+                new RelayCommand(o => view.TryEnterFullScreenMode(), o => !view.IsFullScreenMode);
             ExitFullScreenModeCommand = new RelayCommand(o => view.ExitFullScreenMode(), o => view.IsFullScreenMode);
 
             Window.Current.RegisterEventSink(this);

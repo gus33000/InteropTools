@@ -13,10 +13,7 @@ namespace InteropTools.ShellPages.Registry
     /// </summary>
     public sealed partial class x50PlusDevicesNDTKUnlock : Page
     {
-        public x50PlusDevicesNDTKUnlock()
-        {
-            InitializeComponent();
-        }
+        public x50PlusDevicesNDTKUnlock() => InitializeComponent();
 
         public PageGroup PageGroup => PageGroup.Registry;
         public string PageName => "Lumia x50 Interop Unlock";

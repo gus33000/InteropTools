@@ -17,20 +17,17 @@ namespace RegistryHelper
 
         private static readonly Dictionary<REG_HIVES, uint> _srpchives = new()
         {
-            { REG_HIVES.HKEY_CLASSES_ROOT, 2147483648 },
-            { REG_HIVES.HKEY_CURRENT_USER, 2147483649 },
-            { REG_HIVES.HKEY_LOCAL_MACHINE, 2147483650 },
-            { REG_HIVES.HKEY_USERS, 2147483651 },
-            { REG_HIVES.HKEY_PERFORMANCE_DATA, 2147483652 },
-            { REG_HIVES.HKEY_CURRENT_CONFIG, 2147483653 },
-            { REG_HIVES.HKEY_DYN_DATA, 2147483654 },
-            { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 2147483655 }
+            {REG_HIVES.HKEY_CLASSES_ROOT, 2147483648},
+            {REG_HIVES.HKEY_CURRENT_USER, 2147483649},
+            {REG_HIVES.HKEY_LOCAL_MACHINE, 2147483650},
+            {REG_HIVES.HKEY_USERS, 2147483651},
+            {REG_HIVES.HKEY_PERFORMANCE_DATA, 2147483652},
+            {REG_HIVES.HKEY_CURRENT_CONFIG, 2147483653},
+            {REG_HIVES.HKEY_DYN_DATA, 2147483654},
+            {REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 2147483655}
         };
 
-        public bool IsSupported()
-        {
-            return Initialize();
-        }
+        public bool IsSupported() => Initialize();
 
         private bool Initialize()
         {
@@ -61,15 +58,9 @@ namespace RegistryHelper
             return false;
         }
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name) => REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
@@ -113,10 +104,7 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
-        {
-            return REG_KEY_STATUS.UNKNOWN;
-        }
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key) => REG_KEY_STATUS.UNKNOWN;
 
         public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
@@ -147,7 +135,8 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
             data = new byte[0];
             outvaltype = REG_VALUE_TYPE.REG_NONE;
@@ -175,15 +164,12 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS
+            RegSetMultiString(REG_HIVES hive, string key, string regvalue, [ReadOnlyArray] string[] data) =>
+            REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegSetQword(REG_HIVES hive, string key, string regvalue, ulong data) =>
+            REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegSetString(REG_HIVES hive, string key, string regvalue, string data)
         {
@@ -206,25 +192,15 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            [ReadOnlyArray] byte[] data) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegSetVariableString(REG_HIVES hive, string key, string regvalue, string data) =>
+            REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key) => REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
@@ -232,17 +208,16 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data)
         {
             outvaltype = 0;
             data = new byte[0];
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, [ReadOnlyArray] byte[] data)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype,
+            [ReadOnlyArray] byte[] data) => REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM_CUSTOM> items)
         {
@@ -250,14 +225,8 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegLoadHive(string FilePath, string mountpoint, bool inUser)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegLoadHive(string FilePath, string mountpoint, bool inUser) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegUnloadHive(string mountpoint, bool inUser)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegUnloadHive(string mountpoint, bool inUser) => REG_STATUS.NOT_IMPLEMENTED;
     }
 }

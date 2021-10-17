@@ -28,51 +28,49 @@ namespace InteropTools.ShellPages.Registry
         public PageGroup PageGroup => PageGroup.Registry;
         public string PageName => "Interop Unlock";
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async Task RunInUiThread(Action function)
-        {
+        private async Task RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        private void Button_Click(object sender, RoutedEventArgs e) =>
             RunInThreadPool(async () =>
             {
                 RegTypes regtype;
                 string regvalue;
-                GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                    "PhoneManufacturer", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                    @"System\Platform\DeviceTargetingInfo",
+                    "PhoneManufacturer", RegTypes.REG_SZ);
+                regtype = ret.regtype;
+                regvalue = ret.regvalue;
 
                 if (string.Equals(regvalue, "NOKIA", StringComparison.OrdinalIgnoreCase))
                 {
                     ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                        "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                        "PhoneManufacturerBak", RegTypes.REG_SZ);
+                    regtype = ret.regtype;
+                    regvalue = ret.regvalue;
 
                     if (regvalue != "")
                     {
                         await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                            "PhoneManufacturer", RegTypes.REG_SZ, regvalue);
+                            "PhoneManufacturer", RegTypes.REG_SZ, regvalue);
                         await _helper.DeleteValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                            "PhoneManufacturerBak");
+                            "PhoneManufacturerBak");
                     }
                 }
                 else
                 {
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                        "PhoneManufacturerBak", RegTypes.REG_SZ, regvalue);
+                        "PhoneManufacturerBak", RegTypes.REG_SZ, regvalue);
                     await _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                        "PhoneManufacturer", RegTypes.REG_SZ, "NOKIA");
+                        "PhoneManufacturer", RegTypes.REG_SZ, "NOKIA");
                 }
 
                 DoChecks();
             });
-        }
 
         private void CapUnlock_Toggled(object sender, RoutedEventArgs e)
         {
@@ -109,10 +107,12 @@ namespace InteropTools.ShellPages.Registry
         {
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp",
-              "ObjectName",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp",
+                "ObjectName",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "LocalSystem")
             {
@@ -120,10 +120,12 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SYSTEM\\controlset001\\services\\SdStor\\Parameters",
-              "PackedCommandEnable",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "SYSTEM\\controlset001\\services\\SdStor\\Parameters",
+                "PackedCommandEnable",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -131,10 +133,12 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp",
-              "Type",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp",
+                "Type",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "16")
             {
@@ -142,10 +146,12 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp",
-              "ServiceSidType",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp",
+                "ServiceSidType",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -153,36 +159,44 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "Data0",
-              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "Data0",
+                RegTypes.REG_BINARY);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (
-              !((string.Equals(regvalue, "7508bca3290b900c", StringComparison.OrdinalIgnoreCase)) ||
-                (string.Equals(regvalue, "7508bca3290b900c000000000000000000000000", StringComparison.OrdinalIgnoreCase))))
+                !(string.Equals(regvalue, "7508bca3290b900c", StringComparison.OrdinalIgnoreCase) ||
+                  string.Equals(regvalue, "7508bca3290b900c000000000000000000000000",
+                      StringComparison.OrdinalIgnoreCase)))
             {
                 return false;
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "Data1",
-              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "Data1",
+                RegTypes.REG_BINARY);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (
-              !((string.Equals(regvalue, "0000000001000000", StringComparison.OrdinalIgnoreCase)) ||
-                (string.Equals(regvalue, "0000000001000000000000000000000000000000", StringComparison.OrdinalIgnoreCase))))
+                !(string.Equals(regvalue, "0000000001000000", StringComparison.OrdinalIgnoreCase) ||
+                  string.Equals(regvalue, "0000000001000000000000000000000000000000",
+                      StringComparison.OrdinalIgnoreCase)))
             {
                 return false;
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "DataType0",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "DataType0",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -190,10 +204,12 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "DataType1",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "DataType1",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "1")
             {
@@ -201,23 +217,28 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "Guid",
-              RegTypes.REG_BINARY); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "Guid",
+                RegTypes.REG_BINARY);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (
-              !((string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c9", StringComparison.OrdinalIgnoreCase)) ||
-                (string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c900000000", StringComparison.OrdinalIgnoreCase))))
+                !(string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c9", StringComparison.OrdinalIgnoreCase) ||
+                  string.Equals(regvalue, "16287a2d5e0cfc459ce7570e5ecde9c900000000",
+                      StringComparison.OrdinalIgnoreCase)))
             {
                 return false;
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-              "Type",
-              RegTypes.REG_DWORD); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                "Type",
+                RegTypes.REG_DWORD);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
             return regvalue == "7";
         }
 
@@ -225,10 +246,12 @@ namespace InteropTools.ShellPages.Registry
         {
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
-              "CapabilityClass",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
+                "CapabilityClass",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (regvalue != "capabilityClass_DevUnlock_Internal")
             {
@@ -236,10 +259,12 @@ namespace InteropTools.ShellPages.Registry
             }
 
             ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
-              "PrincipalClass",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
+                "PrincipalClass",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
 
             return regvalue == "principalClass_DevUnlock_Internal";
         }
@@ -248,10 +273,12 @@ namespace InteropTools.ShellPages.Registry
         {
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
-              "Path",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
+                "Path",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
             return string.Equals(regvalue, "c:\\windows\\system32\\ndtksvc.dll", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -259,11 +286,14 @@ namespace InteropTools.ShellPages.Registry
         {
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
-              "Path",
-              RegTypes.REG_SZ); _ = ret.regtype; regvalue = ret.regvalue;
-            return string.Equals(regvalue, "c:\\data\\users\\public\\ndtk\\ndtksvc.dll", StringComparison.OrdinalIgnoreCase);
+                RegHives.HKEY_LOCAL_MACHINE,
+                "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
+                "Path",
+                RegTypes.REG_SZ);
+            _ = ret.regtype;
+            regvalue = ret.regvalue;
+            return string.Equals(regvalue, "c:\\data\\users\\public\\ndtk\\ndtksvc.dll",
+                StringComparison.OrdinalIgnoreCase);
         }
 
         private async void DoChecks()
@@ -282,10 +312,12 @@ namespace InteropTools.ShellPages.Registry
             RegTypes regtype;
             string regvalue;
             GetKeyValueReturn ret = await _helper.GetKeyValue(
-              RegHives.HKEY_LOCAL_MACHINE,
-              "Software\\Microsoft\\MTP",
-              "datastore",
-              RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                RegHives.HKEY_LOCAL_MACHINE,
+                "Software\\Microsoft\\MTP",
+                "datastore",
+                RegTypes.REG_SZ);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
             await RunInUiThread(() => MTPPathInput.Text = regvalue);
             bool RestoreNDTKState = await CheckRestoreNDTK();
             bool RestoreNDTKx50State = await CheckRestoreNDTKx50();
@@ -316,81 +348,81 @@ namespace InteropTools.ShellPages.Registry
                 RunInThreadPool(async () =>
                 {
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "Software\\Microsoft\\MTP",
-                      "datastore",
-                      RegTypes.REG_SZ,
-                      "C:"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "Software\\Microsoft\\MTP",
+                        "datastore",
+                        RegTypes.REG_SZ,
+                        "C:"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SYSTEM\\controlset001\\services\\SdStor\\Parameters",
-                      "PackedCommandEnable",
-                      RegTypes.REG_DWORD,
-                      "1"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "SYSTEM\\controlset001\\services\\SdStor\\Parameters",
+                        "PackedCommandEnable",
+                        RegTypes.REG_DWORD,
+                        "1"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp",
-                      "ObjectName",
-                      RegTypes.REG_SZ,
-                      "LocalSystem"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp",
+                        "ObjectName",
+                        RegTypes.REG_SZ,
+                        "LocalSystem"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp",
-                      "Type",
-                      RegTypes.REG_DWORD,
-                      "16"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp",
+                        "Type",
+                        RegTypes.REG_DWORD,
+                        "16"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp",
-                      "ServiceSidType",
-                      RegTypes.REG_DWORD,
-                      "1"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp",
+                        "ServiceSidType",
+                        RegTypes.REG_DWORD,
+                        "1"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "Data0",
-                      RegTypes.REG_BINARY,
-                      "7508bca3290b900c"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "Data0",
+                        RegTypes.REG_BINARY,
+                        "7508bca3290b900c"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "Data1",
-                      RegTypes.REG_BINARY,
-                      "0000000001000000"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "Data1",
+                        RegTypes.REG_BINARY,
+                        "0000000001000000"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "DataType0",
-                      RegTypes.REG_DWORD,
-                      "1"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "DataType0",
+                        RegTypes.REG_DWORD,
+                        "1"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "DataType1",
-                      RegTypes.REG_DWORD,
-                      "1"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "DataType1",
+                        RegTypes.REG_DWORD,
+                        "1"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "Guid",
-                      RegTypes.REG_BINARY,
-                      "16287a2d5e0cfc459ce7570e5ecde9c9"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "Guid",
+                        RegTypes.REG_BINARY,
+                        "16287a2d5e0cfc459ce7570e5ecde9c9"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
-                      "Type",
-                      RegTypes.REG_DWORD,
-                      "7"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp\\TriggerInfo\\0",
+                        "Type",
+                        RegTypes.REG_DWORD,
+                        "7"
                     );
                     DoChecks();
                 });
@@ -400,11 +432,11 @@ namespace InteropTools.ShellPages.Registry
                 RunInThreadPool(async () =>
                 {
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "System\\ControlSet001\\services\\Mtp",
-                      "ObjectName",
-                      RegTypes.REG_SZ,
-                      ".\\WPNONETWORK"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "System\\ControlSet001\\services\\Mtp",
+                        "ObjectName",
+                        RegTypes.REG_SZ,
+                        ".\\WPNONETWORK"
                     );
                     DoChecks();
                 });
@@ -415,13 +447,18 @@ namespace InteropTools.ShellPages.Registry
         {
             RegTypes regtype;
             string regvalue;
-            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo", "PhoneManufacturer",
-                                RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE,
+                @"System\Platform\DeviceTargetingInfo", "PhoneManufacturer",
+                RegTypes.REG_SZ);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             if (string.Equals(regvalue, "NOKIA", StringComparison.OrdinalIgnoreCase))
             {
                 ret = await _helper.GetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"System\Platform\DeviceTargetingInfo",
-                                    "PhoneManufacturerBak", RegTypes.REG_SZ); regtype = ret.regtype; regvalue = ret.regvalue;
+                    "PhoneManufacturerBak", RegTypes.REG_SZ);
+                regtype = ret.regtype;
+                regvalue = ret.regvalue;
 
                 if (regvalue?.Length == 0)
                 {
@@ -458,18 +495,18 @@ namespace InteropTools.ShellPages.Registry
                 RunInThreadPool(async () =>
                 {
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
-                      "CapabilityClass",
-                      RegTypes.REG_SZ,
-                      "capabilityClass_DevUnlock_Internal"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
+                        "CapabilityClass",
+                        RegTypes.REG_SZ,
+                        "capabilityClass_DevUnlock_Internal"
                     );
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
-                      "PrincipalClass",
-                      RegTypes.REG_SZ,
-                      "principalClass_DevUnlock_Internal"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "SOFTWARE\\Microsoft\\SecurityManager\\AuthorizationRules\\Capability\\capabilityRule_DevUnlock",
+                        "PrincipalClass",
+                        RegTypes.REG_SZ,
+                        "principalClass_DevUnlock_Internal"
                     );
                     DoChecks();
                 });
@@ -492,11 +529,11 @@ namespace InteropTools.ShellPages.Registry
                 RunInThreadPool(async () =>
                 {
                     await _helper.SetKeyValue(
-                      RegHives.HKEY_LOCAL_MACHINE,
-                      "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
-                      "Path",
-                      RegTypes.REG_SZ,
-                      "c:\\windows\\system32\\ndtksvc.dll"
+                        RegHives.HKEY_LOCAL_MACHINE,
+                        "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
+                        "Path",
+                        RegTypes.REG_SZ,
+                        "c:\\windows\\system32\\ndtksvc.dll"
                     );
                     DoChecks();
                 });
@@ -523,22 +560,22 @@ namespace InteropTools.ShellPages.Registry
                     if (fileexists)
                     {
                         await _helper.SetKeyValue(
-                          RegHives.HKEY_LOCAL_MACHINE,
-                          "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
-                          "Path",
-                          RegTypes.REG_SZ,
-                          "c:\\data\\users\\public\\ndtk\\ndtksvc.dll"
+                            RegHives.HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\OEM\\Nokia\\NokiaSvcHost\\Plugins\\NsgExtA\\NdtkSvc",
+                            "Path",
+                            RegTypes.REG_SZ,
+                            "c:\\data\\users\\public\\ndtk\\ndtksvc.dll"
                         );
                     }
                     else
                     {
                         await RunInUiThread(
-                          async () =>
-                          {
-                              await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-                            "We didn't find the ndtksvc.dll file at the following location:\nC:\\Data\\Users\\Public\\ndtk\\ndtksvc.dll\nSo we're unable to turn on that option",
-                            "We didn't find the required files to turn on that option");
-                          });
+                            async () =>
+                            {
+                                await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                                    "We didn't find the ndtksvc.dll file at the following location:\nC:\\Data\\Users\\Public\\ndtk\\ndtksvc.dll\nSo we're unable to turn on that option",
+                                    "We didn't find the required files to turn on that option");
+                            });
                     }
 
                     DoChecks();
@@ -556,11 +593,11 @@ namespace InteropTools.ShellPages.Registry
             RunInThreadPool(async () =>
             {
                 await _helper.SetKeyValue(
-                  RegHives.HKEY_LOCAL_MACHINE,
-                  "Software\\Microsoft\\MTP",
-                  "datastore",
-                  RegTypes.REG_SZ,
-                  newval
+                    RegHives.HKEY_LOCAL_MACHINE,
+                    "Software\\Microsoft\\MTP",
+                    "datastore",
+                    RegTypes.REG_SZ,
+                    newval
                 );
                 DoChecks();
             });

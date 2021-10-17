@@ -26,6 +26,7 @@ namespace Intense.Presentation
             {
                 throw new ArgumentNullException(nameof(execute));
             }
+
             this.execute = o => execute();
             if (canExecute != null)
             {
@@ -53,10 +54,7 @@ namespace Intense.Presentation
         /// </summary>
         /// <param name="parameter">Data used by the command.</param>
         /// <returns></returns>
-        public override bool CanExecute(object parameter)
-        {
-            return canExecute(parameter);
-        }
+        public override bool CanExecute(object parameter) => canExecute(parameter);
 
         /// <summary>
         /// Defines the method to be called when the command is invoked.
@@ -68,6 +66,7 @@ namespace Intense.Presentation
             {
                 return;
             }
+
             execute(parameter);
         }
     }

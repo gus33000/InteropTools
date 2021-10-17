@@ -102,10 +102,7 @@ namespace InteropTools.ContentDialogs.Registry
         {
         }
 
-        private string GetRegistryHiveName(RegHives hive)
-        {
-            return Enum.GetName(typeof(RegHives), hive);
-        }
+        private string GetRegistryHiveName(RegHives hive) => Enum.GetName(typeof(RegHives), hive);
 
         private RegHives GetSelectedHive()
         {
@@ -158,23 +155,20 @@ namespace InteropTools.ContentDialogs.Registry
             return hive;
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUIThread(Action function)
-        {
+        private async void RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private async void ShowKeyUnableToAddMessageBox()
-        {
+        private async void ShowKeyUnableToAddMessageBox() =>
             await new Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                ResourceManager.Current.MainResourceMap
+                    .GetValue(
+                        "Resources/We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
     }
 }

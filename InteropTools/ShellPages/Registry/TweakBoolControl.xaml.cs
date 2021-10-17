@@ -54,16 +54,11 @@ namespace InteropTools.ShellPages.Registry
             });
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUIThread(Action function)
-        {
+        private async void RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
     }
 }

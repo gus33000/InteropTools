@@ -12,9 +12,6 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        public MainPage() => InitializeComponent();
     }
 }

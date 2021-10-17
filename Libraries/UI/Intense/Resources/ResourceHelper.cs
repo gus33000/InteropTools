@@ -22,12 +22,10 @@ namespace Intense.Resources
             {
                 value = string.Format(value, args);
             }
+
             return value;
         }
 
-        private static ResourceLoader GetLoader()
-        {
-            return loader ??= ResourceLoader.GetForCurrentView("Intense/Resources");
-        }
+        private static ResourceLoader GetLoader() => loader ??= ResourceLoader.GetForCurrentView("Intense/Resources");
     }
 }

@@ -12,7 +12,6 @@ namespace InteropTools.Providers.OSReboot.Definition
         {
         }
 
-        [DataMember]
-        public string Value { get; set; }
+        [DataMember] public string Value { get; set; }
     }
 }

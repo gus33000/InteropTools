@@ -25,6 +25,7 @@ namespace Intense.UI
             {
                 return paragraph.Inlines;
             }
+
             if (o is Span span)
             {
                 return span.Inlines;
@@ -38,9 +39,6 @@ namespace Intense.UI
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public TextElement GetParent(TextElement o)
-        {
-            throw new NotSupportedException();
-        }
+        public TextElement GetParent(TextElement o) => throw new NotSupportedException();
     }
 }

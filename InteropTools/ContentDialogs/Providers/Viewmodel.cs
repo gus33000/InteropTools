@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using RebootPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.OSReboot.Definition.TransfareOptions
-
-using RegPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
+using RebootPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.OSReboot.Definition.TransfareOptions
+using RegPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
 
 namespace InteropTools.ContentDialogs.Providers
 {
@@ -22,17 +25,14 @@ namespace InteropTools.ContentDialogs.Providers
             public BitmapImage Logo { get; set; }
             public RegPlugin Plugin { get; set; }
 
-            public DisplayablePlugin(RegPlugin Plugin)
-            {
-                this.Plugin = Plugin;
-            }
+            public DisplayablePlugin(RegPlugin Plugin) => this.Plugin = Plugin;
         }
 
         public ObservableCollection<DisplayablePlugin> RegPlugins { get; }
-                  = new ObservableCollection<DisplayablePlugin>();
+            = new ObservableCollection<DisplayablePlugin>();
 
         public ObservableCollection<RebootPlugin> RebootPlugins { get; }
-                  = new ObservableCollection<RebootPlugin>();
+            = new ObservableCollection<RebootPlugin>();
 
         public Viewmodel()
         {
@@ -41,22 +41,19 @@ namespace InteropTools.ContentDialogs.Providers
 #pragma warning restore CS4014
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
         private async Task InitAsync()
         {
-            AppPlugin.PluginList.PluginList<string, string, double> reglist = await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> reglist =
+                await InteropTools.Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(InteropTools
+                    .Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in reglist.Plugins)
             {
-                DisplayablePlugin itm = new(item)
-                {
-                    Logo = new BitmapImage()
-                };
-                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                DisplayablePlugin itm = new(item) {Logo = new BitmapImage()};
+                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                    .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                 RegPlugins.Add(itm);
             }
 
@@ -68,11 +65,9 @@ namespace InteropTools.ContentDialogs.Providers
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RegPlugin>())
                         {
-                            DisplayablePlugin itm = new(item)
-                            {
-                                Logo = new BitmapImage()
-                            };
-                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                            DisplayablePlugin itm = new(item) {Logo = new BitmapImage()};
+                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                                .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                             RegPlugins.Add(itm);
                         }
                     }
@@ -94,12 +89,16 @@ namespace InteropTools.ContentDialogs.Providers
                 });
             };
 
-            AppPlugin.PluginList.PluginList<string, string, double> rebootlist = await InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> rebootlist =
+                await InteropTools.Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(InteropTools
+                    .Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in rebootlist.Plugins)
             {
                 RebootPlugins.Add(item);
-            } (rebootlist.Plugins as INotifyCollectionChanged).CollectionChanged += async (sender, e) =>
+            }
+
+            (rebootlist.Plugins as INotifyCollectionChanged).CollectionChanged += async (sender, e) =>
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {

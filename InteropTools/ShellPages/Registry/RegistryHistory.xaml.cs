@@ -13,10 +13,7 @@ namespace InteropTools.ShellPages.Registry
     /// </summary>
     public sealed partial class RegistryHistory : Page
     {
-        public RegistryHistory()
-        {
-            InitializeComponent();
-        }
+        public RegistryHistory() => InitializeComponent();
 
         public PageGroup PageGroup => PageGroup.Registry;
         public string PageName => "Registry History";

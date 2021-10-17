@@ -13,10 +13,7 @@ namespace TestMountHive
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-        }
+        public MainPage() => InitializeComponent();
 
         private async void Go_Click(object sender, RoutedEventArgs e)
         {

@@ -12,9 +12,6 @@ namespace InteropTools.ShellPages.Store
     /// </summary>
     public sealed partial class StorePage : Page
     {
-        public StorePage()
-        {
-            InitializeComponent();
-        }
+        public StorePage() => InitializeComponent();
     }
 }

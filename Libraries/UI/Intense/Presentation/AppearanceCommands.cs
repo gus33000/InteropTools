@@ -24,9 +24,14 @@ namespace Intense.Presentation
             AppearanceManager manager = AppearanceManager.GetForCurrentView();
 
             SetAccentColorCommand = new RelayCommand(o => AppearanceManager.AccentColor = converter.ConvertBack(o));
-            SetDarkThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Dark, o => manager.Theme == ApplicationTheme.Light);
-            SetLightThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Light, o => manager.Theme == ApplicationTheme.Dark);
-            ToggleThemeCommand = new RelayCommand(o => manager.Theme = manager.Theme == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
+            SetDarkThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Dark,
+                o => manager.Theme == ApplicationTheme.Light);
+            SetLightThemeCommand = new RelayCommand(o => manager.Theme = ApplicationTheme.Light,
+                o => manager.Theme == ApplicationTheme.Dark);
+            ToggleThemeCommand = new RelayCommand(o =>
+                manager.Theme = manager.Theme == ApplicationTheme.Dark
+                    ? ApplicationTheme.Light
+                    : ApplicationTheme.Dark);
 
             manager.RegisterEventSink(this);
         }

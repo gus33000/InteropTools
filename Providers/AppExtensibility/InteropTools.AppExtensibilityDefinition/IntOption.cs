@@ -14,13 +14,10 @@ namespace InteropTools.AppExtensibilityDefinition
             Max = max;
         }
 
-        [DataMember]
-        public int Max { get; private set; }
+        [DataMember] public int Max { get; private set; }
 
-        [DataMember]
-        public int Min { get; private set; }
+        [DataMember] public int Min { get; private set; }
 
-        [DataMember]
-        public int Value { get; set; }
+        [DataMember] public int Value { get; set; }
     }
 }

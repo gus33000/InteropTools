@@ -14,7 +14,8 @@
     mc:Ignorable="d">
 
     <ui:WindowChrome.Chrome>
-        <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeMediumColor}" StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
+        <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeMediumColor}"
+                         StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
     </ui:WindowChrome.Chrome>
 
     <UserControl.Resources>
@@ -370,7 +371,8 @@
                     </Grid>
                 </SplitView.Pane>
                 <SplitView.Content>
-                    <intense:ContentFrame x:Name="Frame" SourcePageType="{x:Bind ViewModel.SelectedPageType, Mode=TwoWay}">
+                    <intense:ContentFrame x:Name="Frame"
+                                          SourcePageType="{x:Bind ViewModel.SelectedPageType, Mode=TwoWay}">
                         <intense:ContentFrame.ContentTransitions>
                             <TransitionCollection>
                                 <NavigationThemeTransition>

@@ -38,7 +38,7 @@ namespace InteropTools.ShellPages.Registry
             Breadcrumbbar.OnItemClick += Breadcrumbbar_OnItemClick;
             ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new()
             {
-                new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
+                new BreadCrumbControl.BreadCrumbItem() {DisplayName = _helper.GetFriendlyName(), ItemObject = null}
             };
             Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
             SystemNavigationManager.GetForCurrentView().BackRequested += RegistryBrowserPage_BackRequested;
@@ -49,7 +49,7 @@ namespace InteropTools.ShellPages.Registry
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-              AppViewBackButtonVisibility.Visible;
+                AppViewBackButtonVisibility.Visible;
         }
 
         public PageGroup PageGroup => PageGroup.Registry;
@@ -106,7 +106,7 @@ namespace InteropTools.ShellPages.Registry
             //For lowercase a-f letters:
             //return val - (val < 58 ? 48 : 87);
             //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+            return val - (val < 58 ? 48 : val < 97 ? 55 : 87);
         }
 
         private static bool GetHiveFromName(string hivename, out RegHives reghive)
@@ -178,35 +178,29 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private static string GetRegistryHiveName(RegHives hive)
-        {
-            return Enum.GetName(typeof(RegHives), hive);
-        }
+        private static string GetRegistryHiveName(RegHives hive) => Enum.GetName(typeof(RegHives), hive);
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private static async void ShowKeyMessageBox(string s)
-        {
-            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(s + "\nThe above path was copied to your clipboard",
-                ResourceManager.Current.MainResourceMap.GetValue("Resources/Current_Key", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
-
-        private static async void ShowKeyUnableToAddMessageBox()
-        {
+        private static async void ShowKeyMessageBox(string s) =>
             await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
-              ResourceManager.Current.MainResourceMap.GetValue("Resources /We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_", ResourceContext.GetForCurrentView()).ValueAsString,
-              ResourceManager.Current.MainResourceMap.GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
-        }
+                s + "\nThe above path was copied to your clipboard",
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Current_Key", ResourceContext.GetForCurrentView()).ValueAsString);
+
+        private static async void ShowKeyUnableToAddMessageBox() =>
+            await new ContentDialogs.Core.MessageDialogContentDialog().ShowMessageDialog(
+                ResourceManager.Current.MainResourceMap
+                    .GetValue(
+                        "Resources /We_couldn_t_add_the_specified_key__no_changes_to_the_phone_registry_were_made_",
+                        ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Something_went_wrong", ResourceContext.GetForCurrentView()).ValueAsString);
 
         private static byte[] StringToByteArrayFastest(string hex)
         {
@@ -217,7 +211,7 @@ namespace InteropTools.ShellPages.Registry
 
             byte[] arr = new byte[hex.Length >> 1];
 
-            for (int i = 0; i < (hex.Length >> 1); ++i)
+            for (int i = 0; i < hex.Length >> 1; ++i)
             {
                 arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
@@ -227,48 +221,53 @@ namespace InteropTools.ShellPages.Registry
 
         private async void AddKey(RegHives hive, string keypath)
         {
-            string title = ResourceManager.Current.MainResourceMap.GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView()).ValueAsString;
+            string title = ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Do_you_really_want_to_add_that_key_", ResourceContext.GetForCurrentView())
+                .ValueAsString;
             string content = "We will add " + keypath + " to the phone registry.";
-            bool command = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title, content,
-                          ResourceManager.Current.MainResourceMap.GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
-                          ResourceManager.Current.MainResourceMap.GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
+            bool command = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(title,
+                content,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Add_the_key", ResourceContext.GetForCurrentView()).ValueAsString,
+                ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Don_t_add_the_key", ResourceContext.GetForCurrentView()).ValueAsString);
 
             if (command)
             {
                 RunInThreadPool(async () =>
-            {
-                HelperErrorCodes status = await _helper.AddKey(hive, keypath);
-                RunInUiThread(() =>
                 {
-                    if (status == HelperErrorCodes.Failed)
+                    HelperErrorCodes status = await _helper.AddKey(hive, keypath);
+                    RunInUiThread(() =>
                     {
-                        ShowKeyUnableToAddMessageBox();
-                    }
-                    else
-                    {
-                        string path = "";
-
-                        if (keypath.Split('\\').Length - 1 >= 0)
+                        if (status == HelperErrorCodes.Failed)
                         {
-                            path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
+                            ShowKeyUnableToAddMessageBox();
                         }
-
-                        RegistryItemCustom item = new()
+                        else
                         {
-                            Name = keypath.Split('\\')[0],
-                            Hive = hive,
-                            Key = path,
-                            Type = RegistryItemType.Key,
-                            Value = "",
-                            ValueType = 0
-                        };
-                        BrowserCtrl.ChangeCurrentItem(item);
-                        PathInput.Text = "";
-                        JumpToGrid.Visibility = Visibility.Collapsed;
-                        JumpToButton.IsChecked = false;
-                    }
+                            string path = "";
+
+                            if (keypath.Split('\\').Length - 1 >= 0)
+                            {
+                                path = string.Join(@"\", keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
+                            }
+
+                            RegistryItemCustom item = new()
+                            {
+                                Name = keypath.Split('\\')[0],
+                                Hive = hive,
+                                Key = path,
+                                Type = RegistryItemType.Key,
+                                Value = "",
+                                ValueType = 0
+                            };
+                            BrowserCtrl.ChangeCurrentItem(item);
+                            PathInput.Text = "";
+                            JumpToGrid.Visibility = Visibility.Collapsed;
+                            JumpToButton.IsChecked = false;
+                        }
+                    });
                 });
-            });
             }
         }
 
@@ -324,10 +323,7 @@ namespace InteropTools.ShellPages.Registry
             BrowserCtrl.RefreshListView();
         }
 
-        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            ShowFavoriteDialog();
-        }
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e) => ShowFavoriteDialog();
 
         private void Breadcrumbbar_OnItemClick(object sender, BreadCrumbControl.ItemClickEventArgs e)
         {
@@ -352,7 +348,8 @@ namespace InteropTools.ShellPages.Registry
 
             if (e.newItem != null)
             {
-                if (e.newItem.Type == RegistryItemType.Hive && (e.newItem.Hive == RegHives.HKEY_LOCAL_MACHINE || e.newItem.Hive == RegHives.HKEY_USERS))
+                if (e.newItem.Type == RegistryItemType.Hive && (e.newItem.Hive == RegHives.HKEY_LOCAL_MACHINE ||
+                                                                e.newItem.Hive == RegHives.HKEY_USERS))
                 {
                     MountHive.Visibility = Visibility.Visible;
                 }
@@ -368,29 +365,79 @@ namespace InteropTools.ShellPages.Registry
                     if (e.newItem.Type == RegistryItemType.Hive)
                     {
                         BreadCrumbBarIcon.Text = "";
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = e.newItem });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = _helper.GetFriendlyName(), ItemObject = null
+                        });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = e.newItem.Hive.ToString(), ItemObject = e.newItem
+                        });
+                        Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
+                    }
+                    else if (e.newItem.Key?.Length == 0 || e.newItem.Key == null)
+                    {
+                        BreadCrumbBarIcon.Text = "";
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = _helper.GetFriendlyName(), ItemObject = null
+                        });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = e.newItem.Hive.ToString(),
+                            ItemObject = new RegistryItemCustom()
+                            {
+                                Hive = e.newItem.Hive,
+                                Key = null,
+                                Name = e.newItem.Hive.ToString(),
+                                Type = RegistryItemType.Hive,
+                                Value = null,
+                                ValueType = 0
+                            }
+                        });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = e.newItem.Name, ItemObject = e.newItem
+                        });
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
                     else
-                        if ((e.newItem.Key?.Length == 0) || (e.newItem.Key == null))
                     {
                         BreadCrumbBarIcon.Text = "";
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.Hive, Value = null, ValueType = 0 } });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Name, ItemObject = e.newItem });
-                        Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
-                    }
-                    else
-                    {
-                        BreadCrumbBarIcon.Text = "";
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null });
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Hive.ToString(), ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = null, Name = e.newItem.Hive.ToString(), Type = RegistryItemType.Hive, Value = null, ValueType = 0 } });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = _helper.GetFriendlyName(), ItemObject = null
+                        });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = e.newItem.Hive.ToString(),
+                            ItemObject = new RegistryItemCustom()
+                            {
+                                Hive = e.newItem.Hive,
+                                Key = null,
+                                Name = e.newItem.Hive.ToString(),
+                                Type = RegistryItemType.Hive,
+                                Value = null,
+                                ValueType = 0
+                            }
+                        });
                         string current = "";
 
                         foreach (string item in e.newItem.Key.Split('\\'))
                         {
-                            BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = item, ItemObject = new RegistryItemCustom() { Hive = e.newItem.Hive, Key = current, Name = item, Type = RegistryItemType.Key, Value = null, ValueType = 0 } });
+                            BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                            {
+                                DisplayName = item,
+                                ItemObject = new RegistryItemCustom()
+                                {
+                                    Hive = e.newItem.Hive,
+                                    Key = current,
+                                    Name = item,
+                                    Type = RegistryItemType.Key,
+                                    Value = null,
+                                    ValueType = 0
+                                }
+                            });
 
                             if (current?.Length == 0)
                             {
@@ -402,7 +449,10 @@ namespace InteropTools.ShellPages.Registry
                             }
                         }
 
-                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem() { DisplayName = e.newItem.Name, ItemObject = e.newItem });
+                        BreadCrumbItemsList.Add(new BreadCrumbControl.BreadCrumbItem()
+                        {
+                            DisplayName = e.newItem.Name, ItemObject = e.newItem
+                        });
                         Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
                     }
                 }
@@ -419,16 +469,16 @@ namespace InteropTools.ShellPages.Registry
             {
                 ObservableCollection<BreadCrumbControl.BreadCrumbItem> BreadCrumbItemsList = new()
                 {
-                    new BreadCrumbControl.BreadCrumbItem() { DisplayName = _helper.GetFriendlyName(), ItemObject = null }
+                    new BreadCrumbControl.BreadCrumbItem()
+                    {
+                        DisplayName = _helper.GetFriendlyName(), ItemObject = null
+                    }
                 };
                 Breadcrumbbar.ItemsSource = BreadCrumbItemsList;
             }
         }
 
-        private void FavCancel_Click(object sender, RoutedEventArgs e)
-        {
-            HideFavoriteDialog();
-        }
+        private void FavCancel_Click(object sender, RoutedEventArgs e) => HideFavoriteDialog();
 
         private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -445,7 +495,7 @@ namespace InteropTools.ShellPages.Registry
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
             object strlist = localSettings.Values["browserfavlist"];
 
-            if ((strlist == null) || (strlist.GetType() != typeof(string)))
+            if (strlist == null || strlist.GetType() != typeof(string))
             {
                 localSettings.Values["browserfavlist"] = "";
             }
@@ -463,9 +513,10 @@ namespace InteropTools.ShellPages.Registry
                         Debug.WriteLine(item);
                         Debug.WriteLine(localSettings.Values[item].GetType());
 
-                        if ((localSettings.Values[item].GetType() == typeof(bool)) && ((bool)localSettings.Values[item]))
+                        if (localSettings.Values[item].GetType() == typeof(bool) && (bool)localSettings.Values[item])
                         {
-                            itemlist.Add(new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
+                            itemlist.Add(
+                                new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
                         }
                     }
                     catch
@@ -574,32 +625,39 @@ namespace InteropTools.ShellPages.Registry
             {
                 case RegTypes.REG_BINARY:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_FULL_RESOURCE_DESCRIPTOR:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List",
+                            ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_DWORD:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_DWORD_BIG_ENDIAN:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView())
+                            .ValueAsString;
                     }
 
                 case RegTypes.REG_QWORD:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_MULTI_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_NONE:
@@ -609,31 +667,37 @@ namespace InteropTools.ShellPages.Registry
 
                 case RegTypes.REG_RESOURCE_LIST:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_RESOURCE_REQUIREMENTS_LIST:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement",
+                            ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_LINK:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_EXPAND_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
             }
 
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+            return ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
@@ -663,6 +727,7 @@ namespace InteropTools.ShellPages.Registry
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 shell.RootFrame.BackStack.Clear();
             }
+
             e.Handled = true;
         }
 
@@ -720,27 +785,27 @@ namespace InteropTools.ShellPages.Registry
                 if (App.Fancyness)
                 {
                     await JumpToGrid.Offset(offsetX: 0.0f,
-                                            offsetY: -100.0f,
-                                            duration: 0,
-                                            delay: 0
-                                           ).Fade(
-                                             value: 0,
-                                             duration: 0,
-                                             delay: 0
-                                           ).StartAsync();
+                        offsetY: -100.0f,
+                        duration: 0,
+                        delay: 0
+                    ).Fade(
+                        value: 0,
+                        duration: 0,
+                        delay: 0
+                    ).StartAsync();
                     JumpToGrid.Offset(offsetX: 0.0f,
-                                      offsetY: 0.0f,
-                                      duration: 300,
-                                      delay: 0
-                                     ).Fade(
-                                       value: 1,
-                                       duration: 100,
-                                       delay: 150
-                                     ).Start();
+                        offsetY: 0.0f,
+                        duration: 300,
+                        delay: 0
+                    ).Fade(
+                        value: 1,
+                        duration: 100,
+                        delay: 150
+                    ).Start();
                     BrowserCtrl.Fade(
-                      value: 0.5f,
-                      duration: 300,
-                      delay: 0
+                        value: 0.5f,
+                        duration: 300,
+                        delay: 0
                     ).Start();
                 }
             }
@@ -749,18 +814,18 @@ namespace InteropTools.ShellPages.Registry
                 if (App.Fancyness)
                 {
                     JumpToGrid.Offset(offsetX: 0.0f,
-                                      offsetY: -100.0f,
-                                      duration: 300,
-                                      delay: 0
-                                     ).Fade(
-                                       value: 0,
-                                       duration: 100,
-                                       delay: 0
-                                     ).Start();
+                        offsetY: -100.0f,
+                        duration: 300,
+                        delay: 0
+                    ).Fade(
+                        value: 0,
+                        duration: 100,
+                        delay: 0
+                    ).Start();
                     await BrowserCtrl.Fade(
-                      value: 1,
-                      duration: 300,
-                      delay: 0
+                        value: 1,
+                        duration: 300,
+                        delay: 0
                     ).StartAsync();
                 }
 
@@ -805,7 +870,7 @@ namespace InteropTools.ShellPages.Registry
                                         if (keypath.Split('\\').Length - 1 >= 0)
                                         {
                                             path = string.Join(@"\",
-                                                               keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
+                                                keypath.Split('\\').Take(keypath.Split('\\').Length - 1));
                                         }
 
                                         RegistryItemCustom item = new()
@@ -852,7 +917,9 @@ namespace InteropTools.ShellPages.Registry
 
         private async void MountHive_Click(object sender, RoutedEventArgs e)
         {
-            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.Hive && (BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE || BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_USERS))
+            if (BrowserCtrl._currentRegItem.Type == RegistryItemType.Hive &&
+                (BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_LOCAL_MACHINE ||
+                 BrowserCtrl._currentRegItem.Hive == RegHives.HKEY_USERS))
             {
                 MountHive.Visibility = Visibility.Visible;
 
@@ -977,6 +1044,7 @@ namespace InteropTools.ShellPages.Registry
                 shell.RootFrame.Navigate(typeof(WelcomePage));
                 shell.RootFrame.BackStack.Clear();
             }
+
             e.Handled = true;
         }
 
@@ -1028,13 +1096,15 @@ namespace InteropTools.ShellPages.Registry
             {
                 case RegistryItemType.Hive:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
                 case RegistryItemType.Key:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
@@ -1054,14 +1124,18 @@ namespace InteropTools.ShellPages.Registry
 
                 default:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
             }
 
             uint regtype;
             string regvalue;
-            GetKeyValueReturn2 ret = await _helper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn2 ret = await _helper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "",
+                currentEditItem.Name, currentEditItem.ValueType);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             switch (regtype)
             {
@@ -1189,7 +1263,8 @@ namespace InteropTools.ShellPages.Registry
         {
             if (ValueDataInput != null)
             {
-                _helper.SetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, GetSelectedType(), ValueDataInput.Text);
+                _helper.SetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name,
+                    GetSelectedType(), ValueDataInput.Text);
 
                 if (BrowserCtrl._currentRegItem == null)
                 {
@@ -1204,15 +1279,10 @@ namespace InteropTools.ShellPages.Registry
             }
         }
 
-        private void ValEditCancel_Click(object sender, RoutedEventArgs e)
-        {
-            HideEditValueDialog();
-        }
+        private void ValEditCancel_Click(object sender, RoutedEventArgs e) => HideEditValueDialog();
 
-        private void ValEditRefresh_Click(object sender, RoutedEventArgs e)
-        {
+        private void ValEditRefresh_Click(object sender, RoutedEventArgs e) =>
             ShowEditValueDialog(currentEditItem, true);
-        }
 
         private bool ValidateValue(ulong type, string str)
         {
@@ -1457,10 +1527,12 @@ namespace InteropTools.ShellPages.Registry
                 CreateValueTypeInput.Visibility = Visibility.Collapsed;
                 CreateValueTypeInput.Text = "";
             }
+
             if (CreateValueTypeInput != null)
             {
                 CreateValueDataInput.Text = "";
             }
+
             CreateTypeSelector.SelectedIndex = 9;
         }
 
@@ -1497,10 +1569,7 @@ namespace InteropTools.ShellPages.Registry
             HideCreateValueDialog();
         }
 
-        private void ValCreateCancel_Click(object sender, RoutedEventArgs e)
-        {
-            HideCreateValueDialog();
-        }
+        private void ValCreateCancel_Click(object sender, RoutedEventArgs e) => HideCreateValueDialog();
 
         private void ValueNameSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

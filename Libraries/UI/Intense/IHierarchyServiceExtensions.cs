@@ -98,6 +98,7 @@ namespace Intense
             {
                 return service.GetChildren(parent).SkipWhile(c => c != o).Skip(1);
             }
+
             return Enumerable.Empty<T>();
         }
 
@@ -116,6 +117,7 @@ namespace Intense
             {
                 return service.GetChildren(parent).TakeWhile(c => c != o);
             }
+
             return Enumerable.Empty<T>();
         }
 
@@ -178,6 +180,7 @@ namespace Intense
             {
                 throw new ArgumentNullException(nameof(service));
             }
+
             if (o == null)
             {
                 throw new ArgumentNullException(nameof(o));

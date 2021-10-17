@@ -8,6 +8,6 @@ namespace InteropTools.Providers.Registry.NDTKProvider
         FOUND,
         NOT_FOUND,
         ACCESS_DENIED,
-        UNKNOWN,
+        UNKNOWN
     }
 }

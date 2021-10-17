@@ -27,29 +27,28 @@ namespace InteropTools.ShellPages.Core
 
             OSVersion.Text = DeviceInfo.Instance.SystemVersion;
             DeviceFamily.Text = DeviceInfo.Instance.DeviceFamily.Replace(".", " ");
-            AppVersion.Text = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." + Package.Current.Id.Version.Build + "." + Package.Current.Id.Version.Revision;
+            AppVersion.Text = Package.Current.Id.Version.Major + "." + Package.Current.Id.Version.Minor + "." +
+                              Package.Current.Id.Version.Build + "." + Package.Current.Id.Version.Revision;
         }
 
         public PageGroup PageGroup => PageGroup.Core;
         public string PageName => "Welcome";
 
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e) =>
             await
-            Launcher.LaunchUriAsync(
-              new Uri(
-                "http://forum.xda-developers.com/windows-10-mobile/windows-10-mobile-apps-and-games/app-interop-tools-versatile-registry-t3445271"));
-        }
+                Launcher.LaunchUriAsync(
+                    new Uri(
+                        "http://forum.xda-developers.com/windows-10-mobile/windows-10-mobile-apps-and-games/app-interop-tools-versatile-registry-t3445271"));
 
         private async void CreateTile(NavigationItem item)
         {
             string page = item.PageType.Name;
             string tileActivationArguments = page;
             SecondaryTile secondaryTile = new(page,
-                                                  item.DisplayName,
-                                                  tileActivationArguments,
-                                                  null,
-                                                  TileSize.Square150x150);
+                item.DisplayName,
+                tileActivationArguments,
+                null,
+                TileSize.Square150x150);
             secondaryTile.VisualElements.ShowNameOnSquare150x150Logo = true;
             secondaryTile.VisualElements.ShowNameOnWide310x150Logo = true;
             secondaryTile.VisualElements.ShowNameOnSquare310x310Logo = true;
@@ -59,7 +58,8 @@ namespace InteropTools.ShellPages.Core
 
         private async void FeedbackButtonList_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher launcher =
+                Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
             await launcher.LaunchAsync();
         }
 
@@ -69,15 +69,11 @@ namespace InteropTools.ShellPages.Core
             CreateTile(item);
         }
 
-        private async void Grid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
+        private async void Grid_Tapped(object sender, TappedRoutedEventArgs e) =>
             await Launcher.LaunchUriAsync(new Uri("http://insidewindows.net/category/interop-tools/"));
-        }
 
-        private async void Grid_Tapped_1(object sender, TappedRoutedEventArgs e)
-        {
+        private async void Grid_Tapped_1(object sender, TappedRoutedEventArgs e) =>
             await Launcher.LaunchUriAsync(new Uri("http://insidewindows.net/category/interop-tools/"));
-        }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -113,15 +109,9 @@ namespace InteropTools.ShellPages.Core
             CreateTile(item);
         }
 
-        private void WelcomePage_Loaded(object sender, RoutedEventArgs e)
-        {
-            Margin = new Thickness(0);
-        }
+        private void WelcomePage_Loaded(object sender, RoutedEventArgs e) => Margin = new Thickness(0);
 
-        private void WelcomePage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Margin = new Thickness(0);
-        }
+        private void WelcomePage_SizeChanged(object sender, SizeChangedEventArgs e) => Margin = new Thickness(0);
 
         public class Item
         {

@@ -30,15 +30,9 @@ namespace InteropTools.ShellPages.Core
         public PageGroup PageGroup => PageGroup.Bottom;
         public string PageName => "Extensions";
 
-        private void ExtensionCheckbox_Loaded(object sender, RoutedEventArgs e)
-        {
-            loaded = true;
-        }
+        private void ExtensionCheckbox_Loaded(object sender, RoutedEventArgs e) => loaded = true;
 
-        private void ExtensionCheckbox_Unloaded(object sender, RoutedEventArgs e)
-        {
-            loaded = false;
-        }
+        private void ExtensionCheckbox_Unloaded(object sender, RoutedEventArgs e) => loaded = false;
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -85,21 +79,29 @@ namespace InteropTools.ShellPages.Core
             {
                 DisplayableRegPlugin ext = btn.DataContext as DisplayableRegPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog =
+                    Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Registry.Definition
+                        .RegistryProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
+
             if (btn.DataContext.GetType() == typeof(DisplayablePowerPlugin))
             {
                 DisplayablePowerPlugin ext = btn.DataContext as DisplayablePowerPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog =
+                    Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.OSReboot.Definition
+                        .OSRebootProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
+
             if (btn.DataContext.GetType() == typeof(DisplayableApplicationPlugin))
             {
                 DisplayableApplicationPlugin ext = btn.DataContext as DisplayableApplicationPlugin;
 
-                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog = Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
+                Windows.ApplicationModel.AppExtensions.AppExtensionCatalog catalog =
+                    Windows.ApplicationModel.AppExtensions.AppExtensionCatalog.Open(Providers.Applications.Definition
+                        .ApplicationProvidersWithOptions.PLUGIN_NAME);
                 await catalog.RequestRemovePackageAsync(ext.Plugin.Extension.Package.Id.FullName);
             }
         }

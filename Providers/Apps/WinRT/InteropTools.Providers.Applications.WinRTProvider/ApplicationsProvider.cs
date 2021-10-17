@@ -9,9 +9,6 @@ namespace InteropTools.Providers.Applications.WinRTProvider
     {
         private readonly IBackgroundTask internalTask = new ApplicationsProviderIntern();
 
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
+        public void Run(IBackgroundTaskInstance taskInstance) => internalTask.Run(taskInstance);
     }
 }

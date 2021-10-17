@@ -9,9 +9,6 @@ namespace InteropTools.Providers.OSReboot.NDTKProvider
     {
         private readonly IBackgroundTask internalTask = new OSRebootProviderIntern();
 
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
+        public void Run(IBackgroundTaskInstance taskInstance) => internalTask.Run(taskInstance);
     }
 }

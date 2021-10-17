@@ -32,7 +32,9 @@
                                     x:Name="UMCIAuditModeBox"
                                     Checked="UMCIAuditModeBox_Checked"
                                     Unchecked="UMCIAuditModeBox_Unchecked">
-                                    <TextBlock Text="Allow running apps in a non signed environment (UMCIAuditMode) (Redstone and higher) (Required to access cmd)" TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Text="Allow running apps in a non signed environment (UMCIAuditMode) (Redstone and higher) (Required to access cmd)"
+                                        TextWrapping="Wrap" />
                                 </CheckBox>
 
                                 <ListView

@@ -51,11 +51,7 @@ namespace InteropTools.RemoteClasses.Client
                 OnConnected?.Invoke();
                 _writer = new DataWriter(_socket.OutputStream);
                 Read();
-                RootObject jsonObject = new()
-                {
-                    SessionID = SessionManager.SessionId,
-                    Operation = "Authentificate"
-                };
+                RootObject jsonObject = new() {SessionID = SessionManager.SessionId, Operation = "Authentificate"};
                 string json = JsonConvert.SerializeObject(jsonObject);
                 Send(json);
             }

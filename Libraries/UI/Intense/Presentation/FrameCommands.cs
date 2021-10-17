@@ -17,7 +17,8 @@ namespace Intense.Presentation
         /// <summary>
         /// Identifies the Frame dependency property.
         /// </summary>
-        public static DependencyProperty FrameProperty = DependencyProperty.Register("Frame", typeof(Frame), typeof(FrameCommands), new PropertyMetadata(null, OnFrameChanged));
+        public static DependencyProperty FrameProperty = DependencyProperty.Register("Frame", typeof(Frame),
+            typeof(FrameCommands), new PropertyMetadata(null, OnFrameChanged));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameCommands"/> class.
@@ -53,10 +54,7 @@ namespace Intense.Presentation
         /// </summary>
         public Command GoHomeCommand { get; }
 
-        void IFrameNavigationEventSink.OnNavigated(object sender, NavigationEventArgs e)
-        {
-            UpdateCommandStates();
-        }
+        void IFrameNavigationEventSink.OnNavigated(object sender, NavigationEventArgs e) => UpdateCommandStates();
 
         void IFrameNavigationEventSink.OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
@@ -70,25 +68,14 @@ namespace Intense.Presentation
         {
         }
 
-        private static void OnFrameChanged(DependencyObject o, DependencyPropertyChangedEventArgs args)
-        {
+        private static void OnFrameChanged(DependencyObject o, DependencyPropertyChangedEventArgs args) =>
             ((FrameCommands)o).OnFrameChanged((Frame)args.OldValue, (Frame)args.NewValue);
-        }
 
-        private bool CanGoBack()
-        {
-            return Frame?.CanGoBack ?? false;
-        }
+        private bool CanGoBack() => Frame?.CanGoBack ?? false;
 
-        private bool CanGoForward()
-        {
-            return Frame?.CanGoForward ?? false;
-        }
+        private bool CanGoForward() => Frame?.CanGoForward ?? false;
 
-        private bool CanGoHome()
-        {
-            return CanGoBack();
-        }
+        private bool CanGoHome() => CanGoBack();
 
         private void GoBack()
         {

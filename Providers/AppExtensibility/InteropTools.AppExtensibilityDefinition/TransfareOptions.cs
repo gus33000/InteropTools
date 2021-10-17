@@ -23,44 +23,30 @@ namespace InteropTools.AppExtensibilityDefinition
 
         internal Options Options
         {
-            get
-            {
-                return options ??= new OptionsImpl(settings ?? throw new InvalidOperationException(), optionsIdentifyer ?? throw new InvalidOperationException());
-            }
+            get => options ??= new OptionsImpl(settings ?? throw new InvalidOperationException(),
+                optionsIdentifyer ?? throw new InvalidOperationException());
             set => options = value;
         }
 
         [DataMember]
         internal Guid OptionsIdentifyer
         {
-            get
-            {
-                return optionsIdentifyer ??= Options.OptionsIdentifier;
-            }
+            get => optionsIdentifyer ??= Options.OptionsIdentifier;
             set => optionsIdentifyer = value;
         }
 
         [DataMember]
         internal AbstractOption[] Settings
         {
-            get
-            {
-                return settings ??= options?.Settings ?? throw new InvalidOperationException();
-            }
+            get => settings ??= options?.Settings ?? throw new InvalidOperationException();
             set => settings = value;
         }
 
         public AbstractOption this[int index] => Options[index];
 
-        public IEnumerator<AbstractOption> GetEnumerator()
-        {
-            return Options.GetEnumerator();
-        }
+        public IEnumerator<AbstractOption> GetEnumerator() => Options.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Options.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => Options.GetEnumerator();
 
         private class OptionsImpl : Options
         {
@@ -75,10 +61,7 @@ namespace InteropTools.AppExtensibilityDefinition
 
             public override Guid OptionsIdentifier => guid;
 
-            protected override AbstractOption[] GetSettings()
-            {
-                return settings;
-            }
+            protected override AbstractOption[] GetSettings() => settings;
         }
     }
 }

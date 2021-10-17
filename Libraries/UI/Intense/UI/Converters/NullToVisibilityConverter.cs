@@ -32,6 +32,7 @@ namespace Intense.UI.Converters
             {
                 isNull = !isNull;
             }
+
             return isNull ? Visibility.Collapsed : Visibility.Visible;
         }
     }

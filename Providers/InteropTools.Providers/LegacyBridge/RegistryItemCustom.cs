@@ -28,8 +28,9 @@ namespace InteropTools.Providers
                 {
                     uint val = lookup32[bytes[i]];
                     result[2 * i] = (char)val;
-                    result[(2 * i) + 1] = (char)(val >> 16);
+                    result[2 * i + 1] = (char)(val >> 16);
                 }
+
                 return new string(result);
             }
             catch
@@ -46,13 +47,16 @@ namespace InteropTools.Providers
                 string s = i.ToString("X2");
                 result[i] = s[0] + ((uint)s[1] << 16);
             }
+
             return result;
         }
 
         public string RegBufferToString(uint valtype, byte[] data)
         {
             if (data.Length == 0)
+            {
                 return null;
+            }
 
             switch (valtype)
             {
@@ -79,6 +83,7 @@ namespace InteropTools.Providers
                             // Remove it.
                             strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 1);
                         }
+
                         // Split by null terminator.
                         return string.Join("\n", strNullTerminated.Split('\0'));
                     }

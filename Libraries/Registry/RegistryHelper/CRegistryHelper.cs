@@ -341,13 +341,15 @@ namespace RegistryHelper
             return REG_KEY_STATUS.UNKNOWN;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out string data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            out REG_VALUE_TYPE outvaltype, out string data)
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
             foreach (IRegistryProvider prov in providers)
             {
-                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out REG_VALUE_TYPE valtypetmp, out byte[] datatmp);
+                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out REG_VALUE_TYPE valtypetmp,
+                    out byte[] datatmp);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
@@ -371,6 +373,7 @@ namespace RegistryHelper
                                 data = datatmp2.ToString();
                                 return result2;
                             }
+
                             break;
                         }
                     case REG_VALUE_TYPE.REG_QWORD:
@@ -385,6 +388,7 @@ namespace RegistryHelper
                                 data = datatmp2.ToString();
                                 return result2;
                             }
+
                             break;
                         }
                     case REG_VALUE_TYPE.REG_MULTI_SZ:
@@ -399,6 +403,7 @@ namespace RegistryHelper
                                 data = string.Join("\n", datatmp2);
                                 return result2;
                             }
+
                             break;
                         }
                     case REG_VALUE_TYPE.REG_SZ:
@@ -413,6 +418,7 @@ namespace RegistryHelper
                                 data = datatmp2;
                                 return result2;
                             }
+
                             break;
                         }
                     case REG_VALUE_TYPE.REG_EXPAND_SZ:
@@ -427,6 +433,7 @@ namespace RegistryHelper
                                 data = datatmp2;
                                 return result2;
                             }
+
                             break;
                         }
                 }
@@ -485,13 +492,15 @@ namespace RegistryHelper
         }
 
         [Windows.Foundation.Metadata.DefaultOverload()]
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out string data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out string data)
         {
             bool hadaccessdenied = false;
             bool hadfailed = false;
             foreach (IRegistryProvider prov in providers)
             {
-                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out uint valtypetmp, out byte[] datatmp);
+                REG_STATUS result = prov.RegQueryValue(hive, key, regvalue, valtype, out uint valtypetmp,
+                    out byte[] datatmp);
                 if (result == REG_STATUS.SUCCESS)
                 {
                     outvaltype = valtypetmp;
@@ -515,6 +524,7 @@ namespace RegistryHelper
                                 data = datatmp2.ToString();
                                 return result2;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_QWORD:
@@ -529,6 +539,7 @@ namespace RegistryHelper
                                 data = datatmp2.ToString();
                                 return result2;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
@@ -543,6 +554,7 @@ namespace RegistryHelper
                                 data = string.Join("\n", datatmp2);
                                 return result2;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_SZ:
@@ -557,6 +569,7 @@ namespace RegistryHelper
                                 data = datatmp2;
                                 return result2;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
@@ -571,6 +584,7 @@ namespace RegistryHelper
                                 data = datatmp2;
                                 return result2;
                             }
+
                             break;
                         }
                 }
@@ -647,6 +661,7 @@ namespace RegistryHelper
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                         case REG_VALUE_TYPE.REG_QWORD:
@@ -657,16 +672,19 @@ namespace RegistryHelper
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                         case REG_VALUE_TYPE.REG_MULTI_SZ:
                             {
-                                result = prov.RegSetMultiString(hive, key, regvalue, data.Replace("\r", "\0").Split('\n'));
+                                result = prov.RegSetMultiString(hive, key, regvalue,
+                                    data.Replace("\r", "\0").Split('\n'));
 
                                 if (result == REG_STATUS.SUCCESS)
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                         case REG_VALUE_TYPE.REG_SZ:
@@ -677,6 +695,7 @@ namespace RegistryHelper
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                         case REG_VALUE_TYPE.REG_EXPAND_SZ:
@@ -687,6 +706,7 @@ namespace RegistryHelper
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                         default:
@@ -698,6 +718,7 @@ namespace RegistryHelper
                                 {
                                     return (REG_STATUS)result;
                                 }
+
                                 break;
                             }
                     }
@@ -755,6 +776,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_QWORD:
@@ -765,6 +787,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
@@ -775,6 +798,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_SZ:
@@ -785,6 +809,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                     case (uint)REG_VALUE_TYPE.REG_EXPAND_SZ:
@@ -795,6 +820,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                     default:
@@ -806,6 +832,7 @@ namespace RegistryHelper
                             {
                                 return (REG_STATUS)result;
                             }
+
                             break;
                         }
                 }
@@ -851,6 +878,7 @@ namespace RegistryHelper
             {
                 fileexists = true;
             }
+
             return fileexists;
         }
 

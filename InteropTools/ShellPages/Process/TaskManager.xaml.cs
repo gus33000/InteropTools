@@ -12,9 +12,6 @@ namespace InteropTools.ShellPages.Process
     /// </summary>
     public sealed partial class TaskManager : Page
     {
-        public TaskManager()
-        {
-            InitializeComponent();
-        }
+        public TaskManager() => InitializeComponent();
     }
 }

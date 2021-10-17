@@ -11,10 +11,7 @@ namespace InteropTools.ContentDialogs.Core
 {
     public sealed partial class MessageDialogContentDialog : ContentDialog
     {
-        public MessageDialogContentDialog()
-        {
-            InitializeComponent();
-        }
+        public MessageDialogContentDialog() => InitializeComponent();
 
         public async Task ShowMessageDialog(string Description = "", string Title = "")
         {

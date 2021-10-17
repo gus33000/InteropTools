@@ -14,10 +14,8 @@ namespace InteropTools.Providers.Registry.Definition
             Description = description;
         }
 
-        [DataMember]
-        public string Description { get; private set; }
+        [DataMember] public string Description { get; private set; }
 
-        [DataMember]
-        public string Name { get; private set; }
+        [DataMember] public string Name { get; private set; }
     }
 }

@@ -52,21 +52,31 @@ namespace InteropTools.RemoteClasses.Server
                     {
                         if (data.Operation == "Authentificate")
                         {
-                            Windows.Foundation.IAsyncAction tsk = CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                            {
-                                bool result = await new ContentDialogs.Core.DualMessageDialogContentDialog().ShowDualMessageDialog(SessionManager.RemoteLoc, "You can allow it to access it or deny it\n\nIP address: " + hostname,
-                                             SessionManager.RemoteAllowLoc, SessionManager.RemoteDenyLoc);
+                            Windows.Foundation.IAsyncAction tsk = CoreApplication.MainView.Dispatcher.RunAsync(
+                                CoreDispatcherPriority.Normal, async () =>
+                                {
+                                    bool result =
+                                        await new ContentDialogs.Core.DualMessageDialogContentDialog()
+                                            .ShowDualMessageDialog(SessionManager.RemoteLoc,
+                                                "You can allow it to access it or deny it\n\nIP address: " + hostname,
+                                                SessionManager.RemoteAllowLoc, SessionManager.RemoteDenyLoc);
 
-                                if (result)
-                                {
-                                    SessionManager.AllowedRemotes.Add(new SessionManager.Remote { Hostname = hostname, SessionID = data.SessionID });
-                                    allowed = true;
-                                }
-                                else
-                                {
-                                    SessionManager.DeniedRemotes.Add(new SessionManager.Remote { Hostname = hostname, SessionID = data.SessionID });
-                                }
-                            });
+                                    if (result)
+                                    {
+                                        SessionManager.AllowedRemotes.Add(new SessionManager.Remote
+                                        {
+                                            Hostname = hostname, SessionID = data.SessionID
+                                        });
+                                        allowed = true;
+                                    }
+                                    else
+                                    {
+                                        SessionManager.DeniedRemotes.Add(new SessionManager.Remote
+                                        {
+                                            Hostname = hostname, SessionID = data.SessionID
+                                        });
+                                    }
+                                });
 
                             while (tsk.Status != Windows.Foundation.AsyncStatus.Completed)
                             {
@@ -83,7 +93,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new() { Status = "SUCCESS" };
+                                    Result result = new() {Status = "SUCCESS"};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -102,7 +112,8 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     Enum.TryParse(data.ValueType, out RegTypes type);
-                                    GetKeyValueReturn error = await _helper.GetKeyValue(hive, data.Key, data.ValueName, type);
+                                    GetKeyValueReturn error =
+                                        await _helper.GetKeyValue(hive, data.Key, data.ValueName, type);
 
                                     string valuedata = error.regvalue;
 
@@ -130,8 +141,9 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     Enum.TryParse(data.ValueType, out RegTypes type);
-                                    HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName, type, data.ValueData);
-                                    Result result = new() { Error = error.ToString() };
+                                    HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName,
+                                        type, data.ValueData);
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -150,7 +162,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     KeyStatus status = await _helper.GetKeyStatus(hive, data.Key);
-                                    Result result = new() { Status = status.ToString() };
+                                    Result result = new() {Status = status.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -169,7 +181,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.DeleteValue(hive, data.Key, data.ValueName);
-                                    Result result = new() { Error = error.ToString() };
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -188,7 +200,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.DeleteKey(hive, data.Key, data.Recursive);
-                                    Result result = new() { Error = error.ToString() };
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -207,7 +219,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.AddKey(hive, data.Key);
-                                    Result result = new() { Error = error.ToString() };
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -226,7 +238,7 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     HelperErrorCodes error = await _helper.RenameKey(hive, data.Key, data.NewName);
-                                    Result result = new() { Error = error.ToString() };
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -272,7 +284,8 @@ namespace InteropTools.RemoteClasses.Server
                                 try
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
-                                    IReadOnlyList<RegistryItemCustom> regitems = await _helper.GetRegistryItems2(hive, data.Key);
+                                    IReadOnlyList<RegistryItemCustom> regitems =
+                                        await _helper.GetRegistryItems2(hive, data.Key);
                                     Result result = new();
                                     List<Item> items = regitems.Select(item => new Item
                                     {
@@ -302,7 +315,8 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     uint type = data.ValueType2;
-                                    GetKeyValueReturn2 error = await _helper.GetKeyValue(hive, data.Key, data.ValueName, type);
+                                    GetKeyValueReturn2 error =
+                                        await _helper.GetKeyValue(hive, data.Key, data.ValueName, type);
                                     string valuedata = error.regvalue;
                                     Result result = new()
                                     {
@@ -328,8 +342,9 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     uint type = data.ValueType2;
-                                    HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName, type, data.ValueData);
-                                    Result result = new() { Error = error.ToString() };
+                                    HelperErrorCodes error = await _helper.SetKeyValue(hive, data.Key, data.ValueName,
+                                        type, data.ValueData);
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -346,7 +361,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new() { Exists = _helper.DoesFileExists(data.Path) };
+                                    Result result = new() {Exists = _helper.DoesFileExists(data.Path)};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -363,7 +378,7 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    Result result = new() { AppInstallationPath = _helper.GetAppInstallationPath() };
+                                    Result result = new() {AppInstallationPath = _helper.GetAppInstallationPath()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -382,7 +397,10 @@ namespace InteropTools.RemoteClasses.Server
                                 {
                                     Enum.TryParse(data.Hive, out RegHives hive);
                                     GetKeyLastModifiedTime error = await _helper.GetKeyLastModifiedTime(hive, data.Key);
-                                    Result result = new() { Error = error.returncode.ToString(), LastModifiedTime = error.LastModified };
+                                    Result result = new()
+                                    {
+                                        Error = error.returncode.ToString(), LastModifiedTime = error.LastModified
+                                    };
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -398,8 +416,9 @@ namespace InteropTools.RemoteClasses.Server
                             {
                                 try
                                 {
-                                    HelperErrorCodes error = await _helper.LoadHive(data.FilePath, data.mountpoint, data.inUser);
-                                    Result result = new() { Error = error.ToString() };
+                                    HelperErrorCodes error =
+                                        await _helper.LoadHive(data.FilePath, data.mountpoint, data.inUser);
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -416,7 +435,7 @@ namespace InteropTools.RemoteClasses.Server
                                 try
                                 {
                                     HelperErrorCodes error = await _helper.UnloadHive(data.mountpoint, data.inUser);
-                                    Result result = new() { Error = error.ToString() };
+                                    Result result = new() {Error = error.ToString()};
                                     data.Result = result;
                                     string resultjson = JsonConvert.SerializeObject(data);
                                     return resultjson;
@@ -439,7 +458,7 @@ namespace InteropTools.RemoteClasses.Server
                 {
                     try
                     {
-                        Result result = new() { Status = "FAILED" };
+                        Result result = new() {Status = "FAILED"};
                         data.Result = result;
                         string resultjson = JsonConvert.SerializeObject(data);
                         return resultjson;

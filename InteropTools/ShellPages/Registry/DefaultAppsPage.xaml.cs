@@ -28,14 +28,14 @@ namespace InteropTools.ShellPages.Registry
         private readonly IRegistryProvider _helper;
 
         private readonly ObservableCollection<AppAssotiationItem> _itemlist =
-          new();
+            new();
 
         private readonly string _resNeutral =
-          ResourceManager.Current.MainResourceMap.GetValue(
-            "Resources/Neutral", ResourceContext.GetForCurrentView()).ValueAsString;
+            ResourceManager.Current.MainResourceMap.GetValue(
+                "Resources/Neutral", ResourceContext.GetForCurrentView()).ValueAsString;
 
-        private readonly string _resUnknown = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).
-                                              ValueAsString;
+        private readonly string _resUnknown = ResourceManager.Current.MainResourceMap
+            .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
 
         public DefaultAppsPage()
         {
@@ -47,17 +47,12 @@ namespace InteropTools.ShellPages.Registry
         public PageGroup PageGroup => PageGroup.General;
         public string PageName => "Default Apps";
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async Task RunInUiThread(Action function)
-        {
+        private async Task RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -66,17 +61,17 @@ namespace InteropTools.ShellPages.Registry
 
             if (selectedItem != null)
             {
-                _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\DefaultApplications", item.Extension,
-                                    RegTypes.REG_SZ, selectedItem.Launchuri);
+                _helper.SetKeyValue(RegHives.HKEY_LOCAL_MACHINE, @"SOFTWARE\Microsoft\DefaultApplications",
+                    item.Extension,
+                    RegTypes.REG_SZ, selectedItem.Launchuri);
             }
         }
 
-        private void Load()
-        {
+        private void Load() =>
             RunInThreadPool(async () =>
             {
                 IReadOnlyList<RegistryItemCustom> items = await _helper.GetRegistryItems2(RegHives.HKEY_LOCAL_MACHINE,
-                                                     @"SOFTWARE\Microsoft\DefaultApplications");
+                    @"SOFTWARE\Microsoft\DefaultApplications");
                 await RunInUiThread(() =>
                 {
                     LoadingBar.Minimum = 0;
@@ -88,27 +83,31 @@ namespace InteropTools.ShellPages.Registry
                 {
                     counter++;
                     await RunInUiThread(() => LoadingBar.Value = counter);
-                    AppAssotiationItem appasso = new() { Extension = item.Name };
+                    AppAssotiationItem appasso = new() {Extension = item.Name};
                     List<AppAssotiation> listasso = new();
                     RegTypes regtype;
                     string regvalue;
-                    GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_CLASSES_ROOT, item.Name, "Content Type",
-                                        RegTypes.REG_SZ);
+                    GetKeyValueReturn ret = await _helper.GetKeyValue(RegHives.HKEY_CLASSES_ROOT, item.Name,
+                        "Content Type",
+                        RegTypes.REG_SZ);
                     regtype = ret.regtype;
                     regvalue = ret.regvalue;
                     appasso.Description = regvalue;
-                    IReadOnlyList<RegistryItemCustom> items2 = await _helper.GetRegistryItems2(RegHives.HKEY_CURRENT_USER, @"Software\Classes\" + item.Name + @"\OpenWithProgids");
+                    IReadOnlyList<RegistryItemCustom> items2 =
+                        await _helper.GetRegistryItems2(RegHives.HKEY_CURRENT_USER,
+                            @"Software\Classes\" + item.Name + @"\OpenWithProgids");
 
                     if (items2 != null)
                     {
                         foreach (RegistryItemCustom item2 in items2)
                         {
                             AppAssotiation appAssotiation = new();
-                            IReadOnlyList<RegistryItemCustom> items3 = await _helper.GetRegistryItems2(RegHives.HKEY_CURRENT_USER,
-                                                                  @"Software\Classes\" + item2.Name + @"\Application");
+                            IReadOnlyList<RegistryItemCustom> items3 = await _helper.GetRegistryItems2(
+                                RegHives.HKEY_CURRENT_USER,
+                                @"Software\Classes\" + item2.Name + @"\Application");
 
                             bool add
-                                  = true;
+                                = true;
 
                             foreach (RegistryItemCustom item3 in items3)
                             {
@@ -132,18 +131,20 @@ namespace InteropTools.ShellPages.Registry
                                             {
                                                 foreach (AppAssotiation listAssoItem in listasso)
                                                 {
-                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value.Split('!')[0], StringComparison.OrdinalIgnoreCase))
+                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value.Split('!')[0],
+                                                        StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         Debug.WriteLine("First problem");
 
                                                         add
-                                                              = false;
+                                                            = false;
                                                     }
                                                 }
 
                                                 if (add)
                                                 {
-                                                    if (string.Equals(item3.Value.Split('!')[0], item.Value, StringComparison.OrdinalIgnoreCase))
+                                                    if (string.Equals(item3.Value.Split('!')[0], item.Value,
+                                                        StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         appasso.Defaultapp = listasso.Count;
                                                     }
@@ -155,18 +156,20 @@ namespace InteropTools.ShellPages.Registry
                                             {
                                                 foreach (AppAssotiation listAssoItem in listasso)
                                                 {
-                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value, StringComparison.OrdinalIgnoreCase))
+                                                    if (string.Equals(listAssoItem.Launchuri, item3.Value,
+                                                        StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         Debug.WriteLine("Second problem");
 
                                                         add
-                                                              = false;
+                                                            = false;
                                                     }
                                                 }
 
                                                 if (add)
                                                 {
-                                                    if (string.Equals(item3.Value, item.Value, StringComparison.OrdinalIgnoreCase))
+                                                    if (string.Equals(item3.Value, item.Value,
+                                                        StringComparison.OrdinalIgnoreCase))
                                                     {
                                                         appasso.Defaultapp = listasso.Count;
                                                     }
@@ -203,7 +206,8 @@ namespace InteropTools.ShellPages.Registry
 
                 try
                 {
-                    List<string> pfnlist = (from item in _itemlist from item2 in item.Applist select item2.Launchuri.ToLower()).ToList();
+                    List<string> pfnlist =
+                        (from item in _itemlist from item2 in item.Applist select item2.Launchuri.ToLower()).ToList();
                     List<Packageinfos> packages = new();
                     PackageManager pkgman = new();
                     ObservableRangeCollection<Package> applist = new();
@@ -238,7 +242,7 @@ namespace InteropTools.ShellPages.Registry
                     {
                         if (pfnlist.Contains(package.Id.FamilyName.ToLower()))
                         {
-                            Packageinfos app = new() { Packagefamillyname = package.Id.FamilyName.ToLower() };
+                            Packageinfos app = new() {Packagefamillyname = package.Id.FamilyName.ToLower()};
                             string arch = _resUnknown;
 
                             switch (package.Id.Architecture)
@@ -275,7 +279,8 @@ namespace InteropTools.ShellPages.Registry
                             }
 
                             app.Title = package.Id.FamilyName;
-                            app.Description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
+                            app.Description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor +
+                                              "." +
                                               package.Id.Version.Build + "." + package.Id.Version.Revision;
 
                             try
@@ -296,7 +301,8 @@ namespace InteropTools.ShellPages.Registry
                                     try
                                     {
                                         app.Description = appEntry.DisplayInfo.Description + "\n" + arch + " " +
-                                                          package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
+                                                          package.Id.Version.Major + "." + package.Id.Version.Minor +
+                                                          "." +
                                                           package.Id.Version.Build + "." + package.Id.Version.Revision;
                                     }
                                     catch
@@ -306,12 +312,9 @@ namespace InteropTools.ShellPages.Registry
 
                                     try
                                     {
-                                        Size logosize = new()
-                                        {
-                                            Height = 48,
-                                            Width = 48
-                                        };
-                                        Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
+                                        Size logosize = new() {Height = 48, Width = 48};
+                                        Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo =
+                                            await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                         await RunInUiThread(() =>
                                         {
                                             BitmapImage bitmapImage = new();
@@ -348,7 +351,8 @@ namespace InteropTools.ShellPages.Registry
                             {
                                 counter2++;
 
-                                if (!string.Equals(item2.Launchuri, package.Packagefamillyname, StringComparison.CurrentCultureIgnoreCase))
+                                if (!string.Equals(item2.Launchuri, package.Packagefamillyname,
+                                    StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     continue;
                                 }
@@ -373,7 +377,6 @@ namespace InteropTools.ShellPages.Registry
                 {
                 }
             });
-        }
 
         private class AppAssotiation
         {

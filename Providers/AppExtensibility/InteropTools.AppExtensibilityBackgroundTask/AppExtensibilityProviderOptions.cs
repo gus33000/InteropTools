@@ -12,12 +12,8 @@ namespace InteropTools.AppExtensibilityBackgroundTask
 
         private readonly AbstractOption[] abstractOption;
 
-        public AppExtensibilityProviderOptions()
-        {
-            abstractOption = new AbstractOption[]
-            {
-            };
-        }
+        public AppExtensibilityProviderOptions() =>
+            abstractOption = new AbstractOption[] { };
 
         public AppExtensibilityProviderOptions(Options o)
         {
@@ -31,9 +27,6 @@ namespace InteropTools.AppExtensibilityBackgroundTask
 
         public override Guid OptionsIdentifier => ID;
 
-        protected override AbstractOption[] GetSettings()
-        {
-            return abstractOption;
-        }
+        protected override AbstractOption[] GetSettings() => abstractOption;
     }
 }

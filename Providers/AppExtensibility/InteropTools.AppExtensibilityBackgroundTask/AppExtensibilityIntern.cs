@@ -34,9 +34,6 @@ namespace InteropTools.AppExtensibilityBackgroundTask
     {
         private readonly IBackgroundTask internalTask = new AppExtensibilityProviderIntern();
 
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            internalTask.Run(taskInstance);
-        }
+        public void Run(IBackgroundTaskInstance taskInstance) => internalTask.Run(taskInstance);
     }
 }

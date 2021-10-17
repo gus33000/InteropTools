@@ -18,9 +18,14 @@ namespace Intense.Presentation
         /// </summary>
         public ThemeCommands()
         {
-            SetDarkThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Dark, o => ThemeManager.Theme == ApplicationTheme.Light);
-            SetLightThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Light, o => ThemeManager.Theme == ApplicationTheme.Dark);
-            ToggleThemeCommand = new RelayCommand(o => ThemeManager.Theme = ThemeManager.Theme == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
+            SetDarkThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Dark,
+                o => ThemeManager.Theme == ApplicationTheme.Light);
+            SetLightThemeCommand = new RelayCommand(o => ThemeManager.Theme = ApplicationTheme.Light,
+                o => ThemeManager.Theme == ApplicationTheme.Dark);
+            ToggleThemeCommand = new RelayCommand(o =>
+                ThemeManager.Theme = ThemeManager.Theme == ApplicationTheme.Dark
+                    ? ApplicationTheme.Light
+                    : ApplicationTheme.Dark);
 
             ThemeManager.ThemeChanged += new WeakEventHandler<ThemeCommands, object, object, EventArgs>(this)
             {

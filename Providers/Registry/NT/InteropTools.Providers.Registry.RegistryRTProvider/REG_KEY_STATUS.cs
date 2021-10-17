@@ -8,6 +8,6 @@ namespace InteropTools.Providers.Registry.RegistryRTProvider
         FOUND,
         NOT_FOUND,
         ACCESS_DENIED,
-        UNKNOWN,
+        UNKNOWN
     }
 }

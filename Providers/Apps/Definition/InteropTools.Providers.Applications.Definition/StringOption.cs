@@ -12,7 +12,6 @@ namespace InteropTools.Providers.Applications.Definition
         {
         }
 
-        [DataMember]
-        public string Value { get; set; }
+        [DataMember] public string Value { get; set; }
     }
 }

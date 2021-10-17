@@ -20,8 +20,9 @@ namespace RegistryHelper
                 {
                     uint val = lookup32[bytes[i]];
                     result[2 * i] = (char)val;
-                    result[(2 * i) + 1] = (char)(val >> 16);
+                    result[2 * i + 1] = (char)(val >> 16);
                 }
+
                 return new string(result);
             }
             catch
@@ -38,6 +39,7 @@ namespace RegistryHelper
                 string s = i.ToString("X2");
                 result[i] = s[0] + ((uint)s[1] << 16);
             }
+
             return result;
         }
 
@@ -50,7 +52,7 @@ namespace RegistryHelper
 
             byte[] arr = new byte[hex.Length >> 1];
 
-            for (int i = 0; i < (hex.Length >> 1); ++i)
+            for (int i = 0; i < hex.Length >> 1; ++i)
             {
                 arr[i] = (byte)((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
             }
@@ -66,13 +68,15 @@ namespace RegistryHelper
             //For lowercase a-f letters:
             //return val - (val < 58 ? 48 : 87);
             //Or the two combined, but a bit slower:
-            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+            return val - (val < 58 ? 48 : val < 97 ? 55 : 87);
         }
 
         public static byte[] StringToRegBuffer(uint valtype, string data)
         {
             if (data.Length == 0)
+            {
                 return null;
+            }
 
             switch (valtype)
             {
@@ -86,7 +90,9 @@ namespace RegistryHelper
                     }
                 case (uint)REG_VALUE_TYPE.REG_MULTI_SZ:
                     {
-                        return data.Length == 0 ? new byte[0] : Encoding.Unicode.GetBytes(string.Join("\0", data.Split('\n')) + "\0\0");
+                        return data.Length == 0
+                            ? new byte[0]
+                            : Encoding.Unicode.GetBytes(string.Join("\0", data.Split('\n')) + "\0\0");
                     }
                 case (uint)REG_VALUE_TYPE.REG_SZ:
                     {
@@ -106,7 +112,9 @@ namespace RegistryHelper
         public static string RegBufferToString(uint valtype, byte[] data)
         {
             if (data.Length == 0)
+            {
                 return null;
+            }
 
             switch (valtype)
             {
@@ -133,6 +141,7 @@ namespace RegistryHelper
                             // Remove it.
                             strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 1);
                         }
+
                         // Split by null terminator.
                         return string.Join("\n", strNullTerminated.Split('\0'));
                     }

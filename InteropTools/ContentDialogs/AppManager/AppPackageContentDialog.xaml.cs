@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -66,7 +65,8 @@ namespace InteropTools.ContentDialogs.AppManager
 
                 try
                 {
-                    string arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                    string arch = ResourceManager.Current.MainResourceMap
+                        .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
 
                     switch (package.Id.Architecture)
                     {
@@ -78,13 +78,15 @@ namespace InteropTools.ContentDialogs.AppManager
 
                         case ProcessorArchitecture.Neutral:
                             {
-                                arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Neutral", ResourceContext.GetForCurrentView()).ValueAsString;
+                                arch = ResourceManager.Current.MainResourceMap
+                                    .GetValue("Resources/Neutral", ResourceContext.GetForCurrentView()).ValueAsString;
                                 break;
                             }
 
                         case ProcessorArchitecture.Unknown:
                             {
-                                arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                                arch = ResourceManager.Current.MainResourceMap
+                                    .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
                                 break;
                             }
 
@@ -409,61 +411,64 @@ namespace InteropTools.ContentDialogs.AppManager
 
                 try
                 {
-                    string statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Ok", ResourceContext.GetForCurrentView()).ValueAsString;
+                    string statustext = ResourceManager.Current.MainResourceMap
+                        .GetValue("Resources/Ok", ResourceContext.GetForCurrentView()).ValueAsString;
 
                     if (package.Status.DataOffline)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Data_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Data_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                        if (package.Status.DependencyIssue)
+                    else if (package.Status.DependencyIssue)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Dependency_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Dependency_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                            if (package.Status.DeploymentInProgress)
+                    else if (package.Status.DeploymentInProgress)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Deployment_In_Progress", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Deployment_In_Progress", ResourceContext.GetForCurrentView())
+                            .ValueAsString;
                     }
-                    else
-                                if (package.Status.Disabled)
+                    else if (package.Status.Disabled)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Disabled", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Disabled", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                    if (package.Status.LicenseIssue)
+                    else if (package.Status.LicenseIssue)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/License_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/License_Issue", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                        if (package.Status.Modified)
+                    else if (package.Status.Modified)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Modified", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Modified", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                            if (package.Status.NeedsRemediation)
+                    else if (package.Status.NeedsRemediation)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Needs_Remediation", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Needs_Remediation", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                                if (package.Status.NotAvailable)
+                    else if (package.Status.NotAvailable)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Not_Available", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Not_Available", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                                    if (package.Status.PackageOffline)
+                    else if (package.Status.PackageOffline)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Package_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Package_Offline", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                                        if (package.Status.Servicing)
+                    else if (package.Status.Servicing)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Servicing", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Servicing", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
-                    else
-                                                            if (package.Status.Tampered)
+                    else if (package.Status.Tampered)
                     {
-                        statustext = ResourceManager.Current.MainResourceMap.GetValue("Resources/Tampered", ResourceContext.GetForCurrentView()).ValueAsString;
+                        statustext = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Tampered", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                     Status.Text = statustext;
@@ -495,7 +500,8 @@ namespace InteropTools.ContentDialogs.AppManager
                     foreach (Package dependency in package.Dependencies)
                     {
                         DepTitle.Visibility = Visibility.Visible;
-                        string arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                        string arch = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
 
                         switch (dependency.Id.Architecture)
                         {
@@ -507,13 +513,17 @@ namespace InteropTools.ContentDialogs.AppManager
 
                             case ProcessorArchitecture.Neutral:
                                 {
-                                    arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Neutral", ResourceContext.GetForCurrentView()).ValueAsString;
+                                    arch = ResourceManager.Current.MainResourceMap
+                                        .GetValue("Resources/Neutral", ResourceContext.GetForCurrentView())
+                                        .ValueAsString;
                                     break;
                                 }
 
                             case ProcessorArchitecture.Unknown:
                                 {
-                                    arch = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                                    arch = ResourceManager.Current.MainResourceMap
+                                        .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView())
+                                        .ValueAsString;
                                     break;
                                 }
 
@@ -535,8 +545,8 @@ namespace InteropTools.ContentDialogs.AppManager
                             DisplayName = dependency.Id.FamilyName,
                             FullName = dependency.Id.FullName,
                             Description =
-                            arch + " " + dependency.Id.Version.Major + "." + dependency.Id.Version.Minor + "." +
-                            dependency.Id.Version.Build + "." + dependency.Id.Version.Revision
+                                arch + " " + dependency.Id.Version.Major + "." + dependency.Id.Version.Minor + "." +
+                                dependency.Id.Version.Build + "." + dependency.Id.Version.Revision
                         });
                     }
 
@@ -545,8 +555,10 @@ namespace InteropTools.ContentDialogs.AppManager
                 catch (Exception caughtEx)
                 {
                     await
-                    new Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap.GetValue("Resources/Exception_Thrown__",
-                        ResourceContext.GetForCurrentView()).ValueAsString + caughtEx.HResult + " " + caughtEx.Message);
+                        new Core.MessageDialogContentDialog().ShowMessageDialog(ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Exception_Thrown__",
+                                    ResourceContext.GetForCurrentView()).ValueAsString + caughtEx.HResult + " " +
+                            caughtEx.Message);
                 }
 
                 string displayname = "";
@@ -555,7 +567,8 @@ namespace InteropTools.ContentDialogs.AppManager
 
                 try
                 {
-                    System.Collections.Generic.IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> AppEntries = await package.GetAppListEntriesAsync();
+                    System.Collections.Generic.IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> AppEntries =
+                        await package.GetAppListEntriesAsync();
 
                     foreach (Windows.ApplicationModel.Core.AppListEntry AppEntry in AppEntries)
                     {
@@ -597,14 +610,12 @@ namespace InteropTools.ContentDialogs.AppManager
 
                         try
                         {
-                            Size logosize = new()
-                            {
-                                Height = 48,
-                                Width = 48
-                            };
-                            Windows.Storage.Streams.RandomAccessStreamReference applogo = AppEntry.DisplayInfo.GetLogo(logosize);
+                            Size logosize = new() {Height = 48, Width = 48};
+                            Windows.Storage.Streams.RandomAccessStreamReference applogo =
+                                AppEntry.DisplayInfo.GetLogo(logosize);
                             BitmapImage bitmapImage = new();
-                            Windows.Storage.Streams.IRandomAccessStreamWithContentType ras = await applogo.OpenReadAsync();
+                            Windows.Storage.Streams.IRandomAccessStreamWithContentType ras =
+                                await applogo.OpenReadAsync();
                             bitmapImage.SetSource(ras);
                             logo = bitmapImage;
                             AppLogo.Source = logo;
@@ -640,7 +651,8 @@ namespace InteropTools.ContentDialogs.AppManager
         {
             try
             {
-                System.Collections.Generic.IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> results = await _package.GetAppListEntriesAsync();
+                System.Collections.Generic.IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> results =
+                    await _package.GetAppListEntriesAsync();
                 await results[0].LaunchAsync();
             }
             catch
@@ -651,13 +663,16 @@ namespace InteropTools.ContentDialogs.AppManager
         private async void Value_Tapped(object sender, TappedRoutedEventArgs e)
         {
             TextBlock SelectedItem = (TextBlock)e.OriginalSource;
-            DataPackage dataPackage = new() { RequestedOperation = DataPackageOperation.Copy };
+            DataPackage dataPackage = new() {RequestedOperation = DataPackageOperation.Copy};
             dataPackage.SetText(SelectedItem.Text);
             Clipboard.SetContent(dataPackage);
             Hide();
             await
-            new Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + ResourceManager.Current.MainResourceMap.GetValue("Resources/Value_Tapped",
-                ResourceContext.GetForCurrentView()).ValueAsString, ResourceManager.Current.MainResourceMap.GetValue("Resources/Package_Info.Title", ResourceContext.GetForCurrentView()).ValueAsString);
+                new Core.MessageDialogContentDialog().ShowMessageDialog(SelectedItem.Text + ResourceManager.Current
+                        .MainResourceMap.GetValue("Resources/Value_Tapped",
+                            ResourceContext.GetForCurrentView()).ValueAsString,
+                    ResourceManager.Current.MainResourceMap
+                        .GetValue("Resources/Package_Info.Title", ResourceContext.GetForCurrentView()).ValueAsString);
             await ShowAsync();
         }
 

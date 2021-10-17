@@ -11,7 +11,7 @@ namespace Intense.Presentation
     /// </summary>
     [ContentProperty(Name = "Items")]
     public class NavigationItem
-         : Displayable
+        : Displayable
     {
         private readonly NavigationItemCollection items;
         private string description;
@@ -25,10 +25,7 @@ namespace Intense.Presentation
         /// <summary>
         /// Initializes a new instance of the <see cref="NavigationItem"/> class.
         /// </summary>
-        public NavigationItem()
-        {
-            items = new NavigationItemCollection(this);
-        }
+        public NavigationItem() => items = new NavigationItemCollection(this);
 
         /// <summary>
         /// Gets or sets a description of the item.

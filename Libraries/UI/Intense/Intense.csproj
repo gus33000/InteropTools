@@ -186,15 +186,6 @@
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="UI\XamlHelper.cs" />
     <Compile Include="WeakEventHandler.cs" />
-    <Compile Include="x64\Debug\Activator.cs" />
-    <Compile Include="x64\Debug\AddToCollection.cs" />
-    <Compile Include="x64\Debug\AddToDictionary.cs" />
-    <Compile Include="x64\Debug\Getter.cs" />
-    <Compile Include="x64\Debug\Setter.cs" />
-    <Compile Include="x64\Debug\XamlMember.cs" />
-    <Compile Include="x64\Debug\XamlSystemBaseType.cs" />
-    <Compile Include="x64\Debug\XamlTypeInfoProvider.cs" />
-    <Compile Include="x64\Debug\XamlUserType.cs" />
     <Content Include="Properties\Intense.rd.xml" />
   </ItemGroup>
   <ItemGroup>

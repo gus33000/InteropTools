@@ -21,30 +21,30 @@ namespace RegistryHelper
 
         private static readonly Dictionary<REG_HIVES, uint> _ndtkhives = new()
         {
-            { REG_HIVES.HKEY_CLASSES_ROOT, 0 },
-            { REG_HIVES.HKEY_CURRENT_USER, 2 },
-            { REG_HIVES.HKEY_LOCAL_MACHINE, 1 },
-            { REG_HIVES.HKEY_USERS, 4 },
-            { REG_HIVES.HKEY_PERFORMANCE_DATA, 5 },
-            { REG_HIVES.HKEY_CURRENT_CONFIG, 3 },
-            { REG_HIVES.HKEY_DYN_DATA, 6 },
-            { REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7 }
+            {REG_HIVES.HKEY_CLASSES_ROOT, 0},
+            {REG_HIVES.HKEY_CURRENT_USER, 2},
+            {REG_HIVES.HKEY_LOCAL_MACHINE, 1},
+            {REG_HIVES.HKEY_USERS, 4},
+            {REG_HIVES.HKEY_PERFORMANCE_DATA, 5},
+            {REG_HIVES.HKEY_CURRENT_CONFIG, 3},
+            {REG_HIVES.HKEY_DYN_DATA, 6},
+            {REG_HIVES.HKEY_CURRENT_USER_LOCAL_SETTINGS, 7}
         };
 
         private static readonly Dictionary<REG_VALUE_TYPE, uint> _ndtkvaltypes = new()
         {
-            { REG_VALUE_TYPE.REG_NONE, 0 },
-            { REG_VALUE_TYPE.REG_SZ, 1 },
-            { REG_VALUE_TYPE.REG_EXPAND_SZ, 2 },
-            { REG_VALUE_TYPE.REG_BINARY, 3 },
-            { REG_VALUE_TYPE.REG_DWORD, 4 },
-            { REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, 5 },
-            { REG_VALUE_TYPE.REG_LINK, 6 },
-            { REG_VALUE_TYPE.REG_MULTI_SZ, 7 },
-            { REG_VALUE_TYPE.REG_RESOURCE_LIST, 8 },
-            { REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, 9 },
-            { REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, 10 },
-            { REG_VALUE_TYPE.REG_QWORD, 11 }
+            {REG_VALUE_TYPE.REG_NONE, 0},
+            {REG_VALUE_TYPE.REG_SZ, 1},
+            {REG_VALUE_TYPE.REG_EXPAND_SZ, 2},
+            {REG_VALUE_TYPE.REG_BINARY, 3},
+            {REG_VALUE_TYPE.REG_DWORD, 4},
+            {REG_VALUE_TYPE.REG_DWORD_BIG_ENDIAN, 5},
+            {REG_VALUE_TYPE.REG_LINK, 6},
+            {REG_VALUE_TYPE.REG_MULTI_SZ, 7},
+            {REG_VALUE_TYPE.REG_RESOURCE_LIST, 8},
+            {REG_VALUE_TYPE.REG_FULL_RESOURCE_DESCRIPTOR, 9},
+            {REG_VALUE_TYPE.REG_RESOURCE_REQUIREMENTS_LIST, 10},
+            {REG_VALUE_TYPE.REG_QWORD, 11}
         };
 
         private bool Initialize()
@@ -71,20 +71,11 @@ namespace RegistryHelper
 #endif
         }
 
-        public bool IsSupported()
-        {
-            return Initialize();
-        }
+        public bool IsSupported() => Initialize();
 
-        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegDeleteKey(REG_HIVES hive, string key, bool recursive) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegDeleteValue(REG_HIVES hive, string key, string name) => REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegEnumKey(REG_HIVES? hive, string key, out IReadOnlyList<REG_ITEM> items)
         {
@@ -96,12 +87,14 @@ namespace RegistryHelper
         {
             try
             {
-                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ,
+                    out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = new string[0];
                     return result;
                 }
+
                 string strNullTerminated = Encoding.Unicode.GetString(buffer);
                 if (strNullTerminated.Substring(strNullTerminated.Length - 3) == "\0\0")
                 {
@@ -115,6 +108,7 @@ namespace RegistryHelper
                     // Remove it.
                     strNullTerminated = strNullTerminated.Substring(0, strNullTerminated.Length - 1);
                 }
+
                 // Split by null terminator.
                 data = strNullTerminated.Split('\0');
                 return result;
@@ -130,12 +124,14 @@ namespace RegistryHelper
         {
             try
             {
-                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_EXPAND_SZ,
+                    out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
                     return result;
                 }
+
                 data = Encoding.Unicode.GetString(buffer).TrimEnd('\0');
                 return result;
             }
@@ -150,12 +146,14 @@ namespace RegistryHelper
         {
             try
             {
-                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_DWORD, out REG_VALUE_TYPE regtype, out byte[] buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_DWORD,
+                    out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = uint.MinValue;
                     return result;
                 }
+
                 data = BitConverter.ToUInt32(buffer, 0);
                 return result;
             }
@@ -166,21 +164,20 @@ namespace RegistryHelper
             }
         }
 
-        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key)
-        {
-            return REG_KEY_STATUS.UNKNOWN;
-        }
+        public REG_KEY_STATUS RegQueryKeyStatus(REG_HIVES hive, string key) => REG_KEY_STATUS.UNKNOWN;
 
         public REG_STATUS RegQueryQword(REG_HIVES hive, string key, string regvalue, out ulong data)
         {
             try
             {
-                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD, out REG_VALUE_TYPE regtype, out byte[] buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_QWORD,
+                    out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = ulong.MinValue;
                     return result;
                 }
+
                 data = BitConverter.ToUInt64(buffer, 0);
                 return result;
             }
@@ -195,12 +192,14 @@ namespace RegistryHelper
         {
             try
             {
-                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_SZ, out REG_VALUE_TYPE regtype, out byte[] buffer);
+                REG_STATUS result = RegQueryValue(hive, key, regvalue, REG_VALUE_TYPE.REG_SZ,
+                    out REG_VALUE_TYPE regtype, out byte[] buffer);
                 if (result != REG_STATUS.SUCCESS)
                 {
                     data = "";
                     return result;
                 }
+
                 data = Encoding.Unicode.GetString(buffer).TrimEnd('\0');
                 return result;
             }
@@ -211,7 +210,8 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, out REG_VALUE_TYPE outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            out REG_VALUE_TYPE outvaltype, out byte[] data)
         {
 #if !ARM
             data = new byte[0];
@@ -291,7 +291,8 @@ namespace RegistryHelper
         {
             try
             {
-                return RegSetValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ, Encoding.Unicode.GetBytes(string.Join("\0", data) + "\0\0"));
+                return RegSetValue(hive, key, regvalue, REG_VALUE_TYPE.REG_MULTI_SZ,
+                    Encoding.Unicode.GetBytes(string.Join("\0", data) + "\0\0"));
             }
             catch
             {
@@ -324,7 +325,8 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype, [ReadOnlyArray] byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, REG_VALUE_TYPE valtype,
+            [ReadOnlyArray] byte[] data)
         {
 #if !ARM
             return REG_STATUS.FAILED;
@@ -370,15 +372,9 @@ namespace RegistryHelper
             }
         }
 
-        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegRenameKey(REG_HIVES hive, string key, string newname) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegAddKey(REG_HIVES hive, string key)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegAddKey(REG_HIVES hive, string key) => REG_STATUS.NOT_IMPLEMENTED;
 
         public REG_STATUS RegQueryKeyLastModifiedTime(REG_HIVES hive, string key, out long lastmodified)
         {
@@ -386,7 +382,8 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype, out byte[] data)
+        public REG_STATUS RegQueryValue(REG_HIVES hive, string key, string regvalue, uint valtype, out uint outvaltype,
+            out byte[] data)
         {
 #if !ARM
             data = new byte[0];
@@ -450,7 +447,8 @@ namespace RegistryHelper
 #endif
         }
 
-        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype, [ReadOnlyArray] byte[] data)
+        public REG_STATUS RegSetValue(REG_HIVES hive, string key, string regvalue, uint valtype,
+            [ReadOnlyArray] byte[] data)
         {
 #if !ARM
             return REG_STATUS.FAILED;
@@ -489,14 +487,8 @@ namespace RegistryHelper
             return REG_STATUS.NOT_IMPLEMENTED;
         }
 
-        public REG_STATUS RegLoadHive(string FilePath, string mountpoint, bool inUser)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegLoadHive(string FilePath, string mountpoint, bool inUser) => REG_STATUS.NOT_IMPLEMENTED;
 
-        public REG_STATUS RegUnloadHive(string mountpoint, bool inUser)
-        {
-            return REG_STATUS.NOT_IMPLEMENTED;
-        }
+        public REG_STATUS RegUnloadHive(string mountpoint, bool inUser) => REG_STATUS.NOT_IMPLEMENTED;
     }
 }

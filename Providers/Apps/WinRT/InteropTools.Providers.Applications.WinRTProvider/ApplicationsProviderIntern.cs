@@ -42,9 +42,15 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 {
     internal class ApplicationsProviderIntern : ApplicationProvidersWithOptions
     {
-        protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input, IProgress<double> progress, CancellationToken cancelToken)
+        protected override async Task<string> ExecuteAsync(AppServiceConnection sender, string input,
+            IProgress<double> progress, CancellationToken cancelToken)
         {
-            string[] arr = input.Split(new string[] { "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" }, StringSplitOptions.None);
+            string[] arr =
+                input.Split(
+                    new string[]
+                    {
+                        "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb"
+                    }, StringSplitOptions.None);
 
             string operation = arr[0];
             Enum.TryParse(operation, true, out APPLICATIONS_OPERATION operationenum);
@@ -56,37 +62,49 @@ namespace InteropTools.Providers.Applications.WinRTProvider
             {
                 case APPLICATIONS_OPERATION.RemovePackage:
                     {
-                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out RemovalOptions remop);
-                        _ = await new PackageManager().RemovePackageAsync(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))),
+                            out RemovalOptions remop);
+                        _ = await new PackageManager().RemovePackageAsync(
+                            Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2))), remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
                 case APPLICATIONS_OPERATION.RegisterPackage:
                     {
-                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
-                        _ = await new PackageManager().RegisterPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))),
+                            out DeploymentOptions remop);
+                        _ = await new PackageManager().RegisterPackageAsync(
+                            new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
                 case APPLICATIONS_OPERATION.AddPackage:
                     {
-                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
-                        _ = await new PackageManager().AddPackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))),
+                            out DeploymentOptions remop);
+                        _ = await new PackageManager().AddPackageAsync(
+                            new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
                 case APPLICATIONS_OPERATION.UpdatePackage:
                     {
-                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))), out DeploymentOptions remop);
-                        _ = await new PackageManager().UpdatePackageAsync(new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
+                        Enum.TryParse(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(1))),
+                            out DeploymentOptions remop);
+                        _ = await new PackageManager().UpdatePackageAsync(
+                            new Uri(Encoding.UTF8.GetString(Convert.FromBase64String(arr.ElementAt(2)))), null, remop);
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
                         break;
                     }
@@ -94,7 +112,8 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                     {
                         IReadOnlyList<PackageVolume> vols = await new PackageManager().GetPackageVolumesAsync();
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
 
                         foreach (PackageVolume item in vols)
@@ -110,6 +129,7 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                             };
                             returnvalue.Add(itemlist);
                         }
+
                         break;
                     }
                 case APPLICATIONS_OPERATION.QueryApplications:
@@ -148,7 +168,8 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                 LoadingText.Text = "Fetching available package types...";
                                 LoadingStack.Visibility = Visibility.Visible;
                             });*/
-                            IEnumerable<PackageTypes> pkgtypes = Enum.GetValues(typeof(PackageTypes)).Cast<PackageTypes>();
+                            IEnumerable<PackageTypes> pkgtypes =
+                                Enum.GetValues(typeof(PackageTypes)).Cast<PackageTypes>();
                             /*_typelist.Add(new TypeDisplayitem());
 
                             foreach (var type in pkgtypes)
@@ -195,13 +216,16 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                         string arch = package.Id.Architecture.ToString();
 
                                         string displayname = package.Id.FamilyName;
-                                        string description = arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
-                                                             package.Id.Version.Build + "." + package.Id.Version.Revision;
+                                        string description =
+                                            arch + " " + package.Id.Version.Major + "." + package.Id.Version.Minor +
+                                            "." +
+                                            package.Id.Version.Build + "." + package.Id.Version.Revision;
                                         dynamic logo = "";
 
                                         try
                                         {
-                                            IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> appEntries = await package.GetAppListEntriesAsync();
+                                            IReadOnlyList<Windows.ApplicationModel.Core.AppListEntry> appEntries =
+                                                await package.GetAppListEntriesAsync();
 
                                             foreach (Windows.ApplicationModel.Core.AppListEntry appEntry in appEntries)
                                             {
@@ -217,8 +241,10 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                                                 try
                                                 {
                                                     description = appEntry.DisplayInfo.Description + "\n" + arch + " " +
-                                                                  package.Id.Version.Major + "." + package.Id.Version.Minor + "." +
-                                                                  package.Id.Version.Build + "." + package.Id.Version.Revision;
+                                                                  package.Id.Version.Major + "." +
+                                                                  package.Id.Version.Minor + "." +
+                                                                  package.Id.Version.Build + "." +
+                                                                  package.Id.Version.Revision;
                                                 }
                                                 catch
                                                 {
@@ -227,12 +253,9 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
                                                 try
                                                 {
-                                                    Size logosize = new()
-                                                    {
-                                                        Height = 160,
-                                                        Width = 160
-                                                    };
-                                                    Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo = await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
+                                                    Size logosize = new() {Height = 160, Width = 160};
+                                                    Windows.Storage.Streams.IRandomAccessStreamWithContentType applogo =
+                                                        await appEntry.DisplayInfo.GetLogo(logosize).OpenReadAsync();
                                                     /*await RunInUiThread(() => {
                                                         var bitmapImage = new BitmapImage();
                                                         bitmapImage.SetSource(applogo);
@@ -288,7 +311,8 @@ namespace InteropTools.Providers.Applications.WinRTProvider
                         {
                         }
 
-                        returnvalue2.Add(Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
+                        returnvalue2.Add(
+                            Convert.ToBase64String(Encoding.UTF8.GetBytes(nameof(APPLICATIONS_STATUS.SUCCESS))));
                         returnvalue.Add(returnvalue2);
 
                         break;
@@ -299,29 +323,28 @@ namespace InteropTools.Providers.Applications.WinRTProvider
 
             foreach (List<string> str in returnvalue)
             {
-                string str2 = string.Join("*[Pp)8/P'=Tu(pm\"fYNh#*7w27V~>bubdt#\"AF~'\\}{jwAE2uY5,~bEVfBZ2%xx+UK?c&Xr@)C6/}j?5rjuB=8+egU\\D@\"; T3M<%", str);
+                string str2 =
+                    string.Join(
+                        "*[Pp)8/P'=Tu(pm\"fYNh#*7w27V~>bubdt#\"AF~'\\}{jwAE2uY5,~bEVfBZ2%xx+UK?c&Xr@)C6/}j?5rjuB=8+egU\\D@\"; T3M<%",
+                        str);
                 if (string.IsNullOrEmpty(returnstr))
                 {
                     returnstr = str2;
                 }
                 else
                 {
-                    returnstr += "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" + str2;
+                    returnstr +=
+                        "Q+q:8rKwjyVG\"~@<],TNH!@kcn/qUv:=3=Zs)+gU$Efc:[&Ku^qn,U}&yrRY{}byf<4DV&W!mF>R@Z8uz=>kgj~F[KeB{,]'[Veb" +
+                        str2;
                 }
             }
 
             return returnstr;
         }
 
-        protected override Task<Options> GetOptions()
-        {
-            return Task.FromResult<Options>(new OSRebootProviderOptions());
-        }
+        protected override Task<Options> GetOptions() => Task.FromResult<Options>(new OSRebootProviderOptions());
 
-        protected override Guid GetOptionsGuid()
-        {
-            return OSRebootProviderOptions.ID;
-        }
+        protected override Guid GetOptionsGuid() => OSRebootProviderOptions.ID;
 
         public class Item
         {

@@ -8,6 +8,6 @@ namespace InteropTools.AppExtensibilityBackgroundTask
         FOUND,
         NOT_FOUND,
         ACCESS_DENIED,
-        UNKNOWN,
+        UNKNOWN
     }
 }

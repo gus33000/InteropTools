@@ -21,10 +21,8 @@ namespace Intense.Presentation
         /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// Updates specified value, and raises the <see cref="PropertyChanged"/> event when the value has changed.
@@ -42,6 +40,7 @@ namespace Intense.Presentation
                 OnPropertyChanged(propertyName);
                 return true;
             }
+
             return false;
         }
     }

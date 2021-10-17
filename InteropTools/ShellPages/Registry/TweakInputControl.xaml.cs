@@ -28,17 +28,12 @@ namespace InteropTools.ShellPages.Registry
             RunInThreadPool(DoChecks);
         }
 
-        private static async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private static async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async void RunInUiThread(Action function)
-        {
+        private async void RunInUiThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
         private void DoChecks()
         {

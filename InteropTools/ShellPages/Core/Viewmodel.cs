@@ -9,10 +9,15 @@ using System.Threading.Tasks;
 using Windows.System.Threading;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using ApplicationPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.Applications.Definition.TransfareOptions
-
-using RebootPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.OSReboot.Definition.TransfareOptions
-using RegPlugin = AppPlugin.PluginList.PluginList<string, string, double>.PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
+using ApplicationPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.Applications.Definition.TransfareOptions
+using RebootPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.OSReboot.Definition.TransfareOptions
+using RegPlugin =
+    AppPlugin.PluginList.PluginList<string, string, double>.
+    PluginProvider; //, InteropTools.Providers.Registry.Definition.TransfareOptions
 
 namespace InteropTools.ShellPages.Core
 {
@@ -23,10 +28,7 @@ namespace InteropTools.ShellPages.Core
             public BitmapImage Logo { get; set; }
             public RegPlugin Plugin { get; set; }
 
-            public DisplayableRegPlugin(RegPlugin Plugin)
-            {
-                this.Plugin = Plugin;
-            }
+            public DisplayableRegPlugin(RegPlugin Plugin) => this.Plugin = Plugin;
         }
 
         public class DisplayablePowerPlugin
@@ -34,10 +36,7 @@ namespace InteropTools.ShellPages.Core
             public BitmapImage Logo { get; set; }
             public RebootPlugin Plugin { get; set; }
 
-            public DisplayablePowerPlugin(RebootPlugin Plugin)
-            {
-                this.Plugin = Plugin;
-            }
+            public DisplayablePowerPlugin(RebootPlugin Plugin) => this.Plugin = Plugin;
         }
 
         public class DisplayableApplicationPlugin
@@ -45,20 +44,17 @@ namespace InteropTools.ShellPages.Core
             public BitmapImage Logo { get; set; }
             public ApplicationPlugin Plugin { get; set; }
 
-            public DisplayableApplicationPlugin(ApplicationPlugin Plugin)
-            {
-                this.Plugin = Plugin;
-            }
+            public DisplayableApplicationPlugin(ApplicationPlugin Plugin) => this.Plugin = Plugin;
         }
 
         public ObservableCollection<DisplayableRegPlugin> RegPlugins { get; }
-                  = new ObservableCollection<DisplayableRegPlugin>();
+            = new ObservableCollection<DisplayableRegPlugin>();
 
         public ObservableCollection<DisplayablePowerPlugin> RebootPlugins { get; }
-                  = new ObservableCollection<DisplayablePowerPlugin>();
+            = new ObservableCollection<DisplayablePowerPlugin>();
 
         public ObservableCollection<DisplayableApplicationPlugin> ApplicationPlugins { get; }
-                  = new ObservableCollection<DisplayableApplicationPlugin>();
+            = new ObservableCollection<DisplayableApplicationPlugin>();
 
         public Viewmodel()
         {
@@ -67,22 +63,19 @@ namespace InteropTools.ShellPages.Core
 #pragma warning restore CS4014
         }
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
         private async Task InitAsync()
         {
-            AppPlugin.PluginList.PluginList<string, string, double> reglist = await Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(Providers.Registry.Definition.RegistryProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> reglist =
+                await Providers.Registry.Definition.RegistryProvidersWithOptions.ListAsync(Providers.Registry.Definition
+                    .RegistryProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in reglist.Plugins)
             {
-                DisplayableRegPlugin itm = new(item)
-                {
-                    Logo = new BitmapImage()
-                };
-                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                DisplayableRegPlugin itm = new(item) {Logo = new BitmapImage()};
+                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                    .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                 RegPlugins.Add(itm);
             }
 
@@ -94,11 +87,9 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RegPlugin>())
                         {
-                            DisplayableRegPlugin itm = new(item)
-                            {
-                                Logo = new BitmapImage()
-                            };
-                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                            DisplayableRegPlugin itm = new(item) {Logo = new BitmapImage()};
+                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                                .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                             RegPlugins.Add(itm);
                         }
                     }
@@ -120,15 +111,15 @@ namespace InteropTools.ShellPages.Core
                 });
             };
 
-            AppPlugin.PluginList.PluginList<string, string, double> rebootlist = await Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(Providers.OSReboot.Definition.OSRebootProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> rebootlist =
+                await Providers.OSReboot.Definition.OSRebootProvidersWithOptions.ListAsync(Providers.OSReboot.Definition
+                    .OSRebootProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in rebootlist.Plugins)
             {
-                DisplayablePowerPlugin itm = new(item)
-                {
-                    Logo = new BitmapImage()
-                };
-                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                DisplayablePowerPlugin itm = new(item) {Logo = new BitmapImage()};
+                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                    .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                 RebootPlugins.Add(itm);
             }
 
@@ -140,11 +131,9 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<RebootPlugin>())
                         {
-                            DisplayablePowerPlugin itm = new(item)
-                            {
-                                Logo = new BitmapImage()
-                            };
-                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                            DisplayablePowerPlugin itm = new(item) {Logo = new BitmapImage()};
+                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                                .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                             RebootPlugins.Add(itm);
                         }
                     }
@@ -166,15 +155,15 @@ namespace InteropTools.ShellPages.Core
                 });
             };
 
-            AppPlugin.PluginList.PluginList<string, string, double> applicationlist = await Providers.Applications.Definition.ApplicationProvidersWithOptions.ListAsync(Providers.Applications.Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
+            AppPlugin.PluginList.PluginList<string, string, double> applicationlist =
+                await Providers.Applications.Definition.ApplicationProvidersWithOptions.ListAsync(Providers.Applications
+                    .Definition.ApplicationProvidersWithOptions.PLUGIN_NAME);
 
             foreach (RebootPlugin item in applicationlist.Plugins)
             {
-                DisplayableApplicationPlugin itm = new(item)
-                {
-                    Logo = new BitmapImage()
-                };
-                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                DisplayableApplicationPlugin itm = new(item) {Logo = new BitmapImage()};
+                await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                    .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                 ApplicationPlugins.Add(itm);
             }
 
@@ -186,11 +175,9 @@ namespace InteropTools.ShellPages.Core
                     {
                         foreach (RebootPlugin item in e.NewItems.OfType<ApplicationPlugin>())
                         {
-                            DisplayableApplicationPlugin itm = new(item)
-                            {
-                                Logo = new BitmapImage()
-                            };
-                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
+                            DisplayableApplicationPlugin itm = new(item) {Logo = new BitmapImage()};
+                            await itm.Logo.SetSourceAsync(await item.Extension.AppInfo.DisplayInfo
+                                .GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync());
                             ApplicationPlugins.Add(itm);
                         }
                     }

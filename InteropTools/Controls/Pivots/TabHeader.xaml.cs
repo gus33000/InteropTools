@@ -10,9 +10,11 @@ namespace InteropTools.Controls.Pivots
 {
     public sealed partial class TabHeader : UserControl
     {
-        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register("Glyph", typeof(string), typeof(TabHeader), null);
+        public static readonly DependencyProperty GlyphProperty =
+            DependencyProperty.Register("Glyph", typeof(string), typeof(TabHeader), null);
 
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register("Label", typeof(string), typeof(TabHeader), null);
+        public static readonly DependencyProperty LabelProperty =
+            DependencyProperty.Register("Label", typeof(string), typeof(TabHeader), null);
 
         public TabHeader()
         {

@@ -11,7 +11,8 @@
     mc:Ignorable="d">
 
     <ui:WindowChrome.Chrome>
-        <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeMediumColor}" StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
+        <ui:WindowChrome StatusBarBackgroundColor="{ThemeResource SystemChromeMediumColor}"
+                         StatusBarForegroundColor="{ThemeResource SystemBaseHighColor}" />
     </ui:WindowChrome.Chrome>
 
     <Grid>
@@ -76,7 +77,8 @@
                                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                                 <FlipViewItem>
                                     <Grid Background="Teal" Tapped="Grid_Tapped">
-                                        <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.5" />
+                                        <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                   Opacity="0.5" />
                                         <!--<controls2:TileControl
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
@@ -104,7 +106,8 @@
                                 </FlipViewItem>
                                 <FlipViewItem>
                                     <Grid Background="#0078d7" Tapped="Grid_Tapped_1">
-                                        <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.5" />
+                                        <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                   Opacity="0.5" />
                                         <!--<controls2:TileControl
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"

@@ -35,9 +35,6 @@ namespace Intense.Presentation
         /// Gets a string representation of this instance.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return displayName;
-        }
+        public override string ToString() => displayName;
     }
 }

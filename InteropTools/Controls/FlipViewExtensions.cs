@@ -55,20 +55,14 @@ namespace InteropTools.Controls
         /// </summary>
         /// <param name="obj">the flipView</param>
         /// <returns>true if the list loops</returns>
-        public static bool GetIsLooping(FlipView obj)
-        {
-            return (bool)obj.GetValue(IsLoopingProperty);
-        }
+        public static bool GetIsLooping(FlipView obj) => (bool)obj.GetValue(IsLoopingProperty);
 
         /// <summary>
         /// Sets a value indicating whether the FlipView loops
         /// </summary>
         /// <param name="obj">the FlipView</param>
         /// <param name="value">true if the list loops</param>
-        public static void SetIsLooping(FlipView obj, bool value)
-        {
-            obj.SetValue(IsLoopingProperty, value);
-        }
+        public static void SetIsLooping(FlipView obj, bool value) => obj.SetValue(IsLoopingProperty, value);
 
         #endregion Methods
 
@@ -124,7 +118,8 @@ namespace InteropTools.Controls
 
             if (flipView.ItemsSource is INotifyCollectionChanged collectionChanged)
             {
-                collectionChanged.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => UpdateList(flipView, sender as IEnumerable);
+                collectionChanged.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) =>
+                    UpdateList(flipView, sender as IEnumerable);
             }
 
             if (flipView.ItemsSource is IEnumerable enumerable)
@@ -154,7 +149,8 @@ namespace InteropTools.Controls
         /// </summary>
         /// <param name="dependencyObject">the FlipView</param>
         /// <param name="args">the dependency property changed event arguments</param>
-        private static void OnIsLoopingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private static void OnIsLoopingChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs args)
         {
             FlipView flipView = dependencyObject as FlipView;
 

@@ -24,6 +24,7 @@ namespace InteropTools.Controls.SplitViews
                 {
                     list.Add(_Child as Control);
                 }
+
                 list.AddRange(AllChildren(_Child));
             }
 
@@ -40,7 +41,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static T GetParent<T>(this FrameworkElement element, string message = null) where T : DependencyObject
         {
-            var parent = element.Parent as T;
+            T parent = element.Parent as T;
 
             if (parent == null)
             {
@@ -57,7 +58,7 @@ namespace InteropTools.Controls.SplitViews
 
         public static T GetChild<T>(this Border element, string message = null) where T : DependencyObject
         {
-            var child = element.Child as T;
+            T child = element.Child as T;
 
             if (child == null)
             {
@@ -97,7 +98,8 @@ namespace InteropTools.Controls.SplitViews
             {
                 if (message == null)
                 {
-                    message = $"{element.Name}'s RenderTransform should be a CompositeTransform! Check the default Generic.xaml.";
+                    message =
+                        $"{element.Name}'s RenderTransform should be a CompositeTransform! Check the default Generic.xaml.";
                 }
 
                 throw new NullReferenceException(message);

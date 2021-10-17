@@ -24,10 +24,7 @@ namespace InteropTools.Classes
             return new StreamReader(resource).ReadLine().Replace("\r", "");
         }
 
-        public static string GetBuildString()
-        {
-            return $"{GetVersion()} ({GetBranch()}.{GetBuildDate()})";
-        }
+        public static string GetBuildString() => $"{GetVersion()} ({GetBranch()}.{GetBuildDate()})";
 
         public static string GetVersion()
         {

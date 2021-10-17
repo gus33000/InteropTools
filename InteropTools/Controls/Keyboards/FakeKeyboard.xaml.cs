@@ -7,9 +7,6 @@ namespace InteropTools.Controls.Keyboards
 {
     public sealed partial class FakeKeyboard : UserControl
     {
-        public FakeKeyboard()
-        {
-            InitializeComponent();
-        }
+        public FakeKeyboard() => InitializeComponent();
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InteropTools.CorePages;
 using InteropTools.Providers;
+using TreeViewControl;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System.Threading;
@@ -91,10 +92,8 @@ namespace InteropTools.ShellPages.Registry
             };
         }
 
-        private static TreeNode2 CreateFolderNode(string name, RegistryItemCustom item)
-        {
-            return new TreeNode2() { Data = new FileSystemData(name) { RegItem = item } };
-        }
+        private static TreeNode2 CreateFolderNode(string name, RegistryItemCustom item) =>
+            new TreeNode2() {Data = new FileSystemData(name) {RegItem = item}};
 
         private void FavoriteListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -109,7 +108,7 @@ namespace InteropTools.ShellPages.Registry
             ApplicationDataContainer localSettings = applicationData.LocalSettings;
             object strlist = localSettings.Values["browserfavlist"];
 
-            if ((strlist == null) || (strlist.GetType() != typeof(string)))
+            if (strlist == null || strlist.GetType() != typeof(string))
             {
                 localSettings.Values["browserfavlist"] = "";
             }
@@ -127,9 +126,10 @@ namespace InteropTools.ShellPages.Registry
                         Debug.WriteLine(item);
                         Debug.WriteLine(localSettings.Values[item].GetType());
 
-                        if ((localSettings.Values[item].GetType() == typeof(bool)) && ((bool)localSettings.Values[item]))
+                        if (localSettings.Values[item].GetType() == typeof(bool) && (bool)localSettings.Values[item])
                         {
-                            itemlist.Add(new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
+                            itemlist.Add(
+                                new BrowserControl.Item(GetItemFromId(string.Join("_", item.Split('_').Skip(1)))));
                         }
                     }
                     catch
@@ -151,32 +151,39 @@ namespace InteropTools.ShellPages.Registry
             {
                 case RegTypes.REG_BINARY:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_FULL_RESOURCE_DESCRIPTOR:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List",
+                            ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_DWORD:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_DWORD_BIG_ENDIAN:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView())
+                            .ValueAsString;
                     }
 
                 case RegTypes.REG_QWORD:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_MULTI_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_NONE:
@@ -186,31 +193,37 @@ namespace InteropTools.ShellPages.Registry
 
                 case RegTypes.REG_RESOURCE_LIST:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_RESOURCE_REQUIREMENTS_LIST:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement",
+                            ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_LINK:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
 
                 case RegTypes.REG_EXPAND_SZ:
                     {
-                        return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                        return ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
                     }
             }
 
-            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+            return ResourceManager.Current.MainResourceMap
+                .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
         }
 
         private async void ListBrowser_ItemClick(object sender, ItemClickEventArgs e)
@@ -232,13 +245,15 @@ namespace InteropTools.ShellPages.Registry
             {
                 case RegistryItemType.Hive:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
                 case RegistryItemType.Key:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
 
@@ -258,14 +273,18 @@ namespace InteropTools.ShellPages.Registry
 
                 default:
                     {
-                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                        EditItemDesc.Text = ResourceManager.Current.MainResourceMap
+                            .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
                         break;
                     }
             }
 
             uint regtype;
             string regvalue;
-            GetKeyValueReturn2 ret = await App.MainRegistryHelper.GetKeyValue(currentEditItem.Hive, currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType); regtype = ret.regtype; regvalue = ret.regvalue;
+            GetKeyValueReturn2 ret = await App.MainRegistryHelper.GetKeyValue(currentEditItem.Hive,
+                currentEditItem.Key ?? "", currentEditItem.Name, currentEditItem.ValueType);
+            regtype = ret.regtype;
+            regvalue = ret.regvalue;
 
             switch (regtype)
             {
@@ -353,29 +372,19 @@ namespace InteropTools.ShellPages.Registry
             ValueDataInput.Text = regvalue;
         }
 
-        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RefreshFavoriteDialog();
-        }
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e) => RefreshFavoriteDialog();
 
-        private void RefreshFavoriteDialog()
-        {
-            FavoriteListView.ItemsSource = GetFavoriteItemList();
-        }
+        private void RefreshFavoriteDialog() => FavoriteListView.ItemsSource = GetFavoriteItemList();
 
-        private async void RunInThreadPool(Action function)
-        {
-            await ThreadPool.RunAsync(x => function());
-        }
+        private async void RunInThreadPool(Action function) => await ThreadPool.RunAsync(x => function());
 
-        private async Task RunInUIThread(Action function)
-        {
+        private async Task RunInUIThread(Action function) =>
             await
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () => function());
-        }
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () => function());
 
-        private async void SampleTreeView2_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private async void SampleTreeView2_ContainerContentChanging(ListViewBase sender,
+            ContainerContentChangingEventArgs args)
         {
             if (args.Item is TreeNode2 node)
             {
@@ -401,7 +410,7 @@ namespace InteropTools.ShellPages.Registry
 
                             if (data.RegItem.Type == RegistryItemType.Key)
                             {
-                                if ((key?.Length == 0) || (key == null))
+                                if (key?.Length == 0 || key == null)
                                 {
                                     key = data.RegItem.Name;
                                 }
@@ -416,12 +425,15 @@ namespace InteropTools.ShellPages.Registry
                                 key = "";
                             }
 
-                            IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                            IReadOnlyList<RegistryItemCustom> items =
+                                await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
                             foreach (RegistryItemCustom item in items)
                             {
                                 if (item.Type != RegistryItemType.Value)
-                                { node.Add(CreateFolderNode(item.Name, item)); }
+                                {
+                                    node.Add(CreateFolderNode(item.Name, item));
+                                }
                             }
                         }
                     }
@@ -444,7 +456,7 @@ namespace InteropTools.ShellPages.Registry
 
                             if (data.RegItem.Type == RegistryItemType.Key)
                             {
-                                if ((key?.Length == 0) || (key == null))
+                                if (key?.Length == 0 || key == null)
                                 {
                                     key = data.RegItem.Name;
                                 }
@@ -459,12 +471,15 @@ namespace InteropTools.ShellPages.Registry
                                 key = "";
                             }
 
-                            IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                            IReadOnlyList<RegistryItemCustom> items =
+                                await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
                             foreach (RegistryItemCustom item in items)
                             {
                                 if (item.Type == RegistryItemType.Value)
-                                { await RunInUIThread(() => _itemlist.Add(new Item(item))); }
+                                {
+                                    await RunInUIThread(() => _itemlist.Add(new Item(item)));
+                                }
                             }
 
                             await RunInUIThread(() => ListBrowser.ItemsSource = _itemlist);
@@ -474,7 +489,8 @@ namespace InteropTools.ShellPages.Registry
                         {
                             if (data.RegItem == null)
                             {
-                                IReadOnlyList<RegistryItemCustom> hives = await App.MainRegistryHelper.GetRegistryHives2();
+                                IReadOnlyList<RegistryItemCustom> hives =
+                                    await App.MainRegistryHelper.GetRegistryHives2();
 
                                 foreach (RegistryItemCustom hive in hives)
                                 {
@@ -487,7 +503,7 @@ namespace InteropTools.ShellPages.Registry
 
                                 if (data.RegItem.Type == RegistryItemType.Key)
                                 {
-                                    if ((key?.Length == 0) || (key == null))
+                                    if (key?.Length == 0 || key == null)
                                     {
                                         key = data.RegItem.Name;
                                     }
@@ -502,12 +518,15 @@ namespace InteropTools.ShellPages.Registry
                                     key = "";
                                 }
 
-                                IReadOnlyList<RegistryItemCustom> items = await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
+                                IReadOnlyList<RegistryItemCustom> items =
+                                    await App.MainRegistryHelper.GetRegistryItems2(data.RegItem.Hive, key);
 
                                 foreach (RegistryItemCustom item in items)
                                 {
                                     if (item.Type != RegistryItemType.Value)
-                                    { await RunInUIThread(() => node.Add(CreateFolderNode(item.Name, item))); }
+                                    {
+                                        await RunInUIThread(() => node.Add(CreateFolderNode(item.Name, item)));
+                                    }
                                 }
                             }
                         }
@@ -524,10 +543,8 @@ namespace InteropTools.ShellPages.Registry
         {
         }
 
-        private void ValEditCancel_Click(object sender, RoutedEventArgs e)
-        {
+        private void ValEditCancel_Click(object sender, RoutedEventArgs e) =>
             ValEditCtrl.Visibility = Visibility.Collapsed;
-        }
 
         private void ValEditRefresh_Click(object sender, RoutedEventArgs e)
         {
@@ -539,10 +556,7 @@ namespace InteropTools.ShellPages.Registry
 
         public class Item : INotifyPropertyChanged
         {
-            public Item(RegistryItemCustom regitem)
-            {
-                this.regitem = regitem;
-            }
+            public Item(RegistryItemCustom regitem) => this.regitem = regitem;
 
             public event PropertyChangedEventHandler PropertyChanged;
 
@@ -554,12 +568,14 @@ namespace InteropTools.ShellPages.Registry
                     {
                         case RegistryItemType.Hive:
                             {
-                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
+                                return ResourceManager.Current.MainResourceMap
+                                    .GetValue("Resources/Hive", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
                         case RegistryItemType.Key:
                             {
-                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
+                                return ResourceManager.Current.MainResourceMap
+                                    .GetValue("Resources/Key", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
 
                         case RegistryItemType.Value:
@@ -574,7 +590,8 @@ namespace InteropTools.ShellPages.Registry
 
                         default:
                             {
-                                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                                return ResourceManager.Current.MainResourceMap
+                                    .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
                             }
                     }
                 }
@@ -599,8 +616,9 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") +
+                                    "%" + regitem.Type.ToString() + "%" +
+                                    (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         object value = localSettings.Values["browserfav_" + id];
@@ -627,15 +645,16 @@ namespace InteropTools.ShellPages.Registry
                 {
                     try
                     {
-                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") + "%" + regitem.Type.ToString() + "%" +
-                                 (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
+                        string id = regitem.Hive.ToString() + "%" + (regitem.Key ?? "") + "%" + (regitem.Name ?? "") +
+                                    "%" + regitem.Type.ToString() + "%" +
+                                    (regitem.Value ?? "") + "%" + regitem.ValueType.ToString();
                         ApplicationData applicationData = ApplicationData.Current;
                         ApplicationDataContainer localSettings = applicationData.LocalSettings;
                         localSettings.Values["browserfav_" + id] = value == Visibility.Visible;
                         Debug.WriteLine("browserfav_" + id);
                         object strlist = localSettings.Values["browserfavlist"];
 
-                        if ((strlist == null) || (strlist.GetType() != typeof(string)))
+                        if (strlist == null || strlist.GetType() != typeof(string))
                         {
                             localSettings.Values["browserfavlist"] = "";
                             strlist = localSettings.Values["browserfavlist"];
@@ -723,10 +742,8 @@ namespace InteropTools.ShellPages.Registry
             }
 
             // Create the OnPropertyChanged method to raise the event
-            protected void OnPropertyChanged(string name)
-            {
+            protected void OnPropertyChanged(string name) =>
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
 
             private string GetValueTypeName(RegTypes type)
             {
@@ -734,32 +751,38 @@ namespace InteropTools.ShellPages.Registry
                 {
                     case RegTypes.REG_BINARY:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Binary", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_FULL_RESOURCE_DESCRIPTOR:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Hardware_Resource_List",
+                                ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_DWORD:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Integer", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_DWORD_BIG_ENDIAN:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Integer_Big_Endian",
+                                ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_QWORD:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Long", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_MULTI_SZ:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Multi_String", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_NONE:
@@ -769,31 +792,37 @@ namespace InteropTools.ShellPages.Registry
 
                     case RegTypes.REG_RESOURCE_LIST:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Resource_List", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_RESOURCE_REQUIREMENTS_LIST:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Resource_Requirement",
+                                ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_SZ:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/String", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_LINK:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap
+                                .GetValue("Resources/Symbolic_Link", ResourceContext.GetForCurrentView()).ValueAsString;
                         }
 
                     case RegTypes.REG_EXPAND_SZ:
                         {
-                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String", ResourceContext.GetForCurrentView()).ValueAsString;
+                            return ResourceManager.Current.MainResourceMap.GetValue("Resources/Variable_String",
+                                ResourceContext.GetForCurrentView()).ValueAsString;
                         }
                 }
 
-                return ResourceManager.Current.MainResourceMap.GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
+                return ResourceManager.Current.MainResourceMap
+                    .GetValue("Resources/Unknown", ResourceContext.GetForCurrentView()).ValueAsString;
             }
         }
     }

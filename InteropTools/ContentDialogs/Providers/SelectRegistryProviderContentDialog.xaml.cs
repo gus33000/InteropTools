@@ -86,6 +86,7 @@ namespace InteropTools.ContentDialogs.Providers
                 {
                     IsPrimaryButtonEnabled = true;
                 }
+
                 IsSecondaryButtonEnabled = true;
             }
         }

@@ -13,14 +13,9 @@ namespace InteropTools.Providers.Registry.SampleProvider.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        public MainPage() => InitializeComponent();
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        private async void ListView_ItemClick(object sender, ItemClickEventArgs e) =>
             await Windows.System.Launcher.LaunchUriAsync(new Uri("interoptools:"));
-        }
     }
 }
