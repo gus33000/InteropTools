@@ -104,7 +104,7 @@ namespace InteropTools.Presentation
 				this.selectedTheme = this.Themes.FirstOrDefault(t => t.Theme.ToString() == (string)localSettings.Values["selectedTheme"]);
 			}
 
-			if (this.selectedTheme != null && manager != null)
+			if (this.selectedTheme != null)
 			{
 				try
 				{

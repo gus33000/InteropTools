@@ -894,6 +894,195 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)' == 'PrivateDebug' Or '$(Configuration)' == 'PrivateRelease' ">
+      <ItemGroup>
+        <Page Include="ShellPages\Private\Gofly\DownloadPackageListContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\DownloadPackageProgressListContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\GoLinkListPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\MBILoginContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\NEW\DownloadPackageListContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\NEW\DownloadPackageProgressListContentDialog.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\ProductListPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Page Include="ShellPages\Private\Gofly\RingPage.xaml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Include="ShellPages\Private\WindowsInsiderProgramPage.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
+        <Compile Include="ShellPages\Private\DCAT\Constants.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\CProduct.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\AllowedPlatform.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\AlternateId.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\AlternateId2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Application.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Application2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Attribute.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Availability.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\ClientConditions.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Conditions.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Content.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\ContentList.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\ContentRating.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Delivery.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\DiscoveryExclusivityProperties.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\DisplayPlatformProperty.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\DisplaySkuAvailability.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\ExclusionProperty.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\FlightDetail.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\FrameworkDependency.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\FrameworkDependency2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\FulfillmentData.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\FulfillmentDataList.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\HardwareProperties.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Image.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\InclusionProperty.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\LegalText.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\LocalizedProperty.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\LocalizedProperty2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\MarketProperty.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\MarketProperty2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\OrderManagementData.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Package.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Package2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\PackageDownloadUri.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\PIFilter.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\PIFilter2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\PlatformDependency.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\PlatformDependency2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Price.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Product2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Properties.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Properties2.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Properties3.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\RelatedProduct.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Remediation.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\SearchTitle.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\Sku.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\SkuDisplayGroup.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\UsageData.cs" />
+        <Compile Include="ShellPages\Private\DCAT\ObjectClasses\Product\ValidationData.cs" />
+        <Compile Include="ShellPages\Private\DCAT\RequestHandler.cs" />
+        <Compile Include="ShellPages\Private\Gofly\Presentation\GoLinkListPageModel.cs" />
+        <Compile Include="ShellPages\Private\Gofly\Presentation\ProductListPageModel.cs" />
+        <Compile Include="ShellPages\Private\Gofly\CabinetUtils.cs" />
+        <Compile Include="ShellPages\Private\Gofly\CompDB\CombDBClass.cs" />
+        <Compile Include="ShellPages\Private\Gofly\CompDB\MoveFilesBasedOnCompDB.cs" />
+        <Compile Include="ShellPages\Private\Gofly\DownloadPackageListContentDialog.xaml.cs">
+          <DependentUpon>DownloadPackageListContentDialog.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\DownloadPackageProgressListContentDialog.xaml.cs">
+          <DependentUpon>DownloadPackageProgressListContentDialog.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\GoLinkListPage.xaml.cs">
+          <DependentUpon>GoLinkListPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\MBILoginContentDialog.xaml.cs">
+          <DependentUpon>MBILoginContentDialog.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\NEW\DownloadPackageListContentDialog.xaml.cs">
+          <DependentUpon>DownloadPackageListContentDialog.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\NEW\DownloadPackageProgressListContentDialog.xaml.cs">
+          <DependentUpon>DownloadPackageProgressListContentDialog.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\NEW\ListExt.cs" />
+        <Compile Include="ShellPages\Private\Gofly\ProductListPage.xaml.cs">
+          <DependentUpon>ProductListPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\RingPage.xaml.cs">
+          <DependentUpon>RingPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\Gofly\TokenUtils.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WebUtils.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Requests\GetCookieRequestClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Requests\GetExtendedUpdateInfo2RequestClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Requests\RequestHandler.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Requests\SyncUpdatesRequestClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\GetCookieResponseClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\GetExtendedUpdateInfo2ResponseClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\GetExtendedUpdateInfoResponseClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\ResponseHandler.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\SyncUpdatesResponseClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\FE3\Responses\XmlResponseClasses.cs" />
+        <Compile Include="ShellPages\Private\Gofly\UUP\UUPDownloader.cs" />
+        <Compile Include="ShellPages\Private\WindowsInsiderProgramPage.xaml.cs">
+          <DependentUpon>WindowsInsiderProgramPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="ShellPages\Private\StoreEdgeFx\FulfillmentData.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Helper.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.AllowedPlatform.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.AlternateId2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.AppExtension2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Availability.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.ClientConditions2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Conditions2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Image3.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Item.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Minimum2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.PackageRequirement.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Payload2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.PlatformDependency.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.ProductRating.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Recommended2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Sku.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.SkuDisplayRank.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.SupportUri.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.SystemRequirements2.cs" />
+        <Compile Include="ShellPages\Private\StoreEdgeFx\Product.Trailer.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE2\CGetCookieResult.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE2\CSyncUpdatesResult.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CGetCookieResponse.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CGetExtendedUpdateInfo2Response.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CGetExtendedUpdateInfoResponse.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CSyncUpdatesResponse.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CUpdateInfoXml.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\FE3\CUpdateXml.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\Parser.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\Parser_FE2.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\SoapUtils.cs" />
+        <Compile Include="ShellPages\Private\Gofly\WU\SoapUtils_FE2.cs" />
+        <Content Include="ShellPages\Private\Gofly\UUP\FE3\Requests\WorkaroundGetExtendedUpdateInfo2.xml" />
+        <Content Include="ShellPages\Private\Gofly\UUP\FE3\Requests\WorkaroundSyncUpdates.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE2\GetConfig.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE2\GetCookie.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE2\GetExtendedUpdateInfo.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE2\GetExtendedUpdateInfo2.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE2\SyncUpdates.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE3\GetConfig.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE3\GetCookie.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE3\GetExtendedUpdateInfo.xml" />
+        <Content Include="ShellPages\Private\Gofly\WU\FE3\GetExtendedUpdateInfo2.xml">
+          <SubType>Designer</SubType>
+        </Content>
+        <Content Include="ShellPages\Private\Gofly\WU\FE3\SyncUpdates.xml" />
+      </ItemGroup>
+    </When>
+  </Choose>
   <ItemGroup>
     <PackageReference Include="Flurl.Http">
       <Version>2.1.1</Version>
@@ -1061,6 +1250,87 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\StoreDebug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;STORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateRelease|x86'">
+    <OutputPath>bin\x86\PrivateRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateRelease|ARM'">
+    <OutputPath>bin\ARM\PrivateRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateRelease|x64'">
+    <OutputPath>bin\x64\PrivateRelease\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateDebug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\PrivateDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateDebug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\PrivateDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PrivateDebug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\PrivateDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS;PRIVATE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>

@@ -1,0 +1,20 @@
+﻿<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetExtendedUpdateInfo2 xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <cookie>
+        {0}
+      </cookie>
+      <updateIDs>
+        <UpdateIdentity>
+          <UpdateID>{1}</UpdateID>
+          <RevisionNumber>{2}</RevisionNumber>
+        </UpdateIdentity>
+      </updateIDs>
+      <infoTypes>
+        <XmlUpdateFragmentType>FileUrl</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>FileDecryption</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>VerificationRule</XmlUpdateFragmentType>
+      </infoTypes>
+    </GetExtendedUpdateInfo2>
+  </s:Body>
+</s:Envelope>

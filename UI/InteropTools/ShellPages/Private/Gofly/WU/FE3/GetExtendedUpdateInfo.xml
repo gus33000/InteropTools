@@ -1,0 +1,45 @@
+﻿<s:Envelope
+    xmlns:a="http://www.w3.org/2005/08/addressing"
+    xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService/GetExtendedUpdateInfo</a:Action>
+    <a:MessageID>urn:uuid:882a76b1-deaf-47b8-9d74-15a6c8c9a496</a:MessageID>
+    <a:To s:mustUnderstand="1">https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx</a:To>
+    <o:Security s:mustUnderstand="1"
+        xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <Timestamp xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <Created>2017-01-14T10:26:59.904Z</Created>
+        <Expires>2044-08-02T20:09:03Z</Expires>
+      </Timestamp>
+      <wuws:WindowsUpdateTicketsToken wsu:id="ClientMSA" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wuws="http://schemas.microsoft.com/msus/2014/10/WindowsUpdateAuthorization">
+        {2}
+      </wuws:WindowsUpdateTicketsToken>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    <GetExtendedUpdateInfo
+        xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <cookie>
+        <Expiration>{0}</Expiration>
+        <EncryptedData>{1}</EncryptedData>
+      </cookie>
+      <revisionIDs>
+        <int>{3}</int>
+      </revisionIDs>
+      <infoTypes>
+        <XmlUpdateFragmentType>FileUrl</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>FileDecryption</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Extended</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>LocalizedProperties</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Eula</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Published</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Core</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>VerificationRule</XmlUpdateFragmentType>
+      </infoTypes>
+      <locales>
+        <string>en-US</string>
+        <string>en</string>
+      </locales>
+    </GetExtendedUpdateInfo>
+  </s:Body>
+</s:Envelope>

@@ -1,0 +1,25 @@
+﻿<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService/GetCookie</a:Action>
+    <a:MessageID>urn:uuid:b9b43757-2247-4d7b-ae8f-a71ba8a22385</a:MessageID>
+    <a:To s:mustUnderstand="1">https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx</a:To>
+    <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <Timestamp xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <Created>2017-01-14T10:26:59.904Z</Created>
+        <Expires>2044-08-02T20:09:03Z</Expires>
+      </Timestamp>
+      <wuws:WindowsUpdateTicketsToken wsu:id="ClientMSA" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wuws="http://schemas.microsoft.com/msus/2014/10/WindowsUpdateAuthorization">
+      </wuws:WindowsUpdateTicketsToken>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    <GetCookie xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <oldCookie>
+        <Expiration>2016-07-27T07:18:09Z</Expiration>
+      </oldCookie>
+      <lastChange>2015-10-21T17:01:07.1472913Z</lastChange>
+      <currentTime>2016-07-27T07:18:09Z</currentTime>
+      <protocolVersion>1.40</protocolVersion>
+    </GetCookie>
+  </s:Body>
+</s:Envelope>

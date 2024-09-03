@@ -1,0 +1,22 @@
+﻿<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetExtendedUpdateInfo xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <cookie>
+        {0}
+      </cookie>
+      <revisionIDs>
+        <int>{1}</int>
+      </revisionIDs>
+      <infoTypes>
+        <XmlUpdateFragmentType>Extended</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>LocalizedProperties</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Eula</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Published</XmlUpdateFragmentType>
+        <XmlUpdateFragmentType>Core</XmlUpdateFragmentType>
+      </infoTypes>
+      <locales>
+        <string></string>
+      </locales>
+    </GetExtendedUpdateInfo>
+  </s:Body>
+</s:Envelope>

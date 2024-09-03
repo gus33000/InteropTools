@@ -1,0 +1,22 @@
+﻿<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetCookie xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <authCookies>
+        <AuthorizationCookie>
+          <PlugInId>PidValidator</PlugInId>
+          <CookieData>ZWQzNGQ2ZDEtMTVmMS00MWM2LWJiMjMtNDllZTg1ZTBhOTQxAA==</CookieData>
+        </AuthorizationCookie>
+        <AuthorizationCookie>
+          <PlugInId>Anonymous</PlugInId>
+          <CookieData>ZWQzNGQ2ZDEtMTVmMS00MWM2LWJiMjMtNDllZTg1ZTBhOTQxAA==</CookieData>
+        </AuthorizationCookie>
+      </authCookies>
+      <oldCookie>
+        <Expiration>2016-07-20T08:05:16Z</Expiration>
+      </oldCookie>
+      <lastChange>2016-01-29T21:31:44.803Z</lastChange>
+      <currentTime>2016-07-20T08:05:16Z</currentTime>
+      <protocolVersion>1.40</protocolVersion>
+    </GetCookie>
+  </s:Body>
+</s:Envelope>

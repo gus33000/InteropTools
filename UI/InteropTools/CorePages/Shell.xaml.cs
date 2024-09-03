@@ -32,6 +32,11 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI;
 using System.Numerics;
 using InteropTools.ShellPages.Store;
+#if PRIVATE
+using StoreProjectApp.Pages;
+using InteropTools.ShellPages.Private;
+using InteropTools.ShellPages.Gofly;
+#endif
 using Windows.Management.Deployment;
 
 namespace InteropTools.CorePages
@@ -323,6 +328,16 @@ namespace InteropTools.CorePages
                     GroupName = InteropTools.Resources.TextResources.Shell_SSHGroupName,
                     GroupIcon = ""
                 });
+                /*vm.TopItems.Add(new NavigationItem
+				{
+					Icon = "",
+					DisplayName = "Windows Insider Program",
+					Description = "Receive insider builds, select preview rings",
+					PageType = typeof(WindowsInsiderProgramPage),
+					GroupName = "Private",
+					GroupIcon = ""
+
+				});*/
                 vm.TopItems.Add(new NavigationItem
 				{
 					Icon = "",
@@ -399,6 +414,50 @@ namespace InteropTools.CorePages
                     GroupIcon = ""
                 });
             }
+
+#if PRIVATE
+            PrivateWarningText.Visibility = Visibility.Visible;
+
+            vm.TopItems.Add(new NavigationItem
+            {
+                Icon = "",
+                DisplayName = "GoFly",
+                Description = "You have to go fly above unknown territories, go take a breath, and fly over insignificant stuff in your mind, and maybe you'll cross an illumination during your flight.",
+                PageType = typeof(ProductListPage),
+                GroupName = "Private",
+                GroupIcon = ""
+            });
+
+            vm.TopItems.Add(new NavigationItem
+            {
+                Icon = "",
+                DisplayName = "Go Links",
+                Description = "Go link interator 9000",
+                PageType = typeof(GoLinkListPage),
+                GroupName = "Private",
+                GroupIcon = ""
+            });
+
+            vm.TopItems.Add(new NavigationItem
+            {
+                Icon = "",
+                DisplayName = "Windows Insider Program",
+                Description = "Bradon said it was photoshopped, and yes bradon isn't a typo, just quoting somebody here...",
+                PageType = typeof(WindowsInsiderProgramPage),
+                GroupName = "Private",
+                GroupIcon = ""
+            });
+
+            vm.TopItems.Add(new NavigationItem
+            {
+                Icon = "",
+                DisplayName = "Insider Rings",
+                Description = "Bradon said it was photoshopped, and yes bradon isn't a typo, just quoting somebody here...",
+                PageType = typeof(RingPage),
+                GroupName = "Private",
+                GroupIcon = ""
+            });
+#endif
 
             groups = from c in vm.TopItems
                          group c by new GroupItem(c, true);

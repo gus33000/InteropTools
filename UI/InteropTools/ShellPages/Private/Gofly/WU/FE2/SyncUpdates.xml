@@ -1,0 +1,26 @@
+﻿<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <SyncUpdates xmlns="http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService">
+      <cookie>
+        {0}
+      </cookie>
+      <parameters>
+        <InstalledNonLeafUpdateIDs>
+          <int>6</int><int>7</int><int>256244</int><int>18507886</int><int>10982229</int><int>11054374</int><int>11054208</int><int>11054372</int><int>11054375</int><int>11054219</int><int>11054370</int><int>11054381</int><int>11054371</int><int>11054167</int><int>18270837</int>
+          {2}
+        </InstalledNonLeafUpdateIDs>
+        <OtherCachedUpdateIDs>
+           {3}
+        </OtherCachedUpdateIDs>
+        <ExpressQuery>false</ExpressQuery>
+        <SkipSoftwareSync>false</SkipSoftwareSync>
+        <NeedTwoGroupOutOfScopeUpdates>false</NeedTwoGroupOutOfScopeUpdates>
+        <FilterCategoryIds>
+          {1}
+        </FilterCategoryIds>
+        <AlsoPerformRegularSync>false</AlsoPerformRegularSync>
+        <ComputerSpec />
+      </parameters>
+    </SyncUpdates>
+  </s:Body>
+</s:Envelope>

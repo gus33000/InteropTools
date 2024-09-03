@@ -1,0 +1,28 @@
+﻿<ContentDialog
+    x:Class="StoreProjectApp.ContentDialogs.MBILoginContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StoreProjectApp.ContentDialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Connect to MBI"
+    PrimaryButtonText="Login"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Style="{StaticResource ResourceKey=MyContentDialogControlTemplate}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="Username" Header="Email address"/>
+        <PasswordBox Grid.Row="1" x:Name="Password" Header="Password" InputScope="Password"/>
+
+        <CheckBox Grid.Row="2" x:Name="Remember" Content="Remember my credentials"/>
+    </Grid>
+</ContentDialog>

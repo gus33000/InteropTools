@@ -1,0 +1,23 @@
+﻿<s:Envelope xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://www.microsoft.com/SoftwareDistribution/Server/ClientWebService/SyncUpdates</a:Action>
+    <a:MessageID>urn:uuid:051804ee-be70-4d14-8c50-01e4d75db679</a:MessageID>
+    <a:To s:mustUnderstand="1">https://fe3.delivery.mp.microsoft.com/ClientWebService/client.asmx</a:To>
+    <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <Timestamp xmlns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <Created>2017-02-24T21:46:40.239Z</Created>
+        <Expires>2017-02-24T21:51:40.239Z</Expires>
+      </Timestamp>
+      <wuws:WindowsUpdateTicketsToken wsu:id="ClientMSA" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wuws="http://schemas.microsoft.com/msus/2014/10/WindowsUpdateAuthorization">
+        <TicketType Name="MSA" Version="1.0" Policy="MBI_SSL">
+          <Device>
+            {1}
+          </Device>
+        </TicketType>
+      </wuws:WindowsUpdateTicketsToken>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    {0}
+  </s:Body>
+</s:Envelope>
